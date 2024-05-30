@@ -5,5 +5,46 @@ body {
 
 a {
     text-decoration: none;
+    padding: 8px;
+    gap: 8px;
+    color: rgba(41, 171, 226, 1);
+}
+
+a:hover {
     color: rgba(41, 171, 266, 1);
+    font-weight: 400;
+    text-decoration: underline;
+}
+
+footer {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    background: rgba(246, 247, 248, 1);
+}
+
+footer div {
+    width: 246px;
+    height: 35px;
+    gap: 16px;
+    opacity: 0px;
+    display: flex;
+    justify-content: center;
+    color: rgba(168, 168, 168, 1);
+}
+
+footer a {
+    color: rgba(168, 168, 168, 1);
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 19.2px;
+    text-align: left;
+}
+
+footer a:hover {
+    font-weight: bold;
+}
+
+.loginFrame {
+    height: 96vh;
 }
