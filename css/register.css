@@ -28,3 +28,27 @@
     width: 32px;
     height: 32px;
 }
+
+.arrowLeft:hover {
+    cursor: pointer;
+}
+
+a {
+    font-family: Inter;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 19.2px;
+    text-align: left;
+}
+
+@media (max-width:900px){
+    .login {
+        width: 80vw;
+    }
+}
+
+@media (max-width:700px) {
+    .login {
+        width: 55vw;
+    }
+}

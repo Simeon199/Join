@@ -21,8 +21,8 @@ function validateCheckbox() {
 }
 
 function login() {
-    //validateCheckbox();
-    // validatePassword();
+    validateCheckbox();
+    validatePassword();
     window.location.href='board.html'
 }
 
