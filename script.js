@@ -1,9 +1,5 @@
 const BASE_URL = 'https://join-privat-default-rtdb.europe-west1.firebasedatabase.app/';
 
-function goToSignUp() {
-    window.location.href = 'signup.html'
-}
-
 function validatePassword() {
     let msgbox = document.getElementById('msgbox');
     //if (password !== passwordConfirm) {
@@ -32,4 +28,8 @@ function login() {
 
 function goToSignUp() {
     window.location.href="register.html"
+}
+
+function backToLogin() {
+    window.location.href= "login.html"
 }
