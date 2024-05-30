@@ -1,0 +1,29 @@
+.login {
+    height: 630px;
+}
+
+.loginInput {
+    height: 286px;
+}
+
+.checkbox {
+    justify-content: center;
+}
+
+.checkbox label {
+    width: 231px;
+}
+
+.darkBtn {
+    width: 126px;
+    height: 55px;
+    padding: 15px 24px 15px 24px;
+}
+
+.arrowLeft {
+    position: absolute;
+    top: 32px;
+    left: 32px;
+    width: 32px;
+    height: 32px;
+}
