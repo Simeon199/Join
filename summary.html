@@ -6,6 +6,7 @@
     <title>Summary</title>
     <link rel="stylesheet" href="css/generally.css">
     <link rel="stylesheet" href="css/summary.css">
+    <script src="js/includeHTML.js"></script>
     <script src="js/summary.js"></script>
 </head>
 <body onload="init()">
@@ -14,6 +15,8 @@
         <img onclick="help()" src="Assets/img/help.svg" alt="Help">
         
     </header>
+
+    <div w3-include-html="./Assets/templates/desktop_template.html"></div>
 
     <section>
         <div class="summaryHead">
@@ -29,10 +32,18 @@
                 <div class="box1">
                     <h4>Done</h4>
                 </div>
-                <div>Urgent</div>
-                <div class="box1">Tasks in Boared</div>
-                <div class="box1">Tasks in Progress</div>
-                <div class="box1">Awaiting Feedback</div>
+                <div class="boxUrgent">
+                    <h4>Urgent</h4>    
+                </div>
+                <div class="box2">
+                    <h4>Tasks in Boared</h4>
+                </div>
+                <div class="box2">
+                    <h4>Tasks in Progress</h4>
+                </div>
+                <div class="box2">
+                    <h4>Awaiting Feedback</h4>
+                </div>
             </div>
             <div class="greetHead" id="greetingCont"></div>
         </div>
