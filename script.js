@@ -23,7 +23,7 @@ function validateCheckbox() {
 function login() {
     validateCheckbox();
     validatePassword();
-    window.location.href='board.html'
+    window.location.href='summary.html'
 }
 
 function goToSignUp() {
