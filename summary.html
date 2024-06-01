@@ -9,16 +9,16 @@
     <script src="js/includeHTML.js"></script>
     <script src="js/summary.js"></script>
 </head>
-<body onload="init()">
+<body onload="init(); init1()">
     <header>
         <h1>Kanban Project Managemant Tool</h1>
         <img onclick="help()" src="Assets/img/help.svg" alt="Help">
         
     </header>
 
-    <div w3-include-html="./Assets/templates/desktop_template.html"></div>
+    <div w3-include-html="Assets/templates/desktop_tempate.html"></div>
 
-    <section>
+    <section class="mainSection">
         <div class="summaryHead">
             <h1>JOIN 360</h1>
             <div class="borderLine"></div>

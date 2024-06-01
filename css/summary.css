@@ -1,4 +1,7 @@
 header {
+    position: absolute;
+    left: 263px;
+    right: 0;
     display: flex;
     justify-content: space-around;
 }
@@ -22,7 +25,17 @@ header img:hover {
     rotate: -90deg;
 }
 
+.mainSection {
+    position: absolute;
+    left: 232px;
+}
+
 .summaryHead {
+    position: absolute;
+    top: 206px;
+    left: 96px;
+    width: 625px;
+    height: 72px;
     display: flex;
     align-items: center;
 }
@@ -53,12 +66,21 @@ header img:hover {
 .dataCont {
     position: absolute;
     top: 335px;
-    left: 328px;
+    left: 96px;
     display: flex;
     width: 560px;
     height: 562px;
     flex-wrap: wrap;
     justify-content: space-around;
+}
+
+.greetHead {
+    position: absolute;
+    top: 547.5px;
+    left: 737px;
+    gap: 3px;
+    width: 385px;
+    height: 136px;
 }
 
 .greetHead p {
