@@ -12,7 +12,7 @@
 
 .menuBarDesktop {
     width: 232px;
-    position: absolute;
+    padding-bottom: 150px;
     top: 300px;
 }
 
@@ -39,8 +39,8 @@ footer {
     padding-bottom: 64px;
 }
 
-footer p:hover {
-    cursor: pointer;
+footer a:hover {
+    text-decoration: none;
 }
 
 .linkTo {
@@ -64,5 +64,16 @@ footer p:hover {
 
 .linkTo:hover {
     cursor: pointer;
-    background: rgba(9, 25, 49, 1);
+    background: rgba(42, 61, 89, 1);
+    animation-timing-function: ease-in;
+    animation-duration: 100ms;
+}
+
+.linkTo:active {
+    background-color: rgba(42, 54, 71, 1);
+}
+
+body.menuBarDesktop {
+    background-color: rgba(42, 54, 71, 1);
+    pointer-events: none;
 }
