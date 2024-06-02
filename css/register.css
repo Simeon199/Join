@@ -41,6 +41,10 @@ a {
     text-align: left;
 }
 
+.checkbox a {
+    padding: 0px;
+}
+
 @media (max-width:900px){
     .login {
         width: 80vw;

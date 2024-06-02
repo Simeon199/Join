@@ -49,18 +49,41 @@ h1 {
     flex-direction: column;
     width: 422px;
     height: 152px;
-    gap: 32px;
+    /* gap: 32px; */
 }
 
-.loginInput input {
+.loginInputStyle input {
     height: 48px;
     gap: 20px;
 }
 
 .loginInputStyle{
-    border: 1px solid #D1D1D1;
+    /* border: 1px solid #D1D1D1; */
     padding: 16px 21px 12px 21px;
     border-radius: 10px;
+    width: 100%;
+    border: 0px;
+    border: none;
+    outline: none;
+}
+
+.input {
+    margin-bottom: 20px;
+    height: 48px;
+    border-radius: 10px;
+    border-width: 1px;
+    display: flex;
+    flex-direction: row;
+    border: 1px solid black;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+.loginInput img {
+    width: 24px;
+    height: 24px;
+    padding: 12px;
 }
 
 .loginButtons {

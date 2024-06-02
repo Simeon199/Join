@@ -72,6 +72,41 @@ header img:hover {
     height: 562px;
     flex-wrap: wrap;
     justify-content: space-around;
+    align-items: center;
+}
+
+.dataCont div {
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.5);
+}
+
+.box1 {
+    width: 190px; /* 264px */
+    height: 110px; /* 168px */
+    padding: 38px 19px 38px 19px;
+    gap: 10px; /* 18px */
+    border-radius: 30px;
+    opacity: 0px;
+}
+
+.boxUrgent {
+    width: 400px; /* 560px*/
+    height: 110px; /* 168px */
+    top: 196px;
+    padding: 28px 48px 28px 48px;
+    gap: 61px;
+    border-radius: 30px;
+    opacity: 0px;
+}
+
+.box2 {
+    width: 120px; /* 168px */
+    height: 120px; /* 168 px*/
+    top: 1px;
+    left: 392px;
+    padding: 25px 0px 25px 0px;
+    gap: 13px;
+    border-radius: 30px;
+    opacity: 0px;
 }
 
 .greetHead {
@@ -100,37 +135,4 @@ header img:hover {
     text-align: left;
     color: rgba(41, 171, 226, 1);
     margin: 0px;
-}
-
-.box1 {
-    width: 264px;
-    height: 168px;
-    padding: 38px 19px 38px 19px;
-    gap: 18px;
-    border-radius: 30px;
-    opacity: 0px;
-    box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.1);
-}
-
-.boxUrgent {
-    width: 560px;
-    height: 168px;
-    top: 196px;
-    padding: 28px 48px 28px 48px;
-    gap: 61px;
-    border-radius: 30px;
-    opacity: 0px;
-    box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.1);
-}
-
-.box2 {
-    width: 168px;
-    height: 168px;
-    top: 1px;
-    left: 392px;
-    padding: 25px 0px 25px 0px;
-    gap: 13px;
-    border-radius: 30px;
-    opacity: 0px;
-    box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.1);
 }

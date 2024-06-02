@@ -1,4 +1,4 @@
-let userName = "Marcel Zalec";
+let userName = "Test";
 
 function init() {
     greet();
