@@ -14,6 +14,9 @@
     width: 232px;
     padding-bottom: 150px;
     top: 300px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
 }
 
 .menuBarDesktop a {
@@ -45,7 +48,8 @@ footer a:hover {
 
 .linkTo {
     height: 46px;
-    padding: 8px 56px 8px 56px;
+    /* padding: 8px 56px 8px 56px; */
+    padding: 0px 56px 0px 56px;
     gap: 8px;
     background-color: rgba(42, 54, 71, 1);
     /* background: rgba(9, 25, 49, 1); */
