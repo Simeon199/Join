@@ -81,3 +81,9 @@ body.menuBarDesktop {
     background-color: rgba(42, 54, 71, 1);
     pointer-events: none;
 }
+
+.sidebar footer div {
+    flex-direction: column;
+    gap: 0;
+    align-items: center;
+}
