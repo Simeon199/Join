@@ -26,3 +26,7 @@ function goToBoard() {
 function goToContacts() {
     window.location.href= 'contacts.html';
 }
+
+function taskMarker() {
+    document.getElementById('summary').classList.add('currentSection');
+}

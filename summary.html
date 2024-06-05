@@ -6,17 +6,18 @@
     <title>Summary</title>
     <link rel="stylesheet" href="css/generally.css">
     <link rel="stylesheet" href="css/summary.css">
-    <script src="js/includeHTML.js"></script>
+    <script src="js/desktop-template.js"></script>
     <script src="js/summary.js"></script>
+    
 </head>
-<body onload="init(); init1()">
+<body onload="init(); initSidebar()">
     <header>
         <h1>Kanban Project Managemant Tool</h1>
         <img onclick="help()" src="Assets/img/help.svg" alt="Help">
         
     </header>
 
-    <div w3-include-html="Assets/templates/desktop_tempate.html"></div>
+    <div id="sidebar"></div>
 
     <section class="mainSection">
         <div class="summaryHead">

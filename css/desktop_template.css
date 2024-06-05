@@ -87,3 +87,7 @@ body.menuBarDesktop {
     gap: 0;
     align-items: center;
 }
+
+.currentSection {
+    background-color: rgba(9, 25, 49, 1) !important;
+}
