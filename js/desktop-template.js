@@ -1,5 +1,6 @@
 function initSidebar() {
     sidebarHTML();
+    headerHTML();
 }
 
 function sidebarHTML() {
@@ -33,6 +34,9 @@ function sidebarHTML() {
     taskMarker();
 }
 
-function removeCurrentSectionMarker() {
-    document.getElementById('summary').classList.remove('currentSection');
+function headerHTML() {
+    document.getElementById("headerForm").innerHTML += /*html*/`
+        <h1>Kanban Project Managemant Tool</h1>
+        <img onclick="help()" src="Assets/img/help.svg" alt="Help">
+    `;
 }

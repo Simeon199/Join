@@ -2,30 +2,6 @@ body {
     background: rgba(246, 247, 248, 1);
 }
 
-header {
-    position: absolute;
-    left: 232px; /*263*/
-    right: 0;
-    display: flex;
-    justify-content: space-around;
-    background-color: rgba(255, 255, 255, 1);
-    height: 96px;
-    align-items: center;
-}
-
-header h1{
-    font-family: Inter;
-    font-size: 20px;
-    font-weight: 400;
-    line-height: 24px;
-    text-align: left;
-    color: rgba(0, 0, 0, 1);
-}
-
-header img:hover {
-    cursor: pointer;
-}
-
 .borderLine {
     border: 3px solid rgba(41, 171, 226, 1);
     width: 59px;
