@@ -1,15 +1,233 @@
 <!DOCTYPE html>
 <html lang="de">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Contacts</title>
-    <link rel="stylesheet" href="css/generally.css">
-    <script src="js/desktop-template.js"></script>
-    <script src="js/contacts.js"></script>
-</head>
-<body onload="initSidebar()">
-    <header id="headerForm"></header>
-    <div id="sidebar"></div>
-</body>
+
+    <!-- fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- css -->
+    <link rel="stylesheet" href="css/generally.css" />
+    <link rel="stylesheet" href="css/fonts.css" />
+    <link rel="stylesheet" href="css/contacts.css" />
+
+    <style>
+      main {
+        box-sizing: border-box;
+
+        padding-left: 240px;
+
+        width: 100%;
+        height: 100vh;
+
+        display: flex;
+
+        font-family: "Inter", sans-serif;
+      }
+    </style>
+
+    <!-- js -->
+    <script src="js/includeHTML.js"></script>
+    <script src="js/contact.js"></script>
+  </head>
+  <body onload="init1()">
+
+    <main>
+      <div id="contact-list-container">
+        <button id="add-new-contacts-button">
+          Add new contacts
+          <svg
+            width="33"
+            height="33"
+            viewBox="0 0 33 33"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <mask
+              id="mask0_184299_4957"
+              style="mask-type: alpha"
+              maskUnits="userSpaceOnUse"
+              x="0"
+              y="0"
+              width="33"
+              height="33"
+            >
+              <rect x="0.5" y="0.5" width="32" height="32" fill="#D9D9D9" />
+            </mask>
+            <g mask="url(#mask0_184299_4957)">
+              <path
+                d="M25.8294 19.1667C25.5134 19.1667 25.2499 19.0602 25.0388 18.8473C24.8277 18.6343 24.7222 18.3704 24.7222 18.0556V14.9445H21.611C21.2962 14.9445 21.0323 14.8376 20.8194 14.6239C20.6064 14.4102 20.4999 14.1454 20.4999 13.8295C20.4999 13.5136 20.6064 13.2501 20.8194 13.0389C21.0323 12.8278 21.2962 12.7223 21.611 12.7223H24.7222V9.61115C24.7222 9.29635 24.829 9.03246 25.0427 8.81948C25.2564 8.60653 25.5212 8.50005 25.8372 8.50005C26.1531 8.50005 26.4166 8.60653 26.6277 8.81948C26.8388 9.03246 26.9444 9.29635 26.9444 9.61115V12.7223H30.0555C30.3703 12.7223 30.6342 12.8291 30.8472 13.0428C31.0601 13.2566 31.1666 13.5214 31.1666 13.8373C31.1666 14.1532 31.0601 14.4167 30.8472 14.6278C30.6342 14.8389 30.3703 14.9445 30.0555 14.9445H26.9444V18.0556C26.9444 18.3704 26.8375 18.6343 26.6238 18.8473C26.4101 19.0602 26.1453 19.1667 25.8294 19.1667ZM12.4999 16.4778C11.0333 16.4778 9.81473 15.9926 8.84435 15.0223C7.874 14.0519 7.38882 12.8334 7.38882 11.3667C7.38882 9.90005 7.874 8.68154 8.84435 7.71118C9.81473 6.7408 11.0333 6.25562 12.4999 6.25562C13.9666 6.25562 15.1851 6.7408 16.1555 7.71118C17.1258 8.68154 17.611 9.90005 17.611 11.3667C17.611 12.8334 17.1258 14.0519 16.1555 15.0223C15.1851 15.9926 13.9666 16.4778 12.4999 16.4778ZM2.94435 27.1667C2.62955 27.1667 2.36566 27.0602 2.15269 26.8473C1.93973 26.6343 1.83325 26.3704 1.83325 26.0556V23.8334C1.83325 23.063 2.0314 22.3612 2.42769 21.7279C2.824 21.0945 3.3666 20.6186 4.05549 20.3C5.62586 19.5815 7.08022 19.0649 8.41855 18.75C9.75691 18.4352 11.1162 18.2779 12.4963 18.2779C13.8765 18.2779 15.237 18.4352 16.5777 18.75C17.9184 19.0649 19.3666 19.5815 20.9222 20.3C21.611 20.6334 22.1573 21.113 22.561 21.7389C22.9647 22.3649 23.1666 23.063 23.1666 23.8334V26.0556C23.1666 26.3704 23.0601 26.6343 22.8472 26.8473C22.6342 27.0602 22.3703 27.1667 22.0555 27.1667H2.94435ZM4.05545 24.9445H20.9444V23.8334C20.9444 23.5149 20.8648 23.2149 20.7055 22.9334C20.5462 22.6519 20.3073 22.4408 19.9888 22.3C18.5518 21.5963 17.2629 21.1204 16.1222 20.8723C14.9814 20.6241 13.774 20.5 12.4999 20.5C11.2259 20.5 10.0184 20.6278 8.87769 20.8834C7.73695 21.1389 6.44066 21.6112 4.98882 22.3C4.69991 22.4408 4.47212 22.6519 4.30545 22.9334C4.13879 23.2149 4.05545 23.5149 4.05545 23.8334V24.9445ZM12.4999 14.2556C13.3221 14.2556 14.0092 13.9797 14.561 13.4278C15.1129 12.876 15.3888 12.1889 15.3888 11.3667C15.3888 10.5445 15.1129 9.85746 14.561 9.30562C14.0092 8.75375 13.3221 8.47782 12.4999 8.47782C11.6777 8.47782 10.9907 8.75375 10.4388 9.30562C9.88695 9.85746 9.61102 10.5445 9.61102 11.3667C9.61102 12.1889 9.88695 12.876 10.4388 13.4278C10.9907 13.9797 11.6777 14.2556 12.4999 14.2556Z"
+                fill="white"
+              />
+            </g>
+          </svg>
+        </button>
+
+        <!-- hier dann die contacts rein rendern-->
+        <div id="contact-list">
+          <!-- contact-container 1 -->
+          <div class="contact-container">
+            <!-- letter -->
+            <h2 class="letter">A</h2>
+
+            <!-- contact 1 -->
+            <div class="contact" onclick="toggleBigContact(0)">
+              <!-- profile badge -->
+              <div class="profile-badge">
+                <p>AM</p>
+              </div>
+
+              <div class="name-and-email-container">
+                <p class="name">Anton Mayer</p>
+                <p class="email">anton@gmail.com</p>
+              </div>
+            </div>
+
+            <!-- contact 2 -->
+            <div class="contact">
+              <!-- profile badge -->
+              <div class="profile-badge">
+                <p>AS</p>
+              </div>
+
+              <div class="name-and-email-container">
+                <p class="name">Anja Schulz</p>
+                <p class="email">schulz@hotmail.com</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- contact-container 2 -->
+          <div class="contact-container">
+            <!-- letter -->
+            <h2 class="letter">B</h2>
+
+            <!-- contact 1 -->
+            <div class="contact">
+              <!-- profile badge -->
+              <div class="profile-badge">
+                <p>BZ</p>
+              </div>
+
+              <div class="name-and-email-container">
+                <p class="name">Benedikt Ziegler</p>
+                <p class="email">benedikt@gmail.com</p>
+              </div>
+            </div>
+
+            <!-- contact 2 -->
+            <div class="contact">
+              <!-- profile badge -->
+              <div class="profile-badge">
+                <p>BB</p>
+              </div>
+
+              <div class="name-and-email-container">
+                <p class="name">Ben Bern</p>
+                <p class="email">ben@hotmail.com</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="right-site-container">
+        <div id="contact-headline">
+          <h1>Contacts</h1>
+          <p>Better with a team</p>
+        </div>
+
+        <div id="big-contact" class="hide-big-contact">
+          <div id="profile-badge-and-name-container">
+            <!-- big profile badge -->
+            <div id="big-profile-badge">AM</div>
+
+            <!-- big name container -->
+            <div id="big-name-container">
+              <h3 id="big-name">Anton Mayer</h3>
+
+              <div id="icon-container">
+                <div id="edit-contact">
+                  <svg
+                    width="19"
+                    height="19"
+                    viewBox="0 0 19 19"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      id="edit-icon"
+                      d="M2 17H3.4L12.025 8.375L10.625 6.975L2 15.6V17ZM16.3 6.925L12.05 2.725L13.45 1.325C13.8333 0.941667 14.3042 0.75 14.8625 0.75C15.4208 0.75 15.8917 0.941667 16.275 1.325L17.675 2.725C18.0583 3.10833 18.2583 3.57083 18.275 4.1125C18.2917 4.65417 18.1083 5.11667 17.725 5.5L16.3 6.925ZM14.85 8.4L4.25 19H0V14.75L10.6 4.15L14.85 8.4Z"
+                      fill="#2A3647"
+                    />
+                  </svg>
+                  <p>Edit</p>
+                </div>
+
+                <div id="delete-contact">
+                  <svg
+                    width="16"
+                    height="18"
+                    viewBox="0 0 16 18"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      id="delete-icon"
+                      d="M3 18C2.45 18 1.97917 17.8042 1.5875 17.4125C1.19583 17.0208 1 16.55 1 16V3C0.716667 3 0.479167 2.90417 0.2875 2.7125C0.0958333 2.52083 0 2.28333 0 2C0 1.71667 0.0958333 1.47917 0.2875 1.2875C0.479167 1.09583 0.716667 1 1 1H5C5 0.716667 5.09583 0.479167 5.2875 0.2875C5.47917 0.0958333 5.71667 0 6 0H10C10.2833 0 10.5208 0.0958333 10.7125 0.2875C10.9042 0.479167 11 0.716667 11 1H15C15.2833 1 15.5208 1.09583 15.7125 1.2875C15.9042 1.47917 16 1.71667 16 2C16 2.28333 15.9042 2.52083 15.7125 2.7125C15.5208 2.90417 15.2833 3 15 3V16C15 16.55 14.8042 17.0208 14.4125 17.4125C14.0208 17.8042 13.55 18 13 18H3ZM3 3V16H13V3H3ZM5 13C5 13.2833 5.09583 13.5208 5.2875 13.7125C5.47917 13.9042 5.71667 14 6 14C6.28333 14 6.52083 13.9042 6.7125 13.7125C6.90417 13.5208 7 13.2833 7 13V6C7 5.71667 6.90417 5.47917 6.7125 5.2875C6.52083 5.09583 6.28333 5 6 5C5.71667 5 5.47917 5.09583 5.2875 5.2875C5.09583 5.47917 5 5.71667 5 6V13ZM9 13C9 13.2833 9.09583 13.5208 9.2875 13.7125C9.47917 13.9042 9.71667 14 10 14C10.2833 14 10.5208 13.9042 10.7125 13.7125C10.9042 13.5208 11 13.2833 11 13V6C11 5.71667 10.9042 5.47917 10.7125 5.2875C10.5208 5.09583 10.2833 5 10 5C9.71667 5 9.47917 5.09583 9.2875 5.2875C9.09583 5.47917 9 5.71667 9 6V13Z"
+                      fill="#2A3647"
+                    />
+                  </svg>
+                  <p>Delete</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- infos -->
+          <!-- hier dann die contacts rein rendern-->
+          <h4 id="contact-information-headline">Contact Information</h4>
+          <div>
+            <b>Email</b>
+            <p id="big-email">anton@gmail.com</p>
+            <b>Phone</b>
+            <p id="big-number">+49 1111 11 111 1</p>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Bin noch nicht fertig mit dem Pop-up-->
+    <!-- Pop-up -->
+    <!-- hier dann die contacts rein rendern-->
+    <div id="add-task-pop-up">
+      <div>
+        <!-- logo SVG -->
+        <div id="pop-up-headline-container"></div>
+      </div>
+      <div id="pop-up-content">
+        <img src="" alt="Logo" />
+
+        <div id="pop-up-inputs-container">
+          <input type="text" />
+          <input type="email" />
+          <input type="tel" />
+
+          <div id="pop-up-buttons-container">
+            <button>Cancel</button>
+            <!--SVG nicht vergessen -->
+            <button>Create contact</button>
+            <!--SVG nicht vergessen -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
 </html>
