@@ -1,5 +1,4 @@
 const BASE_URL = 'https://join-privat-default-rtdb.europe-west1.firebasedatabase.app/';
-const myurl = 'https://join-test-33e18-default-rtdb.europe-west1.firebasedatabase.app/';
 
 function validatePassword() {
     let msgbox = document.getElementById('msgbox');
@@ -80,7 +79,7 @@ function checkEmailAndPasswordWhenSignUp(email, password){
 
 async function pushNewUserToDataBase(path="", user){
     try {
-        let response = await fetch(myurl + path + ".json", {
+        let response = await fetch(BASE_URL + path + ".json", {
             method: "POST",
             header: {
                 "Content-Type": "application/json",
