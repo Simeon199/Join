@@ -45,6 +45,18 @@ a {
     padding: 0px;
 }
 
+.d-none {
+    display: none;
+}
+
+.registerPopup {
+    background-color: aliceblue;
+    z-index: 1;
+    padding: 16px;
+    border: solid;
+    border-radius: 16px;
+}
+
 @media (max-width:900px){
     .login {
         width: 80vw;

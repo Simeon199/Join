@@ -1,4 +1,5 @@
 const BASE_URL = 'https://join-privat-default-rtdb.europe-west1.firebasedatabase.app/';
+const myurl = 'https://join-test-33e18-default-rtdb.europe-west1.firebasedatabase.app/';
 
 function validatePassword() {
     let msgbox = document.getElementById('msgbox');
@@ -79,7 +80,7 @@ function checkEmailAndPasswordWhenSignUp(email, password){
 
 async function pushNewUserToDataBase(path="", user){
     try {
-        let response = await fetch(BASE_URL + path + ".json", {
+        let response = await fetch(myurl + path + ".json", {
             method: "POST",
             header: {
                 "Content-Type": "application/json",
@@ -90,7 +91,9 @@ async function pushNewUserToDataBase(path="", user){
             throw new Error('Network response was not ok' + response.statusText);
         }
         responseToJson = await response.json();
-        alert("Registrierung erfolgreich!");
+        let registerPopup = document.getElementById('registerPopup');
+        registerPopup.classList.remove('d-none');
+        // alert("Registrierung erfolgreich!");
         setTimeout(() => {
             window.location.href = 'login.html';
         }, 2000); 
