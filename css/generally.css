@@ -4,7 +4,7 @@ body {
 }
 
 header {
-    position: absolute;
+    /* position: absolute; */
     left: 232px; /*263*/
     right: 0;
     top: 0px;
