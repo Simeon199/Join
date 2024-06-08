@@ -31,8 +31,8 @@
                     <p>Assigned to</p>
                     <select name="User" id="" aria-placeholder="Select contacts to assign">
                         <option value="Test1">Test1</option>
-                        <option value="Marcel">Marcel</option>
-                        <option value="Leonie">Leonie</option>
+                        <option value="Marcel">Test2</option>
+                        <option value="Leonie">Test3</option>
                     </select>
                 </div>
             </div>
@@ -45,9 +45,9 @@
                 <div class="prio">
                     <p>Prio</p>
                     <div>
-                        <div class="center">Urgent</div>
-                        <div class="center">Medium</div>
-                        <div class="center">Low</div>
+                        <div onclick="changePriority(urgent)" id="urgent" class="center">Urgent</div>
+                        <div onclick="changePriority(medium)" id="medium" class="center">Medium</div>
+                        <div onclick="changePriority(low)" id="low" class="center">Low</div>
                     </div>
                 </div>
                 <div>

@@ -110,3 +110,18 @@ h1 {
     align-items: center;
     justify-content: center;
 }
+
+.backgroundUrgent {
+    background-color: rgba(255, 61, 0, 1) !important;
+    color: rgba(255, 255, 255, 1);
+}
+
+.backgroundMedium {
+    background-color: rgba(255, 168, 0, 1) !important;
+    color: rgba(255, 255, 255, 1);
+}
+
+.backgroundLow {
+    background-color: rgba(122, 226, 41, 1) !important;
+    color: rgba(255, 255, 255, 1);
+}
