@@ -5,11 +5,63 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="css/generally.css">
+    <link rel="stylesheet" href="css/add_task.css">
     <script src="js/add_task.js"></script>
     <script src="js/desktop-template.js"></script>
 </head>
 <body onload="initSidebar()">
     <header id="headerForm"></header>
     <div id="sidebar"></div>
+    <div class="main">
+        <div>
+            <h1>Add Task</h1>
+        </div>
+        <section class="addTaskBody">
+            <div class="input1">
+                <div>
+                    <p>Title</p>
+                    <input type="text" placeholder="Enter a title">
+                </div>
+                <div>
+                    <p>Description</p>
+                    <textarea name="" id="" placeholder="Enter a Description"></textarea>
+                </div>
+                <div>
+                    <p>Assigned to</p>
+                    <select name="User" id="" aria-placeholder="Select contacts to assign">
+                        <option value="Test1">Test1</option>
+                        <option value="Marcel">Marcel</option>
+                        <option value="Leonie">Leonie</option>
+                    </select>
+                </div>
+            </div>
+            <div class="borderLine"></div>
+            <div class="input2">
+                <div>
+                    <p>Due date</p>
+                    <input type="date" name="" id="" placeholder="dd/mm/yyyy">
+                </div>
+                <div class="prio">
+                    <p>Prio</p>
+                    <div>
+                        <div class="center">Urgent</div>
+                        <div class="center">Medium</div>
+                        <div class="center">Low</div>
+                    </div>
+                </div>
+                <div>
+                    <p>Category</p>
+                    <select name="" id="" aria-placeholder="Select task category">
+                        <option value="Technical Task">Technical Task</option>
+                        <option value="User Story">User Story</option>
+                    </select>
+                </div>
+                <div>
+                    <p>Subtasks</p>
+                    <input type="text" placeholder="Add new subtask">
+                </div>
+            </div>
+        </section>
+    </div>
 </body>
 </html>
