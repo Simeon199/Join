@@ -1,4 +1,4 @@
-const BASE_URL = 'https://join-privat-default-rtdb.europe-west1.firebasedatabase.app/';
+// const BASE_URL = 'https://join-privat-default-rtdb.europe-west1.firebasedatabase.app/';
 
 function validatePassword() {
     let msgbox = document.getElementById('msgbox');
@@ -17,6 +17,22 @@ function validateCheckbox() {
         loginBTN.enabled = true;
     } else {
         loginBTN.enabled = false;
+    }
+}
+
+async function testLoginFunction(){
+    let loginEmail = document.getElementById('loginEmail').value;
+    let loginPassword = document.getElementById('loginPassword').value;
+    let response = await loadData(path="");
+    for(key in response){
+        let user = response[key];
+        if(user["email"] && user["password"]){
+            let email = user["email"];
+            let password = user["password"];
+            if(loginEmail == email && loginPassword == password){
+                window.location.href = "summary.html";
+            }
+        }
     }
 }
 
