@@ -18,6 +18,8 @@
             <h1>Add Task</h1>
         </div>
         <section class="addTaskBody">
+
+            <form onsubmit="createTask()">
             <div class="input1">
                 <div>
                     <p>Title</p>
@@ -61,6 +63,14 @@
                     <p>Subtasks</p>
                     <input type="text" placeholder="Add new subtask">
                 </div>
+            </div>
+            </form>
+        </section>
+        <section class="submitSection">
+            <p>*This field is required</p>
+            <div class="buttns">
+                <div class="btn">Clear</div>
+                <div class="darkBTN">Create Task</div>
             </div>
         </section>
     </div>
