@@ -2,6 +2,10 @@ body {
     background: rgba(246, 247, 248, 1);
 }
 
+body p {
+    color: rgba(42, 54, 71, 1);
+}
+
 .borderLine {
     border: 3px solid rgba(41, 171, 226, 1);
     width: 59px;
@@ -61,7 +65,7 @@ body {
     justify-content: space-around;
     align-items: center;
     margin: 0px 40px;
-    gap: 10px;
+    gap: 20px;
 }
 
 .box1 {
@@ -72,25 +76,65 @@ body {
     opacity: 0px;
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.5);
     background-color: rgba(255, 255, 255, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .box1:hover {
     background-color: rgba(42, 54, 71, 1);
+    color: rgba(255, 255, 255, 1);
+    transform: scale(1.1);
+    .bigNumber {
+        color: rgba(255, 255, 255, 1);
+    }
 }
 
 .boxUrgent {
     width: 100%; /* 560px / 400*/
     height: 168px; /* 168px / 110 */
     top: 196px;
-    gap: 61px;
+    gap: 25px; /* 61px*/
     border-radius: 30px;
     opacity: 0px;
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.5);
     background-color: rgba(255, 255, 255, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.boxUrgent .borderLine {
+    border: 2px solid rgba(209, 209, 209, 1);
+    width: 102px;
 }
 
 .boxUrgent:hover {
     background-color: rgba(42, 54, 71, 1);
+    color: rgba(255, 255, 255, 1);
+    transform: scale(1.1);
+    .bigNumber {
+        border-color: rgba(255, 255, 255, 1);
+    }
+    .date {
+        color: rgba(255, 255, 255, 1);
+    }
+    p {
+        color: rgba(255, 255, 255, 1);
+    }
+    .borderLine {
+        border-color: rgba(255, 255, 255, 1);
+    }
+}
+
+.boxUrgent .date {
+    font-weight: 700;
+    font-size: 21px;
+}
+
+.boxUrgent .date p {
+    font-weight: 400;
+    font-size: 16px;
 }
 
 .box2 {
@@ -103,10 +147,20 @@ body {
     opacity: 0px;
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.5);
     background-color: rgba(255, 255, 255, 1);
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-direction: column;
 }
 
 .box2:hover {
     background-color: rgba(42, 54, 71, 1);
+    color: rgba(255, 255, 255, 1);
+    transform: scale(1.1);
+}
+
+.box2:hover .bigNumber {
+    color: rgba(255, 255, 255, 1);
 }
 
 .moreBoxes {
@@ -142,5 +196,22 @@ body {
     line-height: 76.8px;
     text-align: left;
     color: rgba(41, 171, 226, 1);
+    margin: 0px;
+}
+
+.contentFlex {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+}
+
+.bigNumber {
+    font-size: 50px;
+    margin: 0px;
+    text-align: center;
+}
+
+h4 {
     margin: 0px;
 }

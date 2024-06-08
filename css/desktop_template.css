@@ -10,6 +10,10 @@
     width: 232px;
 }
 
+#headerForm {
+    padding-left: 232px;
+}
+
 .menuBarDesktop {
     width: 232px;
     padding-bottom: 150px;
