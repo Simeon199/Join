@@ -89,6 +89,8 @@ async function testLoginFunction(){
 
 function signUp(event){
     event.preventDefault();
+    document.getElementById('registerPopup').classList.remove('d-none');
+    document.getElementById('overlay').classList.remove('d-none');
     let name = document.getElementById('name').value;
     let email = document.getElementById('loginEmail').value;
     let password = document.getElementById('loginPassword').value;
