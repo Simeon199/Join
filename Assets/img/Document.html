@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<!-- saved from url=(0033)http://127.0.0.1:5500/index.html? -->
+<html lang="en" data-lt-installed="true"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+      body {
+        margin: 0;
+        height: 90vh;
+
+        font-family: Arial, Helvetica, sans-serif;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+
+        gap: 50px;
+      }
+
+      form {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        gap: 20px;
+      }
+
+      button {
+        height: 50px;
+        width: 200px;
+
+        font-size: 24px;
+
+        background-color: rgb(61, 102, 0);
+        color: white;
+
+        transition: 0.2s;
+
+        cursor: pointer;
+      }
+
+      button:hover {
+        background-color: rgb(34, 56, 0);
+      }
+
+      input {
+        box-sizing: border-box;
+
+        height: 50px;
+        width: 200px;
+        padding: 10px;
+      }
+    </style>
+  </head>
+  <body onload="getData()">
+    <h1>Test</h1>
+
+    <!-- form -->
+    <form onsubmit="addNewName() ;return false " return;="">
+      <input id="input" type="text" placeholder="Name" required="">
+
+      <button>Add</button>
+    </form>
+
+    <div id="container"></div>
+
+    <!-- script -->
+    <script>
+      const BASE_URL =
+        "https://teststorage-c93f6-default-rtdb.asia-southeast1.firebasedatabase.app/";
+
+      async function getData(path = "") {
+        let response = await fetch(BASE_URL + path + ".json");
+        let responseToJson = await response.json();
+
+        console.log(responseToJson["users"]);
+        return responseToJson;
+      }
+
+      async function addData(path = "", data = {}) {
+        let response = await fetch(BASE_URL + path + ".json", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        });
+
+        getData();
+        return (responseToJson = await response.json());
+      }
+
+      async function addNewName() {
+        let inputValue = document.getElementById("input").value;
+
+        addData("/users", {
+          name: inputValue,
+          email: inputValue + "@gmail.com",
+          number: 123456789,
+        });
+      }
+
+      async function render(path = "") {
+        let users = await getData();
+        users = response["users"][id];
+        // An dieser Stelle muss die ID eingefügt werden, aber wie?
+
+        console.log(users.length);
+
+        let container = document.getElementById("container");
+
+        container.innerHTML = "";
+
+        // for (let i = 0; i < array.length; i++) {
+        //   const element = array[i];
+        // }
+      }
+    </script>
+  <!-- Code injected by live-server -->
+<script>
+	// <![CDATA[  <-- For SVG support
+	if ('WebSocket' in window) {
+		(function () {
+			function refreshCSS() {
+				var sheets = [].slice.call(document.getElementsByTagName("link"));
+				var head = document.getElementsByTagName("head")[0];
+				for (var i = 0; i < sheets.length; ++i) {
+					var elem = sheets[i];
+					var parent = elem.parentElement || head;
+					parent.removeChild(elem);
+					var rel = elem.rel;
+					if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+						var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+						elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+					}
+					parent.appendChild(elem);
+				}
+			}
+			var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+			var address = protocol + window.location.host + window.location.pathname + '/ws';
+			var socket = new WebSocket(address);
+			socket.onmessage = function (msg) {
+				if (msg.data == 'reload') window.location.reload();
+				else if (msg.data == 'refreshcss') refreshCSS();
+			};
+			if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
+				console.log('Live reload enabled.');
+				sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
+			}
+		})();
+	}
+	else {
+		console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
+	}
+	// ]]>
+</script>
+
+
+<div id="volume-booster-visusalizer">
+                <div class="sound">
+                    <div class="sound-icon"></div>
+                    <div class="sound-wave sound-wave_one"></div>
+                    <div class="sound-wave sound-wave_two"></div>
+                    <div class="sound-wave sound-wave_three"></div>
+                </div>
+                <div class="segments-box">
+                    <div data-range="1-20" class="segment"><span></span></div>
+                    <div data-range="21-40" class="segment"><span></span></div>
+                    <div data-range="41-60" class="segment"><span></span></div>
+                    <div data-range="61-80" class="segment"><span></span></div>
+                    <div data-range="81-100" class="segment"><span></span></div>
+                </div>
+            </div><deepl-input-controller><template shadowrootmode="open"><link rel="stylesheet" href="chrome-extension://cofdbpoegempjloogbagkncekinflcnj/build/content.css"><div dir="ltr"><div class="dl-input-translation-container svelte-95aucy"><div></div></div></div></template></deepl-input-controller></body></html>

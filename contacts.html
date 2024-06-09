@@ -19,31 +19,38 @@
     <link rel="stylesheet" href="css/contacts.css" />
 
     <style>
+      body {
+        font-family: "Inter", sans-serif;
+      }
+
       main {
         box-sizing: border-box;
 
         padding-left: 240px;
 
         width: 100%;
-        height: 100vh;
+        height: calc(100vh - 96px);
 
         display: flex;
-
-        font-family: "Inter", sans-serif;
       }
     </style>
 
     <!-- js -->
     <script src="js/desktop-template.js"></script>
     <script src="js/contacts.js"></script>
+    <script src="script.js"></script>
+    <script src="js/sow_contacts.js"></script>
   </head>
-  <body onload="initSidebar()">
+  <body onload="initSidebar(), initContact()">
     <header id="headerForm"></header>
     <div id="sidebar"></div>
 
     <main>
       <div id="contact-list-container">
-        <button id="add-new-contacts-button">
+        <button
+          id="add-new-contacts-button"
+          onclick="showAddContactPopUp(), renderAddContactPopUp()"
+        >
           Add new contacts
           <svg
             width="33"
@@ -72,72 +79,7 @@
           </svg>
         </button>
 
-        <!-- hier dann die contacts rein rendern-->
-        <div id="contact-list">
-          <!-- contact-container 1 -->
-          <div class="contact-container">
-            <!-- letter -->
-            <h2 class="letter">A</h2>
-
-            <!-- contact 1 -->
-            <div class="contact" onclick="toggleBigContact(0)">
-              <!-- profile badge -->
-              <div class="profile-badge">
-                <p>AM</p>
-              </div>
-
-              <div class="name-and-email-container">
-                <p class="name">Anton Mayer</p>
-                <p class="email">anton@gmail.com</p>
-              </div>
-            </div>
-
-            <!-- contact 2 -->
-            <div class="contact">
-              <!-- profile badge -->
-              <div class="profile-badge">
-                <p>AS</p>
-              </div>
-
-              <div class="name-and-email-container">
-                <p class="name">Anja Schulz</p>
-                <p class="email">schulz@hotmail.com</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- contact-container 2 -->
-          <div class="contact-container">
-            <!-- letter -->
-            <h2 class="letter">B</h2>
-
-            <!-- contact 1 -->
-            <div class="contact">
-              <!-- profile badge -->
-              <div class="profile-badge">
-                <p>BZ</p>
-              </div>
-
-              <div class="name-and-email-container">
-                <p class="name">Benedikt Ziegler</p>
-                <p class="email">benedikt@gmail.com</p>
-              </div>
-            </div>
-
-            <!-- contact 2 -->
-            <div class="contact">
-              <!-- profile badge -->
-              <div class="profile-badge">
-                <p>BB</p>
-              </div>
-
-              <div class="name-and-email-container">
-                <p class="name">Ben Bern</p>
-                <p class="email">ben@hotmail.com</p>
-              </div>
-            </div>
-          </div>
-        </div>
+        <div id="contact-list"></div>
       </div>
 
       <div id="right-site-container">
@@ -146,6 +88,7 @@
           <p>Better with a team</p>
         </div>
 
+        <!-- rendern -->
         <div id="big-contact" class="hide-big-contact">
           <div id="profile-badge-and-name-container">
             <!-- big profile badge -->
@@ -155,41 +98,7 @@
             <div id="big-name-container">
               <h3 id="big-name">Anton Mayer</h3>
 
-              <div id="icon-container">
-                <div id="edit-contact">
-                  <svg
-                    width="19"
-                    height="19"
-                    viewBox="0 0 19 19"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      id="edit-icon"
-                      d="M2 17H3.4L12.025 8.375L10.625 6.975L2 15.6V17ZM16.3 6.925L12.05 2.725L13.45 1.325C13.8333 0.941667 14.3042 0.75 14.8625 0.75C15.4208 0.75 15.8917 0.941667 16.275 1.325L17.675 2.725C18.0583 3.10833 18.2583 3.57083 18.275 4.1125C18.2917 4.65417 18.1083 5.11667 17.725 5.5L16.3 6.925ZM14.85 8.4L4.25 19H0V14.75L10.6 4.15L14.85 8.4Z"
-                      fill="#2A3647"
-                    />
-                  </svg>
-                  <p>Edit</p>
-                </div>
-
-                <div id="delete-contact">
-                  <svg
-                    width="16"
-                    height="18"
-                    viewBox="0 0 16 18"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      id="delete-icon"
-                      d="M3 18C2.45 18 1.97917 17.8042 1.5875 17.4125C1.19583 17.0208 1 16.55 1 16V3C0.716667 3 0.479167 2.90417 0.2875 2.7125C0.0958333 2.52083 0 2.28333 0 2C0 1.71667 0.0958333 1.47917 0.2875 1.2875C0.479167 1.09583 0.716667 1 1 1H5C5 0.716667 5.09583 0.479167 5.2875 0.2875C5.47917 0.0958333 5.71667 0 6 0H10C10.2833 0 10.5208 0.0958333 10.7125 0.2875C10.9042 0.479167 11 0.716667 11 1H15C15.2833 1 15.5208 1.09583 15.7125 1.2875C15.9042 1.47917 16 1.71667 16 2C16 2.28333 15.9042 2.52083 15.7125 2.7125C15.5208 2.90417 15.2833 3 15 3V16C15 16.55 14.8042 17.0208 14.4125 17.4125C14.0208 17.8042 13.55 18 13 18H3ZM3 3V16H13V3H3ZM5 13C5 13.2833 5.09583 13.5208 5.2875 13.7125C5.47917 13.9042 5.71667 14 6 14C6.28333 14 6.52083 13.9042 6.7125 13.7125C6.90417 13.5208 7 13.2833 7 13V6C7 5.71667 6.90417 5.47917 6.7125 5.2875C6.52083 5.09583 6.28333 5 6 5C5.71667 5 5.47917 5.09583 5.2875 5.2875C5.09583 5.47917 5 5.71667 5 6V13ZM9 13C9 13.2833 9.09583 13.5208 9.2875 13.7125C9.47917 13.9042 9.71667 14 10 14C10.2833 14 10.5208 13.9042 10.7125 13.7125C10.9042 13.5208 11 13.2833 11 13V6C11 5.71667 10.9042 5.47917 10.7125 5.2875C10.5208 5.09583 10.2833 5 10 5C9.71667 5 9.47917 5.09583 9.2875 5.2875C9.09583 5.47917 9 5.71667 9 6V13Z"
-                      fill="#2A3647"
-                    />
-                  </svg>
-                  <p>Delete</p>
-                </div>
-              </div>
+              <div id="icon-container"></div>
             </div>
           </div>
 
@@ -207,27 +116,62 @@
     </main>
 
     <!-- Bin noch nicht fertig mit dem Pop-up-->
+
     <!-- Pop-up -->
     <!-- hier dann die contacts rein rendern-->
-    <div id="add-task-pop-up">
-      <div>
-        <!-- logo SVG -->
-        <div id="pop-up-headline-container"></div>
-      </div>
-      <div id="pop-up-content">
-        <img src="" alt="Logo" />
+    <div id="add-task-pop-up-bg" class="add-task-pop-up-bg bg-op-0" onclick="hideAddContactPopUp()">
+      <div id="add-task-pop-up" class="add-task-pop-up translate-100" onclick="stopEvent(event)">
+        <svg
+          onclick="hideAddContactPopUp()"
+          id="close-add-task-pop-up"
+          width="14"
+          height="14"
+          viewBox="0 0 14 14"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M6.9998 8.36587L2.0998 13.2659C1.91647 13.4492 1.68314 13.5409 1.3998 13.5409C1.11647 13.5409 0.883138 13.4492 0.699805 13.2659C0.516471 13.0825 0.424805 12.8492 0.424805 12.5659C0.424805 12.2825 0.516471 12.0492 0.699805 11.8659L5.5998 6.96587L0.699805 2.06587C0.516471 1.88254 0.424805 1.6492 0.424805 1.36587C0.424805 1.08254 0.516471 0.849202 0.699805 0.665869C0.883138 0.482536 1.11647 0.390869 1.3998 0.390869C1.68314 0.390869 1.91647 0.482536 2.0998 0.665869L6.9998 5.56587L11.8998 0.665869C12.0831 0.482536 12.3165 0.390869 12.5998 0.390869C12.8831 0.390869 13.1165 0.482536 13.2998 0.665869C13.4831 0.849202 13.5748 1.08254 13.5748 1.36587C13.5748 1.6492 13.4831 1.88254 13.2998 2.06587L8.3998 6.96587L13.2998 11.8659C13.4831 12.0492 13.5748 12.2825 13.5748 12.5659C13.5748 12.8492 13.4831 13.0825 13.2998 13.2659C13.1165 13.4492 12.8831 13.5409 12.5998 13.5409C12.3165 13.5409 12.0831 13.4492 11.8998 13.2659L6.9998 8.36587Z"
+            fill="#2A3647"
+          />
+        </svg>
 
-        <div id="pop-up-inputs-container">
-          <input type="text" />
-          <input type="email" />
-          <input type="tel" />
+        <div id="pop-up-left-container">
+          <svg
+            id="pop-up-logo"
+            width="102"
+            height="122"
+            viewBox="0 0 102 122"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path d="M72.655 0H50.4972V25.4923H72.655V0Z" fill="white" />
+            <path
+              d="M50.4971 46.2251H72.655V82.1779C72.7562 90.8292 70.2941 99.3153 65.5815 106.557C60.9284 113.594 51.9459 121.966 35.3275 121.966C17.2263 121.966 6.67577 113.406 0.98291 108.715L14.9594 91.4743C20.5159 96.0112 25.8679 99.7435 35.4128 99.7435C42.6396 99.7435 45.5202 96.7988 47.2076 94.2307C49.5015 90.6637 50.6881 86.4923 50.6165 82.2464L50.4971 46.2251Z"
+              fill="white"
+            />
+            <path d="M39.1967 30.1318H17.0388V52.3884H39.1967V30.1318Z" fill="#29ABE2" />
+            <path
+              d="M84.2622 111.522C84.2622 116.265 81.859 118.815 78.5012 118.815C75.1434 118.815 72.9447 115.785 72.9447 111.762C72.9447 107.739 75.2116 104.554 78.6887 104.554C82.1658 104.554 84.2622 107.687 84.2622 111.522ZM75.5184 111.711C75.5184 114.57 76.6604 116.675 78.6205 116.675C80.5806 116.675 81.6885 114.45 81.6885 111.539C81.6885 108.988 80.6659 106.592 78.6205 106.592C76.5752 106.592 75.5184 108.903 75.5184 111.711Z"
+              fill="white"
+            />
+            <path d="M88.6597 104.76V118.593H86.2053V104.76H88.6597Z" fill="white" />
+            <path
+              d="M91.3187 118.593V104.76H94.0458L96.9775 110.461C97.7322 111.952 98.4036 113.483 98.9887 115.049C98.8353 113.337 98.7672 111.368 98.7672 109.177V104.76H101.017V118.593H98.4774L95.5117 112.772C94.7265 111.243 94.0266 109.671 93.4152 108.064C93.4152 109.776 93.5345 111.711 93.5345 114.09V118.576L91.3187 118.593Z"
+              fill="white"
+            />
+          </svg>
 
-          <div id="pop-up-buttons-container">
-            <button>Cancel</button>
-            <!--SVG nicht vergessen -->
-            <button>Create contact</button>
-            <!--SVG nicht vergessen -->
+          <div id="pop-up-headline-container"></div>
+          <div id="pop-up-small-line"></div>
+        </div>
+
+        <div id="pop-up-content">
+          <div id="pop-up-contact-logo-container">
+            <div id="pop-up-contact-logo"></div>
           </div>
+
+          <div id="pop-up-inputs-container"></div>
         </div>
       </div>
     </div>
