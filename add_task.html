@@ -18,6 +18,8 @@
             <h1>Add Task</h1>
         </div>
         <section class="addTaskBody">
+
+            <form onsubmit="createTask()">
             <div class="input1">
                 <div>
                     <p>Title</p>
@@ -31,8 +33,8 @@
                     <p>Assigned to</p>
                     <select name="User" id="" aria-placeholder="Select contacts to assign">
                         <option value="Test1">Test1</option>
-                        <option value="Marcel">Test2</option>
-                        <option value="Leonie">Test3</option>
+                        <option value="Test2">Test2</option>
+                        <option value="Test3">Test3</option>
                     </select>
                 </div>
             </div>
@@ -61,6 +63,14 @@
                     <p>Subtasks</p>
                     <input type="text" placeholder="Add new subtask">
                 </div>
+            </div>
+            </form>
+        </section>
+        <section class="submitSection">
+            <p>*This field is required</p>
+            <div class="buttns">
+                <div class="btn">Clear</div>
+                <div class="darkBTN">Create Task</div>
             </div>
         </section>
     </div>

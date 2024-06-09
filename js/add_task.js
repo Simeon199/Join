@@ -25,3 +25,7 @@ function removeBackground(id) {
         medium.classList.remove("backgroundMedium")
     }
 }
+
+function createTask() {
+    
+}

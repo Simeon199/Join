@@ -13,7 +13,7 @@ h1 {
     padding-left: 40px;
 }
 
-.addTaskBody {
+.addTaskBody form{
     display: flex;
     flex-direction: row;
 }
@@ -71,6 +71,7 @@ h1 {
 .input2 {
     div {
         width: 100%;
+        margin: 10px 0px 5px 0px;
     }
     p{
         margin: 10px 0px 5px 0px;
@@ -93,7 +94,6 @@ h1 {
     .prio div div {
         width: 136px;
         border-radius: 10px;
-        /* padding: 16px 10px 16px 10px; */
         background-color: rgba(255, 255, 255, 1);
     }
     .prio div div:hover {
@@ -124,4 +124,39 @@ h1 {
 .backgroundLow {
     background-color: rgba(122, 226, 41, 1) !important;
     color: rgba(255, 255, 255, 1);
+}
+
+.submitSection {
+    position: fixed;
+    left: 232px;
+    bottom: 40px;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+}
+
+.buttns {
+    display: flex;
+    align-items: center;
+    width: 309px;
+    height: 56px;
+    gap: 16px;
+    padding-right: 10%;
+}
+
+.darkBTN {
+    width: 183px;
+    border-radius: 10px;
+    background-color: rgba(42, 54, 71, 1);
+    padding: 16px;
+    color: rgba(255, 255, 255, 1);
+}
+
+.btn {
+    width: 110px;
+    background: rgba(246, 247, 248, 1);
+    border: 1px solid rgba(42, 54, 71, 1);
+    border-radius: 10px;
+    padding: 16px;
+
 }

@@ -151,7 +151,7 @@ async function pushNewUserToDataBase(path="", user){
         })
         if(!response.ok){
             throw new Error('Network response was not ok' + response.statusText);
-        }
+        } 
         responseToJson = await response.json();
         let registerPopup = document.getElementById('registerPopup');
         registerPopup.classList.remove('d-none');
