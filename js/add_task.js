@@ -1,3 +1,7 @@
+function init() {
+    changePriority(medium)
+}
+
 function taskMarker() {
     document.getElementById('addTask').classList.add('currentSection');
 }
@@ -11,6 +15,7 @@ function changePriority(id) {
     } if (id == low) {
         low.classList.add("backgroundLow")
     }
+    changeImg(id)
 }
 
 function removeBackground(id) {
@@ -23,6 +28,17 @@ function removeBackground(id) {
     } if (id == low) {
         urgent.classList.remove("backgroundUrgent")
         medium.classList.remove("backgroundMedium")
+    }
+}
+
+function changeImg(condition) {
+    // urgent.setAttribute('src', 'Assets/img/Prio altaurgent_white.svg')
+    if (condition == urgent) {
+        urgent.replaceChild()
+    } if (condition == meduim) {
+        
+    } if (condition == low) {
+        
     }
 }
 

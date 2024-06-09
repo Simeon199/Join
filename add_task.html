@@ -10,7 +10,7 @@
     <script src="js/add_task.js"></script>
     <script src="js/desktop-template.js"></script>
 </head>
-<body onload="initSidebar()">
+<body onload="initSidebar(); init()">
     <header id="headerForm"></header>
     <div id="sidebar"></div>
     <div class="main">
@@ -22,7 +22,7 @@
             <form onsubmit="createTask()">
             <div class="input1">
                 <div>
-                    <p>Title</p>
+                    <p>Title*</p>
                     <input type="text" placeholder="Enter a title">
                 </div>
                 <div>
@@ -47,9 +47,15 @@
                 <div class="prio">
                     <p>Prio</p>
                     <div>
-                        <div onclick="changePriority(urgent)" id="urgent" class="center">Urgent</div>
-                        <div onclick="changePriority(medium)" id="medium" class="center">Medium</div>
-                        <div onclick="changePriority(low)" id="low" class="center">Low</div>
+                        <div onclick="changePriority(urgent)" id="urgent" class="center">Urgent
+                            <img id="imgUrgent" src="Assets/img/Prio altaUrgent_symbole.svg" alt="">
+                        </div>
+                        <div onclick="changePriority(medium)" id="medium" class="center">Medium
+                            <img src="Assets/img/Prio mediaMedium_symbole.svg" alt="">
+                        </div>
+                        <div onclick="changePriority(low)" id="low" class="center">Low
+                            <img src="Assets/img/Prio bajaLow_symbole.svg" alt="">
+                        </div>
                     </div>
                 </div>
                 <div>
@@ -70,7 +76,7 @@
             <p>*This field is required</p>
             <div class="buttns">
                 <div class="btn">Clear</div>
-                <div class="darkBTN">Create Task</div>
+                <div onclick="createTask()" class="darkBTN">Create Task</div>
             </div>
         </section>
     </div>
