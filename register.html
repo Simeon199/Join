@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="css/login.css">
     <link rel="stylesheet" href="css/register.css">
     <script src="script.js"></script>
+    <script src="js/sow_contacts.js"></script>
 </head>
 <body>
     
@@ -22,7 +23,7 @@
         <div class="login">
             <img onclick="backToLogin()" class="arrowLeft" src="Assets/img/arrow-left-line.png" alt="">
             <h1>Sign up</h1>
-            <form>
+            <form id="signUpForm" onsubmit="return signUp(event)">
                 <div class="loginInput">
                     <div class="input">
                         <input id="name" class="loginInputStyle" type="text" placeholder="Name" required>
@@ -46,7 +47,7 @@
                     <label for="privacyPolicity">I accept the <a href="">Privacy policy</a></label>
                 </div>
                 <div class="loginButtons">
-                    <button id="loginBtn" class="darkBtn" onclick="signUp(); return false">Sign up</button>
+                    <button id="loginBtn" class="darkBtn" type="submit">Sign up</button>
                 </div>
             </form>
         </div>
