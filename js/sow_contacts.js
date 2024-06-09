@@ -3,5 +3,6 @@
 async function loadData(path = "") {
   let response = await fetch(BASE_URL + path + ".json");
   let responseAsJson = await response.json();
-  console.log(responseAsJson);
+  return responseAsJson;
+  // console.log(responseAsJson)
 }

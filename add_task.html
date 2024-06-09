@@ -3,13 +3,82 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>JOIN</title>
+    <link rel="shortcut icon" href="Assets/img/Capa2logo_klein.svg" type="image/x-icon">
     <link rel="stylesheet" href="css/generally.css">
+    <link rel="stylesheet" href="css/add_task.css">
     <script src="js/add_task.js"></script>
     <script src="js/desktop-template.js"></script>
 </head>
-<body onload="initSidebar()">
+<body onload="initSidebar(); init()">
     <header id="headerForm"></header>
     <div id="sidebar"></div>
+    <div class="main">
+        <div>
+            <h1>Add Task</h1>
+        </div>
+        <section class="addTaskBody">
+
+            <form onsubmit="createTask()">
+            <div class="input1">
+                <div>
+                    <p>Title*</p>
+                    <input type="text" placeholder="Enter a title">
+                </div>
+                <div>
+                    <p>Description</p>
+                    <textarea name="" id="" placeholder="Enter a Description"></textarea>
+                </div>
+                <div>
+                    <p>Assigned to</p>
+                    <select name="User" id="" aria-placeholder="Select contacts to assign">
+                        <option value="Test1">Test1</option>
+                        <option value="Test2">Test2</option>
+                        <option value="Test3">Test3</option>
+                    </select>
+                </div>
+            </div>
+            <div class="borderLine"></div>
+            <div class="input2">
+                <div>
+                    <p>Due date</p>
+                    <input type="date" name="" id="" placeholder="dd/mm/yyyy">
+                </div>
+                <div class="prio">
+                    <p>Prio</p>
+                    <div>
+                        <div onclick="changePriority(urgent)" id="urgent" class="center">Urgent
+                            <img id="imgUrgent" src="Assets/img/Prio altaUrgent_symbole.svg" alt="">
+                        </div>
+                        <div onclick="changePriority(medium)" id="medium" class="center">Medium
+                            <img src="Assets/img/Prio mediaMedium_symbole.svg" alt="">
+                        </div>
+                        <div onclick="changePriority(low)" id="low" class="center">Low
+                            <img src="Assets/img/Prio bajaLow_symbole.svg" alt="">
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <p>Category</p>
+                    <select name="" id="" aria-placeholder="Select task category">
+                        <option value="Technical Task">Technical Task</option>
+                        <option value="User Story">User Story</option>
+                    </select>
+                </div>
+                <div>
+                    <p>Subtasks</p>
+                    <input type="text" placeholder="Add new subtask">
+                </div>
+            </div>
+            </form>
+        </section>
+        <section class="submitSection">
+            <p>*This field is required</p>
+            <div class="buttns">
+                <div class="btn">Clear</div>
+                <div onclick="createTask()" class="darkBTN">Create Task</div>
+            </div>
+        </section>
+    </div>
 </body>
 </html>

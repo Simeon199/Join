@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Summary</title>
+    <title>JOIN</title>
+    <link rel="shortcut icon" href="Assets/img/Capa2logo_klein.svg" type="image/x-icon">
     <link rel="stylesheet" href="css/generally.css">
     <link rel="stylesheet" href="css/summary.css">
     <script src="js/desktop-template.js"></script>
@@ -24,24 +25,46 @@
         <div class="mainCont">
             <div class="dataCont">
                 <div class="moreBoxes">
-                    <div class="box1">
-                        <h4>To-do</h4>
+                    <div onclick="goToBoard()" class="box1 contentFlex" onmouseover="hover(todo)" onmouseleave="unhover(todo)">
+                        <img id="todo" class="to-to" src="Assets/img/edit.svg" alt="">
+                        <div>
+                            <p class="bigNumber"><b>1</b></p>
+                            <h4>To-do</h4>
+                        </div>
                     </div>
-                    <div class="box1">
-                        <h4>Done</h4>
+                    <div onclick="goToBoard()" class="box1 contentFlex" onmouseover="hover(done)" onmouseleave="unhover(done)">
+                        <img id="done" class="done" src="Assets/img/Done.svg" alt="">
+                        <div>
+                            <p class="bigNumber"><b>1</b></p>
+                            <h4>Done</h4>
+                        </div>
                     </div>
                 </div>
-                <div class="boxUrgent">
-                    <h4>Urgent</h4>    
+                <div onclick="goToBoard()" class="boxUrgent">
+                    <div class="contentFlex">
+                        <img src="Assets/img/Group 7Urgent.svg" alt="">
+                        <div>
+                            <p class="bigNumber"><b>1</b></p>
+                            <h4>Urgent</h4>
+                        </div>
+                    </div>
+                    <div class="borderLine"></div>
+                    <div class="date">
+                        <p><b>October 16,2024</b></p>
+                        <p>Upcoming Deadline</p>
+                    </div>
                 </div>
                 <div class="moreBoxes">
-                    <div class="box2">
+                    <div onclick="goToBoard()" class="box2">
+                        <p class="bigNumber"><b>1</b></p>
                         <h4>Tasks in Boared</h4>
                     </div>
-                    <div class="box2">
+                    <div onclick="goToBoard()" class="box2">
+                        <p class="bigNumber"><b>1</b></p>
                         <h4>Tasks in Progress</h4>
                     </div>
-                    <div class="box2">
+                    <div onclick="goToBoard()" class="box2">
+                        <p class="bigNumber"><b>1</b></p>
                         <h4>Awaiting Feedback</h4>
                     </div>
                 </div>

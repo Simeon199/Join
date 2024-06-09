@@ -1,4 +1,4 @@
-const BASE_URL = 'https://join-privat-default-rtdb.europe-west1.firebasedatabase.app/';
+// const BASE_URL = 'https://join-privat-default-rtdb.europe-west1.firebasedatabase.app/';
 
 function validatePassword() {
     let msgbox = document.getElementById('msgbox');
@@ -17,6 +17,69 @@ function validateCheckbox() {
         loginBTN.enabled = true;
     } else {
         loginBTN.enabled = false;
+    }
+}
+
+// Hier kommen meine ganzen neuen Funktionen //
+
+function setCookie(name, value, days) {
+    let expires = "";
+    if (days) {
+        let date = new Date();
+        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+        expires = "; expires=" + date.toUTCString();
+    }
+    document.cookie = name + "=" + value + expires + "; path=/";
+}
+
+function getCookie(name) {
+    let nameEQ = name + "=";
+    let cookies = document.cookie.split(';');
+    for (let i = 0; i < cookies.length; i++) {
+        let cookie = cookies[i];
+        while (cookie.charAt(0) == ' ') {
+            cookie = cookie.substring(1, cookie.length);
+        }
+        if (cookie.indexOf(nameEQ) == 0) {
+            return cookie.substring(nameEQ.length, cookie.length);
+        }
+    }
+    return null;
+}
+
+function deleteCookie(name) {
+    document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+}
+
+// Hier enden meine ganzen neuen Funktionen //
+
+async function testLoginFunction(){
+    let loginEmail = document.getElementById('loginEmail').value;
+    let loginPassword = document.getElementById('loginPassword').value;
+    let remember = document.getElementById('remember').checked;
+    let response = await loadData(path="");
+    // console.log(response);
+    for(key in response){
+        let user = response[key];
+        if(user["email"] && user["password"]){
+            let email = user["email"];
+            let password = user["password"];
+            if(loginEmail == email && loginPassword == password){
+                if(remember){
+                    // Set cookie for 30 days if "remember me" is checked 
+                    setCookie('authToken', 'YourAuthTokenValue', 30);
+                } else {
+                    // Set the cookie for the session (no expiration date)
+                    setCookie('authToken', 'YourAuthTokenValue', 0);
+                }
+                window.location.href = "summary.html";
+                return;
+            } else {
+                alert("Eingegebene E-Mail oder Passwort sind falsch! Bitte versuchen Sie es erneut");
+            }
+        } else {
+            alert('E-Mail oder Passwort wurden nicht übergeben!');
+        }
     }
 }
 
@@ -88,7 +151,7 @@ async function pushNewUserToDataBase(path="", user){
         })
         if(!response.ok){
             throw new Error('Network response was not ok' + response.statusText);
-        }
+        } 
         responseToJson = await response.json();
         let registerPopup = document.getElementById('registerPopup');
         registerPopup.classList.remove('d-none');

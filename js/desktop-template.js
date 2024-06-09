@@ -37,6 +37,9 @@ function sidebarHTML() {
 function headerHTML() {
     document.getElementById("headerForm").innerHTML += /*html*/`
         <h1>Kanban Project Managemant Tool</h1>
-        <img onclick="help()" src="Assets/img/help.svg" alt="Help">
+        <div class="headerIcons">
+            <img onclick="help()" src="Assets/img/help.svg" alt="Help">
+            <img class="circle" alt="">
+        </div>
     `;
 }

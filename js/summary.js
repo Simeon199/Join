@@ -11,22 +11,28 @@ function greet() {
     `
 }
 
-function goToSummary() {
-    window.location.href= 'summary.html';
-}
-
-function goToAddTask() {
-    window.location.href= '';
-}
-
 function goToBoard() {
     window.location.href= 'board.html';
 }
 
-function goToContacts() {
-    window.location.href= 'contacts.html';
-}
-
 function taskMarker() {
     document.getElementById('summary').classList.add('currentSection');
+}
+
+function hover(element) {
+    todo = document.getElementById("todo");
+    if (element == todo) {
+        element.setAttribute('src', 'Assets/img/edit_white.svg');
+    } else {
+        element.setAttribute('src', 'Assets/img/Done_white.svg');
+    }
+}
+
+function unhover(element) {
+    todo = document.getElementById("todo");
+    if (element == todo) {
+        element.setAttribute('src', 'Assets/img/edit.svg');
+    } else {
+        element.setAttribute('src', 'Assets/img/Done.svg');
+    }
 }
