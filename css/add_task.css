@@ -4,6 +4,9 @@ body {
 
 .main {
     padding: 0px 0px 0px 232px;
+    b {
+        color: red;
+    }
 }
 
 h1 {
@@ -155,11 +158,18 @@ h1 {
     color: rgba(255, 255, 255, 1);
 }
 
+.darkBTN:hover {
+    cursor: pointer;
+}
+
 .btn {
     width: 110px;
     background: rgba(246, 247, 248, 1);
     border: 1px solid rgba(42, 54, 71, 1);
     border-radius: 10px;
     padding: 16px;
+}
 
+.btn:hover {
+    cursor: pointer;
 }

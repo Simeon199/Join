@@ -1,5 +1,12 @@
+let inputTitle = document.getElementById("inputTitle");
+let inputDescription = document.getElementById("inputDescription");
+let assignetTo = document.getElementById("assignetTo");
+let date = document.getElementById("date");
+let category = document.getElementById("category");
+let subtask = document.getElementById("subtask");
+ 
 function init() {
-    changePriority(urgent)
+    changePriority(medium)
 }
 
 function taskMarker() {
@@ -52,4 +59,13 @@ function changeImg(condition) {
 
 function createTask() {
     
+}
+
+function clearTask() {
+    inputTitle.value= '';
+    inputDescription.value='';
+    assignetTo.value='';
+    date.value = '';
+    category.value = '';
+    subtask.value='';
 }
