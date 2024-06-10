@@ -25,7 +25,11 @@ function validateCheckbox() {
 function login() {
     validateCheckbox();
     validatePassword();
-    window.location.href='summary.html'
+    window.location.href='summary.html';
+}
+
+function guestLogin(){
+    window.location.href = 'summary.html';
 }
 
 function goToSignUp() {
@@ -57,7 +61,8 @@ function saveLoggedInStatus(){
     localStorage.setItem('isLoggedIn', isLoggedIn);
 }
 
-async function testLoginFunction(){
+async function testLoginFunction(event){
+    event.preventDefault();
     let loginEmail = document.getElementById('loginEmail').value;
     let loginPassword = document.getElementById('loginPassword').value;
     let remember = document.getElementById('remember').checked;
