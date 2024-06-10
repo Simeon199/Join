@@ -3,8 +3,20 @@
     height: 630px;
 } */
 
+.image-container {
+    position: fixed;
+    top: 24px;
+    left: 24px;
+}
+
+#signUpForm {
+    display: flex;
+    flex-direction: column;
+}
+
 .loginInput {
-    height: 286px;
+    flex: 1;
+    /* height: 286px; */
 }
 
 .checkbox {
