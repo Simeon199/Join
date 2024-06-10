@@ -1,4 +1,6 @@
-
+body {
+    margin: 0;
+}
 
 header {
     /* display: none; */
@@ -6,6 +8,7 @@ header {
     /* width: 100%; */
     display: flex;
     justify-content: space-between;
+    align-items: center;
     flex: 1;
     padding: 16px;
     /* height: 250px; */

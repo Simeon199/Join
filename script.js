@@ -1,7 +1,3 @@
-// const BASE_URL = 'https://join-privat-default-rtdb.europe-west1.firebasedatabase.app/';
-
-let isLoggedIn = false;
-
 function validatePassword() {
     let msgbox = document.getElementById('msgbox');
     //if (password !== passwordConfirm) {
@@ -46,19 +42,24 @@ function invokeFunctions(){
 }
 
 function logout(){
-    isLoggedIn = false;
-    localStorage.item = isLoggedIn;
+    localStorage.removeItem('isLoggedIn');
+    localStorage.removeItem('currentUser');
+    sessionStorage.removeItem('isLoggedIn');
+    sessionStorage.removeItem('currentUser');
+    window.location.href = 'login.html';
 }
 
 function checkIfUserIsLoggedIn(){
     let status = localStorage.getItem('isLoggedIn');
-    if(status == 'true'){
+    let currentUser = localStorage.getItem('currentUser');
+    if(status == 'true' && currentUser){
         window.location.href = 'summary.html';
     }
 }
 
-function saveLoggedInStatus(){
-    localStorage.setItem('isLoggedIn', isLoggedIn);
+function saveLoggedInStatus(email){
+    localStorage.setItem('isLoggedIn', 'true');
+    localStorage.setItem('currentUser', email);
 }
 
 async function testLoginFunction(event){
@@ -74,22 +75,20 @@ async function testLoginFunction(event){
             let password = user["password"];
             if(loginEmail == email && loginPassword == password){
                 if(remember){
-                    isLoggedIn = true;
-                    saveLoggedInStatus();
+                    saveLoggedInStatus(email);
                 } else {
-                    isLoggedIn = false;
-                    saveLoggedInStatus();
+                    sessionStorage.setItem('isLoggedIn', 'true');
+                    sessionStorage.setItem('currentUser', email);
                 }
                 window.location.href = "summary.html";
                 return;
-            } else {
-                alert("Eingegebene E-Mail oder Passwort sind falsch! Bitte versuchen Sie es erneut");
-                return;
+            // } else {
+            //     alert("Eingegebene E-Mail oder Passwort sind falsch! Bitte versuchen Sie es erneut");
+            //     return;
             }
-        } else {
-            alert('E-Mail oder Passwort wurden nicht übergeben!');
         }
     }
+    alert("Eingegebene E-Mail oder Passwort sind falsch! Bitte versuchen Sie es erneut");
 }
 
 function signUp(event){
@@ -116,12 +115,17 @@ function createNewUser(name, email, password, passwordRepeat, privacyPolicity){
         alert("Akzeptieren Sie die Privacy Policy um fortzufahren");
         return;
     } 
-    user = {
+    let user = buildUserFunction(name, email, password);
+    pushNewUserToDataBase("", user);
+}
+
+function buildUserFunction(name, email, password){
+    let user = {
         "name": name,
         "email": email,
         "password": password
     }
-    pushNewUserToDataBase("", user);
+    return user;
 }
 
 function checkEmailAndPasswordWhenSignUp(email, password){
