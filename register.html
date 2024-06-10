@@ -9,6 +9,10 @@
     <link rel="stylesheet" href="css/register.css">
     <script src="script.js"></script>
     <script src="js/sow_contacts.js"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap"
+      rel="stylesheet"
+    />
 </head>
 <body>
     
@@ -28,13 +32,15 @@
             <img id="logoKlein" src="Assets/img/Capa2logo_klein.svg" alt="">
         </div>
         <div class="login">
-            <!-- <img onclick="backToLogin()" class="arrowLeft" src="Assets/img/arrow-left-line.png" alt=""> -->
-            <h1>Sign up</h1>
+            <div class="loginAndArrow">
+                <img onclick="backToLogin()" class="arrowLeft" src="Assets/img/arrow-left-line.png" alt="">
+                <h1>Sign up</h1>
+            </div>
             <form id="signUpForm" onsubmit="return signUp(event)">
                 <div class="loginInput">
                     <div class="input">
                         <input id="name" class="loginInputStyle" type="text" placeholder="Name" required>
-                        <img src="Assets/img/" alt="">
+                        <img src="Assets/img/person.svg" alt="">
                     </div>
                     <div class="input">
                         <input id="loginEmail" inputmode="email" class="loginInputStyle" type="email" placeholder="Email" required>

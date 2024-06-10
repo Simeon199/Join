@@ -9,6 +9,12 @@
     left: 24px;
 }
 
+.loginAndArrow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
 #signUpForm {
     display: flex;
     flex-direction: column;
@@ -34,9 +40,9 @@
 }
 
 .arrowLeft {
-    position: absolute;
+    /* position: absolute;
     top: 32px;
-    left: 32px;
+    left: 32px; */
     width: 32px;
     height: 32px;
 }
