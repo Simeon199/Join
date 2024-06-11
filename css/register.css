@@ -111,7 +111,7 @@ a {
     border-radius: 16px;
 } */
 
-@media (max-width:900px){
+/* @media (max-width:900px){
     .login {
         width: 80vw;
     }
@@ -121,4 +121,4 @@ a {
     .login {
         width: 55vw;
     }
-}
+} */
