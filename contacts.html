@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>JOIN</title>
-    <link rel="shortcut icon" href="Assets/img/Capa2logo_klein.svg" type="image/x-icon">
+    <link rel="shortcut icon" href="Assets/img/Capa2logo_klein.svg" type="image/x-icon" />
 
     <!-- fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -48,10 +48,7 @@
 
     <main>
       <div id="contact-list-container">
-        <button
-          id="add-new-contacts-button"
-          onclick="showAddContactPopUp(), renderAddContactPopUp()"
-        >
+        <button id="add-new-contacts-button" onclick="showPopUp(), renderAddContactPopUp()">
           Add new contacts
           <svg
             width="33"
@@ -120,10 +117,10 @@
 
     <!-- Pop-up -->
     <!-- hier dann die contacts rein rendern-->
-    <div id="add-task-pop-up-bg" class="add-task-pop-up-bg bg-op-0" onclick="hideAddContactPopUp()">
+    <div id="add-task-pop-up-bg" class="add-task-pop-up-bg bg-op-0" onclick="hidePopUp()">
       <div id="add-task-pop-up" class="add-task-pop-up translate-100" onclick="stopEvent(event)">
         <svg
-          onclick="hideAddContactPopUp()"
+          onclick="hidePopUp()"
           id="close-add-task-pop-up"
           width="14"
           height="14"
