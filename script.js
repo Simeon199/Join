@@ -1,5 +1,3 @@
-let guestLoginStatus = false;
-
 function validatePassword() {
     let msgbox = document.getElementById('msgbox');
     //if (password !== passwordConfirm) {
@@ -27,7 +25,7 @@ function validatePassword() {
 // }
 
 function guestLogin(){
-    guestLoginStatus = true;
+    sessionStorage.setItem('guestLoginStatus', 'true');
     window.location.href = 'summary.html';
 }
 
@@ -56,10 +54,15 @@ function checkIfUserIsLoggedIn(){
     let status = localStorage.getItem('isLoggedIn');
     let currentUser = localStorage.getItem('currentUser');
     let currentPath = window.location.pathname.split('/').pop();
-    if(status == 'true' && currentUser){
+    let guestLoginStatus = sessionStorage.getItem('guestLoginStatus');
+    if(guestLoginStatus == 'true'){
+        if(currentPath !== 'summary.hmtl'){
+            console.log('Nutzer ist als Gast eingeloggt');
+        }
+    } else if(status == 'true' && currentUser){
         console.log("Nutzer ist eingeloggt");
     } else {
-        if(currentPath !== 'register.html'){
+        if(currentPath !== 'register.html' && currentPath !== 'login.html'){
             window.location.href='login.html';
         }
     }
@@ -90,9 +93,6 @@ async function testLoginFunction(event){
                 }
                 window.location.href = "summary.html";
                 return;
-            // } else {
-            //     alert("Eingegebene E-Mail oder Passwort sind falsch! Bitte versuchen Sie es erneut");
-            //     return;
             }
         }
     }
