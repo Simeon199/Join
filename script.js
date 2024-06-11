@@ -53,18 +53,26 @@ function logout(){
 function checkIfUserIsLoggedIn(){
     let status = localStorage.getItem('isLoggedIn');
     let currentUser = localStorage.getItem('currentUser');
+    let sessionUser = sessionStorage.getItem('currentUser');
+    let sessionStatus = sessionStorage.getItem('isLoggedIn');
     let currentPath = window.location.pathname.split('/').pop();
     let guestLoginStatus = sessionStorage.getItem('guestLoginStatus');
     if(guestLoginStatus == 'true'){
         if(currentPath !== 'summary.hmtl'){
             console.log('Nutzer ist als Gast eingeloggt');
         }
-    } else if(status == 'true' && currentUser){
+    } else if((status === 'true' && currentUser) || (sessionStatus === 'true' && sessionUser)){
         console.log("Nutzer ist eingeloggt");
     } else {
         if(currentPath !== 'register.html' && currentPath !== 'login.html'){
             window.location.href='login.html';
         }
+    }
+    if (sessionStatus === 'true' && !sessionUser) {
+        sessionStorage.removeItem('isLoggedIn');
+        sessionStorage.removeItem('currentUser');
+        sessionStorage.removeItem('guestLoginStatus');
+        console.log("Sitzung abgelaufen. Benutzerdaten entfernt.");
     }
 }
 
