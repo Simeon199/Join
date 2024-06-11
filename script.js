@@ -38,7 +38,7 @@ function backToLogin() {
 
 function invokeFunctions(){
     loadData();
-    checkIfUserIsLoggedIn();
+    // checkIfUserIsLoggedIn();
 }
 
 function logout(){
@@ -54,6 +54,8 @@ function checkIfUserIsLoggedIn(){
     let currentUser = localStorage.getItem('currentUser');
     if(status == 'true' && currentUser){
         window.location.href = 'summary.html';
+    } else {
+        window.location.href = 'login.html';
     }
 }
 
