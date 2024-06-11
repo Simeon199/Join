@@ -1,3 +1,5 @@
+let guestLoginStatus = false;
+
 function validatePassword() {
     let msgbox = document.getElementById('msgbox');
     //if (password !== passwordConfirm) {
@@ -8,23 +10,24 @@ function validatePassword() {
     msgbox.innerHTML = "Password incorrect";
 }
 
-function validateCheckbox() {
-    let checkbox = document.getElementById('remember');
-    let loginBTN = document.getElementById('loginBtn');
-    if (checkbox.checked = true) {
-        loginBTN.enabled = true;
-    } else {
-        loginBTN.enabled = false;
-    }
-}
+// function validateCheckbox() {
+//     let checkbox = document.getElementById('remember');
+//     let loginBTN = document.getElementById('loginBtn');
+//     if (checkbox.checked = true) {
+//         loginBTN.enabled = true;
+//     } else {
+//         loginBTN.enabled = false;
+//     }
+// }
 
-function login() {
-    validateCheckbox();
-    validatePassword();
-    window.location.href='summary.html';
-}
+// function login() {
+//     validateCheckbox();
+//     validatePassword();
+//     window.location.href='summary.html';
+// }
 
 function guestLogin(){
+    guestLoginStatus = true;
     window.location.href = 'summary.html';
 }
 
@@ -52,10 +55,13 @@ function logout(){
 function checkIfUserIsLoggedIn(){
     let status = localStorage.getItem('isLoggedIn');
     let currentUser = localStorage.getItem('currentUser');
+    let currentPath = window.location.pathname.split('/').pop();
     if(status == 'true' && currentUser){
-        window.location.href = 'summary.html';
+        console.log("Nutzer ist eingeloggt");
     } else {
-        window.location.href = 'login.html';
+        if(currentPath !== 'register.html'){
+            window.location.href='login.html';
+        }
     }
 }
 
