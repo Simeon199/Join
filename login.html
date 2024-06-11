@@ -5,12 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JOIN</title>
     <link rel="shortcut icon" href="Assets/img/Capa2logo_klein.svg" type="image/x-icon">
-    <link rel="stylesheet" href="css/generally.css">
+    <!-- <link rel="stylesheet" href="css/generally.css"> -->
     <link rel="stylesheet" href="./css/login.css">
     <script src="script.js"></script>
     <script src="js/sow_contacts.js"></script>
+
+    
 </head>
-<body onload="loadData()">
+<body onload="invokeFunctions()">
 
     <header>
         <img id="logoKlein" src="Assets/img/Capa2logo_klein.svg" alt="">
@@ -23,7 +25,7 @@
     <section class="loginFrame">
         <div class="login">
             <h1>Log in</h1>
-            <form>
+            <form id="loginForm" onsubmit="return testLoginFunction(event)">
                 <div class="loginInput">
                     <div class="input">
                         <input id="loginEmail" inputmode="email" class="loginInputStyle" type="email" placeholder="Email" required>
@@ -42,12 +44,12 @@
                     <p id="msgbox"></p>
                 </div>
                 <div class="checkbox">
-                    <input id="remember" type="checkbox" required>
+                    <input id="remember" type="checkbox">
                     <label for="remember">Remember me</label>
                 </div>
                 <div class="loginButtons">
-                    <button id="loginBtn" class="darkBtn" onclick="testLoginFunction(); return false" >Log in</button>
-                    <button class="brightBtn" onclick="guestLogin()" disabled>Guest Log in</button>
+                    <button id="loginBtn" class="darkBtn" type="submit">Log in</button>
+                    <button class="brightBtn" onclick="guestLogin()">Guest Log in</button>
                 </div>
             </form>
         </div>

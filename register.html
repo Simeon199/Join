@@ -4,29 +4,43 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JOIN</title>
-    <link rel="stylesheet" href="css/generally.css">
+    <!-- <link rel="stylesheet" href="css/generally.css"> -->
     <link rel="stylesheet" href="css/login.css">
     <link rel="stylesheet" href="css/register.css">
     <script src="script.js"></script>
+    <script src="js/sow_contacts.js"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap"
+      rel="stylesheet"
+    />
 </head>
 <body>
     
-    <header>
+    <!-- <header>
         <img id="logoKlein" src="Assets/img/Capa2logo_klein.svg" alt="">
-    </header>
+    </header> -->
+    <!-- <div class="image-container">
+        <img id="logoKlein" src="Assets/img/Capa2logo_klein.svg" alt="">
+    </div> -->
 
     <section class="loginFrame">
+        <div class="overlay d-none" id="overlay"></div>
         <div class="registerPopup d-none" id="registerPopup">
             <h2>Die Registrierung war erfolgreich!</h2>
         </div>
+        <div class="image-container">
+            <img id="logoKlein" src="Assets/img/Capa2logo_klein.svg" alt="">
+        </div>
         <div class="login">
-            <img onclick="backToLogin()" class="arrowLeft" src="Assets/img/arrow-left-line.png" alt="">
-            <h1>Sign up</h1>
-            <form>
+            <div class="loginAndArrow">
+                <img onclick="backToLogin()" class="arrowLeft" src="Assets/img/arrow-left-line.png" alt="">
+                <h1>Sign up</h1>
+            </div>
+            <form id="signUpForm" onsubmit="return signUp(event)">
                 <div class="loginInput">
                     <div class="input">
                         <input id="name" class="loginInputStyle" type="text" placeholder="Name" required>
-                        <img src="Assets/img/" alt="">
+                        <img src="Assets/img/person.svg" alt="">
                     </div>
                     <div class="input">
                         <input id="loginEmail" inputmode="email" class="loginInputStyle" type="email" placeholder="Email" required>
@@ -46,7 +60,7 @@
                     <label for="privacyPolicity">I accept the <a href="">Privacy policy</a></label>
                 </div>
                 <div class="loginButtons">
-                    <button id="loginBtn" class="darkBtn" onclick="signUp(); return false">Sign up</button>
+                    <button id="loginBtn" class="darkBtn" type="submit">Sign up</button>
                 </div>
             </form>
         </div>

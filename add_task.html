@@ -17,21 +17,21 @@
         <div>
             <h1>Add Task</h1>
         </div>
-        <section class="addTaskBody">
+        <section id="section99" class="addTaskBody">
 
             <form onsubmit="createTask()">
             <div class="input1">
                 <div>
-                    <p>Title*</p>
-                    <input type="text" placeholder="Enter a title">
+                    <p>Title<b>*</b></p>
+                    <input id="inputTitle" type="text" placeholder="Enter a title" required>
                 </div>
                 <div>
                     <p>Description</p>
-                    <textarea name="" id="" placeholder="Enter a Description"></textarea>
+                    <textarea name="" id="inputDescription" placeholder="Enter a Description"></textarea>
                 </div>
                 <div>
                     <p>Assigned to</p>
-                    <select name="User" id="" aria-placeholder="Select contacts to assign">
+                    <select name="User" id="assignetTo" aria-placeholder="Select contacts to assign">
                         <option value="Test1">Test1</option>
                         <option value="Test2">Test2</option>
                         <option value="Test3">Test3</option>
@@ -41,8 +41,8 @@
             <div class="borderLine"></div>
             <div class="input2">
                 <div>
-                    <p>Due date</p>
-                    <input type="date" name="" id="" placeholder="dd/mm/yyyy">
+                    <p>Due date<b>*</b></p>
+                    <input type="date" name="" id="date" placeholder="dd/mm/yyyy" required>
                 </div>
                 <div class="prio">
                     <p>Prio</p>
@@ -51,31 +51,31 @@
                             <img id="imgUrgent" src="Assets/img/Prio altaUrgent_symbole.svg" alt="">
                         </div>
                         <div onclick="changePriority(medium)" id="medium" class="center">Medium
-                            <img src="Assets/img/Prio mediaMedium_symbole.svg" alt="">
+                            <img id="imgMedium" src="Assets/img/Prio mediameduim_white.svg" alt="">
                         </div>
                         <div onclick="changePriority(low)" id="low" class="center">Low
-                            <img src="Assets/img/Prio bajaLow_symbole.svg" alt="">
+                            <img id="imgLow" src="Assets/img/Prio bajaLow_symbole.svg" alt="">
                         </div>
                     </div>
                 </div>
                 <div>
-                    <p>Category</p>
-                    <select name="" id="" aria-placeholder="Select task category">
+                    <p>Category<b>*</b></p>
+                    <select name="" id="category" aria-placeholder="Select task category" required>
                         <option value="Technical Task">Technical Task</option>
                         <option value="User Story">User Story</option>
                     </select>
                 </div>
                 <div>
                     <p>Subtasks</p>
-                    <input type="text" placeholder="Add new subtask">
+                    <input id="subtask" type="text" placeholder="Add new subtask">
                 </div>
             </div>
             </form>
         </section>
         <section class="submitSection">
-            <p>*This field is required</p>
+            <p><b>*</b>This field is required</p>
             <div class="buttns">
-                <div class="btn">Clear</div>
+                <div onclick="clearTask()" class="btn">Clear</div>
                 <div onclick="createTask()" class="darkBTN">Create Task</div>
             </div>
         </section>
