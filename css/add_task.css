@@ -25,9 +25,10 @@ form div div div {
         padding: 0px 15px 0px 15px;
         border: 1px solid rgba(209, 209, 209, 1);
         border-radius: 10px;
+        outline: none;
     }
     input:focus {
-        border: 1px solid rgba(41, 171, 226, 1) !important;
+        border: 1px solid rgba(41, 171, 226, 1);
     }
     textarea {
         width: 100%;
@@ -39,6 +40,7 @@ form div div div {
     select {
         width: 100%;
         height: 48px;
+        border: unset;
         border: 1px solid rgba(209, 209, 209, 1);
         border-radius: 10px;
     }
@@ -153,6 +155,11 @@ h1 {
 .backgroundLow {
     background-color: rgba(122, 226, 41, 1) !important;
     color: rgba(255, 255, 255, 1);
+}
+
+.options {
+    display: flex;
+    height: 48px;
 }
 
 .submitSection {

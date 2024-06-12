@@ -39,7 +39,40 @@ function headerHTML() {
         <h1>Kanban Project Managemant Tool</h1>
         <div class="headerIcons">
             <img onclick="help()" src="Assets/img/help.svg" alt="Help">
-            <img class="circle" alt="">
+            <div onclick="openDropDownMenu()" class="circle"><span>SM</span></div>
+            <div id="dropDown-bg" class="dropDown-bg d-none" onclick="closeDropDown()">
+                <div id="dropDown"></div>
+            </div>
         </div>
     `;
+}
+
+function openDropDownMenu() {
+    document.getElementById('dropDown-bg').classList.remove('d-none');
+    dt = document.getElementById("dropDown");
+    dt.innerHTML = /*html*/`
+      <div onclick="goToLN()">Legal Notice</div>
+      <div onclick="goToPP()">Privacy Policy</div>
+      <div onclick="logout()">Log out</div>  
+    `;
+}
+
+function doNotClose(event) {
+    event.stopPropagation(); // stopPropagation verhindert das sich das popup div schliesst wenn man darauf drückt
+}
+
+function closeDropDown() {
+    document.getElementById('dropDown-bg').classList.add('d-none');
+}
+
+function logout() {
+    window.location.href="login.html"
+}
+
+function goToPP() {
+    window.location.href="privacy_policy.html"
+}
+
+function goToLN() {
+    window.location.href="legal_notice.html"
 }

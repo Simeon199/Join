@@ -82,3 +82,7 @@ footer a:hover {
 */ .loginFrame {
   height: 96vh;
 }
+
+.d-none {
+  display: none;
+}
