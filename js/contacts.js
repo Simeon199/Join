@@ -1,5 +1,35 @@
 let allUsers = [];
 let firstUsersNameLetter = [];
+let colors = [
+  "#4B3C99", // MB
+  "#FF4646", // TW
+  "#FF8C1A", // AM
+  "#AA4FFF", // AS
+  "#6464FF", // BZ
+  "#DE1AFF", // DE
+  "#FFC61A", // EF
+  "#32D4C3", // EM
+  "#FF5733", // New Color 1
+  "#33FF57", // New Color 2
+  "#3357FF", // New Color 3
+  "#FF33A8", // New Color 4
+  "#A833FF", // New Color 5
+  "#33FFDD", // New Color 6
+  "#FFDD33", // New Color 7
+  "#DD33FF", // New Color 8
+  "#FF336B", // New Color 9
+  "#6BFF33", // New Color 10
+  "#1E3A55", // New Color 11
+  "#FFA500", // New Color 12
+  "#00CED1", // New Color 13
+  "#8A2BE2", // New Color 14
+  "#A52A2A", // New Color 15
+  "#7FFF00", // New Color 16
+  "#D2691E", // New Color 17
+  "#FF7F50", // New Color 18
+  "#DC143C", // New Color 19
+  "#008B8B", // New Color 20
+];
 
 // initContact
 async function initContact() {
@@ -23,6 +53,7 @@ async function getAllContacts(path = "") {
       name: userD.name,
       email: userD.email,
       phone: userD.number,
+      color: userD.color,
     };
 
     allUsers.push(newUser);
@@ -97,10 +128,11 @@ function returnContactHTML(j, user) {
   let userEmail = user["email"];
   let userNumber = user["phone"];
   let userID = user["id"];
+  let userColor = user["color"];
   return /*html*/ `
-            <div class="contact" onclick="toggleBigContact(${j},'${userName}','${userEmail}','${userNumber}','${userID}')">
+            <div class="contact" onclick="toggleBigContact(${j},'${userName}','${userEmail}','${userNumber}','${userID}','${userColor}')">
               <!-- profile badge -->
-            <div class="profile-badge">
+            <div class="profile-badge" style='background-color: ${userColor}'>
               <p>${firstLetterFirstTwoWords(userName)}</p>
             </div>
           
@@ -115,7 +147,7 @@ function returnContactHTML(j, user) {
 let activeContactIndex = null;
 
 // toggleBigContact
-function toggleBigContact(i, userName, userEmail, userNumber, userID) {
+function toggleBigContact(i, userName, userEmail, userNumber, userID, userColor) {
   let bigContact = document.getElementById("big-contact");
   let contactEl = document.querySelectorAll(".contact")[i];
 
@@ -126,7 +158,7 @@ function toggleBigContact(i, userName, userEmail, userNumber, userID) {
     activeContactIndex = null;
   } else {
     // Select the contact
-    renderBigContact(userName, userEmail, userNumber, userID, i);
+    renderBigContact(userName, userEmail, userNumber, userID, i, userColor);
     if (activeContactIndex !== null) {
       document.querySelectorAll(".contact")[activeContactIndex].classList.remove("contact-aktiv");
     }
@@ -139,8 +171,9 @@ function toggleBigContact(i, userName, userEmail, userNumber, userID) {
 }
 
 // renderBigContact
-function renderBigContact(userName, userEmail, userNumber, userID, i) {
+function renderBigContact(userName, userEmail, userNumber, userID, i, userColor) {
   document.getElementById("big-profile-badge").innerHTML = firstLetterFirstTwoWords(userName);
+  document.getElementById("big-profile-badge").style.backgroundColor = userColor;
 
   document.getElementById("big-name").innerHTML = userName;
 
@@ -149,7 +182,7 @@ function renderBigContact(userName, userEmail, userNumber, userID, i) {
   document.getElementById("big-number").innerHTML = userNumber;
 
   document.getElementById("icon-container").innerHTML = /*html*/ `
-    <div id="edit-contact" onclick='showPopUp(),renderEditContactPopUp("${userID}","${userName}","${userEmail}","${userNumber}","${i}")'>
+    <div id="edit-contact" onclick='showPopUp(),renderEditContactPopUp("${userID}","${userName}","${userEmail}","${userNumber}","${i}","${userColor}")'>
       <svg
         width="19"
         height="19"
@@ -453,10 +486,11 @@ function returnAddContactPopUpFormHTML() {
 }
 
 // renderEditContactPopUp
-function renderEditContactPopUp(userID, userName, userEmail, userNumber, i) {
+function renderEditContactPopUp(userID, userName, userEmail, userNumber, i, userColor) {
   document.getElementById("pop-up-inputs-container").innerHTML = returnEditContactPopUpFormHTML(
     userID,
-    i
+    i,
+    userColor
   );
 
   document.getElementById("pop-up-headline-container").innerHTML =
@@ -464,7 +498,7 @@ function renderEditContactPopUp(userID, userName, userEmail, userNumber, i) {
 
   document.getElementById("pop-up-contact-logo").innerHTML =
     returnEditContactPopUpLogoHTML(userName);
-  document.getElementById("pop-up-contact-logo").style.backgroundColor = "#ff7a00";
+  document.getElementById("pop-up-contact-logo").style.backgroundColor = userColor;
 
   document.getElementById("pop-up-name-input").value = userName;
   document.getElementById("pop-up-email-input").value = userEmail;
@@ -486,9 +520,9 @@ ${firstLetterFirstTwoWords(userName)}
 }
 
 // returnEditContactPopUpFormHTML
-function returnEditContactPopUpFormHTML(userID, i) {
+function returnEditContactPopUpFormHTML(userID, i, userColor) {
   return /*html*/ `
-      <form onsubmit='editContact("${userID}","${i}"); return false;'>
+      <form onsubmit='editContact("${userID}","${i}","${userColor}"); return false;'>
         <div class="pop-up-input-container">
           <input 
           minlength = 2
@@ -601,7 +635,7 @@ function returnEditContactPopUpFormHTML(userID, i) {
         </div>
 
         <div id="pop-up-buttons-container">
-          <button id="pop-up-cancel-button" onclick="deleteContact('${userID}')">
+          <button id="pop-up-cancel-button" type="button" onclick="deleteContact('${userID}'), hidePopUp()">
             Delete
           </button>
 
@@ -631,19 +665,13 @@ function returnEditContactPopUpFormHTML(userID, i) {
 }
 
 // editContact
-async function editContact(userID, i) {
+async function editContact(userID, i, userColor) {
+  showLoadScreen();
   await deleteData("/users/" + userID);
 
-  addNewContact();
+  addNewContact(userColor);
 
-  let bigContact = document.getElementById("big-contact");
-  let contactEl = document.querySelectorAll(".contact")[i];
-
-  contactEl.classList.add("contact-aktiv");
-  bigContact.classList.remove("hide-big-contact");
-  activeContactIndex = i;
-
-  contactEl.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  hideLoadScreen();
 }
 
 // showPopUp
@@ -663,8 +691,16 @@ function stopEvent(event) {
   event.stopPropagation();
 }
 
+// randomColor
+function randomColor() {
+  let randomIndex = Math.floor(Math.random() * colors.length);
+  return colors[randomIndex];
+}
+
 // addNewContact
-async function addNewContact() {
+async function addNewContact(bgColor = randomColor()) {
+  showLoadScreen();
+
   await hidePopUp();
 
   let nameInputValue = document.getElementById("pop-up-name-input").value;
@@ -675,6 +711,7 @@ async function addNewContact() {
     name: nameInputValue,
     email: emailInputValue,
     number: phoneInputValue,
+    color: bgColor,
   });
 
   await initContact();
@@ -684,8 +721,22 @@ async function addNewContact() {
   let userEmail = allUsers[index]["email"];
   let userNumber = allUsers[index]["phone"];
   let userID = allUsers[index]["id"];
+  let userColor = allUsers[index]["color"];
 
-  toggleBigContact(index, userName, userEmail, userNumber, userID);
+  // toggleBigContact(index, userName, userEmail, userNumber, userID);
+
+  renderBigContact(userName, userEmail, userNumber, userID, index, userColor);
+
+  let bigContact = document.getElementById("big-contact");
+  let contactEl = document.querySelectorAll(".contact")[index];
+
+  contactEl.classList.add("contact-aktiv");
+  bigContact.classList.remove("hide-big-contact");
+  activeContactIndex = index;
+
+  contactEl.scrollIntoView({ behavior: "smooth", block: "nearest" });
+
+  hideLoadScreen();
 }
 
 // postNewContact
@@ -712,4 +763,13 @@ async function deleteData(path = "") {
     method: "DELETE",
   });
   return (responseToJson = await response.json());
+}
+
+// load screen
+function showLoadScreen() {
+  document.getElementById("load-screen").classList.remove("d-none");
+}
+
+function hideLoadScreen() {
+  document.getElementById("load-screen").classList.add("d-none");
 }

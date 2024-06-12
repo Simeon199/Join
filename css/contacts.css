@@ -2,6 +2,10 @@ body {
   overflow: hidden;
 }
 
+body .d-none {
+  display: none;
+}
+
 /* contact list container */
 #contact-list-container {
   min-width: 352px;
@@ -147,9 +151,6 @@ body {
   height: 42px;
 
   border: 2px solid #ffffff;
-
-  /* render bg color */
-  background: #ff7a00;
 
   color: white;
 
@@ -545,18 +546,6 @@ body .translate-100 {
   outline: none;
 }
 
-/* Chrome, Safari, Edge, Opera */
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-/* Firefox */
-input[type="number"] {
-  -moz-appearance: textfield;
-}
-
 .pop-up-input::placeholder {
   font-size: 20px;
   font-weight: 400;
@@ -674,4 +663,17 @@ input[type="number"] {
 
 #pop-up-cancel-button:hover .pop-up-cancel-button-svg path {
   fill: #29abe2;
+}
+
+/* load-screen */
+#load-screen {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  background-color: rgba(0, 0, 0, 0.5);
+
+  z-index: 999;
 }
