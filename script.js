@@ -124,7 +124,10 @@ function signUp(event){
     let password = document.getElementById('loginPassword').value;
     let passwordRepeat = document.getElementById('loginPasswordRepeat').value;
     let privacyPolicity = document.getElementById('privacyPolicity');
-    checkSignInRequirements(email, password, passwordRepeat, privacyPolicity);
+    let signUpValid = checkSignInRequirements(email, password, passwordRepeat, privacyPolicity);
+    if(!signUpValid){
+        return;
+    }
     let user = buildUserFunction(name, email, password);
     createUserAndShowPopup(path="", user);
 }
@@ -141,6 +144,7 @@ function checkSignInRequirements(email, password, passwordRepeat, privacyPolicit
         alert("Akzeptieren Sie die Privacy Policy um fortzufahren");
         return;
     }
+    return true;
 }
 
 function buildUserFunction(name, email, password){
