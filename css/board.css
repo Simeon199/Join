@@ -1,0 +1,180 @@
+* {
+  box-sizing: border-box;
+}
+
+/* main headline */
+#main-headline {
+  display: flex;
+  justify-content: space-between;
+
+  width: 100%;
+}
+
+#main-headline h1 {
+  font-size: 61px;
+  font-weight: 700;
+}
+
+#search-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  gap: 32px;
+}
+
+#search-input-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  min-height: 48px;
+  border-radius: 10px;
+
+  background-color: white;
+
+  border: 1px solid #a8a8a8;
+}
+
+#search-input-container:has(#search-input:focus) {
+  border: 1px solid #29abe2;
+}
+
+#search-input {
+  width: 100%;
+  min-height: 48px;
+
+  padding: 8px 16px;
+
+  border-radius: 10px;
+
+  font-size: 20px;
+  font-weight: 400;
+
+  outline: none;
+  border: none;
+}
+
+#search-input::placeholder {
+  font-size: 20px;
+  font-weight: 400;
+
+  color: #d1d1d1;
+}
+
+#search-icon {
+  box-sizing: unset;
+
+  height: 20px;
+  width: 20px;
+
+  padding: 5px 20px;
+
+  border-left: 1px solid #d1d1d1;
+
+  cursor: pointer;
+}
+
+#add-task-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  min-height: 48px;
+  padding: 8px 16px;
+  border-radius: 10px;
+
+  background: #2a3647;
+  color: white;
+
+  font-size: 21px;
+  font-weight: 700;
+
+  border: none;
+
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+#add-task-button:hover {
+  box-shadow: 0px 4px 4px 0px #00000040;
+  background: #29abe2;
+}
+
+#add-task-button:active {
+  box-shadow: none;
+  background: #091931;
+}
+
+#add-task-button-icon {
+  box-sizing: unset;
+
+  padding: 0 10px;
+}
+
+/* all sections */
+#all-sections-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  width: 100%;
+
+  gap: 15px;
+}
+
+.board-section {
+  width: 100%;
+
+  max-width: 250px;
+}
+
+.section-headline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  width: 100%;
+}
+
+.section-headline h2 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #42526e;
+}
+
+.plus-icon-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 24px;
+  height: 24px;
+  padding: 3px;
+
+  border: 2px solid #2a3647;
+  border-radius: 8px;
+}
+
+.plus-icon-container svg path {
+  stroke: #2a3647;
+}
+
+.no-task {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 100%;
+
+  border: 2px dotted #a8a8a8;
+  box-shadow: 0px 0px 4px 0px #00000029;
+  background: #e7e7e7;
+
+  border-radius: 10px;
+
+  font-size: 16px;
+  font-weight: 400;
+  color: #a8a8a8;
+}
