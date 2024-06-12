@@ -37,10 +37,10 @@ function backToLogin() {
     window.location.href= "login.html"
 }
 
-function invokeFunctions(){
-    loadData();
-    // checkIfUserIsLoggedIn();
-}
+// function invokeFunctions(){
+//     loadData();
+//     checkIfUserIsLoggedIn();
+// }
 
 function logout(){
     localStorage.removeItem('isLoggedIn');
@@ -50,35 +50,52 @@ function logout(){
     window.location.href = 'login.html';
 }
 
+function createLoggedInStatusObject() {
+    let obj = {
+        'status': localStorage.getItem('isLoggedIn'),
+        'currentUser': localStorage.getItem('currentUser'),
+        'sessionUser': sessionStorage.getItem('currentUser'),
+        'sessionStatus': sessionStorage.getItem('isLoggedIn'),
+        'currentPath': window.location.pathname.split('/').pop(),
+        'guestLoginStatus': sessionStorage.getItem('guestLoginStatus')
+    }
+    return obj;
+}
+
+function setStorageAttributes(){
+    sessionStorage.removeItem('isLoggedIn');
+    sessionStorage.removeItem('currentUser');
+    sessionStorage.removeItem('guestLoginStatus');
+    console.log("Sitzung abgelaufen. Benutzerdaten entfernt.");
+}
+
 function checkIfUserIsLoggedIn(){
-    let status = localStorage.getItem('isLoggedIn');
-    let currentUser = localStorage.getItem('currentUser');
-    let sessionUser = sessionStorage.getItem('currentUser');
-    let sessionStatus = sessionStorage.getItem('isLoggedIn');
-    let currentPath = window.location.pathname.split('/').pop();
-    let guestLoginStatus = sessionStorage.getItem('guestLoginStatus');
-    if(guestLoginStatus == 'true'){
-        if(currentPath !== 'summary.hmtl'){
+    let LoggedInObject = createLoggedInStatusObject();
+    if(LoggedInObject["guestLoginStatus"] == 'true'){
+        if(LoggedInObject["currentPath"] !== 'summary.hmtl'){
             console.log('Nutzer ist als Gast eingeloggt');
         }
-    } else if((status === 'true' && currentUser) || (sessionStatus === 'true' && sessionUser)){
+    } else if((LoggedInObject["status"] === 'true' && LoggedInObject["currentUser"]) || (LoggedInObject["sessionStatus"] === 'true' && LoggedInObject["sessionUser"])){
         console.log("Nutzer ist eingeloggt");
     } else {
-        if(currentPath !== 'register.html' && currentPath !== 'login.html'){
+        if(LoggedInObject["currentPath"] !== 'register.html' && LoggedInObject["currentPath"] !== 'login.html'){
             window.location.href='login.html';
         }
     }
-    if (sessionStatus === 'true' && !sessionUser) {
-        sessionStorage.removeItem('isLoggedIn');
-        sessionStorage.removeItem('currentUser');
-        sessionStorage.removeItem('guestLoginStatus');
-        console.log("Sitzung abgelaufen. Benutzerdaten entfernt.");
+    if (LoggedInObject["sessionStatus"] === 'true' && !LoggedInObject["sessionUser"]){
+        setStorageAttributes();
     }
 }
 
-function saveLoggedInStatus(email){
-    localStorage.setItem('isLoggedIn', 'true');
-    localStorage.setItem('currentUser', email);
+function saveLoggedInStatus(email, remember){
+    if(remember){
+        localStorage.setItem('isLoggedIn', 'true');
+        localStorage.setItem('currentUser', email);
+    } else {
+        sessionStorage.setItem('isLoggedIn', 'true');
+        sessionStorage.setItem('currentUser', email);
+    }
+    return;
 }
 
 async function testLoginFunction(event){
@@ -90,15 +107,8 @@ async function testLoginFunction(event){
     for(let key in response){
         let user = response[key];
         if(user["email"] && user["password"]){
-            let email = user["email"];
-            let password = user["password"];
-            if(loginEmail == email && loginPassword == password){
-                if(remember){
-                    saveLoggedInStatus(email);
-                } else {
-                    sessionStorage.setItem('isLoggedIn', 'true');
-                    sessionStorage.setItem('currentUser', email);
-                }
+            if(loginEmail == user["email"] && loginPassword == user["password"]){
+                saveLoggedInStatus(user["email"], remember);
                 window.location.href = "summary.html";
                 return;
             }
@@ -114,8 +124,12 @@ function signUp(event){
     let password = document.getElementById('loginPassword').value;
     let passwordRepeat = document.getElementById('loginPasswordRepeat').value;
     let privacyPolicity = document.getElementById('privacyPolicity');
-    
-    // Check if the user inputs are valid before creating a new user
+    checkSignInRequirements(email, password, passwordRepeat, privacyPolicity);
+    let user = buildUserFunction(name, email, password);
+    createUserAndShowPopup(path="", user);
+}
+
+function checkSignInRequirements(email, password, passwordRepeat, privacyPolicity){
     if (!checkEmailAndPasswordWhenSignUp(email, password)){
         return;
     }
@@ -126,39 +140,8 @@ function signUp(event){
     if (!privacyPolicity.checked) {
         alert("Akzeptieren Sie die Privacy Policy um fortzufahren");
         return;
-    } 
-
-    let user = buildUserFunction(name, email, password);
-    createUserAndShowPopup(path="", user);
+    }
 }
-
-// function signUp(event){
-//     event.preventDefault();
-//     document.getElementById('registerPopup').classList.remove('d-none');
-//     document.getElementById('overlay').classList.remove('d-none');
-//     let name = document.getElementById('name').value;
-//     let email = document.getElementById('loginEmail').value;
-//     let password = document.getElementById('loginPassword').value;
-//     let passwordRepeat = document.getElementById('loginPasswordRepeat').value;
-//     let privacyPolicity = document.getElementById('privacyPolicity');
-//     createNewUser(name, email, password, passwordRepeat, privacyPolicity);
-// }
-
-// function createNewUser(name, email, password, passwordRepeat, privacyPolicity){
-//     if(!checkEmailAndPasswordWhenSignUp(email, password)){
-//         return;
-//     };
-//     if(password != passwordRepeat){
-//         alert("Wiederholtes Passwort stimmt nicht mit dem ersten eingegeben Passwort überein");
-//         return;
-//     } 
-//     if(!privacyPolicity.checked){
-//         alert("Akzeptieren Sie die Privacy Policy um fortzufahren");
-//         return;
-//     } 
-//     let user = buildUserFunction(name, email, password);
-//     pushNewUserToDataBase("", user);
-// }
 
 function buildUserFunction(name, email, password){
     let user = {
