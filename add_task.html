@@ -23,26 +23,34 @@
             <div class="input1">
                 <div>
                     <p>Title<b>*</b></p>
-                    <input id="inputTitle" type="text" placeholder="Enter a title" required>
+                    <div>
+                        <input id="inputTitle" type="text" placeholder="Enter a title" required>
+                    </div>
                 </div>
                 <div>
                     <p>Description</p>
-                    <textarea name="" id="inputDescription" placeholder="Enter a Description"></textarea>
+                    <div class="descriptionStyle">
+                        <textarea name="" id="inputDescription" placeholder="Enter a Description"></textarea>
+                    </div>
                 </div>
                 <div>
                     <p>Assigned to</p>
-                    <select name="User" id="assignetTo" aria-placeholder="Select contacts to assign">
-                        <option value="Test1">Test1</option>
-                        <option value="Test2">Test2</option>
-                        <option value="Test3">Test3</option>
-                    </select>
+                    <div>
+                        <select name="User" id="assignetTo" aria-placeholder="Select contacts to assign">
+                            <option value="Test1">Test1</option>
+                            <option value="Test2">Test2</option>
+                            <option value="Test3">Test3</option>
+                        </select>
+                    </div>
                 </div>
             </div>
             <div class="borderLine"></div>
             <div class="input2">
                 <div>
                     <p>Due date<b>*</b></p>
-                    <input type="date" name="" id="date" placeholder="dd/mm/yyyy" required>
+                    <div>
+                        <input type="date" name="" id="date" placeholder="dd/mm/yyyy" required>
+                    </div>
                 </div>
                 <div class="prio">
                     <p>Prio</p>
@@ -60,25 +68,30 @@
                 </div>
                 <div>
                     <p>Category<b>*</b></p>
-                    <select name="" id="category" aria-placeholder="Select task category" required>
-                        <option value="Technical Task">Technical Task</option>
-                        <option value="User Story">User Story</option>
-                    </select>
+                    <div>
+                        <select name="" id="category" aria-placeholder="Select task category" required>
+                            <option value="Technical Task">Technical Task</option>
+                            <option value="User Story">User Story</option>
+                        </select>
+                    </div>
                 </div>
                 <div>
                     <p>Subtasks</p>
-                    <input id="subtask" type="text" placeholder="Add new subtask">
+                    <div>
+                        <input id="subtask" type="text" placeholder="Add new subtask">
+                    </div>
                 </div>
             </div>
+            <section class="submitSection">
+                <p><b>*</b>This field is required</p>
+                <div class="buttons">
+                    <div onclick="clearTask()" class="btn">Clear</div>
+                    <div submit class="darkBTN">Create Task</div>
+                </div>
+            </section>
             </form>
         </section>
-        <section class="submitSection">
-            <p><b>*</b>This field is required</p>
-            <div class="buttns">
-                <div onclick="clearTask()" class="btn">Clear</div>
-                <div onclick="createTask()" class="darkBTN">Create Task</div>
-            </div>
-        </section>
+        
     </div>
 </body>
 </html>
