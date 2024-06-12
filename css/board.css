@@ -200,3 +200,105 @@
   font-weight: 400;
   color: #a8a8a8;
 }
+
+/* task */
+.task {
+  width: 100%;
+
+  border-radius: 24px;
+
+  padding: 15px;
+
+  background: #ffffff;
+  box-shadow: 0px 0px 10px 3px #00000014;
+}
+
+.task-category {
+  width: fit-content;
+  padding: 5px 16px;
+  border-radius: 8px;
+  color: white;
+
+  /* bg rendern !!! */
+  background: #0038ff;
+}
+
+.task-title {
+  font-size: 16px;
+  font-weight: 700;
+
+  color: #2a3647;
+}
+
+.task-description {
+  font-size: 16px;
+  font-weight: 400;
+
+  color: #a8a8a8;
+}
+
+.task-bar-container {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+}
+
+.task-bar {
+  width: 128px;
+  height: 8px;
+
+  border-radius: 8px;
+
+  background: #f4f4f4;
+}
+
+.task-bar-text {
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.task-contacts-container {
+  display: flex;
+  justify-content: space-between;
+
+  width: 100%;
+
+  padding: 15px 0;
+}
+
+.task-contacts {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.task-contact {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  color: white;
+
+  height: 40px;
+  width: 40px;
+  border-radius: 100%;
+
+  border: 1px solid #ffffff;
+
+  background: #1fd7c1;
+
+  margin-left: -10px;
+}
+
+.task-contact:first-child {
+  background: #ff7a00;
+
+  margin-left: 0;
+}
+
+.task-contact:last-child {
+  background: #462f8a;
+}
