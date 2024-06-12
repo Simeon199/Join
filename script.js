@@ -109,31 +109,56 @@ async function testLoginFunction(event){
 
 function signUp(event){
     event.preventDefault();
-    document.getElementById('registerPopup').classList.remove('d-none');
-    document.getElementById('overlay').classList.remove('d-none');
     let name = document.getElementById('name').value;
     let email = document.getElementById('loginEmail').value;
     let password = document.getElementById('loginPassword').value;
     let passwordRepeat = document.getElementById('loginPasswordRepeat').value;
     let privacyPolicity = document.getElementById('privacyPolicity');
-    createNewUser(name, email, password, passwordRepeat, privacyPolicity);
-}
-
-function createNewUser(name, email, password, passwordRepeat, privacyPolicity){
-    if(!checkEmailAndPasswordWhenSignUp(email, password)){
+    
+    // Check if the user inputs are valid before creating a new user
+    if (!checkEmailAndPasswordWhenSignUp(email, password)){
         return;
-    };
-    if(password != passwordRepeat){
+    }
+    if (password !== passwordRepeat) {
         alert("Wiederholtes Passwort stimmt nicht mit dem ersten eingegeben Passwort überein");
         return;
     } 
-    if(!privacyPolicity.checked){
+    if (!privacyPolicity.checked) {
         alert("Akzeptieren Sie die Privacy Policy um fortzufahren");
         return;
     } 
+
     let user = buildUserFunction(name, email, password);
-    pushNewUserToDataBase("", user);
+    createUserAndShowPopup(path="", user);
 }
+
+// function signUp(event){
+//     event.preventDefault();
+//     document.getElementById('registerPopup').classList.remove('d-none');
+//     document.getElementById('overlay').classList.remove('d-none');
+//     let name = document.getElementById('name').value;
+//     let email = document.getElementById('loginEmail').value;
+//     let password = document.getElementById('loginPassword').value;
+//     let passwordRepeat = document.getElementById('loginPasswordRepeat').value;
+//     let privacyPolicity = document.getElementById('privacyPolicity');
+//     createNewUser(name, email, password, passwordRepeat, privacyPolicity);
+// }
+
+// function createNewUser(name, email, password, passwordRepeat, privacyPolicity){
+//     if(!checkEmailAndPasswordWhenSignUp(email, password)){
+//         return;
+//     };
+//     if(password != passwordRepeat){
+//         alert("Wiederholtes Passwort stimmt nicht mit dem ersten eingegeben Passwort überein");
+//         return;
+//     } 
+//     if(!privacyPolicity.checked){
+//         alert("Akzeptieren Sie die Privacy Policy um fortzufahren");
+//         return;
+//     } 
+//     let user = buildUserFunction(name, email, password);
+//     pushNewUserToDataBase("", user);
+// }
 
 function buildUserFunction(name, email, password){
     let user = {
@@ -158,29 +183,41 @@ function checkEmailAndPasswordWhenSignUp(email, password){
     return true
 }
 
-async function pushNewUserToDataBase(path="", user){
+async function postDataToDatabase(path, data) {
     try {
         let response = await fetch(BASE_URL + path + ".json", {
             method: "POST",
-            header: {
+            headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify(user)
-        })
-        if(!response.ok){
-            throw new Error('Network response was not ok' + response.statusText);
-        } 
-        responseToJson = await response.json();
-        let registerPopup = document.getElementById('registerPopup');
-        registerPopup.classList.remove('d-none');
+            body: JSON.stringify(data)
+        });
+        if (!response.ok) {
+            throw new Error('Network response was not ok: ' + response.statusText);
+        }
+        return await response.json();
+    } catch (error) {
+        console.error('Es gab ein Problem mit der Registrierung:', error);
+        throw error;
+    }
+}
+
+async function createUserAndShowPopup(path, user) {
+    try {
+        let responseToJson = await postDataToDatabase(path, user);
+        showRegisterPopup();
         setTimeout(() => {
             window.location.href = 'login.html';
-        }, 2000); 
+        }, 1000);
         return responseToJson;
-    } catch(error){
-        console.error('Es gab ein Problem mit ihrer Fetch-Operation:', error);
+    } catch (error) {
         alert('Es gab ein Problem bei der Registrierung. Bitte versuchen Sie es später erneut');
     }
+}
+
+function showRegisterPopup() {
+    let registerPopup = document.getElementById('registerPopup');
+    registerPopup.classList.remove('d-none');
 }
 
 function checkIfEmailValid(email){
