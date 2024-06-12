@@ -75,6 +75,14 @@
   cursor: pointer;
 }
 
+#search-icon path {
+  transition: 0.2s;
+}
+
+#search-icon:hover path {
+  fill: #29abe2;
+}
+
 #add-task-button {
   display: flex;
   justify-content: center;
@@ -151,14 +159,28 @@
 
   width: 24px;
   height: 24px;
-  padding: 3px;
+  padding-bottom: 1px;
 
   border: 2px solid #2a3647;
   border-radius: 8px;
+
+  transition: 0.2s;
 }
 
 .plus-icon-container svg path {
   stroke: #2a3647;
+
+  transition: 0.2s;
+}
+
+.plus-icon-container:hover {
+  border: 2px solid #29abe2;
+
+  cursor: pointer;
+}
+
+.plus-icon-container:hover svg path {
+  stroke: #29abe2;
 }
 
 .no-task {
