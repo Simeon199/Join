@@ -58,14 +58,15 @@ function changeImg(condition) {
 }
 
 function createTask() {
-    
+    console.log("create");
 }
 
 function clearTask() {
+    console.log(inputTitle.value);
     inputTitle.value= '';
-    inputDescription.value='';
-    assignetTo.value='';
-    date.value = '';
-    category.value = '';
-    subtask.value='';
+    // inputDescription.value='';
+    // assignetTo.value='';
+    // date.value = '';
+    // category.value = '';
+    // subtask.value='';
 }
