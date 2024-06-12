@@ -4,9 +4,11 @@
 } */
 
 .image-container {
-    position: fixed;
+    align-self: baseline;
+    padding-left: 24px;
+    /* position: fixed;
     top: 24px;
-    left: 24px;
+    left: 24px; */
 }
 
 .loginAndArrow {
@@ -100,6 +102,16 @@ a {
     }
     to {
         opacity: 1;
+    }
+}
+
+@media(max-width: 800px){
+    .image-container {
+        align-self: unset;
+    }
+
+    .loginFrame {
+        gap: 32px;
     }
 }
 
