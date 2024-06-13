@@ -1,3 +1,5 @@
+let username = "marcel zalec"
+
 function initSidebar() {
     sidebarHTML();
     headerHTML();
@@ -39,8 +41,8 @@ function headerHTML() {
         <h1>Kanban Project Managemant Tool</h1>
         <div class="headerIcons">
             <img onclick="help()" src="Assets/img/help.svg" alt="Help">
-            <div onclick="openDropDownMenu()" class="circle"><span>SM</span></div>
-            <div id="dropDown-bg" class="dropDown-bg d-none" onclick="closeDropDown()">
+            <div onclick="openDropDownMenu()" class="circle"><span onload="firstLetterFirstTwoWords(username)"></span></div>
+            <div id="dropDown-bg" class="dropDown-bg d-none" onclick="closeDropDownMenu()">
                 <div id="dropDown"></div>
             </div>
         </div>
@@ -57,11 +59,7 @@ function openDropDownMenu() {
     `;
 }
 
-function doNotClose(event) {
-    event.stopPropagation(); // stopPropagation verhindert das sich das popup div schliesst wenn man darauf drückt
-}
-
-function closeDropDown() {
+function closeDropDownMenu() {
     document.getElementById('dropDown-bg').classList.add('d-none');
 }
 
@@ -76,3 +74,16 @@ function goToPP() {
 function goToLN() {
     window.location.href="legal_notice.html"
 }
+
+function firstLetterFirstTwoWords(text) {
+    // Split the string into words
+    const words = text.split(" ");
+  
+    // Extract the first letter of each word
+    const firstLetters = words.map((word) => word.charAt(0));
+  
+    // Concatenate the first two letters into a string
+    const result = firstLetters.slice(0, 2).join("");
+  
+    return result.toUpperCase();
+  }
