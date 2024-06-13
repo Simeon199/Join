@@ -43,7 +43,7 @@ async function initContact() {
 async function getAllContacts(path = "") {
   let response = await fetch(BASE_URL + path + ".json");
   let responseJson = await response.json();
-  let userData = responseJson["users"];
+  let userData = responseJson["contacts"];
 
   for (const key in userData) {
     const userD = userData[key];
@@ -240,7 +240,7 @@ function renderBigContact(userName, userEmail, userNumber, userID, i, userColor)
 async function deleteContact(userID) {
   document.getElementById("big-contact").classList.add("hide-big-contact");
 
-  await deleteData("/users/" + userID);
+  await deleteData("/contacts/" + userID);
 
   await initContact();
 }
@@ -667,7 +667,7 @@ function returnEditContactPopUpFormHTML(userID, i, userColor) {
 // editContact
 async function editContact(userID, i, userColor) {
   showLoadScreen();
-  await deleteData("/users/" + userID);
+  await deleteData("/contacts/" + userID);
 
   addNewContact(userColor);
 
@@ -707,7 +707,7 @@ async function addNewContact(bgColor = randomColor()) {
   let emailInputValue = document.getElementById("pop-up-email-input").value;
   let phoneInputValue = document.getElementById("pop-up-phone-input").value;
 
-  await postNewContact("/users", {
+  await postNewContact("/contacts", {
     name: nameInputValue,
     email: emailInputValue,
     number: phoneInputValue,
