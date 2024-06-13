@@ -283,6 +283,10 @@ footer a:hover {
     font-weight: bold;
 }
 
+.d-none {
+    display: none;
+}
+
 /* @media(max-width: 700px){
     header {
         justify-content: center;
