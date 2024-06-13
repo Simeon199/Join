@@ -70,3 +70,20 @@ function clearTask() {
     // category.value = '';
     // subtask.value='';
 }
+
+function showDropDownAssignedTo() {
+    document.getElementById('assignedTo').classList.remove('d-none');
+    document.getElementById('assignedTo').innerHTML = /*html*/`
+        
+    `;
+}
+
+function showDropDownCategory() {
+    document.getElementById('category').classList.remove('d-none');
+    document.getElementById('category').innerHTML = /*html*/`
+        <div>
+            <div>Technical Task</div>
+            <div>User Story</div>
+        </div>
+    `;
+}
