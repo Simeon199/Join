@@ -197,3 +197,45 @@ h1 {
 .btn:hover {
   cursor: pointer;
 }
+
+.drop-bg {
+  position: absolute;
+  max-width: 440px;
+  height: auto;
+  /* padding: 10px 0px 0px 0px; */
+  z-index: 9999;
+  flex-direction: column;
+}
+
+.drop-bg div {
+  height: 48px;
+  margin: 0px;
+  border: none;
+  justify-content: start;
+}
+
+.drop-bg div span {
+  padding-left: 10px;
+}
+
+.drop-bg div:hover {
+  cursor: pointer;
+  background-color: lightgrey;
+}
+
+#categoryDropDown {
+  margin: 0px;
+}
+
+#category {
+  margin-bottom: 0px;
+}
+
+@media (max-width: 900px) {
+  .prio div {
+    flex-direction: column !important;
+  }
+  .prio div div {
+    flex-direction: row !important;
+  }
+}

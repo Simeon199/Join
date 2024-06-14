@@ -200,29 +200,6 @@ function throwSignUpError() {
   signUpInput.appendChild(notification);
 }
 
-async function emailAlreadyExists(email) {
-  let response = await loadData((path = ""));
-  for (let key in response) {
-    let user = response[key];
-    let availabelEmail = user["email"];
-    if (availabelEmail == email) {
-      alert("Dieser Nutername ist schon vergeben!");
-      return true;
-    }
-  }
-  return false;
-}
-
-function throwSignUpError() {
-  let signUpInput = document.getElementById("signUpInput");
-  let signUpPasswordRepeat = document.getElementById("signUpPasswordRepeat");
-  signUpPasswordRepeat.style.border = "1px solid red";
-  let notification = document.createElement("div");
-  notification.classList.add("notification", "error");
-  notification.innerHTML = `<p>Ups! Your password dont match.</p>`;
-  signUpInput.appendChild(notification);
-}
-
 function buildUserFunction(name, email, password) {
   let user = {
     name: name,
