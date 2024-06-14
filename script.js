@@ -223,3 +223,37 @@ function checkIfPasswordIsValid(password){
     }
     return null;
 }
+
+function showPassword(variable){
+    let passwordContent = document.getElementById(variable);
+    let visibilityInputImage = document.getElementById('visibilityInputImage');
+    let visibilityInputImageRepeat = document.getElementById('visibilityInputImageRepeat');
+    let inputLock = document.getElementById('inputLock');
+    let inputLockRepeat = document.getElementById('inputLockRepeat');
+    checkAllCasesForShowPassword(variable, visibilityInputImage, visibilityInputImageRepeat, inputLock, inputLockRepeat);
+    checkPasswordContentType(passwordContent);
+}
+
+function checkAllCasesForShowPassword(variable, visibilityInputImage, visibilityInputImageRepeat, inputLock, inputLockRepeat){
+    if(variable == 'loginPassword' && visibilityInputImage.classList.contains('d-none')){
+        visibilityInputImage.classList.remove('d-none');
+        inputLock.classList.add('d-none');
+    } else if(variable == 'loginPassword' && inputLock.classList.contains('d-none')){
+        inputLock.classList.remove('d-none');
+        visibilityInputImage.classList.add('d-none');
+    } else if (variable == 'loginPasswordRepeat' && visibilityInputImageRepeat.classList.contains('d-none')){
+        visibilityInputImageRepeat.classList.remove('d-none');
+        inputLockRepeat.classList.add('d-none');
+    } else if(variable == 'loginPasswordRepeat' && inputLockRepeat.classList.contains('d-none')) {
+        inputLockRepeat.classList.remove('d-none');
+        visibilityInputImageRepeat.classList.add('d-none');
+    }
+}
+
+function checkPasswordContentType(passwordContent){
+    if(passwordContent.type == "password"){
+        passwordContent.type = "text";
+    } else {
+        passwordContent.type = "password";
+    }
+}

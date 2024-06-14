@@ -1,15 +1,17 @@
-/* .login {
-    position: absolute;
-    height: 630px;
-} */
+.header {
+    display: flex;
+    justify-content: space-between;
+}
 
-.image-container {
+.header img {
+    padding-top: 16px;
+    padding-left: 16px;
+}
+
+/* .image-container {
     align-self: baseline;
     padding-left: 24px;
-    /* position: fixed;
-    top: 24px;
-    left: 24px; */
-}
+} */
 
 .loginAndArrow {
     display: flex;
@@ -24,7 +26,6 @@
 
 .loginInput {
     flex: 1;
-    /* height: 286px; */
 }
 
 .checkbox {
@@ -42,9 +43,6 @@
 }
 
 .arrowLeft {
-    /* position: absolute;
-    top: 32px;
-    left: 32px; */
     width: 32px;
     height: 32px;
 }
@@ -115,22 +113,8 @@ a {
     }
 }
 
-/* .registerPopup {
-    background-color: aliceblue;
-    z-index: 1;
-    padding: 16px;
-    border: solid;
-    border-radius: 16px;
-} */
-
-/* @media (max-width:900px){
-    .login {
-        width: 80vw;
+@media(max-width: 700px){
+    .header {
+        justify-content: center;
     }
 }
-
-@media (max-width:700px) {
-    .login {
-        width: 55vw;
-    }
-} */
