@@ -74,7 +74,7 @@ function clearTask() {
 function showDropDownAssignedTo() {
     document.getElementById('assignedToDropDown').classList.remove('d-none');
     document.getElementById('assignedToDropDown').innerHTML = /*html*/`
-            <div>Test1</div>
+            <div onclick="hideDropDownAssignedTo()">Test1</div>
             <div>Test2</div>
             <div>Test3</div>
     `;
@@ -83,7 +83,15 @@ function showDropDownAssignedTo() {
 function showDropDownCategory() {
     document.getElementById('categoryDropDown').classList.remove('d-none');
     document.getElementById('categoryDropDown').innerHTML = /*html*/`
-            <div>Technical Task</div>
+            <div onclick="hideDropDownCategory()">Technical Task</div>
             <div>User Story</div>
     `;
+}
+
+function hideDropDownAssignedTo() {
+    document.getElementById('assignedToDropDown').classList.add('d-none');
+}
+
+function hideDropDownCategory() {
+    document.getElementById('categoryDropDown').classList.add('d-none');
 }

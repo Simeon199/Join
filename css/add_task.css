@@ -97,7 +97,7 @@ h1 {
 
 .input2 {
     width: 440px;
-    height: 416px;
+    height: 424px;
     padding: 20px;
     display: flex;
     align-items: center;
@@ -196,12 +196,11 @@ h1 {
 }
 
 .drop-bg {
-    position: relative;
-    /* top: 83px; */
+    position: absolute;
+    max-width: 440px;
     height: auto;
     padding: 10px 0px 0px 0px;
-    z-index: 99;
-    display: flex;
+    z-index: 9999;
     flex-direction: column;
 }
 
@@ -209,5 +208,25 @@ h1 {
     width: 90%;
     height: 48px;
     margin: 5px 0px 10px 0px;
+}
 
+.drop-bg div:hover {
+    cursor: pointer;
+}
+
+#categoryDropDown {
+    margin: 0px;
+}
+
+#category {
+    margin-bottom: 0px;
+}
+
+@media (max-width:900px) {
+    .prio div {
+        flex-direction: column !important;
+    }
+    .prio div div {
+        flex-direction: row !important;
+    }
 }
