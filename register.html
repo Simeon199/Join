@@ -26,7 +26,7 @@
     <section class="loginFrame">
         <div class="overlay d-none" id="overlay"></div>
         <div class="registerPopup d-none" id="registerPopup">
-            <h2>Die Registrierung war erfolgreich!</h2>
+            <p>Die Registrierung war erfolgreich!<p>
         </div>
         <!-- <div class="image-container">
             <img id="logoKlein" src="Assets/img/Capa2logo_klein.svg" alt="">
@@ -37,7 +37,7 @@
                 <h1>Sign up</h1>
             </div>
             <form id="signUpForm" onsubmit="return signUp(event)">
-                <div class="loginInput">
+                <div class="loginInput" id="signUpInput">
                     <div class="input">
                         <input id="name" class="loginInputStyle" type="text" placeholder="Name" required>
                         <img src="Assets/img/person.svg" alt="">
@@ -46,13 +46,15 @@
                         <input id="loginEmail" inputmode="email" class="loginInputStyle" type="email" placeholder="Email" required>
                         <img src="Assets/img/mail.svg" alt="">
                     </div>
-                    <div class="input">
+                    <div class="input" id="signUpPassword">
                         <input id="loginPassword" minlength="6" maxlength="16" class="loginInputStyle" type="password" placeholder="Password" required>
-                        <img src="Assets/img/lock.svg" alt="">
+                        <img src="Assets/img/lock.svg" alt="" id="inputLock" onclick="showPassword('loginPassword')">
+                        <img src="Assets/img/visibility_off.svg" id="visibilityInputImage" onclick="showPassword('loginPassword')" class="d-none" alt="">
                     </div>
-                    <div class="input">
+                    <div class="input" id="signUpPasswordRepeat">
                         <input id="loginPasswordRepeat" minlength="6" maxlength="16" class="loginInputStyle" type="password" placeholder="Confirm Password" required>
-                        <img src="Assets/img/lock.svg" alt="">
+                        <img src="Assets/img/lock.svg" alt="" id="inputLockRepeat" onclick="showPassword('loginPasswordRepeat')">
+                        <img src="Assets/img/visibility_off.svg" id="visibilityInputImageRepeat" onclick="showPassword('loginPasswordRepeat')" class="d-none" alt="">
                     </div>
                 </div>
                 <div class="checkbox">

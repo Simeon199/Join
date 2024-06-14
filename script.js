@@ -125,7 +125,23 @@ async function testLoginFunction(event) {
       }
     }
   }
-  alert("Eingegebene E-Mail oder Passwort sind falsch! Bitte versuchen Sie es erneut");
+  throwLoginError();
+}
+
+function throwLoginError() {
+  let loginPasswordInput = document.getElementById("loginPasswordInputField");
+  let loginInput = document.getElementById("loginInput");
+  let loginPassword = document.getElementById("loginPassword");
+  loginPassword.value = "";
+  loginPasswordInput.style.border = "1px solid red";
+  let existingNotification = document.querySelector(".notification.error");
+  if (existingNotification) {
+    existingNotification.remove();
+  }
+  let notification = document.createElement("div");
+  notification.classList.add("notification", "error");
+  notification.innerHTML = `<p>Ups! Wrong Password. Try again.</p>`;
+  loginInput.appendChild(notification);
 }
 
 function signUp(event) {
@@ -147,8 +163,11 @@ function checkSignInRequirements(email, password, passwordRepeat, privacyPolicit
   if (!checkEmailAndPasswordWhenSignUp(email, password)) {
     return;
   }
+  if (emailAlreadyExists(email) == true) {
+    return;
+  }
   if (password !== passwordRepeat) {
-    alert("Wiederholtes Passwort stimmt nicht mit dem ersten eingegeben Passwort überein");
+    throwSignUpError();
     return;
   }
   if (!privacyPolicity.checked) {
@@ -156,6 +175,52 @@ function checkSignInRequirements(email, password, passwordRepeat, privacyPolicit
     return;
   }
   return true;
+}
+
+async function emailAlreadyExists(email) {
+  let response = await loadData((path = ""));
+  for (let key in response) {
+    let user = response[key];
+    let availabelEmail = user["email"];
+    if (availabelEmail == email) {
+      alert("Dieser Nutername ist schon vergeben!");
+      return true;
+    }
+  }
+  return false;
+}
+
+function throwSignUpError() {
+  let signUpInput = document.getElementById("signUpInput");
+  let signUpPasswordRepeat = document.getElementById("signUpPasswordRepeat");
+  signUpPasswordRepeat.style.border = "1px solid red";
+  let notification = document.createElement("div");
+  notification.classList.add("notification", "error");
+  notification.innerHTML = `<p>Ups! Your password dont match.</p>`;
+  signUpInput.appendChild(notification);
+}
+
+async function emailAlreadyExists(email) {
+  let response = await loadData((path = ""));
+  for (let key in response) {
+    let user = response[key];
+    let availabelEmail = user["email"];
+    if (availabelEmail == email) {
+      alert("Dieser Nutername ist schon vergeben!");
+      return true;
+    }
+  }
+  return false;
+}
+
+function throwSignUpError() {
+  let signUpInput = document.getElementById("signUpInput");
+  let signUpPasswordRepeat = document.getElementById("signUpPasswordRepeat");
+  signUpPasswordRepeat.style.border = "1px solid red";
+  let notification = document.createElement("div");
+  notification.classList.add("notification", "error");
+  notification.innerHTML = `<p>Ups! Your password dont match.</p>`;
+  signUpInput.appendChild(notification);
 }
 
 function buildUserFunction(name, email, password) {
@@ -233,4 +298,67 @@ function checkIfPasswordIsValid(password) {
     return "Das Passwort muss mindestens einen Großbuchstaben, einen Kleinbuchstaben, eine Zahl und ein Sonderzeichen enthalten.";
   }
   return null;
+}
+
+function showPassword(variable) {
+  let passwordContent = document.getElementById(variable);
+  let visibilityInputImage = document.getElementById("visibilityInputImage");
+  let visibilityInputImageRepeat = document.getElementById("visibilityInputImageRepeat");
+  let inputLock = document.getElementById("inputLock");
+  let inputLockRepeat = document.getElementById("inputLockRepeat");
+  checkAllCasesForShowPassword(
+    variable,
+    visibilityInputImage,
+    visibilityInputImageRepeat,
+    inputLock,
+    inputLockRepeat
+  );
+  checkPasswordContentType(passwordContent);
+}
+
+function showLoginPassword(variable) {
+  let passwordContent = document.getElementById(variable);
+  let loginLock = document.getElementById("loginLock");
+  let visibilityInputImage = document.getElementById("visibilityInputImage");
+  if (variable == "loginPassword" && visibilityInputImage.classList.contains("d-none")) {
+    visibilityInputImage.classList.remove("d-none");
+    loginLock.classList.add("d-none");
+  } else {
+    visibilityInputImage.classList.add("d-none");
+    loginLock.classList.remove("d-none");
+  }
+  checkPasswordContentType(passwordContent);
+}
+
+function checkAllCasesForShowPassword(
+  variable,
+  visibilityInputImage,
+  visibilityInputImageRepeat,
+  inputLock,
+  inputLockRepeat
+) {
+  if (variable == "loginPassword" && visibilityInputImage.classList.contains("d-none")) {
+    visibilityInputImage.classList.remove("d-none");
+    inputLock.classList.add("d-none");
+  } else if (variable == "loginPassword" && inputLock.classList.contains("d-none")) {
+    inputLock.classList.remove("d-none");
+    visibilityInputImage.classList.add("d-none");
+  } else if (
+    variable == "loginPasswordRepeat" &&
+    visibilityInputImageRepeat.classList.contains("d-none")
+  ) {
+    visibilityInputImageRepeat.classList.remove("d-none");
+    inputLockRepeat.classList.add("d-none");
+  } else if (variable == "loginPasswordRepeat" && inputLockRepeat.classList.contains("d-none")) {
+    inputLockRepeat.classList.remove("d-none");
+    visibilityInputImageRepeat.classList.add("d-none");
+  }
+}
+
+function checkPasswordContentType(passwordContent) {
+  if (passwordContent.type == "password") {
+    passwordContent.type = "text";
+  } else {
+    passwordContent.type = "password";
+  }
 }

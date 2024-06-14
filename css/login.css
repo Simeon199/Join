@@ -177,6 +177,20 @@ h1 {
     color: rgba(41, 171, 226, 1);
 }
 
+.notification {
+    display: flex;
+    justify-content: center;
+}
+
+.notification p {
+    color: red;
+    font-size: 12px;
+}
+
+.input img {
+    cursor: pointer;
+}
+
 .signUp {
     /* position: absolute; */
     width: 279px;
@@ -259,6 +273,10 @@ footer {
     padding: 16px;
     /* width: 100%; */
     background: rgba(246, 247, 248, 1);
+    /* position: absolute;
+    right: 0;
+    left: 0;
+    bottom: 0; */
 }
 
 footer div {
@@ -281,6 +299,14 @@ footer a {
 
 footer a:hover {
     font-weight: bold;
+}
+
+.d-none {
+    display: none;
+}
+
+.red-border {
+    border-color: red;
 }
 
 /* @media(max-width: 700px){

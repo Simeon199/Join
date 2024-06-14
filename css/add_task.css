@@ -48,6 +48,9 @@ form div div div {
 .select span {
   padding: 0px 10px 0px 10px;
 }
+.select:focus {
+  border: 1px solid rgba(41, 171, 226, 1);
+}
 #arrow {
   display: flex;
   padding: 0px 20px 0px 0px;
@@ -97,7 +100,7 @@ h1 {
 
 .input2 {
   width: 440px;
-  height: 416px;
+  height: 424px;
   padding: 20px;
   display: flex;
   align-items: center;
