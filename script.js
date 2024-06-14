@@ -152,6 +152,9 @@ function checkSignInRequirements(email, password, passwordRepeat, privacyPolicit
     if (!checkEmailAndPasswordWhenSignUp(email, password)){
         return;
     }
+    if(emailAlreadyExists(email) == true){
+        return;
+    }
     if (password !== passwordRepeat) {
         throwSignUpError();
         return;
@@ -161,6 +164,19 @@ function checkSignInRequirements(email, password, passwordRepeat, privacyPolicit
         return;
     }
     return true;
+}
+
+async function emailAlreadyExists(email){
+    let response = await loadData(path="");
+    for(let key in response){
+        let user = response[key];
+        let availabelEmail = user["email"];
+        if(availabelEmail == email){
+            alert("Dieser Nutername ist schon vergeben!");
+            return true;
+        }
+    }
+    return false;
 }
 
 function throwSignUpError(){
