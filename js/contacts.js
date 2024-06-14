@@ -138,6 +138,22 @@ function hidePopUp() {
   document.getElementById("add-task-pop-up").classList.add("translate-100");
 }
 
+// show ContactSuccessfullyCreatedPopUp
+function showContactSuccessfullyCreatedPopUp() {
+  document
+    .getElementById("contact-successfully-created-pop-up-bg")
+    .classList.remove("hide-pop-up-translate-100");
+}
+
+// hide ContactSuccessfullyCreatedPopUp
+function hideContactSuccessfullyCreatedPopUp() {
+  setTimeout(() => {
+    document
+      .getElementById("contact-successfully-created-pop-up-bg")
+      .classList.add("hide-pop-up-translate-100");
+  }, 3000);
+}
+
 // load screen
 function showLoadScreen() {
   document.getElementById("load-screen").classList.remove("d-none");
@@ -299,6 +315,9 @@ async function addNewContact(bgColor = randomColor()) {
   await initContact();
   afterAddingNewContactShowBigContact(nameInputValue);
   hideLoadScreen();
+
+  await showContactSuccessfullyCreatedPopUp();
+  hideContactSuccessfullyCreatedPopUp();
 }
 
 // afterAddingNewContactShowBigContact

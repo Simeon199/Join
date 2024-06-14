@@ -39,6 +39,7 @@
     <script src="script.js"></script>
     <script src="js/sow_contacts.js"></script>
   </head>
+
   <body onload="initSidebar(), initContact()">
     <header id="headerForm"></header>
     <div id="sidebar"></div>
@@ -100,7 +101,6 @@
           </div>
 
           <!-- infos -->
-          <!-- hier dann die contacts rein rendern-->
           <h4 id="contact-information-headline">Contact Information</h4>
           <div>
             <b>Email</b>
@@ -109,13 +109,15 @@
             <p id="big-number">+49 1111 11 111 1</p>
           </div>
         </div>
+
+        <!-- contact successfully created pop up -->
+        <div id="contact-successfully-created-pop-up-bg" class="hide-pop-up-translate-100">
+          <div id="contact-successfully-created-pop-up">Contact successfully created</div>
+        </div>
       </div>
     </main>
 
-    <!-- Bin noch nicht fertig mit dem Pop-up-->
-
-    <!-- Pop-up -->
-    <!-- hier dann die contacts rein rendern-->
+    <!-- add new contact pop-up -->
     <div id="add-task-pop-up-bg" class="add-task-pop-up-bg bg-op-0" onclick="hidePopUp()">
       <div id="add-task-pop-up" class="add-task-pop-up translate-100" onclick="stopEvent(event)">
         <svg
