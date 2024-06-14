@@ -48,6 +48,9 @@ form div div div {
 .select span {
     padding: 0px 10px 0px 10px;
 }
+.select:focus {
+    border: 1px solid rgba(41, 171, 226, 1);
+}
 #arrow {
     display: flex;
     padding: 0px 20px 0px 0px;
@@ -199,19 +202,25 @@ h1 {
     position: absolute;
     max-width: 440px;
     height: auto;
-    padding: 10px 0px 0px 0px;
+    /* padding: 10px 0px 0px 0px; */
     z-index: 9999;
     flex-direction: column;
 }
 
 .drop-bg div {
-    width: 90%;
     height: 48px;
-    margin: 5px 0px 10px 0px;
+    margin: 0px;
+    border: none;
+    justify-content: start;
+}
+
+.drop-bg div span {
+    padding-left: 10px;
 }
 
 .drop-bg div:hover {
     cursor: pointer;
+    background-color: lightgrey;
 }
 
 #categoryDropDown {

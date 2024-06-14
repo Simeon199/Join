@@ -74,17 +74,17 @@ function clearTask() {
 function showDropDownAssignedTo() {
     document.getElementById('assignedToDropDown').classList.remove('d-none');
     document.getElementById('assignedToDropDown').innerHTML = /*html*/`
-            <div onclick="hideDropDownAssignedTo()">Test1</div>
-            <div>Test2</div>
-            <div>Test3</div>
+            <div onclick="hideDropDownAssignedTo()"><span>Test1</span></div>
+            <div><span>Test2</span></div>
+            <div><span>Test3</span></div>
     `;
 }
 
 function showDropDownCategory() {
     document.getElementById('categoryDropDown').classList.remove('d-none');
     document.getElementById('categoryDropDown').innerHTML = /*html*/`
-            <div onclick="hideDropDownCategory()">Technical Task</div>
-            <div>User Story</div>
+            <div onclick="hideDropDownCategory()"><span>Technical Task</span></div>
+            <div><span>User Story</span></div>
     `;
 }
 
