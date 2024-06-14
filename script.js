@@ -234,6 +234,20 @@ function showPassword(variable){
     checkPasswordContentType(passwordContent);
 }
 
+function showLoginPassword(variable){
+    let passwordContent = document.getElementById(variable);
+    let loginLock = document.getElementById('loginLock');
+    let visibilityInputImage = document.getElementById('visibilityInputImage');
+    if(variable == 'loginPassword' && visibilityInputImage.classList.contains('d-none')){
+        visibilityInputImage.classList.remove('d-none');
+        loginLock.classList.add('d-none');
+    } else {
+        visibilityInputImage.classList.add('d-none');
+        loginLock.classList.remove('d-none');
+    }
+    checkPasswordContentType(passwordContent);
+}
+
 function checkAllCasesForShowPassword(variable, visibilityInputImage, visibilityInputImageRepeat, inputLock, inputLockRepeat){
     if(variable == 'loginPassword' && visibilityInputImage.classList.contains('d-none')){
         visibilityInputImage.classList.remove('d-none');
