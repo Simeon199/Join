@@ -114,7 +114,23 @@ async function testLoginFunction(event){
             }
         }
     }
-    alert("Eingegebene E-Mail oder Passwort sind falsch! Bitte versuchen Sie es erneut");
+    throwLoginError();
+}
+
+function throwLoginError(){
+    let loginPasswordInput = document.getElementById('loginPasswordInputField');
+    let loginInput = document.getElementById('loginInput');
+    let loginPassword = document.getElementById('loginPassword')
+    loginPassword.value = '';
+    loginPasswordInput.style.border = '1px solid red';
+    let existingNotification = document.querySelector('.notification.error');
+    if (existingNotification) {
+        existingNotification.remove();
+    }
+    let notification = document.createElement('div');
+    notification.classList.add('notification', 'error');
+    notification.innerHTML = `<p>Ups! Wrong Password. Try again.</p>`;
+    loginInput.appendChild(notification);
 }
 
 function signUp(event){
@@ -137,7 +153,7 @@ function checkSignInRequirements(email, password, passwordRepeat, privacyPolicit
         return;
     }
     if (password !== passwordRepeat) {
-        alert("Wiederholtes Passwort stimmt nicht mit dem ersten eingegeben Passwort überein");
+        throwSignUpError();
         return;
     } 
     if (!privacyPolicity.checked) {
@@ -145,6 +161,16 @@ function checkSignInRequirements(email, password, passwordRepeat, privacyPolicit
         return;
     }
     return true;
+}
+
+function throwSignUpError(){
+    let signUpInput = document.getElementById('signUpInput');
+    let signUpPasswordRepeat = document.getElementById('signUpPasswordRepeat');
+    signUpPasswordRepeat.style.border = '1px solid red';
+    let notification = document.createElement('div');
+    notification.classList.add('notification', 'error');
+    notification.innerHTML = `<p>Ups! Your password dont match.</p>`;
+    signUpInput.appendChild(notification);
 }
 
 function buildUserFunction(name, email, password){

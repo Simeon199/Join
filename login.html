@@ -26,14 +26,14 @@
         <div class="login">
             <h1>Log in</h1>
             <form id="loginForm" onsubmit="return testLoginFunction(event)">
-                <div class="loginInput">
+                <div class="loginInput" id="loginInput">
                     <div class="input">
                         <input id="loginEmail" inputmode="email" class="loginInputStyle" type="email" placeholder="Email" required>
                         <div>
                             <img src="Assets/img/mail.svg" alt="">
                         </div>
                     </div>
-                    <div class="input">
+                    <div class="input" id="loginPasswordInputField">
                         <input id="loginPassword" minlength="6" maxlength="16" class="loginInputStyle" type="password" placeholder="Password" required>
                         <div>
                             <img src="Assets/img/lock.svg" id="loginLock" onclick="showLoginPassword('loginPassword')" alt="">
