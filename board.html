@@ -17,6 +17,7 @@
     <!-- css -->
     <link rel="stylesheet" href="css/fonts.css" />
     <link rel="stylesheet" href="css/generally.css" />
+    <link rel="stylesheet" href="css/add_task.css" />
     <link rel="stylesheet" href="css/board.css" />
 
     <style>
@@ -38,7 +39,9 @@
 
     <!-- js -->
     <script src="js/desktop-template.js"></script>
+    <script src="js/add_task.js"></script>
     <script src="js/board.js"></script>
+    <script src="script.js"></script>
   </head>
   <body onload="initSidebar()">
     <header id="headerForm"></header>
@@ -67,7 +70,7 @@
             </svg>
           </div>
 
-          <button id="add-task-button">
+          <button id="add-task-button" onclick="showAddTaskPopUp()">
             Add task
             <svg
               id="add-task-button-icon"
@@ -92,7 +95,7 @@
           <div class="section-headline">
             <h2>To do</h2>
 
-            <div class="plus-icon-container">
+            <div class="plus-icon-container" onclick="showAddTaskPopUp()">
               <svg
                 width="10"
                 height="11"
@@ -123,7 +126,7 @@
           <div class="section-headline">
             <h2>In progress</h2>
 
-            <div class="plus-icon-container">
+            <div class="plus-icon-container" onclick="showAddTaskPopUp()">
               <svg
                 width="10"
                 height="11"
@@ -147,6 +150,7 @@
               <p>No tasks in progress</p>
             </div> -->
 
+            <!-- task card rendern !!!! -->
             <div class="task">
               <div class="task-category">User story</div>
 
@@ -194,7 +198,7 @@
           <div class="section-headline">
             <h2>Await feedback</h2>
 
-            <div class="plus-icon-container">
+            <div class="plus-icon-container" onclick="showAddTaskPopUp()">
               <svg
                 width="10"
                 height="11"
@@ -225,7 +229,7 @@
           <div class="section-headline">
             <h2>Done</h2>
 
-            <div class="plus-icon-container">
+            <div class="plus-icon-container" onclick="showAddTaskPopUp()">
               <svg
                 width="10"
                 height="11"
@@ -252,5 +256,143 @@
         </section>
       </div>
     </main>
+
+    <!-- pop up -->
+    <div id="add-task-pop-up-bg" class="add-task-pop-up-bg bg-op-0" onclick="hideAddTaskPopUp()">
+      <div id="add-task-pop-up" class="add-task-pop-up translate-100" onclick="stopEvent(event)">
+        <svg
+          onclick="hideAddTaskPopUp()"
+          id="close-add-task-pop-up"
+          width="14"
+          height="14"
+          viewBox="0 0 14 14"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M6.9998 8.36587L2.0998 13.2659C1.91647 13.4492 1.68314 13.5409 1.3998 13.5409C1.11647 13.5409 0.883138 13.4492 0.699805 13.2659C0.516471 13.0825 0.424805 12.8492 0.424805 12.5659C0.424805 12.2825 0.516471 12.0492 0.699805 11.8659L5.5998 6.96587L0.699805 2.06587C0.516471 1.88254 0.424805 1.6492 0.424805 1.36587C0.424805 1.08254 0.516471 0.849202 0.699805 0.665869C0.883138 0.482536 1.11647 0.390869 1.3998 0.390869C1.68314 0.390869 1.91647 0.482536 2.0998 0.665869L6.9998 5.56587L11.8998 0.665869C12.0831 0.482536 12.3165 0.390869 12.5998 0.390869C12.8831 0.390869 13.1165 0.482536 13.2998 0.665869C13.4831 0.849202 13.5748 1.08254 13.5748 1.36587C13.5748 1.6492 13.4831 1.88254 13.2998 2.06587L8.3998 6.96587L13.2998 11.8659C13.4831 12.0492 13.5748 12.2825 13.5748 12.5659C13.5748 12.8492 13.4831 13.0825 13.2998 13.2659C13.1165 13.4492 12.8831 13.5409 12.5998 13.5409C12.3165 13.5409 12.0831 13.4492 11.8998 13.2659L6.9998 8.36587Z"
+            fill="#2A3647"
+          />
+        </svg>
+
+        <div class="main">
+          <div>
+            <h1>Add Task</h1>
+          </div>
+          <section id="section99" class="addTaskBody">
+            <form onsubmit="createTask()">
+              <div class="input1">
+                <div>
+                  <p>Title<b>*</b></p>
+                  <div>
+                    <input id="inputTitle" type="text" placeholder="Enter a title" required />
+                  </div>
+                </div>
+                <div>
+                  <p>Description</p>
+                  <div class="descriptionStyle">
+                    <textarea
+                      name=""
+                      id="inputDescription"
+                      placeholder="Enter a Description"
+                    ></textarea>
+                  </div>
+                </div>
+                <div>
+                  <p>Assigned to</p>
+                  <div id="assignedTo" class="select">
+                    <span>Select contacts to assign</span>
+                    <svg
+                      id="arrow"
+                      width="8"
+                      height="5"
+                      viewBox="0 0 8 5"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M3.29998 4.3L0.699975 1.7C0.383309 1.38333 0.312475 1.02083 0.487475 0.6125C0.662475 0.204167 0.974975 0 1.42498 0H6.57498C7.02498 0 7.33747 0.204167 7.51248 0.6125C7.68748 1.02083 7.61664 1.38333 7.29997 1.7L4.69998 4.3C4.59998 4.4 4.49164 4.475 4.37498 4.525C4.25831 4.575 4.13331 4.6 3.99998 4.6C3.86664 4.6 3.74164 4.575 3.62498 4.525C3.50831 4.475 3.39998 4.4 3.29998 4.3Z"
+                        fill="#2A3647"
+                      />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+              <div class="borderLine"></div>
+              <div class="input2">
+                <div>
+                  <p>Due date<b>*</b></p>
+                  <div>
+                    <input type="date" name="" id="date" placeholder="dd/mm/yyyy" required />
+                  </div>
+                </div>
+                <div class="prio">
+                  <p>Prio</p>
+                  <div>
+                    <div onclick="changePriority(urgent)" id="urgent" class="center">
+                      Urgent
+                      <img id="imgUrgent" src="Assets/img/Prio altaUrgent_symbole.svg" alt="" />
+                    </div>
+                    <div onclick="changePriority(medium)" id="medium" class="center">
+                      Medium
+                      <img id="imgMedium" src="Assets/img/Prio mediameduim_white.svg" alt="" />
+                    </div>
+                    <div onclick="changePriority(low)" id="low" class="center">
+                      Low
+                      <img id="imgLow" src="Assets/img/Prio bajaLow_symbole.svg" alt="" />
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <p>Category<b>*</b></p>
+                  <div id="category" class="select">
+                    <span>Select task category</span>
+                    <svg
+                      id="arrow"
+                      width="8"
+                      height="5"
+                      viewBox="0 0 8 5"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M3.29998 4.3L0.699975 1.7C0.383309 1.38333 0.312475 1.02083 0.487475 0.6125C0.662475 0.204167 0.974975 0 1.42498 0H6.57498C7.02498 0 7.33747 0.204167 7.51248 0.6125C7.68748 1.02083 7.61664 1.38333 7.29997 1.7L4.69998 4.3C4.59998 4.4 4.49164 4.475 4.37498 4.525C4.25831 4.575 4.13331 4.6 3.99998 4.6C3.86664 4.6 3.74164 4.575 3.62498 4.525C3.50831 4.475 3.39998 4.4 3.29998 4.3Z"
+                        fill="#2A3647"
+                      />
+                    </svg>
+                  </div>
+                </div>
+                <div>
+                  <p>Subtasks</p>
+                  <div>
+                    <input id="subtask" type="text" placeholder="Add new subtask" />
+                  </div>
+                </div>
+              </div>
+
+              <section class="submitSection">
+                <p><b>*</b>This field is required</p>
+                <div class="buttons">
+                  <div onclick="clearTask()" class="btn">Clear</div>
+                  <div class="darkBTN">Create Task</div>
+                </div>
+              </section>
+            </form>
+          </section>
+        </div>
+      </div>
+    </div>
+
+    <!-- <div
+      id="show-big-task-pop-up-bg"
+      class="show-big-task-pop-up-bg bg-op-0"
+      onclick="hideAddTaskPopUp()"
+    >
+      <div
+        id="show-big-task-pop-up"
+        class="show-big-task-pop-up translate-100"
+        onclick="stopEvent(event)"
+      ></div>
+    </div> -->
   </body>
 </html>
