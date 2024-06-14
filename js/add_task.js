@@ -72,18 +72,18 @@ function clearTask() {
 }
 
 function showDropDownAssignedTo() {
-    document.getElementById('assignedTo').classList.remove('d-none');
-    document.getElementById('assignedTo').innerHTML = /*html*/`
-        
+    document.getElementById('assignedToDropDown').classList.remove('d-none');
+    document.getElementById('assignedToDropDown').innerHTML = /*html*/`
+            <div>Test1</div>
+            <div>Test2</div>
+            <div>Test3</div>
     `;
 }
 
 function showDropDownCategory() {
-    document.getElementById('category').classList.remove('d-none');
-    document.getElementById('category').innerHTML = /*html*/`
-        <div>
+    document.getElementById('categoryDropDown').classList.remove('d-none');
+    document.getElementById('categoryDropDown').innerHTML = /*html*/`
             <div>Technical Task</div>
             <div>User Story</div>
-        </div>
     `;
 }

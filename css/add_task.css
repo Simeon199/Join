@@ -194,3 +194,20 @@ h1 {
 .btn:hover {
     cursor: pointer;
 }
+
+.drop-bg {
+    position: relative;
+    /* top: 83px; */
+    height: auto;
+    padding: 10px 0px 0px 0px;
+    z-index: 99;
+    display: flex;
+    flex-direction: column;
+}
+
+.drop-bg div {
+    width: 90%;
+    height: 48px;
+    margin: 5px 0px 10px 0px;
+
+}
