@@ -62,16 +62,17 @@ function createTask() {
 }
 
 function clearTask() {
-    console.log(inputTitle.value);
-    inputTitle.value= '';
+    // console.log(inputTitle.value);
+    // inputTitle.value= "";
     // inputDescription.value='';
     // assignetTo.value='';
     // date.value = '';
-    // category.value = '';
+    category = changeCategory('Select task category');
     // subtask.value='';
 }
 
 function showDropDownAssignedTo() {
+    showContactsToAssign();
     document.getElementById('assignedToDropDown').classList.remove('d-none');
     document.getElementById('assignedToDropDown').innerHTML = /*html*/`
             <div onclick="hideDropDownAssignedTo()"><span>Test1</span></div>
@@ -83,8 +84,8 @@ function showDropDownAssignedTo() {
 function showDropDownCategory() {
     document.getElementById('categoryDropDown').classList.remove('d-none');
     document.getElementById('categoryDropDown').innerHTML = /*html*/`
-            <div onclick="hideDropDownCategory(); changeCategory(Technical Task)"><span>Technical Task</span></div>
-            <div onclick="hideDropDownCategory(); changeCategory(Test)"><span>User Story</span></div>
+            <div onclick="hideDropDownCategory(); changeCategory('Technical Task')"><span>Technical Task</span></div>
+            <div onclick="hideDropDownCategory(); changeCategory('User Story')"><span>User Story</span></div>
     `;
 }
 
@@ -97,5 +98,19 @@ function hideDropDownCategory() {
 }
 
 function changeCategory(text) {
-    document.getElementById('categoryText').innerHTML = `${text}`
+    document.getElementById('categoryText').innerHTML = `${text}`;
+}
+
+async function showContactsToAssign() {
+    await loadData("/contacts");
+}
+
+function addSubtask() {
+    let text = document.getElementById('subtask');
+    aS = document.getElementById('sowSubtasks');
+    aS.classList.remove('d-none');
+    aS.innerHTML += /*html*/`
+        <div class="subtasks"><span>${text.value}</span></div>
+    `;
+    text.value='';
 }
