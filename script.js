@@ -3,32 +3,6 @@ function stopEvent(event) {
   event.stopPropagation();
 }
 
-function validatePassword() {
-  let msgbox = document.getElementById("msgbox");
-  //if (password !== passwordConfirm) {
-  //    msgbox.innerHTML = 'Password incorrect';
-  //    return false;
-  //}
-  //return true;
-  msgbox.innerHTML = "Password incorrect";
-}
-
-// function validateCheckbox() {
-//     let checkbox = document.getElementById('remember');
-//     let loginBTN = document.getElementById('loginBtn');
-//     if (checkbox.checked = true) {
-//         loginBTN.enabled = true;
-//     } else {
-//         loginBTN.enabled = false;
-//     }
-// }
-
-// function login() {
-//     validateCheckbox();
-//     validatePassword();
-//     window.location.href='summary.html';
-// }
-
 function guestLogin() {
   sessionStorage.setItem("guestLoginStatus", "true");
   window.location.href = "summary.html";
@@ -41,11 +15,6 @@ function goToSignUp() {
 function backToLogin() {
   window.location.href = "login.html";
 }
-
-// function invokeFunctions(){
-//     loadData();
-//     checkIfUserIsLoggedIn();
-// }
 
 function logout() {
   localStorage.removeItem("isLoggedIn");
@@ -144,46 +113,46 @@ function throwLoginError() {
   loginInput.appendChild(notification);
 }
 
-function signUp(event) {
+async function signUp(event) {
   event.preventDefault();
   let name = document.getElementById("name").value;
   let email = document.getElementById("loginEmail").value;
   let password = document.getElementById("loginPassword").value;
   let passwordRepeat = document.getElementById("loginPasswordRepeat").value;
   let privacyPolicity = document.getElementById("privacyPolicity");
-  let signUpValid = checkSignInRequirements(email, password, passwordRepeat, privacyPolicity);
+  let signUpValid = await checkSignInRequirements(name, email, password, passwordRepeat, privacyPolicity);
   if (!signUpValid) {
     return;
   }
   let user = buildUserFunction(name, email, password);
-  createUserAndShowPopup((path = ""), user);
+  await createUserAndShowPopup((path = ""), user);
 }
 
-function checkSignInRequirements(email, password, passwordRepeat, privacyPolicity) {
+async function checkSignInRequirements(name, email, password, passwordRepeat, privacyPolicity) {
   if (!checkEmailAndPasswordWhenSignUp(email, password)) {
-    return;
+    return false;
   }
-  if (emailAlreadyExists(email) == true) {
-    return;
+  if (await NicknameAlreadyExists(name) == true) {
+    return false;
   }
   if (password !== passwordRepeat) {
     throwSignUpError();
-    return;
+    return false;
   }
   if (!privacyPolicity.checked) {
     alert("Akzeptieren Sie die Privacy Policy um fortzufahren");
-    return;
+    return false;
   }
   return true;
 }
 
-async function emailAlreadyExists(email) {
+async function NicknameAlreadyExists(name) {
   let response = await loadData((path = ""));
   for (let key in response) {
     let user = response[key];
-    let availabelEmail = user["email"];
-    if (availabelEmail == email) {
-      alert("Dieser Nutername ist schon vergeben!");
+    let availabelNickname = user["name"];
+    if (availabelNickname == name) {
+      alert("Dieser Nutzername ist schon vergeben!");
       return true;
     }
   }
