@@ -3,7 +3,7 @@ let inputDescription = document.getElementById("inputDescription");
 let assignetTo = document.getElementById("assignetTo");
 let date = document.getElementById("date");
 let category = document.getElementById("category");
-let subtask = document.getElementById("subtask");
+const subtask = document.getElementById("sowSubtasks");
 
 function init() {
   changePriority(medium);
@@ -74,7 +74,7 @@ function clearTask() {
     // assignetTo.value='';
     // date.value = '';
     category = changeCategory('Select task category');
-    // subtask.value='';
+    clearSubtask();
 }
 
 function showDropDownAssignedTo() {
@@ -113,10 +113,17 @@ async function showContactsToAssign() {
 
 function addSubtask() {
     let text = document.getElementById('subtask');
-    aS = document.getElementById('sowSubtasks');
+    // aS = document.getElementById("sowSubtasks");
+    aS = subtask;
     aS.classList.remove('d-none');
+    // subtask.classList.remove('d-none');
     aS.innerHTML += /*html*/`
         <div class="subtasks"><span>${text.value}</span></div>
     `;
     text.value='';
+}
+
+function clearSubtask() {
+    subtask.innerHTML= '';
+    subtask.classList.add('d-none');
 }
