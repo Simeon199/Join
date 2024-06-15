@@ -29,12 +29,13 @@ form div div div {
   }
   textarea {
     width: 100%;
-    height: 112px;
+    height: 100%;
     border: unset;
     border-radius: 10px;
     padding: 12px;
     outline: none;
     cursor: pointer;
+    box-sizing: border-box;
   }
   :focus {
     border: 1px solid rgba(41, 171, 226, 1);
@@ -124,7 +125,7 @@ h1 {
     background-color: rgba(246, 247, 248, 1);
   }
   .prio div div {
-    width: 136px;
+    /* width: 136px; */
     border-radius: 10px;
     background-color: rgba(255, 255, 255, 1);
     box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.1);

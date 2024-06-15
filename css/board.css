@@ -435,7 +435,7 @@ body .translate-100 {
 
 .input2 .prio div {
   background-color: unset;
-  justify-content: space-between;
+  /* justify-content: space-between; */
 }
 .input2 .prio div div {
   width: 100%;
