@@ -1,169 +1,250 @@
 .sidebar {
-    position: absolute;
-    top: 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-direction: column;
-    background-color: rgba(42, 54, 71, 1);
-    height: 100%;
-    width: 232px;
+  position: absolute;
+  top: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+  background-color: rgba(42, 54, 71, 1);
+  height: 100%;
+  width: 232px;
 }
 
 #headerForm {
-    padding: 0px 40px 0px 262px;
-    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.1);
-    justify-content: space-between;
+  padding: 0px 40px 0px 262px;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.1);
+  justify-content: space-between;
 }
 
 .menuBarDesktop {
-    width: 232px;
-    padding-bottom: 150px;
-    top: 300px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+  width: 232px;
+  padding-bottom: 150px;
+  top: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .menuBarDesktop a {
-    color: rgba(255, 255, 255, 1);
-    text-decoration: none;
+  color: rgba(255, 255, 255, 1);
+  text-decoration: none;
 }
 
 .sidebar img {
-    display: flex;
-    width: 100.03px;
-    height: 121.97px;
-    padding-top: 64px;
+  display: flex;
+  width: 100.03px;
+  height: 121.97px;
+  padding-top: 64px;
 }
 
 .linkTo img {
-    padding: 0px;
-    width: 30px;
-    height: 30px;
+  padding: 0px;
+  width: 30px;
+  height: 30px;
 }
 
 footer {
-    background-color: rgba(42, 54, 71, 1);
-    padding-bottom: 64px;
+  background-color: rgba(42, 54, 71, 1);
+  padding-bottom: 64px;
 }
 
 footer a:hover {
-    text-decoration: none;
+  text-decoration: none;
 }
 
 .linkTo {
-    height: 46px;
-    /* padding: 8px 56px 8px 56px; */
-    padding: 0px 56px 0px 56px;
-    gap: 8px;
-    background-color: rgba(42, 54, 71, 1);
-    /* background: rgba(9, 25, 49, 1); */
-    display: flex;
-    align-items: center;
+  height: 46px;
+  /* padding: 8px 56px 8px 56px; */
+  padding: 0px 56px 0px 56px;
+  gap: 8px;
+  background-color: rgba(42, 54, 71, 1);
+  /* background: rgba(9, 25, 49, 1); */
+  display: flex;
+  align-items: center;
 }
 
 .linkTo p {
-    font-family: Inter;
-    font-size: 16px;
-    font-weight: 400;
-    line-height: 19.2px;
-    text-align: left;
-    color: rgba(255, 255, 255, 1);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 19.2px;
+  text-align: left;
+  color: rgba(255, 255, 255, 1);
 }
 
 .linkTo:hover {
-    cursor: pointer;
-    background: rgba(42, 61, 89, 1);
-    animation-timing-function: ease-in;
-    animation-duration: 100ms;
+  cursor: pointer;
+  background: rgba(42, 61, 89, 1);
+  animation-timing-function: ease-in;
+  animation-duration: 100ms;
 }
 
 .linkTo:active {
-    background-color: rgba(42, 54, 71, 1);
+  background-color: rgba(42, 54, 71, 1);
 }
 
 body.menuBarDesktop {
-    background-color: rgba(42, 54, 71, 1);
-    pointer-events: none;
+  background-color: rgba(42, 54, 71, 1);
+  pointer-events: none;
 }
 
 .sidebar footer div {
-    flex-direction: column;
-    gap: 0;
-    align-items: center;
+  flex-direction: column;
+  gap: 0;
+  align-items: center;
 }
 
 .currentSection {
-    background-color: rgba(9, 25, 49, 1) !important;
+  background-color: rgba(9, 25, 49, 1) !important;
 }
 
 .circle {
-    border-radius: 100%;
-    width: 56px;
-    height: 56px;
-    border: 3px solid rgba(42, 54, 71, 1);
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  border-radius: 100%;
+  width: 56px;
+  height: 56px;
+  border: 3px solid rgba(42, 54, 71, 1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .circle span {
-    color:  rgba(41, 171, 266, 1);
-    font-size: 20px;
-    font-weight: bold;
+  color: rgba(41, 171, 266, 1);
+  font-size: 20px;
+  font-weight: bold;
 }
 
 .circle:hover {
-    background-color: rgba(12, 46, 98, 0.12);
-    transition: 5ms;
-    transform: scale(1.03);
-    cursor: pointer;
+  background-color: rgba(12, 46, 98, 0.12);
+  transition: 5ms;
+  transform: scale(1.03);
+  cursor: pointer;
 }
 
 .headerIcons {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .headerIcons img:hover {
-    transform: scale(1.1);
+  transform: scale(1.1);
 }
 
 #dropDown {
-    position: fixed;
-    top: 96px;
-    right: 20px;
-    background-color: rgb(42, 54, 71, 1);
-    box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.1);
-    color: rgba(205, 205, 205, 1);
+  position: fixed;
+  top: 96px;
+  right: 20px;
+  background-color: rgb(42, 54, 71, 1);
+  box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.1);
+  color: rgba(205, 205, 205, 1);
+  display: flex;
+  flex-direction: column;
+  border-radius: 20px 0px 20px 20px;
+  z-index: 99;
+  div {
+    width: 130px;
+    height: 46px;
     display: flex;
-    flex-direction: column;
-    border-radius: 20px 0px 20px 20px;
-    z-index: 99;
-    div {
-        width: 130px;
-        height: 46px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-weight: 600;
-    }
+    justify-content: center;
+    align-items: center;
+    font-weight: 600;
+  }
 }
 
 .dropDown-bg {
-    position: fixed;
-    z-index: 9;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    background-color: rgba(0, 0, 0, 0.01);
+  position: fixed;
+  z-index: 9;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.01);
 }
 
 #dropDown div:hover {
-    background-color: rgb(21, 14, 26);
-    border-radius: 20px;
-    cursor: pointer;
+  background-color: rgb(21, 14, 26);
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+#header-logo {
+  height: 60%;
+
+  display: none;
+}
+
+@media (max-width: 800px) {
+  body {
+    overflow-y: unset;
+  }
+
+  .sidebar {
+    position: fixed;
+    bottom: 0;
+    top: unset;
+
+    height: 80px;
+    justify-content: center;
+    width: 100%;
+  }
+
+  #sidebar-logo {
+    display: none;
+  }
+
+  .sidebar footer {
+    display: none;
+  }
+
+  .menuBarDesktop {
+    width: 100%;
+
+    padding-bottom: 0;
+
+    gap: 10px;
+
+    flex-direction: row;
+    justify-content: space-evenly;
+  }
+
+  .linkTo {
+    flex-direction: column;
+    justify-content: center;
+
+    height: 76px;
+    width: 100%;
+
+    border-radius: 16px;
+
+    padding: 0;
+    gap: 5px;
+  }
+
+  .linkTo p {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 16.8px;
+    text-align: left;
+
+    margin: 0;
+  }
+
+  /* header */
+  #headerForm {
+    padding: 0 25px;
+
+    left: 0;
+  }
+
+  .headerIcons a {
+    display: none;
+  }
+
+  #headerForm h1 {
+    display: none;
+  }
+
+  #header-logo {
+    display: block;
+  }
 }
