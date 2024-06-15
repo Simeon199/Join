@@ -3,6 +3,16 @@ function stopEvent(event) {
   event.stopPropagation();
 }
 
+function greetUser(){
+  let nickname = localStorage.getItem("userNickname");
+  if(!nickname){
+    nickname = sessionStorage.getItem("userNickname");
+  }
+  if(nickname){+
+    alert("Seit gegrüßt " + nickname);
+  }
+}
+
 function guestLogin() {
   sessionStorage.setItem("guestLoginStatus", "true");
   window.location.href = "summary.html";
@@ -19,8 +29,10 @@ function backToLogin() {
 function logout() {
   localStorage.removeItem("isLoggedIn");
   localStorage.removeItem("currentUser");
+  localStorage.removeItem('userNickname');
   sessionStorage.removeItem("isLoggedIn");
   sessionStorage.removeItem("currentUser");
+  sessionStorage.removeItem("userNickname");
   window.location.href = "login.html";
 }
 
@@ -67,13 +79,15 @@ function checkIfUserIsLoggedIn() {
   }
 }
 
-function saveLoggedInStatus(email, remember) {
+function saveLoggedInStatus(name, email, remember) {
   if (remember) {
     localStorage.setItem("isLoggedIn", "true");
     localStorage.setItem("currentUser", email);
+    localStorage.setItem("userNickname", name);
   } else {
     sessionStorage.setItem("isLoggedIn", "true");
     sessionStorage.setItem("currentUser", email);
+    sessionStorage.setItem("userNickname", name);
   }
   return;
 }
@@ -88,7 +102,7 @@ async function testLoginFunction(event) {
     let user = response[key];
     if (user["email"] && user["password"]) {
       if (loginEmail == user["email"] && loginPassword == user["password"]) {
-        saveLoggedInStatus(user["email"], remember);
+        saveLoggedInStatus(user["name"], user["email"], remember);
         window.location.href = "summary.html";
         return;
       }
