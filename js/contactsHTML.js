@@ -146,6 +146,7 @@ function returnAddContactPopUpFormHTML() {
           <div class="pop-up-input-container">
             <input 
             minlength = 2
+            maxlength = 20
               id="pop-up-name-input" 
               class="pop-up-input" 
               type="text" 

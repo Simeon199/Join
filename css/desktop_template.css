@@ -31,11 +31,11 @@
 }
 
 .sidebar img {
-    display: flex;
-    width: 100.03px;
-    height: 121.97px;
-    padding-top: 64px;
-    box-sizing: unset;
+  display: flex;
+  width: 100.03px;
+  height: 121.97px;
+  padding-top: 64px;
+  box-sizing: unset;
 }
 
 .linkTo img {
@@ -175,13 +175,11 @@ body.menuBarDesktop {
 }
 
 @media (max-width: 800px) {
-  body {
-    overflow-y: unset;
-  }
-
   .sidebar {
     position: fixed;
     bottom: 0;
+    right: 0;
+    left: 0;
     top: unset;
 
     height: 80px;
@@ -235,6 +233,10 @@ body.menuBarDesktop {
     padding: 0 25px;
 
     left: 0;
+
+    position: fixed;
+
+    z-index: 1;
   }
 
   .headerIcons a {
