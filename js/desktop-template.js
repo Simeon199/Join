@@ -79,6 +79,13 @@ function closeDropDownMenu() {
 }
 
 function logout() {
+  // localStorage.removeItem("isLoggedIn");
+  // localStorage.removeItem("currentUser");
+  // localStorage.removeItem('userNickname');
+  // sessionStorage.removeItem("isLoggedIn");
+  // sessionStorage.removeItem("currentUser");
+  // sessionStorage.removeItem("userNickname");
+  // sessionStorage.removeItem("guestLoginStatus");
   window.location.href = "login.html";
 }
 
