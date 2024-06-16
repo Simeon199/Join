@@ -1,4 +1,5 @@
 checkWebsiteLocation();
+// checkIfUserIsLoggedIn();
 
 function greetUser(){
   let nickname = localStorage.getItem("userNickname");
@@ -23,14 +24,20 @@ function backToLogin() {
   window.location.href = "login.html";
 }
 
-function logout() {
+// function logout() {
+//   alert('test');
+//   removeAttributesForLogout();
+//   window.location.href = "login.html";
+// }
+
+function removeAttributesForLogout(){
   localStorage.removeItem("isLoggedIn");
   localStorage.removeItem("currentUser");
   localStorage.removeItem('userNickname');
   sessionStorage.removeItem("isLoggedIn");
   sessionStorage.removeItem("currentUser");
   sessionStorage.removeItem("userNickname");
-  window.location.href = "login.html";
+  sessionStorage.removeItem("guestLoginStatus");
 }
 
 function createLoggedInStatusObject() {
@@ -354,6 +361,8 @@ function checkWebsiteLocation(){
       registerInputFieldFunction(obj["inputLock"], obj["registerInputField"], obj["visibilityInputImage"], obj["visibility"]);
       registerInputFieldRepeatFunction(obj["registerInputFieldRepeat"], obj["inputLockRepeat"], obj["visibilityInputImageRepeat"], obj["visibility"], obj["visibilityRepeat"]);
     })
+  } else {
+    checkIfUserIsLoggedIn();
   }
 }
 
