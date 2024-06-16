@@ -62,8 +62,14 @@
                     </div>
                 </div>
                 <div class="checkbox">
-                    <input id="privacyPolicity" type="checkbox" required>
-                    <label for="privacyPolicity">I accept the <a href="">Privacy policy</a></label>
+                    <input id="privacyPolicity" type="checkbox" class="checkbox-input" onclick="addCheck()" required>
+                    <label for="privacyPolicity" class="checkbox-label">
+                        <svg id="checkbox-check" class="checkbox-check d-none" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M1 8.96582L5 12.9658L13 1.46582" stroke="#2A3647" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        I accept the <a href="">Privacy policy</a>
+                    </label>
+                    <!-- <label for="privacyPolicity">I accept the <a href="">Privacy policy</a></label> -->
                 </div>
                 <div class="loginButtons">
                     <button id="loginBtn" class="darkBtn" type="submit">Sign up</button>

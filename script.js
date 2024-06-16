@@ -11,6 +11,15 @@ function greetUser(){
   }
 }
 
+function addCheck(){
+  let checkboxCheck = document.getElementById('checkbox-check');
+  if(!checkboxCheck.classList.contains('d-none')){
+    checkboxCheck.classList.add('d-none');
+  } else {
+    checkboxCheck.classList.remove('d-none');
+  }
+}
+
 function guestLogin() {
   sessionStorage.setItem("guestLoginStatus", "true");
   window.location.href = "summary.html";
@@ -24,11 +33,11 @@ function backToLogin() {
   window.location.href = "login.html";
 }
 
-// function logout() {
-//   alert('test');
-//   removeAttributesForLogout();
-//   window.location.href = "login.html";
-// }
+function logout() {
+  alert('test');
+  removeAttributesForLogout();
+  window.location.href = "login.html";
+}
 
 function removeAttributesForLogout(){
   localStorage.removeItem("isLoggedIn");

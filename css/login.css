@@ -89,6 +89,7 @@ h1 {
     justify-content: space-between;
     align-items: center;
     box-sizing: border-box;
+    font-size: 20px;
 }
 
 .loginInput img {
@@ -105,7 +106,6 @@ h1 {
     margin-top: 32px;
 }
 .loginButtons button {
-    /* border: 1px solid #2A3647; */
     font-weight: bold;
     border-radius: 8px;
     gap: 10px;
@@ -131,8 +131,6 @@ h1 {
     font-size: 21px;
     font-weight: bold;
     background-color: #2A3647;
-    /* width: 91px;
-    height: 49px; */
     border-radius: 8px;
     border: none;
     padding: 15px 16px 15px 16px;
@@ -186,6 +184,7 @@ h1 {
 }
 
 .checkbox {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: left;
@@ -197,20 +196,16 @@ h1 {
     height: 24px;
     border-radius: 3px;
     cursor: pointer;
-}
+    appearance: unset;
+    border: solid;
+} 
 
-.checkbox label {
-    height: 19px;
-    width: 110px;
-    font: optional;
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 19.2px;
+.checkbox-check {
+    position: absolute;
+    left: 10px;
+    top: 7px;
+    cursor: pointer;
 }
-
-/* .privacyPolicity {
-    background-image: url('../Assets/img/check.svg');
-} */
 
 .privacyPolicity label{
     width: 300px;
@@ -238,15 +233,11 @@ a {
 
 a:hover {
     color: rgba(41, 171, 266, 1);
-    font-weight: 400;
-    text-decoration: underline;
+    font-weight: bold;
+    /* text-decoration: underline; */
 }
 
 footer {
-    /* position: fixed;
-    left: 0;
-    right: 0;
-    bottom: 0; */
     display: flex;
     justify-content: center;
     padding: 16px;
