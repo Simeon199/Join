@@ -50,12 +50,14 @@
                     </div>
                     <div class="input" id="signUpPassword">
                         <input id="loginPassword" minlength="6" maxlength="16" class="loginInputStyle" type="password" placeholder="Password" required>
-                        <img src="Assets/img/lock.svg" alt="" id="inputLock" onclick="showPassword('loginPassword')">
+                        <img src="Assets/img/lock.svg" alt="" id="inputLock">
+                        <img src="Assets/img/visibility.svg" id="visibility" onclick="showPassword('loginPassword')" class="d-none" alt="">
                         <img src="Assets/img/visibility_off.svg" id="visibilityInputImage" onclick="showPassword('loginPassword')" class="d-none" alt="">
                     </div>
                     <div class="input" id="signUpPasswordRepeat">
                         <input id="loginPasswordRepeat" minlength="6" maxlength="16" class="loginInputStyle" type="password" placeholder="Confirm Password" required>
-                        <img src="Assets/img/lock.svg" alt="" id="inputLockRepeat" onclick="showPassword('loginPasswordRepeat')">
+                        <img src="Assets/img/lock.svg" alt="" id="inputLockRepeat">
+                        <img src="Assets/img/visibility.svg" id="visibilityRepeat" onclick="showPassword('loginPasswordRepeat')" class="d-none" alt="">
                         <img src="Assets/img/visibility_off.svg" id="visibilityInputImageRepeat" onclick="showPassword('loginPasswordRepeat')" class="d-none" alt="">
                     </div>
                 </div>
