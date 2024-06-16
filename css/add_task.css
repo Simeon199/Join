@@ -273,11 +273,66 @@ h1 {
     padding-left: 15px;
 }
 
+@media (max-width:1000px) {
+  .main {
+    padding: 90px 0px;
+  }
+  .submitSection {
+    left: 0px;
+    bottom: 100px;
+  }
+}
+
 @media (max-width: 900px) {
   .prio div {
     flex-direction: column !important;
   }
   .prio div div {
     flex-direction: row !important;
+  }
+}
+
+@media (max-width: 600px) {
+  .addTaskBody form {
+    flex-direction: column;
+    align-items: center;
+  }
+  .prio div {
+    flex-direction: row !important;
+  }
+  .borderLine {
+    display: none;
+  }
+  .input1 {
+    padding: 0px;
+    width: 90%;
+  }
+  .input2 {
+    padding: 0px;
+    width: 90%;
+  }
+  .submitSection {
+    position: relative;
+    justify-content: space-around;
+    bottom: 0;
+    flex-direction: column;
+    align-items: center;
+  }
+  .buttons {
+    padding-right: 0px;
+  }
+}
+
+@media (max-width:350px) {
+  .buttons {
+    flex-direction: column;
+    padding-bottom: 90px;
+    width: 80%;
+  }
+  .btn {
+    width: 80%;
+  }
+  .darkBTN {
+    width: 80%;
   }
 }
