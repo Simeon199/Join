@@ -9,6 +9,10 @@ body {
   }
 }
 
+::placeholder {
+  color: rgba(209, 209, 209, 1);
+}
+
 form div div div {
   background-color: rgba(255, 255, 255, 1);
   width: 100%;
@@ -209,7 +213,6 @@ h1 {
 }
 
 .drop-bg div {
-  height: 48px;
   margin: 0px;
   border: none;
   justify-content: start;
@@ -226,6 +229,7 @@ h1 {
 
 #categoryDropDown {
   margin: 0px;
+  /* width: 36%; */
 }
 
 #category {

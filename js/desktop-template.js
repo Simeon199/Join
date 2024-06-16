@@ -1,8 +1,9 @@
-let username = "marcel zalec";
+let username = getUserNickname();
 
 function initSidebar() {
   sidebarHTML();
   headerHTML();
+  sowUserLetters();
 }
 
 function sidebarHTML() {
@@ -55,7 +56,7 @@ function headerHTML() {
             <a href="help.html">
                 <img onclick="help()" src="Assets/img/help.svg" alt="Help">
                 </a>
-            <div onclick="openDropDownMenu()" class="circle"><span onload="firstLetterFirstTwoWords(username)"></span></div>
+            <div onclick="openDropDownMenu()" class="circle" id="userLetters"></div>
             <div id="dropDown-bg" class="dropDown-bg d-none" onclick="closeDropDownMenu()">
                 <div id="dropDown"></div>
             </div>
@@ -89,6 +90,14 @@ function goToLN() {
   window.location.href = "legal_notice.html";
 }
 
+function sowUserLetters() {
+  span = document.getElementById("userLetters");
+  un = firstLetterFirstTwoWords(username)
+  span.innerHTML = /*html*/`
+    <span>${un}</span>
+  `;
+}
+
 function firstLetterFirstTwoWords(text) {
   // Split the string into words
   const words = text.split(" ");
@@ -100,4 +109,9 @@ function firstLetterFirstTwoWords(text) {
   const result = firstLetters.slice(0, 2).join("");
 
   return result.toUpperCase();
+}
+
+function getUserNickname() {
+  xy = sessionStorage.getItem("userNickname");
+  return xy;
 }

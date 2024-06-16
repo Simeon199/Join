@@ -74,7 +74,8 @@ function clearTask() {
     // assignetTo.value='';
     // date.value = '';
     category = changeCategory('Select task category');
-    clearSubtask();
+    // clearSubtask();
+    changePriority(medium);
 }
 
 function showDropDownAssignedTo() {
@@ -108,7 +109,8 @@ function changeCategory(text) {
 }
 
 async function showContactsToAssign() {
-    await loadData("/contacts");
+  await loadData("/contacts");
+  // await loadData()
 }
 
 function addSubtask() {
