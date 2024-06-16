@@ -77,6 +77,8 @@ h1 {
 }
 
 .input {
+    color: #D1D1D1;
+    font-size: 20px;
     margin-bottom: 20px;
     height: 48px;
     border-radius: 10px;
@@ -126,10 +128,11 @@ h1 {
 }
 
 .darkBtn {
+    font-size: 21px;
     font-weight: bold;
     background-color: #2A3647;
-    width: 91px;
-    height: 49px;
+    /* width: 91px;
+    height: 49px; */
     border-radius: 8px;
     border: none;
     padding: 15px 16px 15px 16px;
@@ -144,6 +147,7 @@ h1 {
 }
 
 .brightBtn {
+    font-size: 21px;
     border: 1px solid rgba(42, 54, 71, 1)
 }
 
@@ -168,8 +172,6 @@ h1 {
 }
 
 .signUp {
-    width: 279px;
-    height: 49px;
     gap: 35px;
     display: flex;
     align-items: center;
@@ -206,6 +208,10 @@ h1 {
     line-height: 19.2px;
 }
 
+/* .privacyPolicity {
+    background-image: url('../Assets/img/check.svg');
+} */
+
 .privacyPolicity label{
     width: 300px;
 }
@@ -237,6 +243,10 @@ a:hover {
 }
 
 footer {
+    /* position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0; */
     display: flex;
     justify-content: center;
     padding: 16px;
