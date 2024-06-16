@@ -1,5 +1,5 @@
 checkWebsiteLocation();
-checkIfUserIsLoggedIn();
+// checkIfUserIsLoggedIn();
 
 function greetUser(){
   let nickname = localStorage.getItem("userNickname");
