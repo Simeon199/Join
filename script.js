@@ -274,7 +274,7 @@ function checkIfEmailValid(email) {
 
 function checkIfPasswordIsValid(password) {
   let minLength = 6;
-  let regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+  let regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/;
   if (password.length < minLength) {
     return `Das Passwort muss mindestens ${minLength} Zeichen lang sein.`;
   }
