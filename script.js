@@ -1,6 +1,16 @@
 checkWebsiteLocation();
 // checkIfUserIsLoggedIn();
 
+// stopEvent
+function stopEvent(event) {
+  event.stopPropagation();
+}
+
+// stopEvent
+function stopEvent(event) {
+  event.stopPropagation();
+}
+
 function greetUser() {
   let nickname = localStorage.getItem("userNickname");
   if (!nickname) {

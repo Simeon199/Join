@@ -18,7 +18,7 @@
 }
 
 #logoKlein.shrink {
-  animation: moveLogo 3s ease-in-out forwards;
+  animation: moveLogo 1s ease-in-out;
 }
 
 @keyframes moveLogo {
