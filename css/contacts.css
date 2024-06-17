@@ -1,11 +1,5 @@
-html {
-  height: 100%;
-}
-
 body {
   overflow: hidden;
-
-  height: 100%;
 }
 
 body .d-none {
@@ -1018,6 +1012,8 @@ body .translate-100 {
     flex-direction: column;
 
     height: calc(100vh - 175px);
+
+    min-height: 600px;
   }
 
   #pop-up-left-container {
