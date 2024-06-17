@@ -72,6 +72,10 @@ main h3 {
   text-align: left;
 }
 
+main .small-section h3 {
+  margin-top: 20px;
+}
+
 main p {
   font-size: 16px;
   font-weight: 400;
@@ -87,7 +91,7 @@ ol {
   padding-bottom: 10px;
 }
 
-li {
+ol li {
   display: flex;
   justify-content: center;
 
@@ -95,7 +99,7 @@ li {
   margin-bottom: 5px;
 }
 
-li:before {
+ol li:before {
   content: counter(item) ".";
 
   padding-right: 30px;
@@ -104,6 +108,7 @@ li:before {
   font-weight: 700;
 }
 
+main .small-section p,
 main li p {
   margin-top: 0;
 }

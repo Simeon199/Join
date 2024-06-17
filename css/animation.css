@@ -1,46 +1,45 @@
 .overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #f0f0f0;
-    z-index: 1000;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f0f0f0;
+  z-index: 1000;
 }
 
 #logoKlein {
-    width: 100px;
-    height: auto;
-    position: relative;
+  width: 100px;
+  height: auto;
+  position: relative;
 }
 
 #logoKlein.shrink {
-    animation: moveLogo 3s ease-in-out forwards;
+  animation: moveLogo 3s ease-in-out forwards;
 }
 
 @keyframes moveLogo {
-    0% {
-        transform: translate(0, 0);
-    }
-    100% {
-        transform: translate(-46vw, -39vh);
-    }
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(-46vw, -39vh);
+  }
 }
 
 .d-none {
-    display: none;
+  display: none;
 }
 
 .main-container {
-    display: none; 
+  display: none;
 }
 
 .main-container.show {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
 }
-
