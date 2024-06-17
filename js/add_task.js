@@ -83,8 +83,8 @@ function showDropDownAssignedTo() {
 function showDropDownCategory() {
     document.getElementById('categoryDropDown').classList.remove('d-none');
     document.getElementById('categoryDropDown').innerHTML = /*html*/`
-            <div onclick="hideDropDownCategory(); changeCategory(Technical Task)"><span>Technical Task</span></div>
-            <div onclick="hideDropDownCategory(); changeCategory(Test)"><span>User Story</span></div>
+            <div onclick="hideDropDownCategory(); changeCategory('Technical Task')"><span>Technical Task</span></div>
+            <div onclick="hideDropDownCategory(); changeCategory('Test')"><span>User Story</span></div>
     `;
 }
 
