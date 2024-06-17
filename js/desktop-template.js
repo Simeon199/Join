@@ -1,3 +1,5 @@
+// import {logout, greetUser} from "../script.js";
+
 let username = getUserNickname();
 
 function initSidebar() {
@@ -79,13 +81,12 @@ function closeDropDownMenu() {
 }
 
 function logout() {
-  // localStorage.removeItem("isLoggedIn");
-  // localStorage.removeItem("currentUser");
-  // localStorage.removeItem('userNickname');
-  // sessionStorage.removeItem("isLoggedIn");
-  // sessionStorage.removeItem("currentUser");
-  // sessionStorage.removeItem("userNickname");
-  // sessionStorage.removeItem("guestLoginStatus");
+  localStorage.removeItem("isLoggedIn");
+  localStorage.removeItem("currentUser");
+  localStorage.removeItem('userNickname');
+  sessionStorage.removeItem("isLoggedIn");
+  sessionStorage.removeItem("currentUser");
+  sessionStorage.removeItem("userNickname");
   window.location.href = "login.html";
 }
 
@@ -119,6 +120,9 @@ function firstLetterFirstTwoWords(text) {
 }
 
 function getUserNickname() {
-  xy = sessionStorage.getItem("userNickname");
-  return xy;
+  x = sessionStorage.getItem("userNickname");
+  if (!sessionStorage.getItem("userNickname")) {
+    x = "Guest"
+  }
+  return x;
 }
