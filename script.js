@@ -1,5 +1,5 @@
 checkWebsiteLocation();
-// checkIfUserIsLoggedIn();
+checkIfUserIsLoggedIn();
 
 // stopEvent
 function stopEvent(event) {
@@ -38,21 +38,21 @@ function backToLogin() {
   window.location.href = "login.html";
 }
 
-function logout() {
-  alert('test');
-  removeAttributesForLogout();
-  window.location.href = "login.html";
-}
+// function logout() {
+//   alert('test');
+//   removeAttributesForLogout();
+//   window.location.href = "login.html";
+// }
 
-function removeAttributesForLogout(){
-  localStorage.removeItem("isLoggedIn");
-  localStorage.removeItem("currentUser");
-  localStorage.removeItem('userNickname');
-  sessionStorage.removeItem("isLoggedIn");
-  sessionStorage.removeItem("currentUser");
-  sessionStorage.removeItem("userNickname");
-  sessionStorage.removeItem("guestLoginStatus");
-}
+// function removeAttributesForLogout(){
+//   localStorage.removeItem("isLoggedIn");
+//   localStorage.removeItem("currentUser");
+//   localStorage.removeItem('userNickname');
+//   sessionStorage.removeItem("isLoggedIn");
+//   sessionStorage.removeItem("currentUser");
+//   sessionStorage.removeItem("userNickname");
+//   sessionStorage.removeItem("guestLoginStatus");
+// }
 
 function createLoggedInStatusObject() {
   let obj = {

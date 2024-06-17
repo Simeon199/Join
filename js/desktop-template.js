@@ -87,6 +87,7 @@ function logout() {
   sessionStorage.removeItem("isLoggedIn");
   sessionStorage.removeItem("currentUser");
   sessionStorage.removeItem("userNickname");
+  sessionStorage.removeItem("guestLoginStatus");
   window.location.href = "login.html";
 }
 
