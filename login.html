@@ -8,13 +8,74 @@
     <!-- <link rel="stylesheet" href="css/generally.css"> -->
     <link rel="stylesheet" href="./css/login.css">
     <script src="script.js"></script>
-    <script src="js/sow_contacts.js"></script>
-
+    
     
 </head>
 <body onload="loadData()">
+    <div class="overlay" id="overlay">
+        <img id="logoKlein" src="Assets/img/Capa2logo_klein.svg" alt="">
+    </div>
 
-    <header>
+    <div class="main-container d-none" id="main">
+        <header>
+            <img id="headerLogo" src="Assets/img/Capa2logo_klein.svg" alt="">
+            <div class="signUp">
+                <p>Not a Join user?</p>
+                <button class="darkBtn" onclick="goToSignUp()">Sign up</button>
+            </div>
+        </header>
+    
+        <section class="loginFrame">
+            <div class="login">
+                <h1>Log in</h1>
+                <form id="loginForm" onsubmit="return testLoginFunction(event)">
+                    <div class="loginInput" id="loginInput">
+                        <div class="input">
+                            <input id="loginEmail" inputmode="email" class="loginInputStyle" type="email" placeholder="Email" required>
+                            <div>
+                                <img src="Assets/img/mail.svg" alt="">
+                            </div>
+                        </div>
+                        <div class="input" id="loginPasswordInputField">
+                            <input id="loginPassword" minlength="6" maxlength="16" class="loginInputStyle" type="password" placeholder="Password" required>
+                            <div>
+                                <img src="Assets/img/lock.svg" id="loginLock" alt="">
+                                <img src="Assets/img/visibility.svg" id="visibility" onclick="showLoginPassword('loginPassword')" class="d-none" alt="">
+                                <img src="Assets/img/visibility_off.svg" id="visibilityInputImage" onclick="showLoginPassword('loginPassword')" class="d-none" alt="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="notification">
+                        <p id="msgbox"></p>
+                    </div>
+                    <div class="checkbox">
+                        <input id="remember" type="checkbox" class="checkbox-input" onclick="addCheck()">
+                        <label for="remember" class="checkbox-label">Remember me
+                        <svg id="checkbox-check" class="checkbox-check d-none" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M1 8.96582L5 12.9658L13 1.46582" stroke="#2A3647" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </label>
+                    </div>
+                    <div class="loginButtons">
+                        <button id="loginBtn" class="darkBtn" type="submit">Log in</button>
+                        <button class="brightBtn" onclick="guestLogin()">Guest Log in</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+    
+        <footer>
+            <div>
+                <a href="">Privacy Policy</a>
+                <a href="">Legal notice</a>
+            </div>
+        </footer>
+
+    </div>
+    <script src="js/sow_contacts.js"></script>
+    <link rel="stylesheet" href="./css/animation.css">
+    <script src="js/animation.js"></script>
+    <!-- <header>
         <img id="logoKlein" src="Assets/img/Capa2logo_klein.svg" alt="">
         <div class="signUp">
             <p>Not a Join user?</p>
@@ -36,7 +97,8 @@
                     <div class="input" id="loginPasswordInputField">
                         <input id="loginPassword" minlength="6" maxlength="16" class="loginInputStyle" type="password" placeholder="Password" required>
                         <div>
-                            <img src="Assets/img/lock.svg" id="loginLock" onclick="showLoginPassword('loginPassword')" alt="">
+                            <img src="Assets/img/lock.svg" id="loginLock" alt="">
+                            <img src="Assets/img/visibility.svg" id="visibility" onclick="showLoginPassword('loginPassword')" class="d-none" alt="">
                             <img src="Assets/img/visibility_off.svg" id="visibilityInputImage" onclick="showLoginPassword('loginPassword')" class="d-none" alt="">
                         </div>
                     </div>
@@ -45,8 +107,12 @@
                     <p id="msgbox"></p>
                 </div>
                 <div class="checkbox">
-                    <input id="remember" type="checkbox">
-                    <label for="remember">Remember me</label>
+                    <input id="remember" type="checkbox" class="checkbox-input" onclick="addCheck()">
+                    <label for="remember" class="checkbox-label">Remember me
+                    <svg id="checkbox-check" class="checkbox-check d-none" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M1 8.96582L5 12.9658L13 1.46582" stroke="#2A3647" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </label>
                 </div>
                 <div class="loginButtons">
                     <button id="loginBtn" class="darkBtn" type="submit">Log in</button>
@@ -61,7 +127,6 @@
             <a href="">Privacy Policy</a>
             <a href="">Legal notice</a>
         </div>
-    </footer>
-    
+    </footer> -->
 </body>
 </html>

@@ -9,6 +9,10 @@ body {
   }
 }
 
+::placeholder {
+  color: rgba(209, 209, 209, 1);
+}
+
 form div div div {
   background-color: rgba(255, 255, 255, 1);
   width: 100%;
@@ -209,7 +213,6 @@ h1 {
 }
 
 .drop-bg div {
-  height: 48px;
   margin: 0px;
   border: none;
   justify-content: start;
@@ -226,10 +229,72 @@ h1 {
 
 #categoryDropDown {
   margin: 0px;
+  /* width: 36%; */
 }
 
 #category {
   margin-bottom: 0px;
+}
+
+.onFocus:focus {
+    border: 1px solid rgba(41, 171, 226, 1);
+}
+
+#subtask:focus {
+    border: unset;
+}
+
+.subtasksvg {
+    padding-right: 25px;
+}
+
+.subtasksvg:hover {
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 100%;
+    background-color: #d9d9d9;
+}
+
+.subtask {
+    background: unset !important;
+    border: unset !important;
+    justify-content: unset;
+    flex-direction: column;
+    margin: 0px !important;
+    overflow-y: scroll;
+    height: 100px;
+}
+
+.subtasks {
+    background: unset !important;
+    border: unset !important;
+    height: 48px;
+    margin: 5px 0px 0px 0px !important;
+    justify-content: start;
+    .subBtn1 {
+      background: unset !important;
+      border: unset !important;
+      justify-content: end;
+      gap: 12px;
+      padding-right: 20px;
+    }
+    .subBtn1 svg:hover {
+      cursor: pointer;
+    }
+}
+
+.subtasks span {
+    padding-left: 15px;
+}
+
+@media (max-width:1000px) {
+  .main {
+    padding: 90px 0px;
+  }
+  .submitSection {
+    left: 0px;
+    bottom: 100px;
+  }
 }
 
 @media (max-width: 900px) {
@@ -238,5 +303,50 @@ h1 {
   }
   .prio div div {
     flex-direction: row !important;
+  }
+}
+
+@media (max-width: 600px) {
+  .addTaskBody form {
+    flex-direction: column;
+    align-items: center;
+  }
+  .prio div {
+    flex-direction: row !important;
+  }
+  .borderLine {
+    display: none;
+  }
+  .input1 {
+    padding: 0px;
+    width: 90%;
+  }
+  .input2 {
+    padding: 0px;
+    width: 90%;
+  }
+  .submitSection {
+    position: relative;
+    justify-content: space-around;
+    bottom: 0;
+    flex-direction: column;
+    align-items: center;
+  }
+  .buttons {
+    padding-right: 0px;
+  }
+}
+
+@media (max-width:350px) {
+  .buttons {
+    flex-direction: column;
+    padding-bottom: 90px;
+    width: 80%;
+  }
+  .btn {
+    width: 80%;
+  }
+  .darkBTN {
+    width: 80%;
   }
 }
