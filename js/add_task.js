@@ -66,10 +66,13 @@ function changeImg(condition) {
 }
 
 function createTask() {
-  console.log("create");
+  console.log("create...");
+  showrequiredText1()
+  debugger
 }
 
 function clearTask() {
+    console.error("Clearing...")
     // console.log(inputTitle.value);
     // inputTitle.value= "";
     // inputDescription.value='';
@@ -153,4 +156,19 @@ function clearSubtask() {
     subtask.innerHTML= '';
     i = 0;
     subtask.classList.add('d-none');
+}
+
+function sowCalender() {
+  // cal = document.getElementById("calender");
+  // onclick="sowCalender()"
+}
+
+function showrequiredText() {
+  let ids = ["requiredTitle", "requiredDate", "requiredCatergory"];
+  ids.forEach(function(id) {
+    let element = document.getElementById(id);
+    if (element) {
+      element.classList.remove('d-none');
+    }
+  }); 
 }

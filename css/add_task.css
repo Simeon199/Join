@@ -62,6 +62,18 @@ form div div div {
   width: 24px;
 }
 
+#calender {
+  margin-right: 25px;
+}
+
+#calender:hover {
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 100%;
+  background-color: #d9d9d9;
+  margin-right: 20px;
+}
+
 .descriptionStyle {
   height: 136px;
   border-radius: 10px;
@@ -236,8 +248,12 @@ h1 {
   margin-bottom: 0px;
 }
 
+.onFocus input {
+  border: unset !important;
+}
+
 .onFocus:focus {
-    border: 1px solid rgba(41, 171, 226, 1);
+  border: 1px solid rgba(41, 171, 226, 1);
 }
 
 #subtask:focus {
@@ -245,7 +261,7 @@ h1 {
 }
 
 .subtasksvg {
-    padding-right: 25px;
+    margin-right: 25px;
 }
 
 .subtasksvg:hover {
@@ -253,6 +269,7 @@ h1 {
     padding: 8px;
     border-radius: 100%;
     background-color: #d9d9d9;
+    margin-right: 18px;
 }
 
 .subtask {
@@ -286,6 +303,18 @@ h1 {
 .subtasks span {
     padding-left: 15px;
 }
+
+.transparent {
+  color: transparent !important;
+}
+
+.required-text {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 14.4px;
+  color: rgba(255, 129, 144, 1);
+}
+
 
 @media (max-width:1000px) {
   .main {
