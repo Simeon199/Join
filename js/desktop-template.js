@@ -5,7 +5,7 @@ let username = getUserNickname();
 function initSidebar() {
   sidebarHTML();
   headerHTML();
-  sowUserLetters();
+  sowUserLetters("userLetters", username);
 }
 
 function sidebarHTML() {
@@ -99,8 +99,8 @@ function goToLN() {
   window.location.href = "legal_notice.html";
 }
 
-function sowUserLetters() {
-  span = document.getElementById("userLetters");
+function sowUserLetters(id , username) {
+  span = document.getElementById(id);
   un = firstLetterFirstTwoWords(username)
   span.innerHTML = /*html*/`
     <span>${un}</span>

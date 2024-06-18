@@ -4,11 +4,14 @@ let assignetTo = document.getElementById("assignetTo");
 let date = document.getElementById("date");
 let category = document.getElementById("category");
 let subtask = document.getElementById("sowSubtasks");
+let contact = document.getElementById("assignedToDropDown");
 
 let subArray = [];
+let contacts = [];
 
 function init() {
   changePriority(medium);
+  getAllContacts();
 }
 
 function taskMarker() {
@@ -84,13 +87,12 @@ function clearTask() {
 }
 
 function showDropDownAssignedTo() {
-    showContactsToAssign();
-    document.getElementById('assignedToDropDown').classList.remove('d-none');
-    document.getElementById('assignedToDropDown').innerHTML = /*html*/`
-            <div onclick="hideDropDownAssignedTo()"><span>Test1</span></div>
-            <div><span>Test2</span></div>
-            <div><span>Test3</span></div>
-    `;
+    // console.log(allUsers);
+    contact.classList.remove("d-none");
+    for (let i = 0; i < allUsers.length; i++) {
+      user = allUsers[i];
+      renderAssignedToHTML(user);
+    }
 }
 
 function showDropDownCategory() {
@@ -102,7 +104,8 @@ function showDropDownCategory() {
 }
 
 function hideDropDownAssignedTo() {
-  document.getElementById("assignedToDropDown").classList.add("d-none");
+  contact.classList.add("d-none");
+  contact.innerHTML = "";
 }
 
 function hideDropDownCategory() {
@@ -113,10 +116,10 @@ function changeCategory(text) {
     document.getElementById('categoryText').innerHTML = `${text}`;
 }
 
-async function showContactsToAssign() {
-  await loadData("/contacts");
-  // await loadData()
-}
+// async function showContactsToAssign() {
+//   return await loadData("/contacts");
+//   // await loadData()
+// }
 
 function addSubtask() {
   let text = document.getElementById(`subtask`);
@@ -146,7 +149,7 @@ function rendersubtask() {
   document.getElementById("sowSubtasks").innerHTML = "";
   for (let i = 0; i < subArray.length; i++) {
     let content = subArray[i]
-    renderSubtaskHTML(i, content)
+    renderSubtaskHTML(content)
   }
 }
 
@@ -194,4 +197,14 @@ function showrequiredText() {
       element.classList.remove('d-none');
     }
   }); 
+}
+
+function renderAssignedToHTML(user) {
+  contact.innerHTML += /*html*/`
+    <div class=assignedDropDownField onclick="hideDropDownAssignedTo()">
+      <div class="circle" id="assignetToLetters"></div>
+      <div><span>${user['name']}</span></div>
+    </div>
+  `;
+  sowUserLetters("assignetToLetters" , user['name'])
 }

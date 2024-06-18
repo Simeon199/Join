@@ -321,6 +321,38 @@ h1 {
   color: rgba(255, 129, 144, 1);
 }
 
+#assignedToDropDown {
+  height: 200px;
+  overflow-y: scroll;
+}
+
+.assignedDropDownField {
+  justify-content: space-around;
+  .circle {
+    border: 2px solid rgba(255, 255, 255, 1);
+    width: 42px;
+    height: 38px;
+    background-color: cadetblue;
+    justify-content: center;
+    align-items: center;
+  }
+  .circle span {
+  padding: 0px;
+  }
+  :focus {
+    background: rgba(9, 25, 49, 1);
+  }
+}
+
+.assignedDropDownField:hover {
+  background-color: rgba(42, 54, 71, 1) !important;
+  color: rgba(255, 255, 255, 1);
+}
+
+.assignedDropDownField div:hover {
+  background-color: unset;
+} 
+
 
 @media (max-width:1000px) {
   .main {
