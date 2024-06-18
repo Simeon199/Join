@@ -20,17 +20,6 @@ function addCheck() {
     window.location.href = "login.html";
   }
   
-//   function createLoggedInStatusObject() {
-//     let obj = {
-//       status: localStorage.getItem("isLoggedIn"),
-//       currentUser: localStorage.getItem("currentUser"),
-//       sessionUser: sessionStorage.getItem("currentUser"),
-//       sessionStatus: sessionStorage.getItem("isLoggedIn"),
-//       currentPath: window.location.pathname.split("/").pop(),
-//       guestLoginStatus: sessionStorage.getItem("guestLoginStatus"),
-//     };
-//     return obj;
-//   }
   
   function setStorageAttributes() {
     sessionStorage.removeItem("isLoggedIn");
@@ -39,29 +28,7 @@ function addCheck() {
     console.log("Sitzung abgelaufen. Benutzerdaten entfernt.");
   }
   
-//   function checkIfUserIsLoggedIn() {
-//     let LoggedInObject = createLoggedInStatusObject();
-//     if (LoggedInObject["guestLoginStatus"] == "true") {
-//       if (LoggedInObject["currentPath"] !== "summary.hmtl") {
-//         console.log("Nutzer ist als Gast eingeloggt");
-//       }
-//     } else if (
-//       (LoggedInObject["status"] === "true" && LoggedInObject["currentUser"]) ||
-//       (LoggedInObject["sessionStatus"] === "true" && LoggedInObject["sessionUser"])
-//     ) {
-//       console.log("Nutzer ist eingeloggt");
-//     } else {
-//       if (
-//         LoggedInObject["currentPath"] !== "register.html" &&
-//         LoggedInObject["currentPath"] !== "login.html"
-//       ) {
-//         window.location.href = "login.html";
-//       }
-//     }
-//     if (LoggedInObject["sessionStatus"] === "true" && !LoggedInObject["sessionUser"]) {
-//       setStorageAttributes();
-//     }
-//   }
+
   
   function saveLoggedInStatus(name, email, remember) {
     if (remember) {
@@ -281,28 +248,7 @@ function addCheck() {
     }
     checkPasswordContentType(passwordContent);
   }
-  
-//   function registerInputFieldFunction(
-//     inputLock,
-//     registerInputField,
-//     visibilityInputImage,
-//     visibility
-//   ) {
-//     registerInputField.addEventListener("input", function () {
-//       inputLock.classList.add("d-none");
-//       if (registerInputField.value.length > 0 && registerInputField.type == "password") {
-//         visibilityInputImage.classList.remove("d-none");
-//         visibility.classList.add("d-none");
-//       } else if (registerInputField.value.length > 0 && registerInputField.type == "text") {
-//         visibilityInputImage.classList.add("d-none");
-//         visibility.classList.remove("d-none");
-//       } else if (registerInputField.value.length == 0) {
-//         inputLock.classList.remove("d-none");
-//         visibilityInputImage.classList.add("d-none");
-//         visibility.classList.add("d-none");
-//       }
-//     });
-//   }
+
   
   function loginPasswordFunction(loginPassword, loginLock, visibilityInputImage, visibility) {
     loginPassword.addEventListener("input", function () {
