@@ -21,17 +21,22 @@ header {
 h1 {
     font-family: 'Open Sans';
     margin: 0px;
-    /* width: 315px; */
     height: 73px;
     display: flex;
     justify-content: center;
     font-size: 61px;
     font-weight: 700;
     line-height: 73.2px;
-    border-bottom: 3px solid #29ABE2;
+    /* text-decoration: underline 3px solid #29ABE2; */
+    /* border-bottom: 3px solid #29ABE2; */
     gap: 16px;
     padding-bottom: 16px;
-    /* rotate: -90deg; */
+}
+
+.underline {
+    flex: 1;
+    padding-bottom: 5px;
+    border-bottom: 3px solid #29ABE2;
 }
 
 .loginFrame{
@@ -173,7 +178,8 @@ h1 {
 .signUp {
     gap: 35px;
     display: flex;
-    align-items: center;
+    height: 50%;
+    /* align-items: center; */
 }
 
 .signUp p {
@@ -272,6 +278,10 @@ footer a:hover {
     display: none;
 }
 
+.signUpDown {
+    display: none;
+}
+
 .red-border {
     border-color: red;
 }
@@ -291,7 +301,6 @@ footer a:hover {
     }
 
     .login {
-        /* margin: 0; */
         padding-right: 8px;
         padding-left: 8px;
     }
@@ -302,19 +311,27 @@ footer a:hover {
 }
 
 @media(max-width: 500px){
+    header {
+        padding-left: 32px;
+        padding-right: 32px;
+    }
+
     h1 {
         font-size: 50px;
     }
 
-    .signUp {
-        gap: 8px;
-        display: flex;
-        flex-direction: column;
+    .loginFrame {
+        flex: unset;
     }
 
     .login {
         padding-right: 16px;
         padding-left: 16px;
+    }
+
+    .signUp {
+        flex-direction: column;
+        height: 100%;
     }
 
     .loginButtons {
@@ -328,8 +345,26 @@ footer a:hover {
         font-size: 18px;
     }
 
+    .darkBtn:nth-child(2){
+        width: unset;
+    }
+
     .brightBtn {
         width: 70%;
         font-size: 18px;
+    }
+}
+
+@media(max-width: 400px){
+    .signUp {
+        display: none;
+    }
+
+    .signUpDown {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        padding-right: 32px;
+        padding-left: 32px;
     }
 }

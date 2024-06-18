@@ -16,7 +16,8 @@
 .loginAndArrow {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-start;
+    width: 100%;
 }
 
 #signUpForm {
@@ -67,6 +68,9 @@ a {
     display: none;
 }
 
+.arrowcontainer {
+    flex-grow: 0.425;
+}
 
 .registerPopup {
     position: fixed;
