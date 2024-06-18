@@ -274,12 +274,13 @@ function checkIfEmailValid(email) {
 
 function checkIfPasswordIsValid(password) {
   let minLength = 6;
-  let regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/;
+  // let regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{6,}$/;
+  let regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{6,}$/;
   if (password.length < minLength) {
     return `Das Passwort muss mindestens ${minLength} Zeichen lang sein.`;
   }
   if (!regex.test(password)) {
-    return "Das Passwort muss mindestens einen Großbuchstaben, einen Kleinbuchstaben, eine Zahl und ein Sonderzeichen enthalten.";
+    return "Das Passwort muss mindestens einen Großbuchstaben, einen Kleinbuchstaben, und eine Zahl enthalten.";
   }
   return null;
 }
