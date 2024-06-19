@@ -358,12 +358,19 @@ h1 {
   background-color: unset;
   border: unset;
   justify-content: start;
+  flex-wrap: wrap;
 }
 
 .assignetToDiv {
   width: 42px !important;
   height: 42px !important;
   margin: 10px;
+}
+
+.assignetToDiv span {
+  color: rgba(255, 255, 255, 1) !important;
+  font-weight: 400 !important;
+  font-size: 12px !important;
 }
 
 

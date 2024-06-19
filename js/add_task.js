@@ -119,11 +119,6 @@ function changeCategory(text) {
     document.getElementById('categoryText').innerHTML = `${text}`;
 }
 
-// async function showContactsToAssign() {
-//   return await loadData("/contacts");
-//   // await loadData()
-// }
-
 function addSubtask() {
   let text = document.getElementById(`subtask`);
   if (text.value.length <= 0) {
@@ -187,11 +182,6 @@ function deleteSubtask(i) {
 
 }
 
-function sowCalender() {
-  // cal = document.getElementById("calender");
-  // onclick="sowCalender()"
-}
-
 function showrequiredText() {
   let ids = ["requiredTitle", "requiredDate", "requiredCatergory"];
   ids.forEach(function(id) {
@@ -203,9 +193,8 @@ function showrequiredText() {
 }
 
 function renderAssignedToHTML(user, contact, i) {
-  let un = user['name'];
   contact.innerHTML += /*html*/`
-    <div class=assignedDropDownField onclick="hideDropDownAssignedTo(); renderAssignedToCircle(${i}, '${un}')">
+    <div class=assignedDropDownField onclick="hideDropDownAssignedTo(); renderAssignedToCircle(${i}, '${user[`name`]}', '${user[`color`]}')">
       <div class="circle" id="assignetToLetters${i}"></div>
       <div><span>${user['name']}</span></div>
     </div>
@@ -214,11 +203,23 @@ function renderAssignedToHTML(user, contact, i) {
   sowUserLetters(`assignetToLetters${i}` , user['name'])
 }
 
-function renderAssignedToCircle(i, user) {
+function renderAssignedToCircle(i, user, color) {
   console.log(i, user);
   document.getElementById("userCircles").innerHTML += /*html*/`
     <div class="assignetToDiv circle" id="showCircle${i}"></div>
   `;
-  document.getElementById(`showCircle${i}`).style.backgroundColor = user['color'];
+   circle = document.getElementById(`showCircle${i}`).style;
+   circle.backgroundColor = color;
+   circle.border= "2px solid rgba(255, 255, 255, 1)";
   sowUserLetters(`showCircle${i}` , user)
+}
+
+function typeaendern() {
+  const inputField = document.getElementById("date");
+  inputField.type = "date";
+}
+
+function typeaendernback() {
+  const inputField = document.getElementById("date");
+  inputField.type = "text";
 }
