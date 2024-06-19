@@ -205,7 +205,7 @@ function showrequiredText() {
 function renderAssignedToHTML(user, contact, i) {
   let un = user['name']
   contact.innerHTML += /*html*/`
-    <div class=assignedDropDownField onclick="hideDropDownAssignedTo(); renderAssignedToCircle(${i} ${un})">
+    <div class=assignedDropDownField onclick="hideDropDownAssignedTo(); renderAssignedToCircle(${i}, '${un}')">
       <div class="circle" id="assignetToLetters${i}"></div>
       <div><span>${user['name']}</span></div>
     </div>
@@ -215,9 +215,12 @@ function renderAssignedToHTML(user, contact, i) {
 }
 
 function renderAssignedToCircle(i, user) {
+  console.log(i, user);
   document.getElementById("userCircles").innerHTML += /*html*/`
     <div class="assignetToDiv circle" id="showCircle${i}"></div>
   `;
   document.getElementById(`showCircle${i}`).style.backgroundColor = user['color'];
-  sowUserLetters(`showCircle${i}` , user['name'])
+  sowUserLetters(`showCircle${i}` , user)
 }
+
+ja
