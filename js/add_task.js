@@ -203,7 +203,7 @@ function showrequiredText() {
 }
 
 function renderAssignedToHTML(user, contact, i) {
-  let un = user['name']
+  let un = user['name'];
   contact.innerHTML += /*html*/`
     <div class=assignedDropDownField onclick="hideDropDownAssignedTo(); renderAssignedToCircle(${i}, '${un}')">
       <div class="circle" id="assignetToLetters${i}"></div>

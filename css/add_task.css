@@ -357,11 +357,13 @@ h1 {
 #userCircles {
   background-color: unset;
   border: unset;
+  justify-content: start;
 }
 
 .assignetToDiv {
-  width: 42px;
-  height: 42px;
+  width: 42px !important;
+  height: 42px !important;
+  margin: 10px;
 }
 
 
