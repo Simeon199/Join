@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JOIN</title>
     <link rel="shortcut icon" href="Assets/img/Capa2logo_klein.svg" type="image/x-icon">
-    <!-- <link rel="stylesheet" href="css/generally.css"> -->
     <link rel="stylesheet" href="./css/login.css">
     <script src="script.js"></script>
+    <script src="js/login.js"></script>
     
     
 </head>
@@ -27,7 +27,7 @@
     
         <section class="loginFrame">
             <div class="login">
-                <h1>Log in</h1>
+                <h1 class="underline">Log in</h1>
                 <form id="loginForm" onsubmit="return testLoginFunction(event)">
                     <div class="loginInput" id="loginInput">
                         <div class="input">
@@ -63,6 +63,13 @@
                 </form>
             </div>
         </section>
+
+        <div class="signUpDown">
+            <p>Not a Join user?</p>
+            <button class="darkBtn" onclick="goToSignUp()">Sign up</button>
+        </div>
+
+
     
         <footer>
             <div>
@@ -70,63 +77,10 @@
                 <a href="">Legal notice</a>
             </div>
         </footer>
-
     </div>
+
     <script src="js/sow_contacts.js"></script>
     <link rel="stylesheet" href="./css/animation.css">
     <script src="js/animation.js"></script>
-    <!-- <header>
-        <img id="logoKlein" src="Assets/img/Capa2logo_klein.svg" alt="">
-        <div class="signUp">
-            <p>Not a Join user?</p>
-            <button class="darkBtn" onclick="goToSignUp()">Sign up</button>
-        </div>
-    </header>
-
-    <section class="loginFrame">
-        <div class="login">
-            <h1>Log in</h1>
-            <form id="loginForm" onsubmit="return testLoginFunction(event)">
-                <div class="loginInput" id="loginInput">
-                    <div class="input">
-                        <input id="loginEmail" inputmode="email" class="loginInputStyle" type="email" placeholder="Email" required>
-                        <div>
-                            <img src="Assets/img/mail.svg" alt="">
-                        </div>
-                    </div>
-                    <div class="input" id="loginPasswordInputField">
-                        <input id="loginPassword" minlength="6" maxlength="16" class="loginInputStyle" type="password" placeholder="Password" required>
-                        <div>
-                            <img src="Assets/img/lock.svg" id="loginLock" alt="">
-                            <img src="Assets/img/visibility.svg" id="visibility" onclick="showLoginPassword('loginPassword')" class="d-none" alt="">
-                            <img src="Assets/img/visibility_off.svg" id="visibilityInputImage" onclick="showLoginPassword('loginPassword')" class="d-none" alt="">
-                        </div>
-                    </div>
-                </div>
-                <div class="notification">
-                    <p id="msgbox"></p>
-                </div>
-                <div class="checkbox">
-                    <input id="remember" type="checkbox" class="checkbox-input" onclick="addCheck()">
-                    <label for="remember" class="checkbox-label">Remember me
-                    <svg id="checkbox-check" class="checkbox-check d-none" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M1 8.96582L5 12.9658L13 1.46582" stroke="#2A3647" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                </label>
-                </div>
-                <div class="loginButtons">
-                    <button id="loginBtn" class="darkBtn" type="submit">Log in</button>
-                    <button class="brightBtn" onclick="guestLogin()">Guest Log in</button>
-                </div>
-            </form>
-        </div>
-    </section>
-
-    <footer>
-        <div>
-            <a href="">Privacy Policy</a>
-            <a href="">Legal notice</a>
-        </div>
-    </footer> -->
 </body>
 </html>
