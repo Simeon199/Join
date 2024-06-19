@@ -4,7 +4,7 @@ let assignetTo = document.getElementById("assignetTo");
 let date = document.getElementById("date");
 let category = document.getElementById("category");
 let subtask = document.getElementById("sowSubtasks");
-let contact = document.getElementById("assignedToDropDown");
+// let contact = document.getElementById("assignedToDropDown");
 
 let subArray = [];
 let contacts = [];
@@ -87,12 +87,14 @@ function clearTask() {
 }
 
 function showDropDownAssignedTo() {
+  contact = document.getElementById("assignedToDropDown");
     // console.log(allUsers);
-    contact.classList.remove("d-none");
+    
     for (let i = 0; i < allUsers.length; i++) {
       user = allUsers[i];
-      renderAssignedToHTML(user);
+      renderAssignedToHTML(user,contact, i);
     }
+    contact.classList.remove("d-none");
 }
 
 function showDropDownCategory() {
@@ -104,6 +106,7 @@ function showDropDownCategory() {
 }
 
 function hideDropDownAssignedTo() {
+  contact=document.getElementById("assignedToDropDown");
   contact.classList.add("d-none");
   contact.innerHTML = "";
 }
@@ -149,7 +152,7 @@ function rendersubtask() {
   document.getElementById("sowSubtasks").innerHTML = "";
   for (let i = 0; i < subArray.length; i++) {
     let content = subArray[i]
-    renderSubtaskHTML(content)
+    renderSubtaskHTML(i, content)
   }
 }
 
@@ -160,7 +163,7 @@ function renderSubtaskHTML(i , content) {
   // subtask.classList.remove('d-none');
   aS.innerHTML += /*html*/`
     <div class="subtasks" onmouseover="showEditButtons(${i})" onmouseout="hiddeEditButtons(${i})">
-      <span>${content}</span>
+      <span id="changeTo${i}">${content}</span>
       <div id="subBTN${i}" class="subBtn1"></div>
     </div>
   `;
@@ -177,7 +180,7 @@ function clearSubtask() {
 }
 
 function editSubtask(i) {
-
+  document.getElementById("changeTo${i}").element;
 }
 
 function deleteSubtask(i) {
@@ -199,12 +202,22 @@ function showrequiredText() {
   }); 
 }
 
-function renderAssignedToHTML(user) {
+function renderAssignedToHTML(user, contact, i) {
+  let un = user['name']
   contact.innerHTML += /*html*/`
-    <div class=assignedDropDownField onclick="hideDropDownAssignedTo()">
-      <div class="circle" id="assignetToLetters"></div>
+    <div class=assignedDropDownField onclick="hideDropDownAssignedTo(); renderAssignedToCircle(${i} ${un})">
+      <div class="circle" id="assignetToLetters${i}"></div>
       <div><span>${user['name']}</span></div>
     </div>
   `;
-  sowUserLetters("assignetToLetters" , user['name'])
+  document.getElementById(`assignetToLetters${i}`).style.backgroundColor = user['color'];
+  sowUserLetters(`assignetToLetters${i}` , user['name'])
+}
+
+function renderAssignedToCircle(i, user) {
+  document.getElementById("userCircles").innerHTML += /*html*/`
+    <div class="assignetToDiv circle" id="showCircle${i}"></div>
+  `;
+  document.getElementById(`showCircle${i}`).style.backgroundColor = user['color'];
+  sowUserLetters(`showCircle${i}` , user['name'])
 }
