@@ -16,22 +16,40 @@ let tasks = [
   }
 ]
 
+let elementDraggedOver;
+
 function updateHTML(){
   let todo = document.getElementById("no-to-do-container");
-  let inprogress = document.getElementById("tasks");
-  // todo.innerHTML = '';
-  // inprogress.innerHTML = '';
   let tasksToDo = tasks.filter(element => element["category"] == "todo");
-  let inProgressTasks = tasks.filter(element => element["category"] == "inprogress");
-  console.log(tasksToDo, inProgressTasks);
+  tasksToDo.innerHTML = '';
   for(index = 0; index < tasksToDo.length; index++){
-    let task = tasksToDo[index]["task"];
-    todo.innerHTML += `<div class="todo">${task}</div>`;
+    let task = tasksToDo[index];
+    todo.innerHTML += createToDoHTML(task);
   }
+  let inprogress = document.getElementById("no-await-feedback-container");
+  let inProgressTasks = tasks.filter(element => element["category"] == "inprogress");
+  inprogress.innerHTML = '';
   for(index = 0; index < inProgressTasks.length; index++){
-    let taskInProgress = inProgressTasks[index]["task"];
-    inprogress.innerHTML += `<div class="inProgress">${taskInProgress}</div>`;
+    let taskInProgress = inProgressTasks[index];
+    inprogress.innerHTML += createToDoHTML(taskInProgress);
   }
+}
+
+function createToDoHTML(element){
+  return `<div class="todo" draggable="true" ondragstart="startDragging(${element['id']})">${element['task']}</div>`;
+}
+
+function startDragging(element){
+  elementDraggedOver = element;
+}
+
+function moveTo(category){
+  tasks[elementDraggedOver]["category"] = category;
+  updateHTML();
+}
+
+function allowDrop(event){
+  event.preventDefault();
 }
 
 function showAddTaskPopUp() {

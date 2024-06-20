@@ -116,7 +116,7 @@
           </div>
 
           <div id="to-do-container">
-            <div id="no-to-do-container" class="no-task">
+            <div id="no-to-do-container" class="no-task" ondragover="allowDrop(event)" ondrop="moveTo('no-to-do-container')">
               <p>No tasks to do</p>
             </div>
           </div>
@@ -297,7 +297,7 @@
             </div>
 
             <div id="await-feedback-container">
-              <div id="no-await-feedback-container" class="no-task">
+              <div id="no-await-feedback-container" class="no-task" ondragover="allowDrop(event)" ondrop="moveTo('no-await-feedback-container')">
                 <p>No tasks await feedback</p>
               </div>
             </div>
