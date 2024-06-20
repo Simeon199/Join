@@ -1,4 +1,4 @@
-let userName = "Test";
+let userName = getUserNickname();
 
 function init() {
     greet();
@@ -6,9 +6,15 @@ function init() {
 
 function greet() {
     cont =document.getElementById('greetingCont');
-    cont.innerHTML = /*html*/`
+    if (userName = "Guest") {
+        cont.innerHTML = /*html*/`
+        <p>Good morning</p>
+    `;
+    } else {
+        cont.innerHTML = /*html*/`
         <p>Good morning,</p><h3>${userName}</h3>
-    `
+    `;
+    }
 }
 
 function goToBoard() {

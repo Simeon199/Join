@@ -200,10 +200,27 @@ body .translate-100 {
   stroke: #29abe2;
 }
 
+.todo {
+  padding: 8px;
+  border: 1px solid black;
+  border-radius: 16px;
+  margin: 8px;
+  cursor: pointer;
+}
+
+.inProgress{
+  padding: 8px;
+  border: 1px solid black;
+  border-radius: 16px;
+  margin: 8px;
+  cursor: pointer;
+}
+
 .no-task {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
 
   width: 100%;
 

@@ -283,7 +283,7 @@ h1 {
 }
 
 .subtasks {
-    background: unset !important;
+    background-color: unset !important;
     border: unset !important;
     height: 48px;
     margin: 5px 0px 0px 0px !important;
@@ -294,14 +294,20 @@ h1 {
       justify-content: end;
       gap: 12px;
       padding-right: 20px;
+      margin: 0px;
     }
-    .subBtn1 svg:hover {
+    /* .subBtn1 svg:hover {
       cursor: pointer;
+    } */
+    span {
+      padding-left: 15px;
     }
 }
 
-.subtasks span {
-    padding-left: 15px;
+.subtasks:hover {
+  cursor: pointer;
+  background-color: rgba(238, 238, 238, 1)!important;
+  margin: 0px;
 }
 
 .transparent {
@@ -313,6 +319,58 @@ h1 {
   font-weight: 400;
   line-height: 14.4px;
   color: rgba(255, 129, 144, 1);
+}
+
+#assignedToDropDown {
+  height: 200px;
+  overflow-y: scroll;
+  justify-content: start;
+}
+
+.assignedDropDownField {
+  justify-content: space-around;
+  .circle {
+    border: 2px solid rgba(255, 255, 255, 1);
+    width: 42px;
+    height: 38px;
+    background-color: cadetblue;
+    justify-content: center;
+    align-items: center;
+  }
+  .circle span {
+  padding: 0px;
+  }
+  :focus {
+    background: rgba(9, 25, 49, 1);
+  }
+}
+
+.assignedDropDownField:hover {
+  background-color: rgba(42, 54, 71, 1) !important;
+  color: rgba(255, 255, 255, 1);
+}
+
+.assignedDropDownField div:hover {
+  background-color: unset;
+}
+
+#userCircles {
+  background-color: unset;
+  border: unset;
+  justify-content: start;
+  flex-wrap: wrap;
+}
+
+.assignetToDiv {
+  width: 42px !important;
+  height: 42px !important;
+  margin: 10px;
+}
+
+.assignetToDiv span {
+  color: rgba(255, 255, 255, 1) !important;
+  font-weight: 400 !important;
+  font-size: 12px !important;
 }
 
 

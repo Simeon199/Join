@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     
     setTimeout(() => {
         logo.classList.add('shrink');
+        overlay.classList.add('changebackground');
     }, 1000); 
 
     logo.addEventListener('animationend', () => {

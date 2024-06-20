@@ -1,0 +1,8 @@
+
+C:\Users\User\Desktop\Developerakademie(Projekte)\Frontend\Gruppenarbeit\Join-231(240)>git add . 
+
+C:\Users\User\Desktop\Developerakademie(Projekte)\Frontend\Gruppenarbeit\Join-231(240)>git commit -m "assignedto -- Contacts" 
+[main 937d73b] assignedto -- Contacts
+ 3 files changed, 10 insertions(+), 6 deletions(-)
+
+C:\Users\User\Desktop\Developerakademie(Projekte)\Frontend\Gruppenarbeit\Join-231(240)>git push 

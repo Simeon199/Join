@@ -1,5 +1,5 @@
 checkWebsiteLocation();
-// checkIfUserIsLoggedIn();
+checkIfUserIsLoggedIn();
 
 // stopEvent
 function stopEvent(event) {
@@ -12,46 +12,8 @@ function greetUser() {
     nickname = sessionStorage.getItem("userNickname");
   }
   if (nickname) {
-    +alert("Seit gegrüßt " + nickname);
+    alert("Sei gegrüßt " + nickname);
   }
-}
-
-function addCheck() {
-  let checkboxCheck = document.getElementById("checkbox-check");
-  if (!checkboxCheck.classList.contains("d-none")) {
-    checkboxCheck.classList.add("d-none");
-  } else {
-    checkboxCheck.classList.remove("d-none");
-  }
-}
-
-function guestLogin() {
-  sessionStorage.setItem("guestLoginStatus", "true");
-  window.location.href = "summary.html";
-}
-
-function goToSignUp() {
-  window.location.href = "register.html";
-}
-
-function backToLogin() {
-  window.location.href = "login.html";
-}
-
-function logout() {
-  alert("test");
-  removeAttributesForLogout();
-  window.location.href = "login.html";
-}
-
-function removeAttributesForLogout() {
-  localStorage.removeItem("isLoggedIn");
-  localStorage.removeItem("currentUser");
-  localStorage.removeItem("userNickname");
-  sessionStorage.removeItem("isLoggedIn");
-  sessionStorage.removeItem("currentUser");
-  sessionStorage.removeItem("userNickname");
-  sessionStorage.removeItem("guestLoginStatus");
 }
 
 function createLoggedInStatusObject() {
@@ -64,13 +26,6 @@ function createLoggedInStatusObject() {
     guestLoginStatus: sessionStorage.getItem("guestLoginStatus"),
   };
   return obj;
-}
-
-function setStorageAttributes() {
-  sessionStorage.removeItem("isLoggedIn");
-  sessionStorage.removeItem("currentUser");
-  sessionStorage.removeItem("guestLoginStatus");
-  console.log("Sitzung abgelaufen. Benutzerdaten entfernt.");
 }
 
 function checkIfUserIsLoggedIn() {
@@ -364,23 +319,6 @@ function registerInputFieldRepeatFunction(
   });
 }
 
-function loginPasswordFunction(loginPassword, loginLock, visibilityInputImage, visibility) {
-  loginPassword.addEventListener("input", function () {
-    loginLock.classList.add("d-none");
-    if (loginPassword.value.length > 0 && loginPassword.type == "password") {
-      visibilityInputImage.classList.remove("d-none");
-      visibility.classList.add("d-none");
-    } else if (loginPassword.value.length > 0 && loginPassword.type == "text") {
-      visibilityInputImage.classList.add("d-none");
-      visibility.classList.remove("d-none");
-    } else if (loginPassword.value.length == 0) {
-      loginLock.classList.remove("d-none");
-      visibilityInputImage.classList.add("d-none");
-      visibility.classList.add("d-none");
-    }
-  });
-}
-
 function checkWebsiteLocation() {
   let currentURL = window.location.href;
   if (currentURL.includes("login.html")) {
@@ -423,37 +361,4 @@ function createObjectforEventListener() {
     inputLockRepeat: document.getElementById("inputLockRepeat"),
   };
   return object;
-}
-
-function checkAllCasesForShowPassword(
-  variable,
-  visibilityInputImage,
-  visibilityInputImageRepeat,
-  visibility,
-  visibilityRepeat
-) {
-  if (variable == "loginPassword" && visibilityInputImage.classList.contains("d-none")) {
-    visibilityInputImage.classList.remove("d-none");
-    visibility.classList.add("d-none");
-  } else if (variable == "loginPassword" && inputLock.classList.contains("d-none")) {
-    visibility.classList.remove("d-none");
-    visibilityInputImage.classList.add("d-none");
-  } else if (
-    variable == "loginPasswordRepeat" &&
-    visibilityInputImageRepeat.classList.contains("d-none")
-  ) {
-    visibilityInputImageRepeat.classList.remove("d-none");
-    visibilityRepeat.classList.add("d-none");
-  } else if (variable == "loginPasswordRepeat" && inputLockRepeat.classList.contains("d-none")) {
-    visibilityRepeat.classList.remove("d-none");
-    visibilityInputImageRepeat.classList.add("d-none");
-  }
-}
-
-function checkPasswordContentType(passwordContent) {
-  if (passwordContent.type == "password") {
-    passwordContent.type = "text";
-  } else {
-    passwordContent.type = "password";
-  }
 }
