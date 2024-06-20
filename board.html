@@ -43,7 +43,7 @@
     <script src="js/board.js"></script>
     <script src="script.js"></script>
   </head>
-  <body onload="initSidebar()">
+  <body onload="initSidebar(); updateHTML()">
     <header id="headerForm"></header>
 
     <main>
@@ -150,7 +150,7 @@
             </div> -->
 
             <!-- task card rendern !!!! -->
-            <div class="task">
+            <div class="task" id="tasks">
               <div class="task-category">User story</div>
 
               <h3 class="task-title">Kochwelt Page & Recipe Recommender</h3>
