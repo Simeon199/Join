@@ -1,80 +1,86 @@
 <!DOCTYPE html>
 <html lang="de">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>JOIN</title>
-    <link rel="shortcut icon" href="Assets/img/Capa2logo_klein.svg" type="image/x-icon">
-    <link rel="stylesheet" href="css/generally.css">
-    <link rel="stylesheet" href="css/summary.css">
+    <link rel="shortcut icon" href="Assets/img/Capa2logo_klein.svg" type="image/x-icon" />
+    <link rel="stylesheet" href="css/generally.css" />
+    <link rel="stylesheet" href="css/summary.css" />
     <script src="script.js"></script>
     <script src="js/desktop-template.js"></script>
     <script src="js/summary.js"></script>
-    
-</head>
-<body onload="init(); initSidebar(); greetUser(); checkIfUserIsLoggedIn()">
+  </head>
+  <body onload="init(); initSidebar(); greetUser(); checkIfUserIsLoggedIn()">
     <header id="headerForm"></header>
 
     <section class="mainSection">
-        <div class="summaryHead">
-            <h1>JOIN 360</h1>
-            <div class="borderLine"></div>
-            <p>Key Metrics at a Glance</p>
-        </div>
-        <div class="mainCont">
-            <div class="dataCont">
-                <div class="moreBoxes">
-                    <div onclick="goToBoard()" class="box1 contentFlex" onmouseover="hover(todo)" onmouseleave="unhover(todo)">
-                        <img id="todo" class="to-to" src="Assets/img/edit.svg" alt="">
-                        <div>
-                            <p class="bigNumber"><b>1</b></p>
-                            <h4>To-do</h4>
-                        </div>
-                    </div>
-                    <div onclick="goToBoard()" class="box1 contentFlex" onmouseover="hover(done)" onmouseleave="unhover(done)">
-                        <img id="done" class="done" src="Assets/img/Done.svg" alt="">
-                        <div>
-                            <p class="bigNumber"><b>1</b></p>
-                            <h4>Done</h4>
-                        </div>
-                    </div>
-                </div>
-                <div onclick="goToBoard()" class="boxUrgent">
-                    <div class="contentFlex">
-                        <img src="Assets/img/Group 7Urgent.svg" alt="">
-                        <div>
-                            <p class="bigNumber"><b>1</b></p>
-                            <h4>Urgent</h4>
-                        </div>
-                    </div>
-                    <div class="borderLine"></div>
-                    <div class="date">
-                        <p><b>October 16,2024</b></p>
-                        <p>Upcoming Deadline</p>
-                    </div>
-                </div>
-                <div class="moreBoxes">
-                    <div onclick="goToBoard()" class="box2">
-                        <p class="bigNumber"><b>1</b></p>
-                        <h4>Tasks in Boared</h4>
-                    </div>
-                    <div onclick="goToBoard()" class="box2">
-                        <p class="bigNumber"><b>1</b></p>
-                        <h4>Tasks in Progress</h4>
-                    </div>
-                    <div onclick="goToBoard()" class="box2">
-                        <p class="bigNumber"><b>1</b></p>
-                        <h4>Awaiting Feedback</h4>
-                    </div>
-                </div>
+      <div class="summaryHead">
+        <h1>JOIN 360</h1>
+        <div class="borderLine"></div>
+        <p>Key Metrics at a Glance</p>
+      </div>
+      <div class="mainCont">
+        <div class="dataCont">
+          <div class="moreBoxes">
+            <div
+              onclick="goToBoard()"
+              class="box1 contentFlex"
+              onmouseover="hover(todo)"
+              onmouseleave="unhover(todo)"
+            >
+              <img id="todo" class="to-to" src="Assets/img/edit.svg" alt="" />
+              <div>
+                <p class="bigNumber"><b>1</b></p>
+                <h4>To-do</h4>
+              </div>
             </div>
-            <div class="greetHead" id="greetingCont"></div>
+            <div
+              onclick="goToBoard()"
+              class="box1 contentFlex"
+              onmouseover="hover(done)"
+              onmouseleave="unhover(done)"
+            >
+              <img id="done" class="done" src="Assets/img/Done.svg" alt="" />
+              <div>
+                <p class="bigNumber"><b>1</b></p>
+                <h4>Done</h4>
+              </div>
+            </div>
+          </div>
+          <div onclick="goToBoard()" class="boxUrgent">
+            <div class="contentFlex">
+              <img src="Assets/img/Group 7Urgent.svg" alt="" />
+              <div>
+                <p class="bigNumber"><b>1</b></p>
+                <h4>Urgent</h4>
+              </div>
+            </div>
+            <div class="borderLine"></div>
+            <div class="date">
+              <p><b>October 16,2024</b></p>
+              <p>Upcoming Deadline</p>
+            </div>
+          </div>
+          <div class="moreBoxes">
+            <div onclick="goToBoard()" class="box2">
+              <p class="bigNumber"><b>1</b></p>
+              <h4>Tasks in Boared</h4>
+            </div>
+            <div onclick="goToBoard()" class="box2">
+              <p class="bigNumber"><b>1</b></p>
+              <h4>Tasks in Progress</h4>
+            </div>
+            <div onclick="goToBoard()" class="box2">
+              <p class="bigNumber"><b>1</b></p>
+              <h4>Awaiting Feedback</h4>
+            </div>
+          </div>
         </div>
-
+        <div class="greetHead" id="greetingCont"></div>
+      </div>
     </section>
 
-
     <div id="sidebar"></div>
-
-</body>
+  </body>
 </html>
