@@ -33,47 +33,81 @@ let tasks = [
 
 let elementDraggedOver;
 
+// function updateHTML(){
+//   let todo = document.getElementById("todo-tasks");
+//   let tasksToDo = tasks.filter(element => element["category"] == "todo-tasks");
+//   todo.innerHTML = '';
+//   for(index = 0; index < tasksToDo.length; index++){
+//     let task = tasksToDo[index];
+//     todo.innerHTML += createToDoHTML(task);
+//   }
+//   let feedback = document.getElementById("feedback-tasks");
+//   let feedbackTasks = tasks.filter(element => element["category"] == "feedback-tasks");
+//   feedback.innerHTML = '';
+//   for(index = 0; index < feedbackTasks.length; index++){
+//     let feedbackTask = feedbackTasks[index];
+//     feedback.innerHTML += createToDoHTML(feedbackTask);
+//   }
+//   let firstInProgress = document.getElementById("first-in-progress");
+//   let tasksFirstInProgress = tasks.filter(element => element["category"] == "first-in-progress");
+//   firstInProgress.innerHTML = '';
+//   for(index = 0; index < tasksFirstInProgress.length; index++){
+//     let firstInProgressTask = tasksFirstInProgress[index];
+//     firstInProgress.innerHTML += createToDoHTML(firstInProgressTask);
+//   }
+//   let secondInProgress = document.getElementById("second-in-progress");
+//   let tasksSecondInProgress = tasks.filter(element => element["category"] == "second-in-progress");
+//   secondInProgress.innerHTML = '';
+//   for(index = 0; index < tasksSecondInProgress.length; index++){
+//     let secondInProgressTask = tasksSecondInProgress[index];
+//     secondInProgress.innerHTML += createToDoHTML(secondInProgressTask);
+//   }
+//   let done = document.getElementById("done");
+//   let tasksDone = tasks.filter(element => element["category"] == "done");
+//   done.innerHTML = '';
+//   for(index = 0; index < tasksDone.length; index++){
+//     let doneTask = tasksDone[index];
+//     done.innerHTML += createToDoHTML(doneTask);
+//   }
+// }
+
+function iterateThroughSubArray(subArray, htmlElement){
+  for(index = 0; index < subArray.length; index++){
+    let item = subArray[index];
+    htmlElement.innerHTML += createToDoHTML(item);
+  }
+}
+
+function newUpdateHTML(){
+  for(index = 0; index < tasks.length; index++){
+    let category = tasks[index]["category"];
+    let htmlElement = document.getElementById(category);
+    let subArray = tasks.filter(element => element["category"] == category);
+    iterateThroughSubArray(subArray, htmlElement);
+  }
+}
+
 function updateHTML(){
   let todo = document.getElementById("todo-tasks");
   let tasksToDo = tasks.filter(element => element["category"] == "todo-tasks");
   todo.innerHTML = '';
-  for(index = 0; index < tasksToDo.length; index++){
-    let task = tasksToDo[index];
-    // console.log(task);
-    todo.innerHTML += createToDoHTML(task);
-  }
+  iterateThroughSubArray(tasksToDo, todo);
   let feedback = document.getElementById("feedback-tasks");
   let feedbackTasks = tasks.filter(element => element["category"] == "feedback-tasks");
   feedback.innerHTML = '';
-  for(index = 0; index < feedbackTasks.length; index++){
-    let feedbackTask = feedbackTasks[index];
-    // console.log(feedbackTask);
-    feedback.innerHTML += createToDoHTML(feedbackTask);
-  }
+  iterateThroughSubArray(feedbackTasks, feedback);
   let firstInProgress = document.getElementById("first-in-progress");
   let tasksFirstInProgress = tasks.filter(element => element["category"] == "first-in-progress");
   firstInProgress.innerHTML = '';
-  for(index = 0; index < tasksFirstInProgress.length; index++){
-    let firstInProgressTask = tasksFirstInProgress[index];
-    // console.log(firstInProgressTask);
-    firstInProgress.innerHTML += createToDoHTML(firstInProgressTask);
-  }
+  iterateThroughSubArray(tasksFirstInProgress, firstInProgress);
   let secondInProgress = document.getElementById("second-in-progress");
   let tasksSecondInProgress = tasks.filter(element => element["category"] == "second-in-progress");
   secondInProgress.innerHTML = '';
-  for(index = 0; index < tasksSecondInProgress.length; index++){
-    let secondInProgressTask = tasksSecondInProgress[index];
-    // console.log(secondInProgressTask);
-    secondInProgress.innerHTML += createToDoHTML(secondInProgressTask);
-  }
+  iterateThroughSubArray(tasksSecondInProgress, secondInProgress);
   let done = document.getElementById("done");
   let tasksDone = tasks.filter(element => element["category"] == "done");
   done.innerHTML = '';
-  for(index = 0; index < tasksDone.length; index++){
-    let doneTask = tasksDone[index];
-    // console.log(secondInProgressTask);
-    done.innerHTML += createToDoHTML(doneTask);
-  }
+  iterateThroughSubArray(tasksDone, done);
 }
 
 function createToDoHTML(element){
