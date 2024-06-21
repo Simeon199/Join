@@ -14,7 +14,7 @@ body .d-none {
 main {
   box-sizing: border-box;
 
-  padding-left: 240px;
+  padding-left: 232px;
 
   width: 100%;
   height: calc(100vh - 96px);

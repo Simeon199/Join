@@ -14,7 +14,7 @@ body {
 
 header {
   /* position: absolute; */
-  left: 232px; /*263*/
+  /*left: 232px; */ /*263*/
   right: 0;
   top: 0px;
   display: flex;

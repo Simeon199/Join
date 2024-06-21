@@ -1,35 +1,53 @@
 let allUsers = [];
 let firstUsersNameLetter = [];
 let colors = [
-  "#4B3C99", // MB
-  "#FF4646", // TW
-  "#FF8C1A", // AM
-  "#AA4FFF", // AS
-  "#6464FF", // BZ
-  "#DE1AFF", // DE
-  "#FFC61A", // EF
-  "#32D4C3", // EM
-  "#FF5733", // New Color 1
-  "#33FF57", // New Color 2
-  "#3357FF", // New Color 3
-  "#FF33A8", // New Color 4
-  "#A833FF", // New Color 5
-  "#33FFDD", // New Color 6
-  "#FFDD33", // New Color 7
-  "#DD33FF", // New Color 8
-  "#FF336B", // New Color 9
-  "#6BFF33", // New Color 10
-  "#1E3A55", // New Color 11
-  "#FFA500", // New Color 12
-  "#00CED1", // New Color 13
-  "#8A2BE2", // New Color 14
-  "#A52A2A", // New Color 15
-  "#7FFF00", // New Color 16
-  "#D2691E", // New Color 17
-  "#FF7F50", // New Color 18
-  "#DC143C", // New Color 19
-  "#008B8B", // New Color 20
+  "#4B3C99",
+  "#FF4646",
+  "#FF8C1A",
+  "#AA4FFF",
+  "#6464FF",
+  "#DE1AFF",
+  "#FFC61A",
+  "#32D4C3",
+  "#FF5733",
+  "#33FF57",
+  "#3357FF",
+  "#FF33A8",
+  "#A833FF",
+  "#33FFDD",
+  "#FFDD33",
+  "#DD33FF",
+  "#FF336B",
+  "#6BFF33",
+  "#1E3A55",
+  "#FFA500",
+  "#00CED1",
+  "#8A2BE2",
+  "#A52A2A",
+  "#7FFF00",
+  "#D2691E",
+  "#FF7F50",
+  "#DC143C",
+  "#008B8B",
 ];
+
+// let colors = [
+//   "#FF7A00",
+//   "#FF5EB3",
+//   "#6E52FF",
+//   "#9327FF",
+//   "#00BEE8",
+//   "#1FD7C1",
+//   "#FF745E",
+//   "#FFA35E",
+//   "#FC71FF",
+//   "#FFC701",
+//   "#0038FF",
+//   "#C3FF2B",
+//   "#FFE62B",
+//   "#FF4646",
+//   "#FFBB2B",
+// ];
 let activeContactIndex = null;
 
 // initContact
