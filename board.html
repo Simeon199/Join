@@ -20,7 +20,6 @@
     <link rel="stylesheet" href="css/add_task.css" />
     <link rel="stylesheet" href="css/board.css" />
 
-
     <!-- js -->
     <script src="js/desktop-template.js"></script>
     <script src="js/add_task.js"></script>
@@ -73,92 +72,11 @@
           </div>
         </div>
 
-
-      <div id="all-sections-container">
-        <!-- section to do -->
-        <section id="section-to-do" class="board-section">
-          <div class="section-headline">
-            <h2>To do</h2>
-
-            <div class="plus-icon-container" onclick="showAddTaskPopUp()">
-              <svg
-                width="10"
-                height="11"
-                viewBox="0 0 10 11"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path d="M5 1.5V9.5" stroke="#2A3647" stroke-width="2" stroke-linecap="round" />
-                <path
-                  d="M9 5.57544L1 5.57544"
-                  stroke="#2A3647"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                />
-              </svg>
-            </div>
-          </div>
-
-          <div id="to-do-container">
-            <div id="no-to-do-container" class="no-task">
-              <p>No tasks to do</p>
-            </div>
-            <div class="content-task" id="todo-tasks"  ondragover="allowDrop(event)" ondrop="moveTo('todo-tasks')"></div>
-          </div>
-        </section>
-
-        <!-- section in progress -->
-        <section id="section-in-progress" class="board-section">
-          <div class="section-headline">
-            <h2>In progress</h2>
-
-            <div class="plus-icon-container" onclick="showAddTaskPopUp()">
-              <svg
-                width="10"
-                height="11"
-                viewBox="0 0 10 11"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path d="M5 1.5V9.5" stroke="#2A3647" stroke-width="2" stroke-linecap="round" />
-                <path
-                  d="M9 5.57544L1 5.57544"
-                  stroke="#2A3647"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                />
-              </svg>
-            </div>
-          </div>
-
-          <div id="in-progress-container">
-            <!-- <div id="no-in-progress-container" class="no-task">
-              <p>No tasks in progress</p>
-            </div> -->
-
-            <!-- task card rendern !!!! -->
-            <div class="task" id="tasks">
-              <div class="content-task" id="first-in-progress"  ondragover="allowDrop(event)" ondrop="moveTo('first-in-progress')"></div>
-              <div class="task-category">User story</div>
-
-              <h3 class="task-title">Kochwelt Page & Recipe Recommender</h3>
-              <p class="task-description">Build start page with recipe recommendation...</p>
-
-              <div class="task-bar-container">
-                <div class="task-bar">
-                  <div class="task-bar-content"></div>
-                </div>
-
-                <p class="task-bar-text">1/2 Subtasks</p>
-              </div>
-
-              <div class="task-contacts-container">
-                <div class="task-contacts">
-                  <div class="task-contact">AM</div>
-                  <div class="task-contact">EM</div>
-                  <div class="task-contact">MB</div>
-                </div>
-
+        <div id="all-sections-container">
+          <!-- section to do -->
+          <section id="section-to-do" class="board-section">
+            <div class="section-headline">
+              <h2>To do</h2>
 
               <div class="plus-icon-container" onclick="showAddTaskPopUp()">
                 <svg
@@ -183,6 +101,12 @@
               <div id="no-to-do-container" class="no-task">
                 <p>No tasks to do</p>
               </div>
+              <div
+                class="content-task"
+                id="todo-tasks"
+                ondragover="allowDrop(event)"
+                ondrop="moveTo('todo-tasks')"
+              ></div>
             </div>
           </section>
 
@@ -217,7 +141,12 @@
 
               <!-- task card rendern !!!! -->
               <div class="task">
-                <div class="content-task" id="second-in-progress"  ondragover="allowDrop(event)" ondrop="moveTo('second-in-progress')"></div>
+                <div
+                  class="content-task"
+                  id="second-in-progress"
+                  ondragover="allowDrop(event)"
+                  ondrop="moveTo('second-in-progress')"
+                ></div>
                 <div class="task-category">User story</div>
 
                 <h3 class="task-title">Kochwelt Page & Recipe Recommender</h3>
@@ -287,7 +216,12 @@
               <div id="no-await-feedback-container" class="no-task">
                 <p>No tasks await feedback</p>
               </div>
-              <div class="content-task" id="feedback-tasks" ondragover="allowDrop(event)" ondrop="moveTo('feedback-tasks')"></div>
+              <div
+                class="content-task"
+                id="feedback-tasks"
+                ondragover="allowDrop(event)"
+                ondrop="moveTo('feedback-tasks')"
+              ></div>
             </div>
           </section>
 
@@ -319,7 +253,12 @@
               <div id="no-done-container" class="no-task">
                 <p>No tasks done</p>
               </div>
-              <div class="content-task" id="done" ondragover="allowDrop(event)" ondrop="moveTo('done')"></div>
+              <div
+                class="content-task"
+                id="done"
+                ondragover="allowDrop(event)"
+                ondrop="moveTo('done')"
+              ></div>
             </div>
           </section>
         </div>
