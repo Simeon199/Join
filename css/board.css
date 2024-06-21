@@ -11,6 +11,21 @@ body {
   position: relative;
 }
 
+main {
+  box-sizing: border-box;
+
+  padding: 40px;
+  padding-left: 270px;
+
+  width: 100%;
+  height: calc(100vh - 96px);
+
+  display: flex;
+  flex-direction: column;
+
+  background-color: #f9f9f9;
+}
+
 body .bg-op-0 {
   background-color: #00000000;
   z-index: -1;
@@ -235,7 +250,7 @@ body .translate-100 {
   cursor: pointer;
 }
 
-.inProgress{
+.inProgress {
   padding: 8px;
   border: 1px solid black;
   border-radius: 16px;
@@ -502,4 +517,15 @@ body .translate-100 {
 
 .buttons {
   padding: 0;
+}
+
+@media (max-width: 1000px) {
+  main {
+    box-sizing: unset;
+
+    padding-left: 5px;
+    padding-top: 96px;
+
+    height: calc(100vh - 175px);
+  }
 }

@@ -70,6 +70,7 @@ function openDropDownMenu() {
   document.getElementById("dropDown-bg").classList.remove("d-none");
   dt = document.getElementById("dropDown");
   dt.innerHTML = /*html*/ `
+      <div onclick="goToH()" id='dropDown-help-link'>Help</div>
       <div onclick="goToLN()">Legal Notice</div>
       <div onclick="goToPP()">Privacy Policy</div>
       <div onclick="logout()">Log out</div>  
@@ -83,7 +84,7 @@ function closeDropDownMenu() {
 function logout() {
   localStorage.removeItem("isLoggedIn");
   localStorage.removeItem("currentUser");
-  localStorage.removeItem('userNickname');
+  localStorage.removeItem("userNickname");
   sessionStorage.removeItem("isLoggedIn");
   sessionStorage.removeItem("currentUser");
   sessionStorage.removeItem("userNickname");
@@ -99,10 +100,14 @@ function goToLN() {
   window.location.href = "legal_notice.html";
 }
 
-function sowUserLetters(id , username) {
+function goToH() {
+  window.location.href = "help.html";
+}
+
+function sowUserLetters(id, username) {
   span = document.getElementById(id);
-  un = firstLetterFirstTwoWords(username)
-  span.innerHTML = /*html*/`
+  un = firstLetterFirstTwoWords(username);
+  span.innerHTML = /*html*/ `
     <span>${un}</span>
   `;
 }
@@ -123,7 +128,7 @@ function firstLetterFirstTwoWords(text) {
 function getUserNickname() {
   x = sessionStorage.getItem("userNickname");
   if (!sessionStorage.getItem("userNickname")) {
-    x = "Guest"
+    x = "Guest";
   }
   return x;
 }
