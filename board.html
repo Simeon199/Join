@@ -154,6 +154,7 @@
 
             <!-- task card rendern !!!! -->
             <div class="task" id="tasks">
+              <div class="content-task" id="first-in-progress"  ondragover="allowDrop(event)" ondrop="moveTo('first-in-progress')"></div>
               <div class="task-category">User story</div>
 
               <h3 class="task-title">Kochwelt Page & Recipe Recommender</h3>
@@ -232,6 +233,7 @@
 
               <!-- task card rendern !!!! -->
               <div class="task">
+                <div class="content-task" id="second-in-progress"  ondragover="allowDrop(event)" ondrop="moveTo('second-in-progress')"></div>
                 <div class="task-category">User story</div>
 
                 <h3 class="task-title">Kochwelt Page & Recipe Recommender</h3>
@@ -333,6 +335,7 @@
               <div id="no-done-container" class="no-task">
                 <p>No tasks done</p>
               </div>
+              <div class="content-task" id="done" ondragover="allowDrop(event)" ondrop="moveTo('done')"></div>
             </div>
           </section>
         </div>

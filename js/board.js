@@ -13,6 +13,21 @@ let tasks = [
     "id": 2,
     "task": "Kochen",
     "category": "feedback-tasks"
+  },
+  {
+    "id": 3,
+    "task": "Einkaufen",
+    "category": "first-in-progress"
+  },
+  {
+    "id": 4,
+    "task": "Bügeln",
+    "category": "second-in-progress"
+  },
+  {
+    "id": 5,
+    "task": "Fahrrad reparieren",
+    "category": "done"
   }
 ]
 
@@ -24,6 +39,7 @@ function updateHTML(){
   todo.innerHTML = '';
   for(index = 0; index < tasksToDo.length; index++){
     let task = tasksToDo[index];
+    // console.log(task);
     todo.innerHTML += createToDoHTML(task);
   }
   let feedback = document.getElementById("feedback-tasks");
@@ -31,7 +47,32 @@ function updateHTML(){
   feedback.innerHTML = '';
   for(index = 0; index < feedbackTasks.length; index++){
     let feedbackTask = feedbackTasks[index];
+    // console.log(feedbackTask);
     feedback.innerHTML += createToDoHTML(feedbackTask);
+  }
+  let firstInProgress = document.getElementById("first-in-progress");
+  let tasksFirstInProgress = tasks.filter(element => element["category"] == "first-in-progress");
+  firstInProgress.innerHTML = '';
+  for(index = 0; index < tasksFirstInProgress.length; index++){
+    let firstInProgressTask = tasksFirstInProgress[index];
+    // console.log(firstInProgressTask);
+    firstInProgress.innerHTML += createToDoHTML(firstInProgressTask);
+  }
+  let secondInProgress = document.getElementById("second-in-progress");
+  let tasksSecondInProgress = tasks.filter(element => element["category"] == "second-in-progress");
+  secondInProgress.innerHTML = '';
+  for(index = 0; index < tasksSecondInProgress.length; index++){
+    let secondInProgressTask = tasksSecondInProgress[index];
+    // console.log(secondInProgressTask);
+    secondInProgress.innerHTML += createToDoHTML(secondInProgressTask);
+  }
+  let done = document.getElementById("done");
+  let tasksDone = tasks.filter(element => element["category"] == "done");
+  done.innerHTML = '';
+  for(index = 0; index < tasksDone.length; index++){
+    let doneTask = tasksDone[index];
+    // console.log(secondInProgressTask);
+    done.innerHTML += createToDoHTML(doneTask);
   }
 }
 

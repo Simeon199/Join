@@ -159,6 +159,12 @@ body .translate-100 {
   border-radius: 8px;
 }
 
+#done-container {
+  padding: 16px;
+  border-radius: 8px;
+  border: 2px solid black;
+}
+
 /* Zu Testzwecken (Ende)
 
 
