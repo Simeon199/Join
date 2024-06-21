@@ -141,6 +141,27 @@ body .translate-100 {
   padding: 0 10px;
 }
 
+.content-task {
+  padding: 16px;
+}
+
+/* Zu Testzwecken (Anfang): Kann man nachher auch auskommentieren */
+
+#to-do-container {
+  padding: 16px;
+  border: 2px solid black;
+  border-radius: 8px;
+}
+
+#await-feedback-container {
+  padding: 16px;
+  border: 2px solid black;
+  border-radius: 8px;
+}
+
+/* Zu Testzwecken (Ende)
+
+
 /* all sections */
 #all-sections-container {
   display: flex;

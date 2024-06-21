@@ -2,36 +2,36 @@ let tasks = [
   {
     "id": 0,
     "task": "Putzen",
-    "category": "todo"
+    "category": "todo-tasks"
   },
   {
     "id": 1,
     "task": "Aufräumen",
-    "category": "todo"
+    "category": "todo-tasks"
   },
   {
     "id": 2,
     "task": "Kochen",
-    "category": "inprogress"
+    "category": "feedback-tasks"
   }
 ]
 
 let elementDraggedOver;
 
 function updateHTML(){
-  let todo = document.getElementById("no-to-do-container");
-  let tasksToDo = tasks.filter(element => element["category"] == "todo");
-  tasksToDo.innerHTML = '';
+  let todo = document.getElementById("todo-tasks");
+  let tasksToDo = tasks.filter(element => element["category"] == "todo-tasks");
+  todo.innerHTML = '';
   for(index = 0; index < tasksToDo.length; index++){
     let task = tasksToDo[index];
     todo.innerHTML += createToDoHTML(task);
   }
-  let inprogress = document.getElementById("no-await-feedback-container");
-  let inProgressTasks = tasks.filter(element => element["category"] == "inprogress");
-  inprogress.innerHTML = '';
-  for(index = 0; index < inProgressTasks.length; index++){
-    let taskInProgress = inProgressTasks[index];
-    inprogress.innerHTML += createToDoHTML(taskInProgress);
+  let feedback = document.getElementById("feedback-tasks");
+  let feedbackTasks = tasks.filter(element => element["category"] == "feedback-tasks");
+  feedback.innerHTML = '';
+  for(index = 0; index < feedbackTasks.length; index++){
+    let feedbackTask = feedbackTasks[index];
+    feedback.innerHTML += createToDoHTML(feedbackTask);
   }
 }
 
