@@ -6,6 +6,11 @@ body {
   overflow: hidden;
 }
 
+#wrap {
+  overflow: hidden;
+  position: relative;
+}
+
 body .bg-op-0 {
   background-color: #00000000;
   z-index: -1;
@@ -136,6 +141,33 @@ body .translate-100 {
   padding: 0 10px;
 }
 
+.content-task {
+  padding: 16px;
+}
+
+/* Zu Testzwecken (Anfang): Kann man nachher auch auskommentieren */
+
+#to-do-container {
+  padding: 16px;
+  border: 2px solid black;
+  border-radius: 8px;
+}
+
+#await-feedback-container {
+  padding: 16px;
+  border: 2px solid black;
+  border-radius: 8px;
+}
+
+#done-container {
+  padding: 16px;
+  border-radius: 8px;
+  border: 2px solid black;
+}
+
+/* Zu Testzwecken (Ende)
+
+
 /* all sections */
 #all-sections-container {
   display: flex;
@@ -195,10 +227,27 @@ body .translate-100 {
   stroke: #29abe2;
 }
 
+.todo {
+  padding: 8px;
+  border: 1px solid black;
+  border-radius: 16px;
+  margin: 8px;
+  cursor: pointer;
+}
+
+.inProgress{
+  padding: 8px;
+  border: 1px solid black;
+  border-radius: 16px;
+  margin: 8px;
+  cursor: pointer;
+}
+
 .no-task {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
 
   width: 100%;
 
