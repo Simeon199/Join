@@ -1,35 +1,76 @@
-let tasks = [
-  {
-    "id": 0,
-    "task": "Putzen",
-    "category": "todo-tasks"
-  },
-  {
-    "id": 1,
-    "task": "Aufräumen",
-    "category": "todo-tasks"
-  },
-  {
-    "id": 2,
-    "task": "Kochen",
-    "category": "feedback-tasks"
-  },
-  {
-    "id": 3,
-    "task": "Bügeln",
-    "category": "inprogress"
-  },
-  {
-    "id": 4,
-    "task": "Fahrrad reparieren",
-    "category": "done"
-  }
-]
+// let tasks = [
+//   {
+//     "id": 0,
+//     "task": "Putzen",
+//     "category": "todo-tasks"
+//   },
+//   {
+//     "id": 1,
+//     "task": "Aufräumen",
+//     "category": "todo-tasks"
+//   },
+//   {
+//     "id": 2,
+//     "task": "Kochen",
+//     "category": "feedback-tasks"
+//   },
+//   {
+//     "id": 3,
+//     "task": "Bügeln",
+//     "category": "inprogress"
+//   },
+//   {
+//     "id": 4,
+//     "task": "Fahrrad reparieren",
+//     "category": "done"
+//   }
+// ]
+
+let tasks = [];
+
+/* --- Hier habe ich zu Testzwecken mit meiner eigenen Firebase-Datenbank experimentiert. Mit der BASE_URL hat das ganze noch nicht
+   --- geklappt. Sobald es auch mit der BASE_URL klappt, werde ich myurl durch BASE_URL komplett ersetzen --- */
+
+// const BASE_URL = 'https://join-privat-default-rtdb.europe-west1.firebasedatabase.app/';
+let myurl = "https://join-test-33e18-default-rtdb.europe-west1.firebasedatabase.app/";
 
 let categories = [];
 let elementDraggedOver;
 
-returnCategoryArray();
+document.addEventListener("DOMContentLoaded", async function(){
+  await getTasksFromDatabase();
+  updateHTML();
+})
+
+// getTasksFromDatabase();
+// returnCategoryArray();
+
+async function getTasksFromDatabase(){
+  tasks = await loadTasksFromDatabase();
+  returnCategoryArray();
+  // return tasks;
+}
+
+async function postData(path="", data = tasks){
+  let response = await fetch(myurl + path + ".json", {
+    method: "POST",
+    header: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data)
+  });
+  responseToJson = await response.json();
+}
+
+async function loadTasksFromDatabase(){
+  let resultArray = [];
+  let response = await fetch(myurl + ".json");
+  let responseToJson = await response.json();
+  for(key in responseToJson){
+    resultArray.push(responseToJson[key]);
+  }
+  return resultArray[0];
+}
 
 function iterateThroughSubArray(taskArray, htmlElement){
   for(let index = 0; index < taskArray.length; index++){
@@ -44,6 +85,7 @@ function returnCategoryArray(){
       categories.push(category);
     }
   }
+  console.log(tasks, categories);
   return categories;
 }
 
