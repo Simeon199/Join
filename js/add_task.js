@@ -194,7 +194,7 @@ function showrequiredText() {
 
 function renderAssignedToHTML(user, contact, i) {
   contact.innerHTML += /*html*/`
-    <div class=assignedDropDownField onclick="hideDropDownAssignedTo(); assignetToContects(${i}, '${user[`name`]}', '${user[`color`]}')">
+    <div class=assignedDropDownField onclick="hideDropDownAssignedTo(); assignetToContects('${user[`name`]}', '${user[`color`]}')">
       <div class="circle" id="assignetToLetters${i}"></div>
       <div><span>${user['name']}</span></div>
     </div>
@@ -213,19 +213,23 @@ function renderAssignedToCircle(i, user, color) {
   sowUserLetters(`showCircle${i}` , user)
 }
 
-function assignetToContects(i, user, color) {
+function assignetToContects(user, color) {
+  document.getElementById("userCircles").innerHTML = ""
   let userCredicals = {
     name: user,
     color: color,
   }
   assignedContacts.push(userCredicals)
-  renderAssignedToCircle(i,user,color)
+  for (let i = 0; i < assignedContacts.length; i++) {
+    renderAssignedToCircle(i, assignedContacts[i].name, assignedContacts[i].color)
+  }
 }
 
 function clearAssignedTo() {
   let div = document.getElementById("userCircles");
   assignedContacts.splice(0)
-  // div.classList.add('d-none');
+  div.innerHTML = "";
+  //div.classList.add('d-none');
 }
 
 async function upload(path = "", data = {}) {
