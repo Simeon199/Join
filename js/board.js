@@ -1,75 +1,83 @@
-// let tasks = [
-//   {
-//     "id": 0,
-//     "task": "Putzen",
-//     "category": "todo-tasks"
-//   },
-//   {
-//     "id": 1,
-//     "task": "Aufräumen",
-//     "category": "todo-tasks"
-//   },
-//   {
-//     "id": 2,
-//     "task": "Kochen",
-//     "category": "feedback-tasks"
-//   },
-//   {
-//     "id": 3,
-//     "task": "Bügeln",
-//     "category": "inprogress"
-//   },
-//   {
-//     "id": 4,
-//     "task": "Fahrrad reparieren",
-//     "category": "done"
-//   }
-// ]
-
 let tasks = [];
-
-/* --- Hier habe ich zu Testzwecken mit meiner eigenen Firebase-Datenbank experimentiert. Mit der BASE_URL hat das ganze noch nicht
-   --- geklappt. Sobald es auch mit der BASE_URL klappt, werde ich myurl durch BASE_URL komplett ersetzen --- */
-
-// const BASE_URL = 'https://join-privat-default-rtdb.europe-west1.firebasedatabase.app/';
-let myurl = "https://join-test-33e18-default-rtdb.europe-west1.firebasedatabase.app/";
-
+const BASE_URL = 'https://join-privat-default-rtdb.europe-west1.firebasedatabase.app/';
 let categories = [];
 let elementDraggedOver;
+
+/* Bemerkung: Die Ausführung von deleteCertainElements(), deren Aufgabe es wäre ausgewählte Datenbankeinträge wieder zu entfernen
+funktioniert noch nicht, da die Firebase-Datenbank in diesem Fall den Zugriff verweigert ('Probleme mit der CORS policy') */
 
 document.addEventListener("DOMContentLoaded", async function(){
   await getTasksFromDatabase();
   updateHTML();
 })
 
-// getTasksFromDatabase();
-// returnCategoryArray();
+async function deleteDataFromDatabase(path=""){
+  try{
+    let response = await fetch(BASE_URL + path + ".json()", {
+    method: "DELETE",
+  }); 
+  if(!response.ok){
+    throw new Error('HTTP error! status: ${response.status}');
+  }
+  let responseToJson = await response.json();
+  return responseToJson;
+} catch(error){
+  console.log('Error deleting data: ', error);
+}
+}
+
+async function deleteCertainElements(){
+  let keyToDelete = '-O04CXUQam1YkaDlyItw';
+  let path = keyToDelete;
+  let result = await deleteDataFromDatabase(path);
+  console.log('Ergebnis des Löschvorgangs: ', result);
+}
+
+async function loadData(path = "") {
+  let response = await fetch(BASE_URL + path + ".json");
+  let responseAsJson = await response.json();
+  return responseAsJson;
+}
 
 async function getTasksFromDatabase(){
   tasks = await loadTasksFromDatabase();
   returnCategoryArray();
-  // return tasks;
 }
 
-async function postData(path="", data = tasks){
-  let response = await fetch(myurl + path + ".json", {
-    method: "POST",
-    header: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data)
-  });
-  responseToJson = await response.json();
+async function postData(path = "", data = tasks2) {
+  try {
+      let response = await fetch(BASE_URL + path + ".json", {
+          method: "POST",
+          headers: {  
+              "Content-Type": "application/json"
+          },
+          body: JSON.stringify(data)
+      });
+
+      if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      let responseToJson = await response.json();
+      return responseToJson;
+  } catch (error) {
+      console.error('Error posting data:', error);
+  }
 }
+
+// postData("", tasks2).then(response => {
+//   console.log('Response from Firebase:', response);
+// });
 
 async function loadTasksFromDatabase(){
-  let resultArray = [];
-  let response = await fetch(myurl + ".json");
-  let responseToJson = await response.json();
-  for(key in responseToJson){
-    resultArray.push(responseToJson[key]);
+  let response = await loadData();
+  for(key in response){
+    if(key == "-O04VehfLGSasvd3z--B"){
+      let result = response[key];
+      console.log(result);
+      return result;
+    }
   }
-  return resultArray[0];
 }
 
 function iterateThroughSubArray(taskArray, htmlElement){
@@ -85,7 +93,6 @@ function returnCategoryArray(){
       categories.push(category);
     }
   }
-  console.log(tasks, categories);
   return categories;
 }
 
