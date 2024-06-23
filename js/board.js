@@ -1,4 +1,4 @@
-let realTasks2 = [
+let realTasks = [
   {
     "category": "to-do-container",
     "story-category": "User Story",
@@ -29,7 +29,7 @@ let realTasks2 = [
   }
 ]
 
-let tasks = [];
+let tasks =[];
 const BASE_URL = 'https://join-privat-default-rtdb.europe-west1.firebasedatabase.app/';
 let categories = [];
 let elementDraggedOver;
@@ -96,15 +96,15 @@ async function postData(path = "", data = tasksObject) {
   }
 }
 
-// postData("", realTasks2).then(response => {
+// postData("tasks", realTasks).then(response => {
 //   console.log('Response from Firebase:', response);
 // });
 
 async function loadTasksFromDatabase(){
   let response = await loadData();
   for(key in response){
-    if(key == "-O058unyvC7MQVc5eh0X"){
-      let result = response[key];
+    if(key == "tasks"){
+      let result = response[key]["-O05H016uL_VT-vaNnYE"];
       console.log(result);
       return result;
     }
@@ -137,7 +137,17 @@ function updateHTML() {
 }
 
 function createToDoHTML(element){
-  return `<div class="task" draggable="true" ondragstart="startDragging(${element['id']})">${element['task']}</div>`;
+  let variableClass;
+  if(element['story-category'] == 'User Story'){
+    variableClass = 'task-category';
+  } else if(element['story-category'] == 'Technical Task'){
+    variableClass = 'technical-task-category';
+  }
+  return `<div class="task" draggable="true" ondragstart="startDragging(${element['id']})">
+            <button class=${variableClass}>${element['story-category']}</button>
+            <h3>${element['title']}</h2>
+            <p>${element['task']}</p>
+          </div>`;
 }
 
 function startDragging(element){
