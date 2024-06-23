@@ -164,20 +164,20 @@ body .translate-100 {
 
 #to-do-container {
   padding: 16px;
-  border: 2px solid black;
+  /* border: 2px solid black; */
   border-radius: 8px;
 }
 
 #await-feedback-container {
   padding: 16px;
-  border: 2px solid black;
+  /* border: 2px solid black; */
   border-radius: 8px;
 }
 
 #done-container {
   padding: 16px;
   border-radius: 8px;
-  border: 2px solid black;
+  /* border: 2px solid black; */
 }
 
 /* Zu Testzwecken (Ende)
@@ -277,10 +277,15 @@ body .translate-100 {
   color: #a8a8a8;
 }
 
+/* wrap-container */
+.wrap-container {
+  height: 100%;
+}
+
 /* task */
 .task {
   width: 100%;
-
+  margin-bottom: 8px;
   border-radius: 24px;
 
   padding: 15px;

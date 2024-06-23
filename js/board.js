@@ -1,3 +1,34 @@
+let realTasks2 = [
+  {
+    "category": "to-do-container",
+    "story-category": "User Story",
+    "id": 0,
+    "title": "Kochwelt Page & Recipe Recommender",
+    "task": "Build start page with recipe recommendation"
+  },
+  {
+    "category": "await-feedback-container",
+    "story-category": "Technical Task",
+    "id": 1,
+    "title": "HTML Base Template Creation",
+    "task": "Create reusable HTML base templates"
+  },
+  {
+    "category": "await-feedback-container",
+    "story-category": "User Story",
+    "id": 2,
+    "title": "Daily Kochwelt Recipe",
+    "task": "Implement daily recipe and portion calculator"
+  },
+  {
+    "category": "done-container",
+    "story-category": "Technical Task",
+    "id": 3,
+    "title": "CSS Architecture Planning",
+    "task": "Define CSS naming conventions and structure"
+  }
+]
+
 let tasks = [];
 const BASE_URL = 'https://join-privat-default-rtdb.europe-west1.firebasedatabase.app/';
 let categories = [];
@@ -44,7 +75,7 @@ async function getTasksFromDatabase(){
   returnCategoryArray();
 }
 
-async function postData(path = "", data = tasks2) {
+async function postData(path = "", data = tasksObject) {
   try {
       let response = await fetch(BASE_URL + path + ".json", {
           method: "POST",
@@ -65,14 +96,14 @@ async function postData(path = "", data = tasks2) {
   }
 }
 
-// postData("", tasks2).then(response => {
+// postData("", realTasks2).then(response => {
 //   console.log('Response from Firebase:', response);
 // });
 
 async function loadTasksFromDatabase(){
   let response = await loadData();
   for(key in response){
-    if(key == "-O04VehfLGSasvd3z--B"){
+    if(key == "-O058unyvC7MQVc5eh0X"){
       let result = response[key];
       console.log(result);
       return result;
@@ -106,7 +137,7 @@ function updateHTML() {
 }
 
 function createToDoHTML(element){
-  return `<div class="todo" draggable="true" ondragstart="startDragging(${element['id']})">${element['task']}</div>`;
+  return `<div class="task" draggable="true" ondragstart="startDragging(${element['id']})">${element['task']}</div>`;
 }
 
 function startDragging(element){
