@@ -95,6 +95,7 @@ function clearTask() {
 }
 
 function showDropDownAssignedTo() {
+  checkDropDown("arrowa");
   contact = document.getElementById("assignedToDropDown");
     // console.log(allUsers);
     
@@ -103,10 +104,13 @@ function showDropDownAssignedTo() {
       renderAssignedToHTML(user,contact, i);
     }
     contact.classList.remove("d-none");
+    document.getElementById('arrowa').classList.add("rotate");
 }
 
 function showDropDownCategory() {
+  checkDropDown("arrowb");
     document.getElementById('categoryDropDown').classList.remove('d-none');
+    document.getElementById('arrowb').classList.add("rotate");
     document.getElementById('categoryDropDown').innerHTML = /*html*/`
             <div onclick="hideDropDownCategory(); changeCategory('Technical Task')"><span>Technical Task</span></div>
             <div onclick="hideDropDownCategory(); changeCategory('User Story')"><span>User Story</span></div>
@@ -114,6 +118,7 @@ function showDropDownCategory() {
 }
 
 function hideDropDownAssignedTo() {
+  document.getElementById('arrowa').classList.remove("rotate");
   contact=document.getElementById("assignedToDropDown");
   contact.classList.add("d-none");
   contact.innerHTML = "";
@@ -121,6 +126,7 @@ function hideDropDownAssignedTo() {
 
 function hideDropDownCategory() {
   document.getElementById("categoryDropDown").classList.add("d-none");
+  document.getElementById("arrowb").classList.remove("rotate");
 }
 
 function changeCategory(text) {
@@ -257,4 +263,17 @@ async function saveTask() {
     category: category,
     subtask: subArray,
   })
+}
+
+// function um festzustellen ob DropDown offen oder geschlossen ist
+function checkDropDown(id) {
+  console.log("test");
+  rot = document.getElementById(id);
+  if (rot.classList.contains("rotate")) {
+    if (id == "arrowa") {
+      hideDropDownAssignedTo()
+    } else {
+      hideDropDownCategory()
+    }
+  }
 }
