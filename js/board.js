@@ -116,7 +116,7 @@ async function postData(path = "", data = tasksObject) {
 //   console.log('Response from Firebase:', response);
 // });
 
-async function loadTasksFromDatabase(){
+async function loadTasksFromDatabase(){ 
   let response = await loadData();
   if(response && response.tasks){
     return Object.values(response.tasks['-O0AGVcxRQsqaBAqvjFf']);
@@ -130,15 +130,13 @@ function iterateThroughSubArray(taskArray, htmlElement){
   });
 }
 
-// function checkIfContainerEmpty(tasksDiv){
-//   let tasksDivContainer = document.getElementById(tasksDiv);
-//   if(tasksDivContainer.innerHTML == ""){
-//     tasksDivContainer.innerHTML += 
-//               `<div id="no-await-feedback-container" class="no-task">
-//                 <p>No tasks await feedback</p>
-//               </div>`
-//   }
-// }
+function checkIfContainerIsEmpty(tasksDiv, divWithoutTasks){
+  let tasksDivContainer = document.getElementById(tasksDiv);
+  let divWithoutTasksContainer = document.getElementById(divWithoutTasks);
+  if(tasksDivContainer.innerHTML == ""){
+    divWithoutTasksContainer.classList.remove('d-none');
+  }
+}
 
 function updateHTML() {
   categories.forEach(category => {
@@ -163,6 +161,8 @@ function setVariableClass(element){
 
 function createToDoHTML(element){
   let variableClass = setVariableClass(element);
+  let oppositeCategory = 'no-' + element['category'];
+  console.log(element['category'], oppositeCategory);
   let contactsHTML = '';
   for(let i = 0; i < element['people-in-charge'].length; i++){
     contactsHTML += `<div class="task-contact">${element['people-in-charge'][i]}</div>`
@@ -203,6 +203,9 @@ function createToDoHTML(element){
                 />
               </svg>
             </div>
+          </div>
+          <div id="${oppositeCategory}" class="no-task d-none">
+                <p>No tasks in ${element['category']}</p>
           </div>`
 }
 
