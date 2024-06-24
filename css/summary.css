@@ -71,6 +71,15 @@ body p {
   align-items: center;
 }
 
+.greet-username {
+  color: #29abe2;
+
+  font-size: 64px;
+  font-weight: 700;
+
+  display: block;
+}
+
 .dataCont {
   display: flex;
   justify-content: space-between;

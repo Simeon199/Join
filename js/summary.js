@@ -11,13 +11,13 @@ async function init() {
 
 function greet() {
   cont = document.getElementById("greetingCont");
-  if ((userName = "Guest")) {
+  if (userName === "Guest") {
     cont.innerHTML = /*html*/ `
         <p>Good morning</p>
     `;
   } else {
     cont.innerHTML = /*html*/ `
-        <p>Good morning,</p><h3>${userName}</h3>
+        <p>Good morning,<span class='greet-username'>${userName}</span></p>
     `;
   }
 }

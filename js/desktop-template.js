@@ -128,9 +128,9 @@ function firstLetterFirstTwoWords(text) {
 }
 
 function getUserNickname() {
-  x = localStorage.getItem("userNickname") || sessionStorage.getItem("userNickname");
-  if (!sessionStorage.getItem("userNickname")) {
-    x = "Guest";
+  let storage = localStorage.getItem("userNickname") || sessionStorage.getItem("userNickname");
+  if (!storage) {
+    storage = "Guest";
   }
-  return x;
+  return storage;
 }
