@@ -1,117 +1,153 @@
-let tasks = [
+let realTasks = [
   {
+    "category": "to-do-container",
+    "story-category": "User Story",
     "id": 0,
-    "task": "Putzen",
-    "category": "todo-tasks"
+    "title": "Kochwelt Page & Recipe Recommender",
+    "task": "Build start page with recipe recommendation"
   },
   {
+    "category": "await-feedback-container",
+    "story-category": "Technical Task",
     "id": 1,
-    "task": "Aufräumen",
-    "category": "todo-tasks"
+    "title": "HTML Base Template Creation",
+    "task": "Create reusable HTML base templates"
   },
   {
+    "category": "await-feedback-container",
+    "story-category": "User Story",
     "id": 2,
-    "task": "Kochen",
-    "category": "feedback-tasks"
+    "title": "Daily Kochwelt Recipe",
+    "task": "Implement daily recipe and portion calculator"
   },
   {
+    "category": "done-container",
+    "story-category": "Technical Task",
     "id": 3,
-    "task": "Einkaufen",
-    "category": "first-in-progress"
-  },
-  {
-    "id": 4,
-    "task": "Bügeln",
-    "category": "second-in-progress"
-  },
-  {
-    "id": 5,
-    "task": "Fahrrad reparieren",
-    "category": "done"
+    "title": "CSS Architecture Planning",
+    "task": "Define CSS naming conventions and structure"
   }
 ]
 
+let tasks =[];
+const BASE_URL = 'https://join-privat-default-rtdb.europe-west1.firebasedatabase.app/';
+let categories = [];
 let elementDraggedOver;
 
-// function updateHTML(){
-//   let todo = document.getElementById("todo-tasks");
-//   let tasksToDo = tasks.filter(element => element["category"] == "todo-tasks");
-//   todo.innerHTML = '';
-//   for(index = 0; index < tasksToDo.length; index++){
-//     let task = tasksToDo[index];
-//     todo.innerHTML += createToDoHTML(task);
-//   }
-//   let feedback = document.getElementById("feedback-tasks");
-//   let feedbackTasks = tasks.filter(element => element["category"] == "feedback-tasks");
-//   feedback.innerHTML = '';
-//   for(index = 0; index < feedbackTasks.length; index++){
-//     let feedbackTask = feedbackTasks[index];
-//     feedback.innerHTML += createToDoHTML(feedbackTask);
-//   }
-//   let firstInProgress = document.getElementById("first-in-progress");
-//   let tasksFirstInProgress = tasks.filter(element => element["category"] == "first-in-progress");
-//   firstInProgress.innerHTML = '';
-//   for(index = 0; index < tasksFirstInProgress.length; index++){
-//     let firstInProgressTask = tasksFirstInProgress[index];
-//     firstInProgress.innerHTML += createToDoHTML(firstInProgressTask);
-//   }
-//   let secondInProgress = document.getElementById("second-in-progress");
-//   let tasksSecondInProgress = tasks.filter(element => element["category"] == "second-in-progress");
-//   secondInProgress.innerHTML = '';
-//   for(index = 0; index < tasksSecondInProgress.length; index++){
-//     let secondInProgressTask = tasksSecondInProgress[index];
-//     secondInProgress.innerHTML += createToDoHTML(secondInProgressTask);
-//   }
-//   let done = document.getElementById("done");
-//   let tasksDone = tasks.filter(element => element["category"] == "done");
-//   done.innerHTML = '';
-//   for(index = 0; index < tasksDone.length; index++){
-//     let doneTask = tasksDone[index];
-//     done.innerHTML += createToDoHTML(doneTask);
-//   }
-// }
+/* Bemerkung: Die Ausführung von deleteCertainElements(), deren Aufgabe es wäre ausgewählte Datenbankeinträge wieder zu entfernen
+funktioniert noch nicht, da die Firebase-Datenbank in diesem Fall den Zugriff verweigert ('Probleme mit der CORS policy') */
 
-function iterateThroughSubArray(subArray, htmlElement){
-  for(index = 0; index < subArray.length; index++){
-    let item = subArray[index];
-    htmlElement.innerHTML += createToDoHTML(item);
+document.addEventListener("DOMContentLoaded", async function(){
+  await getTasksFromDatabase();
+  updateHTML();
+})
+
+async function deleteDataFromDatabase(path=""){
+  try{
+    let response = await fetch(BASE_URL + path + ".json()", {
+    method: "DELETE",
+  }); 
+  if(!response.ok){
+    throw new Error('HTTP error! status: ${response.status}');
+  }
+  let responseToJson = await response.json();
+  return responseToJson;
+} catch(error){
+  console.log('Error deleting data: ', error);
+}
+}
+
+async function deleteCertainElements(){
+  let keyToDelete = '-O04CXUQam1YkaDlyItw';
+  let path = keyToDelete;
+  let result = await deleteDataFromDatabase(path);
+  console.log('Ergebnis des Löschvorgangs: ', result);
+}
+
+async function loadData(path = "") {
+  let response = await fetch(BASE_URL + path + ".json");
+  let responseAsJson = await response.json();
+  return responseAsJson;
+}
+
+async function getTasksFromDatabase(){
+  tasks = await loadTasksFromDatabase();
+  returnCategoryArray();
+}
+
+async function postData(path = "", data = tasksObject) {
+  try {
+      let response = await fetch(BASE_URL + path + ".json", {
+          method: "POST",
+          headers: {  
+              "Content-Type": "application/json"
+          },
+          body: JSON.stringify(data)
+      });
+
+      if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      let responseToJson = await response.json();
+      return responseToJson;
+  } catch (error) {
+      console.error('Error posting data:', error);
   }
 }
 
-function newUpdateHTML(){
-  for(index = 0; index < tasks.length; index++){
+// postData("tasks", realTasks).then(response => {
+//   console.log('Response from Firebase:', response);
+// });
+
+async function loadTasksFromDatabase(){
+  let response = await loadData();
+  for(key in response){
+    if(key == "tasks"){
+      let result = response[key]["-O05H016uL_VT-vaNnYE"];
+      console.log(result);
+      return result;
+    }
+  }
+}
+
+function iterateThroughSubArray(taskArray, htmlElement){
+  for(let index = 0; index < taskArray.length; index++){
+    htmlElement.innerHTML += createToDoHTML(taskArray[index]);
+  }
+}
+
+function returnCategoryArray(){
+  for(let index = 0; index < tasks.length; index++){
     let category = tasks[index]["category"];
-    let htmlElement = document.getElementById(category);
-    let subArray = tasks.filter(element => element["category"] == category);
-    iterateThroughSubArray(subArray, htmlElement);
+    if(!categories.includes(category)){
+      categories.push(category);
+    }
   }
+  return categories;
 }
 
-function updateHTML(){
-  let todo = document.getElementById("todo-tasks");
-  let tasksToDo = tasks.filter(element => element["category"] == "todo-tasks");
-  todo.innerHTML = '';
-  iterateThroughSubArray(tasksToDo, todo);
-  let feedback = document.getElementById("feedback-tasks");
-  let feedbackTasks = tasks.filter(element => element["category"] == "feedback-tasks");
-  feedback.innerHTML = '';
-  iterateThroughSubArray(feedbackTasks, feedback);
-  let firstInProgress = document.getElementById("first-in-progress");
-  let tasksFirstInProgress = tasks.filter(element => element["category"] == "first-in-progress");
-  firstInProgress.innerHTML = '';
-  iterateThroughSubArray(tasksFirstInProgress, firstInProgress);
-  let secondInProgress = document.getElementById("second-in-progress");
-  let tasksSecondInProgress = tasks.filter(element => element["category"] == "second-in-progress");
-  secondInProgress.innerHTML = '';
-  iterateThroughSubArray(tasksSecondInProgress, secondInProgress);
-  let done = document.getElementById("done");
-  let tasksDone = tasks.filter(element => element["category"] == "done");
-  done.innerHTML = '';
-  iterateThroughSubArray(tasksDone, done);
+function updateHTML() {
+  for (let i = 0; i < categories.length; i++) {
+    let element = document.getElementById(categories[i]);
+    let filteredTasks = tasks.filter(task => task.category == categories[i]);
+    element.innerHTML = '';
+    iterateThroughSubArray(filteredTasks, element);
+  }
 }
 
 function createToDoHTML(element){
-  return `<div class="todo" draggable="true" ondragstart="startDragging(${element['id']})">${element['task']}</div>`;
+  let variableClass;
+  if(element['story-category'] == 'User Story'){
+    variableClass = 'task-category';
+  } else if(element['story-category'] == 'Technical Task'){
+    variableClass = 'technical-task-category';
+  }
+  return `<div class="task" draggable="true" ondragstart="startDragging(${element['id']})">
+            <button class=${variableClass}>${element['story-category']}</button>
+            <h3>${element['title']}</h2>
+            <p>${element['task']}</p>
+          </div>`;
 }
 
 function startDragging(element){

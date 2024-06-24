@@ -74,6 +74,7 @@
 
         <div id="all-sections-container">
           <!-- section to do -->
+          <!-- <div class="content-task" id="todo-tasks" ondragover="allowDrop(event) ondrop="moveTo('todo-tasks')"></div> -->
           <section id="section-to-do" class="board-section">
             <div class="section-headline">
               <h2>To do</h2>
@@ -97,20 +98,16 @@
               </div>
             </div>
 
-            <div id="to-do-container">
+            <div id="to-do-container" class="wrap-container" ondragover="allowDrop(event)" ondrop="moveTo('to-do-container')">
               <div id="no-to-do-container" class="no-task">
                 <p>No tasks to do</p>
               </div>
-              <div
-                class="content-task"
-                id="todo-tasks"
-                ondragover="allowDrop(event)"
-                ondrop="moveTo('todo-tasks')"
-              ></div>
+              <!-- <div class="content-task" id="todo-tasks" ondragover="allowDrop(event) ondrop="moveTo('todo-tasks')"></div> -->
             </div>
           </section>
 
           <!-- section in progress -->
+          <!-- <div class="content-task" id="inprogress" ondragover="allowDrop(event)" ondrop="moveTo('inprogress')"></div> -->
           <section id="section-in-progress" class="board-section">
             <div class="section-headline">
               <h2>In progress</h2>
@@ -140,19 +137,13 @@
               </div>
             </div>
 
-            <div id="in-progress-container">
+            <div id="in-progress-container" class="wrap-container" ondragover="allowDrop(event)" ondrop="moveTo('in-progress-container')">
               <!-- <div id="no-in-progress-container" class="no-task">
               <p>No tasks in progress</p>
             </div> -->
 
               <!-- task card rendern !!!! -->
               <div class="task">
-                <div
-                  class="content-task"
-                  id="second-in-progress"
-                  ondragover="allowDrop(event)"
-                  ondrop="moveTo('second-in-progress')"
-                ></div>
                 <div class="task-category">User story</div>
 
                 <h3 class="task-title">Kochwelt Page & Recipe Recommender</h3>
@@ -195,6 +186,7 @@
           </section>
 
           <!-- section await feedback -->
+          <!-- <div class="content-task" id="feedback-tasks" ondragover="allowDrop(event)" ondrop="moveTo('feedback-tasks')"></div> -->
           <section id="section-await-feedback" class="board-section">
             <div class="section-headline">
               <h2>Await feedback</h2>
@@ -218,20 +210,16 @@
               </div>
             </div>
 
-            <div id="await-feedback-container">
+            <div id="await-feedback-container" class="wrap-container" ondragover="allowDrop(event)" ondrop="moveTo('await-feedback-container')">
               <div id="no-await-feedback-container" class="no-task">
                 <p>No tasks await feedback</p>
               </div>
-              <div
-                class="content-task"
-                id="feedback-tasks"
-                ondragover="allowDrop(event)"
-                ondrop="moveTo('feedback-tasks')"
-              ></div>
+              <!-- <div class="content-task" id="feedback-tasks" ondragover="allowDrop(event)" ondrop="moveTo('feedback-tasks')"></div> -->
             </div>
           </section>
 
           <!-- section done -->
+          <!-- <div class="content-task" id="done" ondragover="allowDrop(event)" ondrop="moveTo('done')"></div> -->
           <section id="section-done" class="board-section">
             <div class="section-headline">
               <h2>Done</h2>
@@ -255,16 +243,11 @@
               </div>
             </div>
 
-            <div id="done-container">
+            <div id="done-container" class="wrap-container" ondragover="allowDrop(event)" ondrop="moveTo('done-container')">
               <div id="no-done-container" class="no-task">
                 <p>No tasks done</p>
               </div>
-              <div
-                class="content-task"
-                id="done"
-                ondragover="allowDrop(event)"
-                ondrop="moveTo('done')"
-              ></div>
+              <!-- <div class="content-task" id="done" ondragover="allowDrop(event)" ondrop="moveTo('done')"></div> -->
             </div>
           </section>
         </div>

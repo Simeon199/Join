@@ -42,7 +42,8 @@ form div div div {
     box-sizing: border-box;
   }
   :focus {
-    border: 1px solid rgba(41, 171, 226, 1);
+    /* border: 1px solid rgba(41, 171, 226, 1); */
+    border-color: rgba(41, 171, 226, 1);
   }
 }
 
@@ -56,10 +57,15 @@ form div div div {
 .select:focus {
   border: 1px solid rgba(41, 171, 226, 1);
 }
-#arrow {
+.arrow {
   display: flex;
   padding: 0px 20px 0px 0px;
   width: 24px;
+}
+
+.rotate {
+  transform: rotate(180deg);
+  padding: 0px 0px 0px 20px !important;
 }
 
 #calender {
