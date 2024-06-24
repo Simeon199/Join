@@ -130,6 +130,15 @@ function iterateThroughSubArray(taskArray, htmlElement){
   });
 }
 
+// function checkIfContainerEmpty(tasksDiv){
+//   let tasksDivContainer = document.getElementById(tasksDiv);
+//   if(tasksDivContainer.innerHTML == ""){
+//     tasksDivContainer.innerHTML += 
+//               `<div id="no-await-feedback-container" class="no-task">
+//                 <p>No tasks await feedback</p>
+//               </div>`
+//   }
+// }
 
 function updateHTML() {
   categories.forEach(category => {
@@ -154,6 +163,10 @@ function setVariableClass(element){
 
 function createToDoHTML(element){
   let variableClass = setVariableClass(element);
+  let contactsHTML = '';
+  for(let i = 0; i < element['people-in-charge'].length; i++){
+    contactsHTML += `<div class="task-contact">${element['people-in-charge'][i]}</div>`
+  }
   return `<div class="task" draggable="true" ondragstart="startDragging(${element['id']})">
             <div class='${variableClass}'>${element['story-category']}</div>
 
@@ -170,9 +183,7 @@ function createToDoHTML(element){
 
             <div class="task-contacts-container">
               <div class="task-contacts">
-                <div class="task-contact">${element['people-in-charge'][0]}</div>
-                <div class="task-contact">${element['people-in-charge'][1]}</div>
-                <div class="task-contact">${element['people-in-charge'][2]}</div>
+                ${contactsHTML}
               </div>
 
               <svg
