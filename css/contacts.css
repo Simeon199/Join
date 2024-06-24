@@ -433,7 +433,7 @@ main {
 /* pop-up */
 
 .add-task-pop-up-bg {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   right: 0;
@@ -1085,7 +1085,7 @@ body .translate-100 {
   .pop-up-input {
     max-width: 500px;
 
-    padding: 10px 24px;
+    padding: 10px 45px 10px 10px;
   }
 
   #pop-up-create-contact-button {
@@ -1156,5 +1156,19 @@ body .translate-100 {
     gap: 15px;
 
     padding: 15px 5px;
+  }
+}
+
+@media (max-height: 700px) {
+  #right-site-container {
+    padding: 10px 0 0 30px;
+  }
+
+  .mobile-line {
+    margin-bottom: 20px;
+  }
+
+  #contact-information-headline {
+    margin: 10px 0;
   }
 }

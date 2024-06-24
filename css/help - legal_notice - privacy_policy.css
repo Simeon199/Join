@@ -27,7 +27,7 @@ main {
 
   position: fixed;
 
-  top: 240px;
+  top: 200px;
   right: 50px;
 
   margin-bottom: 10px;
@@ -142,6 +142,10 @@ body .sidebar {
   body #headerForm {
     left: 0;
   }
+
+  #arrow-icon {
+    top: 150px;
+  }
 }
 
 @media (max-width: 400px) {
@@ -151,5 +155,15 @@ body .sidebar {
 
   main h1 {
     font-size: 40px;
+  }
+
+  #arrow-icon {
+    right: 30px;
+  }
+}
+
+@media (max-height: 800px) {
+  #arrow-icon {
+    top: 150px;
   }
 }
