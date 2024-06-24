@@ -354,6 +354,36 @@ h4 {
   color: white;
 }
 
+.greet-animation {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  background-color: #f6f7f8;
+
+  display: none;
+
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+
+  opacity: 1; /* Initial opacity */
+  transition: opacity 400ms ease-in; /* Transition effect for opacity */
+}
+
+.hide-greet-animation {
+  opacity: 0; /* Target opacity for hide */
+}
+
+#greet-animation-text {
+  color: #2a3647;
+
+  font-size: 36px;
+  font-weight: 400;
+}
+
 @media (max-width: 1350px) {
   .greetHead {
     display: none;
@@ -465,6 +495,10 @@ h4 {
     font-size: 14px;
     font-weight: 400;
     line-height: 16.8px;
+  }
+
+  .greet-animation {
+    display: flex;
   }
 }
 

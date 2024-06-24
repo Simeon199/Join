@@ -90,6 +90,8 @@ function logout() {
   sessionStorage.removeItem("userNickname");
   sessionStorage.removeItem("guestLoginStatus");
   window.location.href = "login.html";
+
+  localStorage.setItem("firstTime", "true");
 }
 
 function goToPP() {
