@@ -128,7 +128,7 @@ function firstLetterFirstTwoWords(text) {
 }
 
 function getUserNickname() {
-  x = sessionStorage.getItem("userNickname");
+  x = localStorage.getItem("userNickname") || sessionStorage.getItem("userNickname");
   if (!sessionStorage.getItem("userNickname")) {
     x = "Guest";
   }

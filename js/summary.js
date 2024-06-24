@@ -2,9 +2,11 @@ let userName = getUserNickname();
 let firstTime = "true";
 
 async function init() {
-  await checkIfFirstTime();
   greetAnimation();
   greet();
+
+  initSidebar();
+  checkIfUserIsLoggedIn();
 }
 
 function greet() {
@@ -29,9 +31,20 @@ function taskMarker() {
 }
 
 function greetAnimation() {
+  checkIfFirstTime();
+
+  const greetAnimation = document.getElementById("greet-animation");
+  const greetAnimationText = document.getElementById("greet-animation-text");
   if (firstTime === "true") {
-    console.log(firstTime);
-    const greetAnimation = document.getElementById("greet-animation");
+    if (userName === "Guest") {
+      greetAnimationText.innerHTML = /*html*/ `
+          Good morning
+      `;
+    } else {
+      greetAnimationText.innerHTML = /*html*/ `
+         Good morning, <span class='greet-animation-username'>${userName}</span>
+      `;
+    }
 
     greetAnimation.classList.remove("d-none");
 
@@ -46,6 +59,8 @@ function greetAnimation() {
         localStorage.setItem("firstTime", "false");
       }
     });
+  } else {
+    greetAnimation.classList.add("d-none");
   }
 }
 

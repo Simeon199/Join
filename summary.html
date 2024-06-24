@@ -5,8 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>JOIN</title>
     <link rel="shortcut icon" href="Assets/img/Capa2logo_klein.svg" type="image/x-icon" />
+
+    <!-- css -->
     <link rel="stylesheet" href="css/generally.css" />
     <link rel="stylesheet" href="css/summary.css" />
+
+    <!-- js -->
     <script src="script.js"></script>
     <script src="js/desktop-template.js"></script>
     <script src="js/summary.js"></script>
@@ -19,7 +23,7 @@
       rel="stylesheet"
     />
   </head>
-  <body onload="init(); initSidebar(); greetUser(); checkIfUserIsLoggedIn()">
+  <body onload="init()">
     <header id="headerForm"></header>
 
     <section class="mainSection">
@@ -160,8 +164,8 @@
       </div>
     </section>
 
-    <div id="greet-animation" class="greet-animation d-none">
-      <h1 id="greet-animation-text">Good morning!</h1>
+    <div id="greet-animation" class="greet-animation">
+      <h1 id="greet-animation-text"></h1>
     </div>
 
     <div id="sidebar"></div>

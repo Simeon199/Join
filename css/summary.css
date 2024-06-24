@@ -384,6 +384,17 @@ h4 {
   font-weight: 400;
 }
 
+.greet-animation-username {
+  color: #29abe2;
+
+  font-size: 47px;
+  font-weight: 700;
+  line-height: 56.4px;
+  text-align: left;
+
+  display: block;
+}
+
 @media (max-width: 1350px) {
   .greetHead {
     display: none;
