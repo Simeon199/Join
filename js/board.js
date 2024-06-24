@@ -1,4 +1,4 @@
-let testingTasks1 = [
+let testingTasks2 = [
   {
     "category": "to-do-container",
     "story-category": "User Story",
@@ -84,7 +84,11 @@ async function loadData(path = "") {
 
 async function getTasksFromDatabase(){
   tasks = await loadTasksFromDatabase();
-  returnCategoryArray();
+  updateCategories();
+}
+
+function updateCategories(){
+  categories = [...new Set(tasks.map(task => task.category))];
 }
 
 async function postData(path = "", data = tasksObject) {
@@ -108,44 +112,34 @@ async function postData(path = "", data = tasksObject) {
   }
 }
 
-// postData("tasks", testingTasks1).then(response => {
+// postData("tasks", testingTasks2).then(response => {
 //   console.log('Response from Firebase:', response);
 // });
 
 async function loadTasksFromDatabase(){
   let response = await loadData();
-  for(key in response){
-    if(key == "tasks"){
-      let result = response[key]['-O09aaux8kE0fRXZS5KE'];
-      console.log(result);
-      return result;
-    }
+  if(response && response.tasks){
+    return Object.values(response.tasks['-O0AGVcxRQsqaBAqvjFf']);
   }
+  return [];
 }
 
 function iterateThroughSubArray(taskArray, htmlElement){
-  for(let index = 0; index < taskArray.length; index++){
-    htmlElement.innerHTML += createToDoHTML(taskArray[index]);
-  }
+  taskArray.forEach(task => {
+    htmlElement.innerHTML += createToDoHTML(task);
+  });
 }
 
-function returnCategoryArray(){
-  for(let index = 0; index < tasks.length; index++){
-    let category = tasks[index]["category"];
-    if(!categories.includes(category)){
-      categories.push(category);
-    }
-  }
-  return categories;
-}
 
 function updateHTML() {
-  for (let i = 0; i < categories.length; i++) {
-    let element = document.getElementById(categories[i]);
-    let filteredTasks = tasks.filter(task => task.category == categories[i]);
-    element.innerHTML = '';
-    iterateThroughSubArray(filteredTasks, element);
-  }
+  categories.forEach(category => {
+    let element = document.getElementById(category);
+    if(element){
+      let filteredTasks = tasks.filter(task => task.category === category);
+      element.innerHTML = '';
+      iterateThroughSubArray(filteredTasks, element);
+    }
+  })
 }
 
 function setVariableClass(element){
@@ -160,19 +154,6 @@ function setVariableClass(element){
 
 function createToDoHTML(element){
   let variableClass = setVariableClass(element);
-  console.log(variableClass);
-  // console.log(element["people-in-charge"]);
-  // let variableClass;
-  // if(element['story-category'] == 'User Story'){
-  //   variableClass = 'task-category';
-  // } else if(element['story-category'] == 'Technical Task'){
-  //   variableClass = 'technical-task-category';
-  // }
-  // return `<div class="task" draggable="true" ondragstart="startDragging(${element['id']})">
-  //           <button class=${variableClass}>${element['story-category']}</button>
-  //           <h3>${element['title']}</h2>
-  //           <p>${element['task']}</p>
-  //         </div>`;
   return `<div class="task" draggable="true" ondragstart="startDragging(${element['id']})">
             <div class='${variableClass}'>${element['story-category']}</div>
 
@@ -214,13 +195,16 @@ function createToDoHTML(element){
           </div>`
 }
 
-function startDragging(element){
-  elementDraggedOver = element;
+function startDragging(elementId){
+  elementDraggedOver = elementId;
 }
 
 function moveTo(category){
-  tasks[elementDraggedOver]["category"] = category;
-  updateHTML();
+  let task = tasks.find(task => task.id == elementDraggedOver);
+  if(task){
+    task.category = category;
+    updateHTML();
+  }
 }
 
 function allowDrop(event){
