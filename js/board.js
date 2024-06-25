@@ -1,10 +1,11 @@
-let testingTasks2 = [
+let testingTasks3 = [
   {
     "category": "to-do-container",
     "story-category": "User Story",
     "id": 0,
     "title": "Contact Form and Imprint",
     "task": "Create a contact form and imprint page",
+    "priority": "Low",
     "people-in-charge": ['AS', 'DE', 'EF']
   },
   {
@@ -13,6 +14,7 @@ let testingTasks2 = [
     "id": 1,
     "title": "HTML Base Template Creation",
     "task": "Create reusable HTML base templates",
+    "priority": "Medium",
     "people-in-charge": ['AM', 'EM', 'MB']
   },
   {
@@ -21,6 +23,7 @@ let testingTasks2 = [
     "id": 2,
     "title": "Daily Kochwelt Recipe",
     "task": "Implement daily recipe and portion calculator",
+    "priority": "Medium",
     "people-in-charge": ['EF', 'AS', 'TW']
   },
   {
@@ -29,6 +32,7 @@ let testingTasks2 = [
     "id": 3,
     "title": "CSS Architecture Planning",
     "task": "Define CSS naming conventions and structure",
+    "priority": "Urgent",
     "people-in-charge": ['SM', 'BZ', 'TW']
   },
   {
@@ -37,6 +41,7 @@ let testingTasks2 = [
     "id": 4,
     "title": "Kochwelt Page & Recipe Recommender",
     "task": "Build start page with recipe recommendation",
+    "priority": "Low",
     "people-in-charge": ['AM', 'EM', 'MB']
   }
 ]
@@ -112,14 +117,14 @@ async function postData(path = "", data = tasksObject) {
   }
 }
 
-// postData("tasks", testingTasks2).then(response => {
+// postData("tasks", testingTasks3).then(response => {
 //   console.log('Response from Firebase:', response);
 // });
 
 async function loadTasksFromDatabase(){ 
   let response = await loadData();
   if(response && response.tasks){
-    return Object.values(response.tasks['-O0AGVcxRQsqaBAqvjFf']);
+    return Object.values(response.tasks['-O0DxZFsRS2ts1lRHvbZ']);
   }
   return [];
 }
@@ -160,11 +165,20 @@ function setVariableClass(element){
   return variableClass;
 }
 
-function checkIfEmptyOnOndrop(category){
-  console.log(category);
+function insertCorrectUrgencyIcon(element){
+  let svgElement;
+  if(element["priority"] == "Urgent"){
+    svgElement = generateHTMLUrgencyUrgent();
+  } else if(element["priority"] == "Low"){
+    svgElement = generateHTMLUrgencyLow();
+  } else if(element["priority"] == "Medium"){
+    svgElement = generateHTMLUrgencyMedium();
+  }
+  return svgElement;
 }
 
 function createToDoHTML(element) {
+  let rightIcon = insertCorrectUrgencyIcon(element);
   let variableClass = setVariableClass(element);
   let oppositeCategory = 'no-' + element['category'];
   let contactsHTML = '';
@@ -181,7 +195,8 @@ function createToDoHTML(element) {
     element['task'],
     contactsHTML,
     element['category'],
-    oppositeCategory
+    oppositeCategory, 
+    rightIcon
   );
 }
 
