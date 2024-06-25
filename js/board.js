@@ -1,4 +1,4 @@
-let testingTasks3 = [
+let testingTasks4 = [
   {
     "category": "to-do-container",
     "story-category": "User Story",
@@ -35,20 +35,21 @@ let testingTasks3 = [
     "priority": "Urgent",
     "people-in-charge": ['SM', 'BZ', 'TW']
   },
-  {
-    "category": "in-progress-container",
-    "story-category": "User Story",
-    "id": 4,
-    "title": "Kochwelt Page & Recipe Recommender",
-    "task": "Build start page with recipe recommendation",
-    "priority": "Low",
-    "people-in-charge": ['AM', 'EM', 'MB']
-  }
+  // {
+  //   "category": "in-progress-container",
+  //   "story-category": "User Story",
+  //   "id": 4,
+  //   "title": "Kochwelt Page & Recipe Recommender",
+  //   "task": "Build start page with recipe recommendation",
+  //   "priority": "Low",
+  //   "people-in-charge": ['AM', 'EM', 'MB']
+  // }
 ]
 
 let tasks =[];
 const BASE_URL = 'https://join-privat-default-rtdb.europe-west1.firebasedatabase.app/';
 let categories = [];
+let allCategories = ["to-do-container", "await-feedback-container", "done-container", "in-progress-container"];
 let elementDraggedOver;
 
 /* Bemerkung: Die Ausführung von deleteCertainElements(), deren Aufgabe es wäre ausgewählte Datenbankeinträge wieder zu entfernen
@@ -117,14 +118,20 @@ async function postData(path = "", data = tasksObject) {
   }
 }
 
-// postData("tasks", testingTasks3).then(response => {
+// postData("tasks", testingTasks4).then(response => {
 //   console.log('Response from Firebase:', response);
 // });
+
+
+// -O05H016uL_VT-vaNnYE
+// -O0DxZFsRS2ts1lRHvbZ
+// -O0EMm8rA_hMdc-POAVF
+
 
 async function loadTasksFromDatabase(){ 
   let response = await loadData();
   if(response && response.tasks){
-    return Object.values(response.tasks['-O0DxZFsRS2ts1lRHvbZ']);
+    return Object.values(response.tasks['-O0EMm8rA_hMdc-POAVF']); 
   }
   return [];
 }
@@ -145,14 +152,20 @@ function checkIfEmpty(tasksDiv, divWithoutTasks){
 }
 
 function updateHTML() {
-  categories.forEach(category => {
+  allCategories.forEach(category => {
     let element = document.getElementById(category);
+    let oppositeElementName = "no-" + category;
+    let oppositeElement = getRightOppositeElement(oppositeElementName);
     if(element){
       let filteredTasks = tasks.filter(task => task.category === category);
       element.innerHTML = '';
-      iterateThroughSubArray(filteredTasks, element);
+      if(filteredTasks.length > 0){
+        iterateThroughSubArray(filteredTasks, element);
+      } else {
+        element.innerHTML = oppositeElement;
+      }
     }
-  })
+  });
 }
 
 function setVariableClass(element){
@@ -216,6 +229,15 @@ function moveTo(category){
   if(task){
     task.category = category;
     updateHTML();
+    removeEmptyMessage(category, oppositeCategory);
+  }
+}
+
+function removeEmptyMessage(category, oppositeCategory) {
+  let categoryContainer = document.getElementById(category);
+  let oppositeCategoryContainer = document.getElementById(oppositeCategory);
+  if (oppositeCategoryContainer) {
+    categoryContainer.removeChild(oppositeCategoryContainer);
   }
 }
 

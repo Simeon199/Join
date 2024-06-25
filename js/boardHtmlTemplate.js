@@ -59,3 +59,27 @@ function generateHTMLUrgencyUrgent(){
             </defs>
         </svg>`
 }
+
+function getRightOppositeElement(oppositeElementName){
+    if(oppositeElementName == "no-await-feedback-container"){
+        return `
+            <div id="no-await-feedback-container" class="no-task">
+                <p>No tasks await feedback</p>
+            </div>`;
+    } else if(oppositeElementName == "no-in-progress-container"){
+        return `
+            <div id="no-in-progress-container" class="no-task">
+              <p>No tasks in progress</p>
+            </div>`;
+    } else if(oppositeElementName == "no-to-do-container"){
+        return `
+            <div id="no-to-do-container" class="no-task">
+                <p>No tasks to do</p>
+            </div>`;
+    } else if(oppositeElementName == "no-done-container"){
+        return `
+            <div id="no-done-container" class="no-task">
+              <p>No tasks done</p>
+            </div>`;
+    }
+}
