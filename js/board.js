@@ -219,12 +219,7 @@ function startDragging(elementId){
 }
 
 function moveTo(category){
-  let categoryContainer = document.getElementById(category);
   let oppositeCategory = 'no-' + category;
-  let oppositeCategoryContainer = document.getElementById(oppositeCategory);
-  if(categoryContainer.innerHTML == ""){
-    oppositeCategoryContainer.classList.add('d-none');
-  }
   let task = tasks.find(task => task.id == elementDraggedOver);
   if(task){
     task.category = category;
@@ -238,6 +233,18 @@ function removeEmptyMessage(category, oppositeCategory) {
   let oppositeCategoryContainer = document.getElementById(oppositeCategory);
   if (oppositeCategoryContainer) {
     categoryContainer.removeChild(oppositeCategoryContainer);
+  }
+}
+
+function getRightOppositeElement(oppositeElementName){
+  if(oppositeElementName == "no-await-feedback-container"){
+    return returnHtmlNoFeedbackContainer();
+  } else if(oppositeElementName == "no-in-progress-container"){
+    return returnHtmlNoProgressContainer();
+  } else if(oppositeElementName == "no-to-do-container"){
+    return returnHtmlNoToDoContainer();
+  } else if(oppositeElementName == "no-done-container"){
+    return returnHtmlNoDoneContainer();
   }
 }
 
