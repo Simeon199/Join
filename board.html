@@ -98,15 +98,19 @@
               </div>
             </div>
 
+            <div id="no-to-do-container" class="no-task d-none">
+              <p>No tasks to do</p>
+            </div>
+
             <div
               id="to-do-container"
               class="wrap-container"
               ondragover="allowDrop(event)"
               ondrop="moveTo('to-do-container')"
             >
-              <div id="no-to-do-container" class="no-task">
+              <!-- <div id="no-to-do-container" class="no-task">
                 <p>No tasks to do</p>
-              </div>
+              </div> -->
               <!-- <div class="content-task" id="todo-tasks" ondragover="allowDrop(event) ondrop="moveTo('todo-tasks')"></div> -->
             </div>
           </section>
@@ -136,15 +140,19 @@
               </div>
             </div>
 
+            <div id="no-in-progress-container" class="no-task d-none">
+              <p>No tasks in progress</p>
+            </div>
+
             <div
               id="in-progress-container"
               class="wrap-container"
               ondragover="allowDrop(event)"
               ondrop="moveTo('in-progress-container')"
             >
-              <div id="no-in-progress-container" class="no-task">
+              <!-- <div id="no-in-progress-container" class="no-task d-none">
                 <p>No tasks in progress</p>
-              </div>
+              </div> -->
 
               <!-- task card rendern !!!! -->
               <!-- <div class="task" draggable="true">
@@ -214,16 +222,19 @@
               </div>
             </div>
 
+            <div id="no-await-feedback-container" class="no-task d-none">
+              <p>No tasks await feedback</p>
+            </div>
+
             <div
               id="await-feedback-container"
               class="wrap-container"
               ondragover="allowDrop(event)"
               ondrop="moveTo('await-feedback-container')"
-              ondragleave="checkIfContainerIsEmpty('await-feedback-container', 'no-await-feedback-container')"
             >
-              <div id="no-await-feedback-container" class="no-task">
+              <!-- <div id="no-await-feedback-container" class="no-task">
                 <p>No tasks await feedback</p>
-              </div>
+              </div> -->
               <!-- <div class="content-task" id="feedback-tasks" ondragover="allowDrop(event)" ondrop="moveTo('feedback-tasks')"></div> -->
             </div>
           </section>
@@ -253,15 +264,19 @@
               </div>
             </div>
 
+            <div id="no-done-container" class="no-task d-none">
+              <p>No tasks done</p>
+            </div>
+
             <div
               id="done-container"
               class="wrap-container"
               ondragover="allowDrop(event)"
               ondrop="moveTo('done-container')"
             >
-              <div id="no-done-container" class="no-task">
+              <!-- <div id="no-done-container" class="no-task">
                 <p>No tasks done</p>
-              </div>
+              </div> -->
               <!-- <div class="content-task" id="done" ondragover="allowDrop(event)" ondrop="moveTo('done')"></div> -->
             </div>
           </section>

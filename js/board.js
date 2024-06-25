@@ -130,11 +130,26 @@ function iterateThroughSubArray(taskArray, htmlElement){
   });
 }
 
-function checkIfContainerIsEmpty(tasksDiv, divWithoutTasks){
+// function checkIfEmpty(category, oppositeCategory) {
+//   let categoryDiv = document.getElementById(category);
+//   let oppositeCategoryDiv = document.getElementById(oppositeCategory);
+
+//   if (!categoryDiv.hasChildNodes()) {
+//     oppositeCategoryDiv.classList.remove('d-none');
+//   } else {
+//     oppositeCategoryDiv.classList.add('d-none');
+//   }
+// }
+
+function checkIfEmpty(tasksDiv, divWithoutTasks){
   let tasksDivContainer = document.getElementById(tasksDiv);
   let divWithoutTasksContainer = document.getElementById(divWithoutTasks);
+  console.log(tasksDiv, divWithoutTasks);
   if(tasksDivContainer.innerHTML == ""){
     divWithoutTasksContainer.classList.remove('d-none');
+  // } else {
+  //   console.log(divWithoutTasks);
+  //   divWithoutTasksContainer.classList.add('d-none');
   }
 }
 
@@ -159,15 +174,25 @@ function setVariableClass(element){
   return variableClass;
 }
 
+function checkIfEmptyOnOndrop(category){
+  console.log(category);
+}
+
 function createToDoHTML(element){
   let variableClass = setVariableClass(element);
   let oppositeCategory = 'no-' + element['category'];
-  console.log(element['category'], oppositeCategory);
+  // console.log(element['category'], oppositeCategory);
   let contactsHTML = '';
   for(let i = 0; i < element['people-in-charge'].length; i++){
     contactsHTML += `<div class="task-contact">${element['people-in-charge'][i]}</div>`
   }
-  return `<div class="task" draggable="true" ondragstart="startDragging(${element['id']})">
+  return `<div class="task" 
+              draggable="true" 
+              ondragstart="startDragging(${element['id']})" 
+              ondragend="checkIfEmpty('${element['category']}', '${oppositeCategory}')" 
+              ondragover="allowDrop(event)"
+              ondrop="moveTo('${element['category']}')"
+            >
             <div class='${variableClass}'>${element['story-category']}</div>
 
             <h3 class="task-title">${element['title']}</h3>
@@ -203,9 +228,6 @@ function createToDoHTML(element){
                 />
               </svg>
             </div>
-          </div>
-          <div id="${oppositeCategory}" class="no-task d-none">
-                <p>No tasks in ${element['category']}</p>
           </div>`
 }
 
@@ -214,6 +236,13 @@ function startDragging(elementId){
 }
 
 function moveTo(category){
+  let categoryContainer = document.getElementById(category);
+  let oppositeCategory = 'no-' + category;
+  // console.log(category, oppositeCategory);
+  let oppositeCategoryContainer = document.getElementById(oppositeCategory);
+  if(categoryContainer.innerHTML == ""){
+    oppositeCategoryContainer.classList.add('d-none');
+  }
   let task = tasks.find(task => task.id == elementDraggedOver);
   if(task){
     task.category = category;
