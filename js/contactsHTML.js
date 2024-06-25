@@ -142,7 +142,7 @@ function returnAddContactPopUpContactLogoHTML() {
 // returnAddContactPopUpFormHTML
 function returnAddContactPopUpFormHTML() {
   return /*html*/ `
-        <form onsubmit='addNewContact(); return false;'>
+        <form onsubmit='addNewContact("${randomColor()}", "created"); return false;'>
           <div class="pop-up-input-container">
             <input 
             minlength = 2

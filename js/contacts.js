@@ -332,7 +332,8 @@ function renderEditContactPopUp(userID, userName, userEmail, userNumber, i, user
 async function editContact(userID, i, userColor) {
   showLoadScreen();
   await deleteData("/contacts/" + userID);
-  addNewContact(userColor);
+
+  addNewContact(userColor, "edited");
   hideLoadScreen();
 }
 
@@ -344,8 +345,12 @@ async function deleteContact(userID) {
 }
 
 // addNewContact
-async function addNewContact(bgColor = randomColor()) {
+async function addNewContact(bgColor = randomColor(), action) {
   showLoadScreen();
+
+  document.getElementById("contact-successfully-created-pop-up").innerHTML =
+    "Contact successfully " + action;
+
   await hidePopUp();
   let nameInputValue = document.getElementById("pop-up-name-input").value;
   let emailInputValue = document.getElementById("pop-up-email-input").value;
