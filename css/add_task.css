@@ -15,14 +15,12 @@ body {
 
 form div div div {
   background-color: rgba(255, 255, 255, 1);
-  /* width: 100%; */
   height: 48px;
   border: 1px solid;
   border-color: rgba(209, 209, 209, 1);
   border-radius: 10px;
   display: flex;
   align-items: center;
-  justify-content: center;
   input {
     width: 100%;
     height: 100%;
@@ -293,9 +291,7 @@ h1 {
 .subtasks {
     background-color: unset !important;
     border: unset !important;
-    height: 48px;
     margin: 5px 0px 0px 0px !important;
-    justify-content: start;
     .subBtn1 {
       background: unset !important;
       border: unset !important;
@@ -303,12 +299,14 @@ h1 {
       gap: 12px;
       padding-right: 20px;
       margin: 0px;
+      width: 68px;
     }
     /* .subBtn1 svg:hover {
       cursor: pointer;
     } */
-    span {
+    li {
       padding-left: 15px;
+      width: 100%;
     }
 }
 
@@ -402,6 +400,7 @@ h1 {
   border: unset;
   margin: 0px !important;
   padding-right: 20px;
+  width: 56px !important;
   :hover {
     cursor: pointer;
   }

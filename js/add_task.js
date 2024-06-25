@@ -3,9 +3,6 @@ const BASE_URL1 = 'https://join-testing-42ce4-default-rtdb.europe-west1.firebase
 let assignetTo = document.getElementById("assignetTo");
 let category = document.getElementById("category");
 let priority
-
-// let contact = document.getElementById("assignedToDropDown");
-
 let subArray = [];
 let assignedContacts = [];
 
@@ -76,7 +73,6 @@ function createTask() {
   // showrequiredText1()
   // debugger
   saveTask();
-  console.log(responseToJson);
 }
 
 function clearTask() {
@@ -95,9 +91,7 @@ function clearTask() {
 }
 
 function showDropDownAssignedTo() {
-  // checkDropDown("arrowa");
   contact = document.getElementById("assignedToDropDown");
-    // console.log(allUsers);
     
     for (let i = 0; i < allUsers.length; i++) {
       user = allUsers[i];
@@ -108,7 +102,6 @@ function showDropDownAssignedTo() {
 }
 
 function showDropDownCategory() {
-  // checkDropDown("arrowb");
     document.getElementById('categoryDropDown').classList.remove('d-none');
     document.getElementById('arrowb').classList.add("rotate");
     document.getElementById('categoryDropDown').innerHTML = /*html*/`
@@ -154,12 +147,10 @@ function rendersubtask() {
 
 function renderSubtaskHTML(i , content) {
   aS = document.getElementById("sowSubtasks");
-  // aS = subtask;
   aS.classList.remove('d-none');
-  // subtask.classList.remove('d-none');
   aS.innerHTML += /*html*/`
-    <div class="subtasks">
-      <li ondblclick="editSubtask(${i})">${content}</li>
+    <div id="yyy${i}" class="subtasks" onmouseover="sowSubaskEdditButtons(${i})" onmouseout="hideSubaskEdditButtons(${i})">
+      <li ondblclick="editSubtask(${i}, ${`yyy${i}`})">${content}</li>
       <div id="subBTN${i}" class="subBtn1 d-none">
         <svg onclick="editSubtask(${i})" width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M2.14453 17H3.54453L12.1695 8.375L10.7695 6.975L2.14453 15.6V17ZM16.4445 6.925L12.1945 2.725L13.5945 1.325C13.9779 0.941667 14.4487 0.75 15.007 0.75C15.5654 0.75 16.0362 0.941667 16.4195 1.325L17.8195 2.725C18.2029 3.10833 18.4029 3.57083 18.4195 4.1125C18.4362 4.65417 18.2529 5.11667 17.8695 5.5L16.4445 6.925ZM14.9945 8.4L4.39453 19H0.144531V14.75L10.7445 4.15L14.9945 8.4Z" fill="#2A3647"/>
@@ -170,6 +161,14 @@ function renderSubtaskHTML(i , content) {
       </div>
     </div>
   `;
+}
+
+function sowSubaskEdditButtons(i) {
+  document.getElementById(`subBTN${i}`).classList.remove("d-none")
+}
+
+function hideSubaskEdditButtons(i) {
+  document.getElementById(`subBTN${i}`).classList.add("d-none");
 }
 
 function clearSubtask() {
@@ -183,12 +182,12 @@ function clearSubtaskInput() {
   document.getElementById("subtask").value="";
 }
 
-function editSubtask(i) {
-  //document.getElementById(`changeTo${i}`).element;
-  editSubtaskInput(i)
+function editSubtask(i, yyy) {
+  editSubtaskInput(i, yyy)
 }
 
-function editSubtaskInput(i) {
+function editSubtaskInput(i, yyy) {
+  console.log("edit-test-2");
   return /*html*/`
     <input type="text" value="${subArray[i]}">
     <div>
@@ -196,12 +195,12 @@ function editSubtaskInput(i) {
       <div class="subtaskBorder"></div>
       <img src="Assets/img/checksubmit.svg" alt="">
     </div>
-  `
+  `;
 }
 
 function deleteSubtask(i) {
-  console.log("del-test");
   subArray.splice(i ,1);
+  rendersubtask()
 }
 
 function showrequiredText() {
@@ -283,6 +282,7 @@ async function saveTask() {
     category: category,
     subtask: subArray,
   })
+  // return (responseToJson)
 }
 
 // function um festzustellen ob DropDown offen oder geschlossen ist
