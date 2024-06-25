@@ -6,7 +6,7 @@ let priority
 
 // let contact = document.getElementById("assignedToDropDown");
 
-let subArray = ["Test1", "Test2", "Test3"];
+let subArray = [];
 let assignedContacts = [];
 
 function init() {
@@ -159,7 +159,7 @@ function renderSubtaskHTML(i , content) {
   // subtask.classList.remove('d-none');
   aS.innerHTML += /*html*/`
     <div class="subtasks">
-      <span id="changeTo${i}">${content}</span>
+      <li ondblclick="editSubtask(${i})">${content}</li>
       <div id="subBTN${i}" class="subBtn1 d-none">
         <svg onclick="editSubtask(${i})" width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M2.14453 17H3.54453L12.1695 8.375L10.7695 6.975L2.14453 15.6V17ZM16.4445 6.925L12.1945 2.725L13.5945 1.325C13.9779 0.941667 14.4487 0.75 15.007 0.75C15.5654 0.75 16.0362 0.941667 16.4195 1.325L17.8195 2.725C18.2029 3.10833 18.4029 3.57083 18.4195 4.1125C18.4362 4.65417 18.2529 5.11667 17.8695 5.5L16.4445 6.925ZM14.9945 8.4L4.39453 19H0.144531V14.75L10.7445 4.15L14.9945 8.4Z" fill="#2A3647"/>
@@ -179,8 +179,24 @@ function clearSubtask() {
   subtask.classList.add('d-none');
 }
 
+function clearSubtaskInput() {
+  document.getElementById("subtask").value="";
+}
+
 function editSubtask(i) {
-  document.getElementById(`changeTo${i}`).element;
+  //document.getElementById(`changeTo${i}`).element;
+  editSubtaskInput(i)
+}
+
+function editSubtaskInput(i) {
+  return /*html*/`
+    <input type="text" value="${subArray[i]}">
+    <div>
+      <img src="Assets/img/" alt="">
+      <div class="subtaskBorder"></div>
+      <img src="Assets/img/checksubmit.svg" alt="">
+    </div>
+  `
 }
 
 function deleteSubtask(i) {
@@ -200,25 +216,17 @@ function showrequiredText() {
 
 function renderAssignedToHTML(user, contact, i) {
   contact.innerHTML += /*html*/`
-    <div class=assignedDropDownField onclick="assignetToContects('${user[`name`]}', '${user[`color`]}')">
+    <div id="user${i}" class=assignedDropDownField onclick="assignetToContects('${user[`name`]}', '${user[`color`]}'); assignedToActive(${i})">
       <div class="circle" id="assignetToLetters${i}"></div>
-      <div><span>${user['name']}</span>
-        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect x="1" y="1" width="16" height="16" rx="3" stroke="#2A3647" stroke-width="2"/>
-        </svg>
-        <svg id="hook1${i}" class="d-none" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M1 9L5 13L13 1.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-        <svg id="hookxx${i}" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M20 11V17C20 18.6569 18.6569 20 17 20H7C5.34315 20 4 18.6569 4 17V7C4 5.34315 5.34315 4 7 4H15" stroke="white" stroke-width="2" stroke-linecap="round"/>
-          <path id="hook${i}" class="d-none" d="M8 12L12 16L20 4.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
+      <div class="DropDownUser"><span>${user['name']}</span>
+        <div class="checkboxesSVG">
+          <img src="Assets/img/Checkbox_black.svg" alt="">
+        </div>
       </div>
     </div>
   `;
   document.getElementById(`assignetToLetters${i}`).style.backgroundColor = user['color'];
   sowUserLetters(`assignetToLetters${i}` , user['name']);
-  assignedToActive(i)
 }
 
 function renderAssignedToCircle(i, user, color) {
@@ -296,5 +304,5 @@ function checkDropDown(id) {
 }
 
 function assignedToActive(i) {
-  document.getElementById(`hook${i}`).classList.remove('d-none')
+  document.getElementById(`user${i}`).classList.add("contact.container-checked")
 }
