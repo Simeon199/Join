@@ -48,6 +48,7 @@ body .translate-100 {
 #main-headline h1 {
   font-size: 61px;
   font-weight: 700;
+  padding: 0;
 }
 
 #search-container {
@@ -162,21 +163,17 @@ body .translate-100 {
 
 /* Zu Testzwecken (Anfang): Kann man nachher auch auskommentieren */
 
-#to-do-container {
-  padding: 16px;
-  /* border: 2px solid black; */
-  border-radius: 8px;
-}
-
-#await-feedback-container {
-  padding: 16px;
-  /* border: 2px solid black; */
-  border-radius: 8px;
-}
-
+#to-do-container,
+#await-feedback-container,
+#in-progress-container,
 #done-container {
-  padding: 16px;
+  /* padding: 16px; */
   border-radius: 8px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
   /* border: 2px solid black; */
 }
 
@@ -189,8 +186,9 @@ body .translate-100 {
   justify-content: space-between;
 
   width: 100%;
+  height: 100%;
 
-  gap: 15px;
+  gap: 26px;
 }
 
 .board-section {
@@ -286,9 +284,8 @@ body .translate-100 {
 .task {
   width: 100%;
   cursor: pointer;
-  margin-bottom: 8px;
   border-radius: 24px;
-  padding: 15px;
+  padding: 16px;
   background: #ffffff;
   box-shadow: 0px 0px 10px 3px #00000014;
 }
@@ -310,7 +307,7 @@ body .translate-100 {
   color: white;
 
   /* bg rendern !!! */
-  background: #22D7C1;
+  background: #22d7c1;
 }
 
 .task-title {
@@ -318,6 +315,8 @@ body .translate-100 {
   font-weight: 700;
 
   color: #2a3647;
+
+  margin: 17px 0 0 0;
 }
 
 .task-description {
@@ -325,6 +324,8 @@ body .translate-100 {
   font-weight: 400;
 
   color: #a8a8a8;
+
+  margin: 8px 0 0 0;
 }
 
 .task-bar-container {
@@ -335,6 +336,17 @@ body .translate-100 {
   justify-content: space-between;
 
   gap: 10px;
+
+  padding: 5px 0;
+}
+
+.task-bar-content {
+  background-color: #4589ff;
+
+  width: 50%;
+  height: 100%;
+
+  border-radius: 10px;
 }
 
 .task-bar {
@@ -360,8 +372,6 @@ body .translate-100 {
   align-items: center;
 
   width: 100%;
-
-  padding: 15px 0;
 }
 
 .task-contacts {
@@ -375,17 +385,19 @@ body .translate-100 {
   justify-content: center;
   align-items: center;
 
-  color: white;
-
-  height: 40px;
-  width: 40px;
+  height: 32px;
+  width: 32px;
   border-radius: 100%;
 
   border: 1px solid #ffffff;
-
   background: #1fd7c1;
 
   margin-left: -10px;
+
+  color: white;
+
+  font-size: 12px;
+  font-weight: 400;
 }
 
 .task-contact:first-child {
