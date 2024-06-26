@@ -340,6 +340,15 @@ body .translate-100 {
   padding: 5px 0;
 }
 
+.task-bar-content {
+  background-color: #4589ff;
+
+  width: 50%;
+  height: 100%;
+
+  border-radius: 10px;
+}
+
 .task-bar {
   width: 100%;
   flex: 1;
