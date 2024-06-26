@@ -69,11 +69,11 @@ function changeImg(condition) {
   }
 }
 
-async function createTask() {
+async function createTask(containerDefault = "to-do-container") {
   console.log("create...");
   // showrequiredText1()
   // debugger
-  await saveTask();
+  await saveTask(containerDefault);
 }
 
 function clearTask() {
@@ -130,7 +130,7 @@ async function upload(path = "", data = {}) {
   return (responseToJson = await response.json());
 }
 
-async function saveTask() {
+async function saveTask(containerDefault) {
   let inputTitle = document.getElementById("inputTitle").value;
   let inputDescription = document.getElementById("inputDescription").value;
   let date = document.getElementById("date").value;
@@ -142,10 +142,10 @@ async function saveTask() {
     date: date,
     priority: priority,
     category: category,
-    subtask: subArray,
+    subtask: subArray
   }
   taskinp.push(ztask);
-  await upload("/tasks", {
+  await upload("tasks", {
     title: inputTitle,
     description: inputDescription,
     assigned: assignedContacts,
@@ -153,6 +153,7 @@ async function saveTask() {
     priority: priority,
     category: category,
     subtask: subArray,
+    container: containerDefault 
   })
   console.log(taskinp);
   // return (responseToJson)
