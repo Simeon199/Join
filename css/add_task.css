@@ -14,7 +14,7 @@ body {
 }
 
 form div div div {
-  background-color: rgba(255, 255, 255, 1);
+  /* background-color: rgba(255, 255, 255, 1); */
   height: 48px;
   border: 1px solid;
   border-color: rgba(209, 209, 209, 1);
@@ -248,10 +248,12 @@ h1 {
 #categoryDropDown {
   margin: 0px;
   /* width: 36%; */
+  background-color: rgba(255, 255, 255, 1);
 }
 
 #category {
   margin-bottom: 0px;
+  background-color: rgba(255, 255, 255, 1);
 }
 
 .onFocus input {
@@ -327,10 +329,15 @@ h1 {
   color: rgba(255, 129, 144, 1);
 }
 
+#assignedTo {
+  background-color: rgba(255, 255, 255, 1);
+}
+
 #assignedToDropDown {
   height: 200px;
   overflow-y: scroll;
   justify-content: start;
+  background-color: rgba(255, 255, 255, 1);
 }
 
 .assignedDropDownField {

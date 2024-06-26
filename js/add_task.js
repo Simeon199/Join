@@ -70,8 +70,7 @@ function changeImg(condition) {
 
 async function createTask() {
   console.log("create...");
-  // showrequiredText1()
-  // debugger
+  showrequiredText1()
   await saveTask();
 }
 
@@ -80,7 +79,6 @@ function clearTask() {
   let inputDescription = document.getElementById("inputDescription");
   let date = document.getElementById("date");
     console.error("Clearing...")
-    // console.log(inputTitle.value);
     inputTitle.value= "";
     inputDescription.value='';
     clearAssignedTo();
@@ -143,7 +141,6 @@ async function saveTask() {
     category: category,
     subtask: subArray,
   })
-  // return (responseToJson)
 }
 
 // function um festzustellen ob DropDown offen oder geschlossen ist

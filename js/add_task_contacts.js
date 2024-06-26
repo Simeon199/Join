@@ -1,3 +1,5 @@
+let userCredicals;
+
 function showDropDownAssignedTo() {
   contact = document.getElementById("assignedToDropDown");
     
@@ -18,7 +20,7 @@ function hideDropDownAssignedTo() {
 
 function renderAssignedToHTML(user, contact, i) {
   contact.innerHTML += /*html*/`
-    <div id="user${i}" class=assignedDropDownField onclick="checkAssignedContacts(${i}, '${user[`name`]}', '${user[`color`]}'); assignedToActive(${i})">
+    <div id="user${i}" class=assignedDropDownField onclick="addUserToTask('${user[`name`]}', '${user[`color`]}'); checkAssignedContacts(userCredicals); assignedToActive(${i})">
       <div class="circle" id="assignetToLetters${i}"></div>
       <div class="DropDownUser"><span>${user['name']}</span>
         <div class="checkboxesSVG">
@@ -31,14 +33,8 @@ function renderAssignedToHTML(user, contact, i) {
   sowUserLetters(`assignetToLetters${i}` , user['name']);
 }
 
-function assignetToContects(user, color) {
+function assignetToContects() {
   document.getElementById("userCircles").innerHTML = ""
-  let userCredicals = {
-    name: user,
-    color: color,
-  }
-  assignedContacts.push(userCredicals)
-  checkAssignedContacts(user)
   for (let i = 0; i < assignedContacts.length; i++) {
     renderAssignedToCircle(i, assignedContacts[i].name, assignedContacts[i].color)
   }
@@ -61,14 +57,40 @@ function clearAssignedTo() {
   //div.classList.add('d-none');
 }
 
-function checkAssignedContacts(i, n, c) {
-  if (assignedContacts[i].name == n) {
-    removeAssignetToContects(n, c) // entfernen des Benutzers!! neue funktion benötigt
-  } else {
-    assignetToContects(n, c)
-  }
+function addUserToTask(name, bgColor) {
+    userCredicals = {
+        name: name,
+        color: bgColor,
+        isSelected: true,
+    }
+    assignedContacts.push(userCredicals);
+    assignetToContects()
 }
 
-function removeAssignetToContects(n) {
-    assignedContacts.splice(n, 1)
+function checkAssignedContacts(uc) {
+    console.log(uc);
+    if (uc.isSelected == true) {
+        for (let i = 0; i < assignedContacts.length; i++) {
+            if (assignedContacts[i].name.includes(uc.name) && assignedContacts[i].name==uc.name && isSelected == true) {
+                console.log("remove", i);
+                uc.isSelected = false;
+                removeAssignetToContects(i) // entfernen des Benutzers!! neue funktion benötigt
+            }
+        }
+    } else {
+        console.log("added", uc.name);
+        uc.isSelected = true;
+        assignedContacts.push(uc);
+        assignetToContects()
+    }
+    console.log(assignedContacts);
+}
+
+function removeAssignetToContects(x) {
+    assignedContacts.splice(x, 1)
+    assignetToContects()
+}
+
+function assignedToActive(i) {
+
 }
