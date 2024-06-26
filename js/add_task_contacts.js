@@ -18,7 +18,7 @@ function hideDropDownAssignedTo() {
 
 function renderAssignedToHTML(user, contact, i) {
   contact.innerHTML += /*html*/`
-    <div id="user${i}" class=assignedDropDownField onclick="assignetToContects('${user[`name`]}', '${user[`color`]}'); assignedToActive(${i})">
+    <div id="user${i}" class=assignedDropDownField onclick="checkAssignedContacts(${i}, '${user[`name`]}', '${user[`color`]}'); assignedToActive(${i})">
       <div class="circle" id="assignetToLetters${i}"></div>
       <div class="DropDownUser"><span>${user['name']}</span>
         <div class="checkboxesSVG">
@@ -38,6 +38,7 @@ function assignetToContects(user, color) {
     color: color,
   }
   assignedContacts.push(userCredicals)
+  checkAssignedContacts(user)
   for (let i = 0; i < assignedContacts.length; i++) {
     renderAssignedToCircle(i, assignedContacts[i].name, assignedContacts[i].color)
   }
@@ -60,10 +61,14 @@ function clearAssignedTo() {
   //div.classList.add('d-none');
 }
 
-function checkAssignedContacts() {
-  if (assignedContacts[i].name == name) {
-    
+function checkAssignedContacts(i, n, c) {
+  if (assignedContacts[i].name == n) {
+    removeAssignetToContects(n, c) // entfernen des Benutzers!! neue funktion benötigt
   } else {
-    
+    assignetToContects(n, c)
   }
+}
+
+function removeAssignetToContects(n) {
+    assignedContacts.splice(n, 1)
 }

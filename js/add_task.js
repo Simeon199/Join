@@ -5,7 +5,6 @@ let category = document.getElementById("category");
 let priority
 let subArray = [];
 let assignedContacts = [];
-let taskinp = [];
 
 function init() {
   changePriority(medium);
@@ -135,16 +134,6 @@ async function saveTask() {
   let inputDescription = document.getElementById("inputDescription").value;
   let date = document.getElementById("date").value;
   let category = document.getElementById('categoryText').textContent;
-  let ztask = {
-    title: inputTitle,
-    description: inputDescription,
-    assigned: assignedContacts,
-    date: date,
-    priority: priority,
-    category: category,
-    subtask: subArray,
-  }
-  taskinp.push(ztask);
   await upload("/tasks", {
     title: inputTitle,
     description: inputDescription,
@@ -154,7 +143,6 @@ async function saveTask() {
     category: category,
     subtask: subArray,
   })
-  console.log(taskinp);
   // return (responseToJson)
 }
 
