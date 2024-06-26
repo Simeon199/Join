@@ -5,6 +5,7 @@ let category = document.getElementById("category");
 let priority
 let subArray = [];
 let assignedContacts = [];
+let taskinp = [];
 
 function init() {
   changePriority(medium);
@@ -68,11 +69,11 @@ function changeImg(condition) {
   }
 }
 
-function createTask() {
+async function createTask() {
   console.log("create...");
   // showrequiredText1()
   // debugger
-  saveTask();
+  await saveTask();
 }
 
 function clearTask() {
@@ -134,15 +135,22 @@ function addSubtask() {
     subArray.push(text.value);
     text.value='';
     rendersubtask();
+    hideOrShowEditButtons();
   }
 }
 
 function rendersubtask() {
-  document.getElementById("sowSubtasks").innerHTML = "";
-  for (let i = 0; i < subArray.length; i++) {
-    let content = subArray[i]
-    renderSubtaskHTML(i, content)
-  }
+  subtask = document.getElementById("sowSubtasks");
+  subtask.innerHTML = "";
+
+  if (subArray.length >= 1) {
+    for (let i = 0; i < subArray.length; i++) {
+      let content = subArray[i]
+      renderSubtaskHTML(i, content)
+    }
+  } else {
+    subtask.classList.add("d-none");
+  } 
 }
 
 function renderSubtaskHTML(i , content) {
@@ -187,7 +195,7 @@ function editSubtask(i, yyy) {
 }
 
 function editSubtaskInput(i, yyy) {
-  console.log("edit-test-2");
+  console.log("edit-test-2", i ,yyy);
   return /*html*/`
     <input type="text" value="${subArray[i]}">
     <div>
@@ -196,6 +204,22 @@ function editSubtaskInput(i, yyy) {
       <img src="Assets/img/checksubmit.svg" alt="">
     </div>
   `;
+}
+
+function sowInputEditButtons() {
+  document.getElementById("subtask").addEventListener('click', hideOrShowEditButtons());
+}
+
+function hideOrShowEditButtons() {
+  subBTN = document.getElementById("subtaskInputButtons")
+  plus = document.getElementById("plusSymbole").classList
+  if (subBTN.classList.contains("d-none") == true) {
+    document.getElementById("subtaskInputButtons").classList.remove("d-none")
+    plus.add("d-none")
+  } else {
+    document.getElementById("subtaskInputButtons").classList.add("d-none")
+    plus.remove("d-none")
+  }
 }
 
 function deleteSubtask(i) {
@@ -273,6 +297,16 @@ async function saveTask() {
   let inputDescription = document.getElementById("inputDescription").value;
   let date = document.getElementById("date").value;
   let category = document.getElementById('categoryText').textContent;
+  let ztask = {
+    title: inputTitle,
+    description: inputDescription,
+    assigned: assignedContacts,
+    date: date,
+    priority: priority,
+    category: category,
+    subtask: subArray,
+  }
+  taskinp.push(ztask);
   await upload("/tasks", {
     title: inputTitle,
     description: inputDescription,
@@ -282,6 +316,7 @@ async function saveTask() {
     category: category,
     subtask: subArray,
   })
+  console.log(taskinp);
   // return (responseToJson)
 }
 
