@@ -88,9 +88,24 @@ async function loadData(path = "") {
   return responseAsJson;
 }
 
+async function loadDataTwo(path = "") {
+  let response = await fetch(BASE_URL1 + path + ".json");
+  let responseAsJson = await response.json();
+  return responseAsJson;
+}
+
 async function getTasksFromDatabase(){
-  tasks = await loadTasksFromDatabase();
+  tasks = loadTasksFromLocalStorage() || await loadTasksFromDatabase();
   updateCategories();
+}
+
+function loadTasksFromLocalStorage(){
+  let storagedTasks = localStorage.getItem('tasks');
+  if(storagedTasks){
+    return JSON.parse(storagedTasks);
+  } else {
+    return null;
+  }
 }
 
 function updateCategories(){
@@ -223,9 +238,14 @@ function moveTo(category){
   let task = tasks.find(task => task.id == elementDraggedOver);
   if(task){
     task.category = category;
+    saveTasksToLocalStorage();
     updateHTML();
     removeEmptyMessage(category, oppositeCategory);
   }
+}
+
+function saveTasksToLocalStorage(){
+  localStorage.setItem('tasks', JSON.stringify(tasks));
 }
 
 function removeEmptyMessage(category, oppositeCategory) {
