@@ -1,8 +1,8 @@
-const BASE_URL1 = 'https://join-testing-42ce4-default-rtdb.europe-west1.firebasedatabase.app/';
+const BASE_URL1 = "https://join-testing-42ce4-default-rtdb.europe-west1.firebasedatabase.app/";
 
 let assignetTo = document.getElementById("assignetTo");
 let category = document.getElementById("category");
-let priority
+let priority;
 let subArray = [];
 let assignedContacts = [];
 let taskinp = [];
@@ -80,21 +80,21 @@ function clearTask() {
   let inputTitle = document.getElementById("inputTitle");
   let inputDescription = document.getElementById("inputDescription");
   let date = document.getElementById("date");
-    console.error("Clearing...")
-    // console.log(inputTitle.value);
-    inputTitle.value= "";
-    inputDescription.value='';
-    clearAssignedTo();
-    date.value = '';
-    category = changeCategory('Select task category');
-    clearSubtask();
-    changePriority(medium);
+  console.error("Clearing...");
+  // console.log(inputTitle.value);
+  inputTitle.value = "";
+  inputDescription.value = "";
+  clearAssignedTo();
+  date.value = "";
+  category = changeCategory("Select task category");
+  clearSubtask();
+  changePriority(medium);
 }
 
 function showDropDownCategory() {
-    document.getElementById('categoryDropDown').classList.remove('d-none');
-    document.getElementById('arrowb').classList.add("rotate");
-    document.getElementById('categoryDropDown').innerHTML = /*html*/`
+  document.getElementById("categoryDropDown").classList.remove("d-none");
+  document.getElementById("arrowb").classList.add("rotate");
+  document.getElementById("categoryDropDown").innerHTML = /*html*/ `
             <div onclick="hideDropDownCategory(); changeCategory('Technical Task')"><span>Technical Task</span></div>
             <div onclick="hideDropDownCategory(); changeCategory('User Story')"><span>User Story</span></div>
     `;
@@ -106,17 +106,17 @@ function hideDropDownCategory() {
 }
 
 function changeCategory(text) {
-    document.getElementById('categoryText').innerHTML = `${text}`;
+  document.getElementById("categoryText").innerHTML = `${text}`;
 }
 
 function showrequiredText() {
   let ids = ["requiredTitle", "requiredDate", "requiredCatergory"];
-  ids.forEach(function(id) {
+  ids.forEach(function (id) {
     let element = document.getElementById(id);
     if (element) {
-      element.classList.remove('d-none');
+      element.classList.remove("d-none");
     }
-  }); 
+  });
 }
 
 async function upload(path = "", data = {}) {
@@ -134,8 +134,19 @@ async function saveTask() {
   let inputTitle = document.getElementById("inputTitle").value;
   let inputDescription = document.getElementById("inputDescription").value;
   let date = document.getElementById("date").value;
-  let category = document.getElementById('categoryText').textContent;
-  let ztask = {
+  let category = document.getElementById("categoryText").textContent;
+
+  // let ztask = {
+  //   title: inputTitle,
+  //   description: inputDescription,
+  //   assigned: assignedContacts,
+  //   date: date,
+  //   priority: priority,
+  //   category: category,
+  //   subtask: subArray,
+  // };
+  // taskinp.push(ztask);
+  await upload("tasks", {
     title: inputTitle,
     description: inputDescription,
     assigned: assignedContacts,
@@ -143,18 +154,9 @@ async function saveTask() {
     priority: priority,
     category: category,
     subtask: subArray,
-  }
-  taskinp.push(ztask);
-  await upload("/tasks", {
-    title: inputTitle,
-    description: inputDescription,
-    assigned: assignedContacts,
-    date: date,
-    priority: priority,
-    category: category,
-    subtask: subArray,
-  })
-  console.log(taskinp);
+  });
+  // console.log(taskinp);
+  loadDataTwo();
   // return (responseToJson)
 }
 
@@ -163,15 +165,21 @@ function checkDropDown(id) {
   rot = document.getElementById(id);
   if (rot.classList.contains("rotate")) {
     if (id == "arrowa") {
-      hideDropDownAssignedTo()
+      hideDropDownAssignedTo();
     } else {
-      hideDropDownCategory()
+      hideDropDownCategory();
     }
   } else {
     if (id == "arrowa") {
-      showDropDownAssignedTo()
+      showDropDownAssignedTo();
     } else {
-      showDropDownCategory()
+      showDropDownCategory();
     }
   }
+}
+
+async function loadDataTwo(path = "") {
+  let response = await fetch(BASE_URL1 + path + ".json");
+  let responseAsJson = await response.json();
+  return responseAsJson;
 }

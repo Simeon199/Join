@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="de">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>JOIN</title>
-    <link rel="shortcut icon" href="Assets/img/Capa2logo_klein.svg" type="image/x-icon">
-    <link rel="stylesheet" href="css/generally.css">
-    <link rel="stylesheet" href="css/add_task.css">
+    <link rel="shortcut icon" href="Assets/img/Capa2logo_klein.svg" type="image/x-icon" />
+    <link rel="stylesheet" href="css/generally.css" />
+    <link rel="stylesheet" href="css/add_task.css" />
     <script src="js/desktop-template.js"></script>
     <script src="js/sow_contacts.js"></script>
     <script src="js/contacts.js"></script>
@@ -14,125 +14,204 @@
     <script src="js/add_task_contacts.js"></script>
     <script src="js/add_task_subtask.js"></script>
 
-        <!-- fonts -->
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap"
-          rel="stylesheet"
-        />
-</head>
-<body onload="initSidebar(); init()">
+    <!-- fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body onload="initSidebar(); init()">
     <header id="headerForm"></header>
 
     <div class="main">
-        <div>
-            <h1>Add Task</h1>
-        </div>
-        <section id="section99" class="addTaskBody">
-
-            <form onsubmit="return createTask()">
-
-            <div class="input1">
-                <div>
-                    <p>Title<b>*</b></p>
-                    <div>
-                        <input id="inputTitle" type="text" placeholder="Enter a title" required>
-                    </div>
-                    <span id="requiredTitle" class="required-text d-none">This field is required</span>
-                </div>
-                <div>
-                    <p>Description</p>
-                    <div class="descriptionStyle">
-                        <textarea name="" id="inputDescription" placeholder="Enter a Description"></textarea>
-                    </div>
-                </div>
-                <div>
-                    <p>Assigned to</p>
-                    <div  id="assignedTo" class="select">
-                        <span>Select contacts to assign</span>
-                        <svg onclick="checkDropDown('arrowa')" id="arrowa" class="arrow" width="8" height="5" viewBox="0 0 8 5" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M3.29998 4.3L0.699975 1.7C0.383309 1.38333 0.312475 1.02083 0.487475 0.6125C0.662475 0.204167 0.974975 0 1.42498 0H6.57498C7.02498 0 7.33747 0.204167 7.51248 0.6125C7.68748 1.02083 7.61664 1.38333 7.29997 1.7L4.69998 4.3C4.59998 4.4 4.49164 4.475 4.37498 4.525C4.25831 4.575 4.13331 4.6 3.99998 4.6C3.86664 4.6 3.74164 4.575 3.62498 4.525C3.50831 4.475 3.39998 4.4 3.29998 4.3Z" fill="#2A3647"/>
-                        </svg>
-                    </div>
-                    <div id="assignedToDropDown" class="drop-bg d-none"></div>
-                    <div id="userCircles"></div>
-                </div>
+      <div>
+        <h1>Add Task</h1>
+      </div>
+      <section id="section99" class="addTaskBody">
+        <form onsubmit=" createTask(); return false;">
+          <div class="input1">
+            <div>
+              <p>Title<b>*</b></p>
+              <div>
+                <input id="inputTitle" type="text" placeholder="Enter a title" required />
+              </div>
+              <span id="requiredTitle" class="required-text d-none">This field is required</span>
             </div>
-            <div class="borderLine"></div>
-            <div class="input2">
-                <div>
-                    <p>Due date<b>*</b></p>
-                    <div class="onFocus">
-                        <input type="text" name="" id="date" placeholder="dd/mm/yyyy" required>
-                        <svg onclick="sowCalender()" id="calender" width="19" height="20" viewBox="0 0 19 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M12.3555 16C11.6555 16 11.0638 15.7583 10.5805 15.275C10.0971 14.7917 9.85547 14.2 9.85547 13.5C9.85547 12.8 10.0971 12.2083 10.5805 11.725C11.0638 11.2417 11.6555 11 12.3555 11C13.0555 11 13.6471 11.2417 14.1305 11.725C14.6138 12.2083 14.8555 12.8 14.8555 13.5C14.8555 14.2 14.6138 14.7917 14.1305 15.275C13.6471 15.7583 13.0555 16 12.3555 16ZM2.85547 20C2.30547 20 1.83464 19.8042 1.44297 19.4125C1.0513 19.0208 0.855469 18.55 0.855469 18V4C0.855469 3.45 1.0513 2.97917 1.44297 2.5875C1.83464 2.19583 2.30547 2 2.85547 2H3.85547V1C3.85547 0.716667 3.9513 0.479167 4.14297 0.2875C4.33464 0.0958333 4.57214 0 4.85547 0C5.1388 0 5.3763 0.0958333 5.56797 0.2875C5.75964 0.479167 5.85547 0.716667 5.85547 1V2H13.8555V1C13.8555 0.716667 13.9513 0.479167 14.143 0.2875C14.3346 0.0958333 14.5721 0 14.8555 0C15.1388 0 15.3763 0.0958333 15.568 0.2875C15.7596 0.479167 15.8555 0.716667 15.8555 1V2H16.8555C17.4055 2 17.8763 2.19583 18.268 2.5875C18.6596 2.97917 18.8555 3.45 18.8555 4V18C18.8555 18.55 18.6596 19.0208 18.268 19.4125C17.8763 19.8042 17.4055 20 16.8555 20H2.85547ZM2.85547 18H16.8555V8H2.85547V18ZM2.85547 6H16.8555V4H2.85547V6Z" fill="#2A3647"/>
-                        </svg>                            
-                    </div>
-                    <span id="requiredDate" class="required-text d-none">This field is required</span>
-                </div>
-                <div class="prio">
-                    <p>Prio</p>
-                    <div>
-                        <div onclick="changePriority(urgent)" id="urgent" class="center">Urgent
-                            <img id="imgUrgent" src="Assets/img/Prio altaUrgent_symbole.svg" alt="">
-                        </div>
-                        <div onclick="changePriority(medium)" id="medium" class="center">Medium
-                            <img id="imgMedium" src="Assets/img/Prio mediameduim_white.svg" alt="">
-                        </div>
-                        <div onclick="changePriority(low)" id="low" class="center">Low
-                            <img id="imgLow" src="Assets/img/Prio bajaLow_symbole.svg" alt="">
-                        </div>
-                    </div>
-                </div>
-                <div>
-                    <p>Category<b>*</b></p>
-                    <div id="category" class="select" aria-required="true">
-                        <span id="categoryText">Select task category</span>
-                        <svg onclick="checkDropDown('arrowb')" id="arrowb" class="arrow" width="8" height="5" viewBox="0 0 8 5" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M3.29998 4.3L0.699975 1.7C0.383309 1.38333 0.312475 1.02083 0.487475 0.6125C0.662475 0.204167 0.974975 0 1.42498 0H6.57498C7.02498 0 7.33747 0.204167 7.51248 0.6125C7.68748 1.02083 7.61664 1.38333 7.29997 1.7L4.69998 4.3C4.59998 4.4 4.49164 4.475 4.37498 4.525C4.25831 4.575 4.13331 4.6 3.99998 4.6C3.86664 4.6 3.74164 4.575 3.62498 4.525C3.50831 4.475 3.39998 4.4 3.29998 4.3Z" fill="#2A3647"/>
-                        </svg>
-                    </div>
-                    <div id="categoryDropDown" class="drop-bg d-none"></div>
-                    <span id="requiredCatergory" class="required-text d-none">This field is required</span>
-                </div>
-                <div>
-                    <p>Subtasks</p>
-                    <div class="onFocus">
-                        <input onclick="sowInputEditButtons()" id="subtask" type="text" placeholder="Add new subtask">
-                        <div id="subtaskInputButtons" class="subtaskIcons d-none">
-                            <img onclick="clearSubtaskInput()" src="Assets/img/close.svg" alt="">
-                            <div class="subtaskBorder"></div>
-                            <img onclick="addSubtask()" src="Assets/img/checksubmit.svg" alt="">
-                        </div>
-                        <svg id="plusSymbole" class="subtasksvg" width="15" height="14" viewBox="0 0 15 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M6.24854 8H1.24854C0.965202 8 0.727702 7.90417 0.536035 7.7125C0.344368 7.52083 0.248535 7.28333 0.248535 7C0.248535 6.71667 0.344368 6.47917 0.536035 6.2875C0.727702 6.09583 0.965202 6 1.24854 6H6.24854V1C6.24854 0.716667 6.34437 0.479167 6.53604 0.2875C6.7277 0.0958333 6.9652 0 7.24854 0C7.53187 0 7.76937 0.0958333 7.96104 0.2875C8.1527 0.479167 8.24854 0.716667 8.24854 1V6H13.2485C13.5319 6 13.7694 6.09583 13.961 6.2875C14.1527 6.47917 14.2485 6.71667 14.2485 7C14.2485 7.28333 14.1527 7.52083 13.961 7.7125C13.7694 7.90417 13.5319 8 13.2485 8H8.24854V13C8.24854 13.2833 8.1527 13.5208 7.96104 13.7125C7.76937 13.9042 7.53187 14 7.24854 14C6.9652 14 6.7277 13.9042 6.53604 13.7125C6.34437 13.5208 6.24854 13.2833 6.24854 13V8Z" fill="#2A3647"/>
-                        </svg>
-                    </div>
-                    <div id="sowSubtasks" class="subtask d-none">
-                    </div>
-                </div>
+            <div>
+              <p>Description</p>
+              <div class="descriptionStyle">
+                <textarea
+                  name=""
+                  id="inputDescription"
+                  placeholder="Enter a Description"
+                ></textarea>
+              </div>
             </div>
-            <section class="submitSection">
-                <p><b>*</b>This field is required</p>
-                <div class="buttons">
-                    <div onclick="clearTask()" class="btn">Clear
-                        <svg width="13" height="14" viewBox="0 0 13 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M6.24959 6.99984L11.4926 12.2428M1.00659 12.2428L6.24959 6.99984L1.00659 12.2428ZM11.4926 1.75684L6.24859 6.99984L11.4926 1.75684ZM6.24859 6.99984L1.00659 1.75684L6.24859 6.99984Z" stroke="#2A3647" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>                            
-                    </div>
-                    <button type="submit" class="darkBTN">Create Task
-                        <svg width="16" height="12" viewBox="0 0 16 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M5.79923 9.15L14.2742 0.675C14.4742 0.475 14.7117 0.375 14.9867 0.375C15.2617 0.375 15.4992 0.475 15.6992 0.675C15.8992 0.875 15.9992 1.1125 15.9992 1.3875C15.9992 1.6625 15.8992 1.9 15.6992 2.1L6.49923 11.3C6.29923 11.5 6.0659 11.6 5.79923 11.6C5.53256 11.6 5.29923 11.5 5.09923 11.3L0.79923 7C0.59923 6.8 0.503397 6.5625 0.51173 6.2875C0.520064 6.0125 0.62423 5.775 0.82423 5.575C1.02423 5.375 1.26173 5.275 1.53673 5.275C1.81173 5.275 2.04923 5.375 2.24923 5.575L5.79923 9.15Z" fill="white"/>
-                        </svg>                            
-                    </button>
+            <div>
+              <p>Assigned to</p>
+              <div id="assignedTo" class="select">
+                <span>Select contacts to assign</span>
+                <svg
+                  onclick="checkDropDown('arrowa')"
+                  id="arrowa"
+                  class="arrow"
+                  width="8"
+                  height="5"
+                  viewBox="0 0 8 5"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M3.29998 4.3L0.699975 1.7C0.383309 1.38333 0.312475 1.02083 0.487475 0.6125C0.662475 0.204167 0.974975 0 1.42498 0H6.57498C7.02498 0 7.33747 0.204167 7.51248 0.6125C7.68748 1.02083 7.61664 1.38333 7.29997 1.7L4.69998 4.3C4.59998 4.4 4.49164 4.475 4.37498 4.525C4.25831 4.575 4.13331 4.6 3.99998 4.6C3.86664 4.6 3.74164 4.575 3.62498 4.525C3.50831 4.475 3.39998 4.4 3.29998 4.3Z"
+                    fill="#2A3647"
+                  />
+                </svg>
+              </div>
+              <div id="assignedToDropDown" class="drop-bg d-none"></div>
+              <div id="userCircles"></div>
+            </div>
+          </div>
+          <div class="borderLine"></div>
+          <div class="input2">
+            <div>
+              <p>Due date<b>*</b></p>
+              <div class="onFocus">
+                <input type="text" name="" id="date" placeholder="dd/mm/yyyy" required />
+                <svg
+                  onclick="sowCalender()"
+                  id="calender"
+                  width="19"
+                  height="20"
+                  viewBox="0 0 19 20"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M12.3555 16C11.6555 16 11.0638 15.7583 10.5805 15.275C10.0971 14.7917 9.85547 14.2 9.85547 13.5C9.85547 12.8 10.0971 12.2083 10.5805 11.725C11.0638 11.2417 11.6555 11 12.3555 11C13.0555 11 13.6471 11.2417 14.1305 11.725C14.6138 12.2083 14.8555 12.8 14.8555 13.5C14.8555 14.2 14.6138 14.7917 14.1305 15.275C13.6471 15.7583 13.0555 16 12.3555 16ZM2.85547 20C2.30547 20 1.83464 19.8042 1.44297 19.4125C1.0513 19.0208 0.855469 18.55 0.855469 18V4C0.855469 3.45 1.0513 2.97917 1.44297 2.5875C1.83464 2.19583 2.30547 2 2.85547 2H3.85547V1C3.85547 0.716667 3.9513 0.479167 4.14297 0.2875C4.33464 0.0958333 4.57214 0 4.85547 0C5.1388 0 5.3763 0.0958333 5.56797 0.2875C5.75964 0.479167 5.85547 0.716667 5.85547 1V2H13.8555V1C13.8555 0.716667 13.9513 0.479167 14.143 0.2875C14.3346 0.0958333 14.5721 0 14.8555 0C15.1388 0 15.3763 0.0958333 15.568 0.2875C15.7596 0.479167 15.8555 0.716667 15.8555 1V2H16.8555C17.4055 2 17.8763 2.19583 18.268 2.5875C18.6596 2.97917 18.8555 3.45 18.8555 4V18C18.8555 18.55 18.6596 19.0208 18.268 19.4125C17.8763 19.8042 17.4055 20 16.8555 20H2.85547ZM2.85547 18H16.8555V8H2.85547V18ZM2.85547 6H16.8555V4H2.85547V6Z"
+                    fill="#2A3647"
+                  />
+                </svg>
+              </div>
+              <span id="requiredDate" class="required-text d-none">This field is required</span>
+            </div>
+            <div class="prio">
+              <p>Prio</p>
+              <div>
+                <div onclick="changePriority(urgent)" id="urgent" class="center">
+                  Urgent
+                  <img id="imgUrgent" src="Assets/img/Prio altaUrgent_symbole.svg" alt="" />
                 </div>
-            </section>
-            </form>
-        </section>
-        
+                <div onclick="changePriority(medium)" id="medium" class="center">
+                  Medium
+                  <img id="imgMedium" src="Assets/img/Prio mediameduim_white.svg" alt="" />
+                </div>
+                <div onclick="changePriority(low)" id="low" class="center">
+                  Low
+                  <img id="imgLow" src="Assets/img/Prio bajaLow_symbole.svg" alt="" />
+                </div>
+              </div>
+            </div>
+            <div>
+              <p>Category<b>*</b></p>
+              <div id="category" class="select" aria-required="true">
+                <span id="categoryText">Select task category</span>
+                <svg
+                  onclick="checkDropDown('arrowb')"
+                  id="arrowb"
+                  class="arrow"
+                  width="8"
+                  height="5"
+                  viewBox="0 0 8 5"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M3.29998 4.3L0.699975 1.7C0.383309 1.38333 0.312475 1.02083 0.487475 0.6125C0.662475 0.204167 0.974975 0 1.42498 0H6.57498C7.02498 0 7.33747 0.204167 7.51248 0.6125C7.68748 1.02083 7.61664 1.38333 7.29997 1.7L4.69998 4.3C4.59998 4.4 4.49164 4.475 4.37498 4.525C4.25831 4.575 4.13331 4.6 3.99998 4.6C3.86664 4.6 3.74164 4.575 3.62498 4.525C3.50831 4.475 3.39998 4.4 3.29998 4.3Z"
+                    fill="#2A3647"
+                  />
+                </svg>
+              </div>
+              <div id="categoryDropDown" class="drop-bg d-none"></div>
+              <span id="requiredCatergory" class="required-text d-none"
+                >This field is required</span
+              >
+            </div>
+            <div>
+              <p>Subtasks</p>
+              <div class="onFocus">
+                <input
+                  onclick="sowInputEditButtons()"
+                  id="subtask"
+                  type="text"
+                  placeholder="Add new subtask"
+                />
+                <div id="subtaskInputButtons" class="subtaskIcons d-none">
+                  <img onclick="clearSubtaskInput()" src="Assets/img/close.svg" alt="" />
+                  <div class="subtaskBorder"></div>
+                  <img onclick="addSubtask()" src="Assets/img/checksubmit.svg" alt="" />
+                </div>
+                <svg
+                  id="plusSymbole"
+                  class="subtasksvg"
+                  width="15"
+                  height="14"
+                  viewBox="0 0 15 14"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M6.24854 8H1.24854C0.965202 8 0.727702 7.90417 0.536035 7.7125C0.344368 7.52083 0.248535 7.28333 0.248535 7C0.248535 6.71667 0.344368 6.47917 0.536035 6.2875C0.727702 6.09583 0.965202 6 1.24854 6H6.24854V1C6.24854 0.716667 6.34437 0.479167 6.53604 0.2875C6.7277 0.0958333 6.9652 0 7.24854 0C7.53187 0 7.76937 0.0958333 7.96104 0.2875C8.1527 0.479167 8.24854 0.716667 8.24854 1V6H13.2485C13.5319 6 13.7694 6.09583 13.961 6.2875C14.1527 6.47917 14.2485 6.71667 14.2485 7C14.2485 7.28333 14.1527 7.52083 13.961 7.7125C13.7694 7.90417 13.5319 8 13.2485 8H8.24854V13C8.24854 13.2833 8.1527 13.5208 7.96104 13.7125C7.76937 13.9042 7.53187 14 7.24854 14C6.9652 14 6.7277 13.9042 6.53604 13.7125C6.34437 13.5208 6.24854 13.2833 6.24854 13V8Z"
+                    fill="#2A3647"
+                  />
+                </svg>
+              </div>
+              <div id="sowSubtasks" class="subtask d-none"></div>
+            </div>
+          </div>
+          <section class="submitSection">
+            <p><b>*</b>This field is required</p>
+            <div class="buttons">
+              <div onclick="clearTask()" class="btn">
+                Clear
+                <svg
+                  width="13"
+                  height="14"
+                  viewBox="0 0 13 14"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M6.24959 6.99984L11.4926 12.2428M1.00659 12.2428L6.24959 6.99984L1.00659 12.2428ZM11.4926 1.75684L6.24859 6.99984L11.4926 1.75684ZM6.24859 6.99984L1.00659 1.75684L6.24859 6.99984Z"
+                    stroke="#2A3647"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </div>
+              <button type="submit" class="darkBTN">
+                Create Task
+                <svg
+                  width="16"
+                  height="12"
+                  viewBox="0 0 16 12"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M5.79923 9.15L14.2742 0.675C14.4742 0.475 14.7117 0.375 14.9867 0.375C15.2617 0.375 15.4992 0.475 15.6992 0.675C15.8992 0.875 15.9992 1.1125 15.9992 1.3875C15.9992 1.6625 15.8992 1.9 15.6992 2.1L6.49923 11.3C6.29923 11.5 6.0659 11.6 5.79923 11.6C5.53256 11.6 5.29923 11.5 5.09923 11.3L0.79923 7C0.59923 6.8 0.503397 6.5625 0.51173 6.2875C0.520064 6.0125 0.62423 5.775 0.82423 5.575C1.02423 5.375 1.26173 5.275 1.53673 5.275C1.81173 5.275 2.04923 5.375 2.24923 5.575L5.79923 9.15Z"
+                    fill="white"
+                  />
+                </svg>
+              </button>
+            </div>
+          </section>
+        </form>
+      </section>
     </div>
 
     <div id="sidebar"></div>
-</body>
+  </body>
 </html>
