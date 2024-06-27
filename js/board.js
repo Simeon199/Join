@@ -89,7 +89,13 @@ async function loadData(path = "") {
 }
 
 async function loadDataTwo(path = "") {
-  let response = await fetch(BASE_URL + path + ".json");
+  let response = await fetch(BASE_URL1 + path + ".json");
+  let responseAsJson = await response.json();
+  return responseAsJson;
+}
+
+async function loadDataThree() {
+  let response = await fetch(BASE_URL1 + "allTasks.json");
   let responseAsJson = await response.json();
   return responseAsJson;
 }
