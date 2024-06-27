@@ -99,6 +99,12 @@ async function loadDataTwo(path = "") {
   return responseAsJson;
 }
 
+async function loadDataThree() {
+  let response = await fetch(BASE_URL1 + "allTasks.json");
+  let responseAsJson = await response.json();
+  return responseAsJson;
+}
+
 async function getTasksFromDatabase() {
   tasks = loadTasksFromLocalStorage() || (await loadTasksFromDatabase());
   updateCategories();

@@ -73,6 +73,7 @@ async function createTask() {
   console.log("create...");
   // showrequiredText1()
   // debugger
+  // await ensureAllTasksExists();
   await saveTask();
 }
 
@@ -130,6 +131,20 @@ async function upload(path = "", data = {}) {
   return (responseToJson = await response.json());
 }
 
+async function ensureAllTasksExists(path = "") {
+  let response = await fetch(BASE_URL1 + "allTasks.json");
+  let data = await response.json();
+  if (data === null) {
+    await fetch(BASE_URL1 + path + ".json", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify([]),
+    });
+  }
+}
+
 async function saveTask() {
   let inputTitle = document.getElementById("inputTitle").value;
   let inputDescription = document.getElementById("inputDescription").value;
@@ -158,6 +173,23 @@ async function saveTask() {
   // console.log(taskinp);
   loadDataTwo();
   // return (responseToJson)
+}
+
+async function uploadToAllTasks(path = "", task) {
+  let response = await fetch(BASE_URL1 + path + ".json");
+  let tasks = await response.json();
+  if (!tasks) {
+    tasks = [];
+  }
+  tasks.push(task);
+  console.log(tasks);
+  await fetch(BASE_URL1 + path + ".json", {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(tasks),
+  });
 }
 
 // function um festzustellen ob DropDown offen oder geschlossen ist
