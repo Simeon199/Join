@@ -3,6 +3,7 @@ const BASE_URL1 = "https://join-testing-42ce4-default-rtdb.europe-west1.firebase
 let assignetTo = document.getElementById("assignetTo");
 let category = document.getElementById("category");
 let priority;
+let tasks = [];
 let subArray = [];
 let assignedContacts = [];
 let taskinp = [];
@@ -73,7 +74,7 @@ async function createTask() {
   console.log("create...");
   // showrequiredText1()
   // debugger
-  // await ensureAllTasksExists();
+  await ensureAllTasksExists();
   await saveTask();
 }
 
@@ -120,7 +121,7 @@ function showrequiredText() {
   });
 }
 
-async function upload(path = "", data = {}) {
+async function upload(path = "", data) {
   let response = await fetch(BASE_URL1 + path + ".json", {
     method: "POST",
     headers: {
@@ -132,11 +133,11 @@ async function upload(path = "", data = {}) {
 }
 
 async function ensureAllTasksExists(path = "") {
-  let response = await fetch(BASE_URL1 + "allTasks.json");
+  let response = await fetch(BASE_URL1 + path + ".json");
   let data = await response.json();
   if (data === null) {
     await fetch(BASE_URL1 + path + ".json", {
-      method: "PUT",
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
@@ -151,17 +152,7 @@ async function saveTask() {
   let date = document.getElementById("date").value;
   let category = document.getElementById("categoryText").textContent;
 
-  // let ztask = {
-  //   title: inputTitle,
-  //   description: inputDescription,
-  //   assigned: assignedContacts,
-  //   date: date,
-  //   priority: priority,
-  //   category: category,
-  //   subtask: subArray,
-  // };
-  // taskinp.push(ztask);
-  await upload("tasks", {
+  let newTask = {
     title: inputTitle,
     description: inputDescription,
     assigned: assignedContacts,
@@ -169,27 +160,68 @@ async function saveTask() {
     priority: priority,
     category: category,
     subtask: subArray,
-  });
+  };
+  await uploadToAllTasks(newTask);
+  // await upload("tasks", {
+  //   title: inputTitle,
+  //   description: inputDescription,
+  //   assigned: assignedContacts,
+  //   date: date,
+  //   priority: priority,
+  //   category: category,
+  //   subtask: subArray,
+  // });
   // console.log(taskinp);
-  console.log(await loadDataTwo());
+  // console.log(await loadDataTwo());
   // return (responseToJson)
 }
 
-async function uploadToAllTasks(path = "", task) {
-  let response = await fetch(BASE_URL1 + path + ".json");
-  let tasks = await response.json();
-  if (!tasks) {
-    tasks = [];
+// async function loadDataTwo(path = "") {
+//   let response = await fetch(BASE_URL1 + path + ".json");
+//   let responseAsJson = await response.json();
+//   return responseAsJson;
+// }
+
+async function testFunction(response, tasks, task){
+  for(key in response){
+    console.log(key);
+    // if(key == "allTasks"){
+    //   tasks = response["allTasks"]; 
+    //   tasks.push(task);
+    //   await upload(path="", tasks);
+    // }
   }
-  tasks.push(task);
-  console.log(tasks);
-  await fetch(BASE_URL1 + path + ".json", {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(tasks),
-  });
+  // await upload(path="", tasks);
+}
+
+async function uploadToAllTasks(task) {
+  let response = await loadDataTwo();
+  for(key in response){
+    if(key == "allTasks"){
+      let allTasks = response["allTasks"];
+      allTasks.push(task);
+      await upload("allTasks", allTasks);
+      return;
+    }
+  }
+  let allTasks = [];
+  await upload("allTasks", allTasks);
+  console.log(await loadDataTwo());
+  // await testFunction(response, allTasks, task);
+  // let response = await fetch(BASE_URL1 + path + ".json");
+  // let tasks = await response.json();
+  // if (!tasks) {
+  //   tasks = [];
+  // }
+  // tasks.push(task);
+  // console.log(tasks);
+  // await fetch(BASE_URL1 + path + ".json", {
+  //   method: "POST",
+  //   headers: {
+  //     "Content-Type": "application/json",
+  //   },
+  //   body: JSON.stringify(tasks),
+  // });
 }
 
 // function um festzustellen ob DropDown offen oder geschlossen ist
