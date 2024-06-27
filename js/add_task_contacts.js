@@ -1,4 +1,5 @@
 let userCredicals;
+let isSelect;
 
 function showDropDownAssignedTo() {
   contact = document.getElementById("assignedToDropDown");
@@ -20,7 +21,7 @@ function hideDropDownAssignedTo() {
 
 function renderAssignedToHTML(user, contact, i) {
   contact.innerHTML += /*html*/`
-    <div id="user${i}" class=assignedDropDownField onclick="addUserToTask('${user[`name`]}', '${user[`color`]}'); checkAssignedContacts(userCredicals); assignedToActive(${i})">
+    <div id="user${i}" class=assignedDropDownField onclick="checkAssignedContacts('${user[`name`]}', '${user[`color`]}', ${i})">
       <div class="circle" id="assignetToLetters${i}"></div>
       <div class="DropDownUser"><span>${user['name']}</span>
         <div class="checkboxesSVG">
@@ -57,34 +58,54 @@ function clearAssignedTo() {
   //div.classList.add('d-none');
 }
 
-function addUserToTask(name, bgColor) {
+function addUserToTask(u , isSelect) {
     userCredicals = {
-        name: name,
-        color: bgColor,
-        isSelected: true,
+        name: u.name,
+        color: u.color,
+        isSelected: isSelect,
     }
     assignedContacts.push(userCredicals);
     assignetToContects()
 }
 
-function checkAssignedContacts(uc) {
-    console.log(uc);
-    if (uc.isSelected == true) {
-        for (let i = 0; i < assignedContacts.length; i++) {
-            if (assignedContacts[i].name.includes(uc.name) && assignedContacts[i].name==uc.name == true) {
-                console.log("remove", i);
-                uc.isSelected = false;
-                removeAssignetToContects(i) // entfernen des Benutzers!! neue funktion benötigt
-            }
-        }
-    } else {
-        console.log("added", uc.name);
-        uc.isSelected = true;
-        assignedContacts.push(uc);
-        assignetToContects()
-    }
-    console.log(assignedContacts);
+function checkAssignedContacts(name, color, i) {
+  x = {name: name, color: color, selected: isSelect = false};
+  console.log(x);
+  //uname = x.name;
+  //ucolor = x.color;
+  if (x.isSelect === true) {
+    console.log("del_test");
+    removeAssignetToContects(i)
+  } else {
+    y = x.isSelect = true;
+    addUserToTask(x, y)
+  }
+  console.log(assignedContacts);
 }
+
+
+
+//   let uc = userCredicals
+//     console.log(uc.isSelected, "check");
+//     if (uc.isSelected === true) {
+//         for (let i = 0; i < assignedContacts.length; i++) {
+//             if (assignedContacts[i].name.includes(uc.name) && assignedContacts[i].name===uc.name == true) {
+//                 // console.log("remove", i);
+//                 console.log(assignedContacts[i].name, assignedContacts[i].isSelected);
+//                 u.isSelected = false;
+//                 removeAssignetToContects(i) // entfernen des Benutzers!!
+//             }
+//         }
+//     } else {
+//         console.log("added", uc.name);
+//         u.isSelected = true;
+//         assignedContacts.push(uc);
+//         addUserToTask(u)
+//         assignetToContects()
+//         console.log(uc.name, uc.isSelected);
+//     }
+//     console.log(assignedContacts.length);
+// }
 
 function removeAssignetToContects(x) {
     assignedContacts.splice(x, 1)
