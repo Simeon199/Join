@@ -1,9 +1,8 @@
-const BASE_URL1 = 'https://join-testing-42ce4-default-rtdb.europe-west1.firebasedatabase.app/';
-// const BASE_URL = 'https://join-privat-default-rtdb.europe-west1.firebasedatabase.app/';
+const BASE_URL1 = "https://join-testing-42ce4-default-rtdb.europe-west1.firebasedatabase.app/";
 
 let assignetTo = document.getElementById("assignetTo");
 let category = document.getElementById("category");
-let priority
+let priority;
 let subArray = [];
 let assignedContacts = [];
 
@@ -92,9 +91,9 @@ function clearTask() {
 }
 
 function showDropDownCategory() {
-    document.getElementById('categoryDropDown').classList.remove('d-none');
-    document.getElementById('arrowb').classList.add("rotate");
-    document.getElementById('categoryDropDown').innerHTML = /*html*/`
+  document.getElementById("categoryDropDown").classList.remove("d-none");
+  document.getElementById("arrowb").classList.add("rotate");
+  document.getElementById("categoryDropDown").innerHTML = /*html*/ `
             <div onclick="hideDropDownCategory(); changeCategory('Technical Task')"><span>Technical Task</span></div>
             <div onclick="hideDropDownCategory(); changeCategory('User Story')"><span>User Story</span></div>
     `;
@@ -106,17 +105,17 @@ function hideDropDownCategory() {
 }
 
 function changeCategory(text) {
-    document.getElementById('categoryText').innerHTML = `${text}`;
+  document.getElementById("categoryText").innerHTML = `${text}`;
 }
 
 function showrequiredText() {
   let ids = ["requiredTitle", "requiredDate", "requiredCatergory"];
-  ids.forEach(function(id) {
+  ids.forEach(function (id) {
     let element = document.getElementById(id);
     if (element) {
-      element.classList.remove('d-none');
+      element.classList.remove("d-none");
     }
-  }); 
+  });
 }
 
 async function upload(path = "", data = {}) {
@@ -130,7 +129,7 @@ async function upload(path = "", data = {}) {
   return (responseToJson = await response.json());
 }
 
-async function ensureAllTasksExists(path="") {
+async function ensureAllTasksExists(path = "") {
   let response = await fetch(BASE_URL1 + "allTasks.json");
   let data = await response.json();
   if (data === null) {
@@ -139,7 +138,7 @@ async function ensureAllTasksExists(path="") {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify([])
+      body: JSON.stringify([]),
     });
   }
 }
@@ -156,9 +155,10 @@ async function saveTask() {
     date: date,
     priority: priority,
     category: category,
-    subtask: subArray
+    subtask: subArray,
   });
-  // uploadToAllTasks("allTasks", newTask);
+  // console.log(taskinp);
+  console.log(await loadDataTwo());
   // return (responseToJson)
 }
 
@@ -175,7 +175,7 @@ async function uploadToAllTasks(path = "", task) {
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(tasks)
+    body: JSON.stringify(tasks),
   });
 }
 
@@ -184,15 +184,21 @@ function checkDropDown(id) {
   rot = document.getElementById(id);
   if (rot.classList.contains("rotate")) {
     if (id == "arrowa") {
-      hideDropDownAssignedTo()
+      hideDropDownAssignedTo();
     } else {
-      hideDropDownCategory()
+      hideDropDownCategory();
     }
   } else {
     if (id == "arrowa") {
-      showDropDownAssignedTo()
+      showDropDownAssignedTo();
     } else {
-      showDropDownCategory()
+      showDropDownCategory();
     }
   }
+}
+
+async function loadDataTwo(path = "") {
+  let response = await fetch(BASE_URL1 + path + ".json");
+  let responseAsJson = await response.json();
+  return responseAsJson;
 }
