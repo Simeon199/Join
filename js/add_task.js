@@ -171,7 +171,7 @@ async function saveTask() {
     subtask: subArray,
   });
   // console.log(taskinp);
-  loadDataTwo();
+  console.log(await loadDataTwo());
   // return (responseToJson)
 }
 
