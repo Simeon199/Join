@@ -71,7 +71,7 @@ function checkAssignedContacts(uc) {
     console.log(uc);
     if (uc.isSelected == true) {
         for (let i = 0; i < assignedContacts.length; i++) {
-            if (assignedContacts[i].name.includes(uc.name) && assignedContacts[i].name==uc.name && isSelected == true) {
+            if (assignedContacts[i].name.includes(uc.name) && assignedContacts[i].name==uc.name == true) {
                 console.log("remove", i);
                 uc.isSelected = false;
                 removeAssignetToContects(i) // entfernen des Benutzers!! neue funktion benötigt
