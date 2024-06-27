@@ -1,4 +1,5 @@
 const BASE_URL1 = 'https://join-testing-42ce4-default-rtdb.europe-west1.firebasedatabase.app/';
+// const BASE_URL = 'https://join-privat-default-rtdb.europe-west1.firebasedatabase.app/';
 
 let assignetTo = document.getElementById("assignetTo");
 let category = document.getElementById("category");
@@ -70,7 +71,9 @@ function changeImg(condition) {
 
 async function createTask() {
   console.log("create...");
-  showrequiredText1()
+  // showrequiredText1()
+  // debugger
+  // await ensureAllTasksExists();
   await saveTask();
 }
 
@@ -127,6 +130,20 @@ async function upload(path = "", data = {}) {
   return (responseToJson = await response.json());
 }
 
+async function ensureAllTasksExists(path="") {
+  let response = await fetch(BASE_URL1 + "allTasks.json");
+  let data = await response.json();
+  if (data === null) {
+    await fetch(BASE_URL1 + path + ".json", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify([])
+    });
+  }
+}
+
 async function saveTask() {
   let inputTitle = document.getElementById("inputTitle").value;
   let inputDescription = document.getElementById("inputDescription").value;
@@ -139,8 +156,27 @@ async function saveTask() {
     date: date,
     priority: priority,
     category: category,
-    subtask: subArray,
-  })
+    subtask: subArray
+  });
+  // uploadToAllTasks("allTasks", newTask);
+  // return (responseToJson)
+}
+
+async function uploadToAllTasks(path = "", task) {
+  let response = await fetch(BASE_URL1 + path + ".json");
+  let tasks = await response.json();
+  if (!tasks) {
+    tasks = [];
+  }
+  tasks.push(task);
+  console.log(tasks);
+  await fetch(BASE_URL1 + path + ".json", {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(tasks)
+  });
 }
 
 // function um festzustellen ob DropDown offen oder geschlossen ist
