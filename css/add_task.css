@@ -358,13 +358,13 @@ h1 {
   }
 }
 
-.assignedDropDownField:hover {
+/* .assignedDropDownField:hover {
   background-color: rgba(42, 54, 71, 1) !important;
   color: rgba(255, 255, 255, 1);
     .contact.container-checked {
       background-image: url("../Assets/img/Checkbox_checked.svg");
     }
-}
+} */
 
 .assignedDropDownField div:hover {
   background-color: unset;
