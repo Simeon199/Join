@@ -81,15 +81,14 @@ function clearTask() {
   let inputTitle = document.getElementById("inputTitle");
   let inputDescription = document.getElementById("inputDescription");
   let date = document.getElementById("date");
-  console.error("Clearing...");
-  // console.log(inputTitle.value);
-  inputTitle.value = "";
-  inputDescription.value = "";
-  clearAssignedTo();
-  date.value = "";
-  category = changeCategory("Select task category");
-  clearSubtask();
-  changePriority(medium);
+    console.error("Clearing...")
+    inputTitle.value= "";
+    inputDescription.value='';
+    clearAssignedTo();
+    date.value = '';
+    category = changeCategory('Select task category');
+    clearSubtask();
+    changePriority(medium);
 }
 
 function showDropDownCategory() {
