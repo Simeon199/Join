@@ -6,7 +6,6 @@ let priority;
 let tasks = [];
 let subArray = [];
 let assignedContacts = [];
-let taskinp = [];
 
 function init() {
   changePriority(medium);
@@ -123,7 +122,7 @@ function showrequiredText() {
 
 async function upload(path = "", data) {
   let response = await fetch(BASE_URL1 + path + ".json", {
-    method: "POST",
+    method: "PUT",
     headers: {
       "Content-Type": "application/json",
     },
@@ -132,17 +131,10 @@ async function upload(path = "", data) {
   return (responseToJson = await response.json());
 }
 
-async function ensureAllTasksExists(path = "") {
-  let response = await fetch(BASE_URL1 + path + ".json");
-  let data = await response.json();
-  if (data === null) {
-    await fetch(BASE_URL1 + path + ".json", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify([]),
-    });
+async function ensureAllTasksExists() {
+  let response = await loadDataTwo();
+  if (!response || !response.hasOwnProperty("allTasks")) {
+    await upload("allTasks", []);
   }
 }
 
@@ -171,57 +163,21 @@ async function saveTask() {
   //   category: category,
   //   subtask: subArray,
   // });
-  // console.log(taskinp);
-  // console.log(await loadDataTwo());
-  // return (responseToJson)
-}
-
-// async function loadDataTwo(path = "") {
-//   let response = await fetch(BASE_URL1 + path + ".json");
-//   let responseAsJson = await response.json();
-//   return responseAsJson;
-// }
-
-async function testFunction(response, tasks, task){
-  for(key in response){
-    console.log(key);
-    // if(key == "allTasks"){
-    //   tasks = response["allTasks"]; 
-    //   tasks.push(task);
-    //   await upload(path="", tasks);
-    // }
-  }
-  // await upload(path="", tasks);
 }
 
 async function uploadToAllTasks(task) {
-  let response = await loadDataTwo();
-  for(key in response){
-    if(key == "allTasks"){
-      let allTasks = response["allTasks"];
-      allTasks.push(task);
-      await upload("allTasks", allTasks);
-      return;
+  try {
+    let response = await loadDataTwo();
+    let allTasks = response["allTasks"];
+    if (!Array.isArray(allTasks)) {
+      allTasks = [];
     }
+    allTasks.push(task);
+    await upload("allTasks", allTasks);
+
+  } catch (error) {
+    console.error("Fehler in uploadToAllTasks:", error);
   }
-  let allTasks = [];
-  await upload("allTasks", allTasks);
-  console.log(await loadDataTwo());
-  // await testFunction(response, allTasks, task);
-  // let response = await fetch(BASE_URL1 + path + ".json");
-  // let tasks = await response.json();
-  // if (!tasks) {
-  //   tasks = [];
-  // }
-  // tasks.push(task);
-  // console.log(tasks);
-  // await fetch(BASE_URL1 + path + ".json", {
-  //   method: "POST",
-  //   headers: {
-  //     "Content-Type": "application/json",
-  //   },
-  //   body: JSON.stringify(tasks),
-  // });
 }
 
 // function um festzustellen ob DropDown offen oder geschlossen ist
