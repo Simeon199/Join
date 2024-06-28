@@ -3,9 +3,10 @@ const BASE_URL1 = "https://join-testing-42ce4-default-rtdb.europe-west1.firebase
 let assignetTo = document.getElementById("assignetTo");
 let category = document.getElementById("category");
 let priority;
-let tasks = [];
+// let tasks = [];
 let subArray = [];
 let assignedContacts = [];
+let tasksId = 0;
 
 function init() {
   changePriority(medium);
@@ -69,12 +70,12 @@ function changeImg(condition) {
   }
 }
 
-async function createTask() {
+async function createTask(standardContainer="to-do-container") {
   console.log("create...");
   // showrequiredText1()
   // debugger
   await ensureAllTasksExists();
-  await saveTask();
+  await saveTask(standardContainer);
 }
 
 function clearTask() {
@@ -132,12 +133,12 @@ async function upload(path = "", data) {
 
 async function ensureAllTasksExists() {
   let response = await loadDataTwo();
-  if (!response || !response.hasOwnProperty("allTasks")) {
-    await upload("allTasks", []);
+  if (!response || !response.hasOwnProperty("everyTasks")) {
+    await upload("everyTasks", []);
   }
 }
 
-async function saveTask() {
+async function saveTask(standardContainer) {
   let inputTitle = document.getElementById("inputTitle").value;
   let inputDescription = document.getElementById("inputDescription").value;
   let date = document.getElementById("date").value;
@@ -151,7 +152,10 @@ async function saveTask() {
     priority: priority,
     category: category,
     subtask: subArray,
+    container: standardContainer,
+    tasksIdentity: tasksId
   };
+  tasksId++;
   await uploadToAllTasks(newTask);
   // await upload("tasks", {
   //   title: inputTitle,
@@ -167,12 +171,12 @@ async function saveTask() {
 async function uploadToAllTasks(task) {
   try {
     let response = await loadDataTwo();
-    let allTasks = response["allTasks"];
+    let allTasks = response["everyTasks"];
     if (!Array.isArray(allTasks)) {
       allTasks = [];
     }
     allTasks.push(task);
-    await upload("allTasks", allTasks);
+    await upload("everyTasks", allTasks);
 
   } catch (error) {
     console.error("Fehler in uploadToAllTasks:", error);
