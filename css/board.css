@@ -546,7 +546,7 @@ body .translate-100 {
 }
 
 /* show big task pop up */
-.show-big-task-pop-up-bg {
+.big-task-pop-up-bg {
   position: fixed;
   top: 0;
   right: 0;
@@ -560,7 +560,7 @@ body .translate-100 {
   transition: 0.5s;
 }
 
-.show-big-task-pop-up {
+.big-task-pop-up {
   box-sizing: border-box;
 
   width: 525px;
@@ -582,7 +582,7 @@ body .translate-100 {
   transition: 0.5s ease-in-out;
 }
 
-#show-big-task-pop-up-header {
+#big-task-pop-up-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -590,7 +590,7 @@ body .translate-100 {
   padding-bottom: 10px;
 }
 
-#show-big-task-pop-up-category {
+#big-task-pop-up-category {
   background: #0038ff;
   color: white;
 
@@ -604,11 +604,11 @@ body .translate-100 {
   width: max-content;
 }
 
-#show-big-task-pop-up-close-icon path {
+#big-task-pop-up-close-icon path {
   fill: #2a3647;
 }
 
-#show-big-task-pop-up-title {
+#big-task-pop-up-title {
   font-size: 61px;
   font-weight: 700;
   line-height: 73.2px;
@@ -618,19 +618,19 @@ body .translate-100 {
   margin: 0;
 }
 
-#show-big-task-pop-up-description {
+#big-task-pop-up-description {
   font-size: 20px;
   font-weight: 400;
 }
 
-.show-big-task-pop-up-info-container {
+.big-task-pop-up-info-container {
   display: flex;
   align-items: center;
   justify-content: space-between;
   width: 230px;
 }
 
-.show-big-task-pop-up-label-text {
+.big-task-pop-up-label-text {
   font-size: 20px;
   font-weight: 400;
   color: #2a3647;
@@ -638,7 +638,7 @@ body .translate-100 {
   margin: 10px 0;
 }
 
-.show-big-task-pop-up-value-text {
+.big-task-pop-up-value-text {
   font-size: 20px;
   font-weight: 400;
 
@@ -651,7 +651,7 @@ body .translate-100 {
   margin: 0;
 }
 
-#show-big-task-pop-up-contact-container {
+#big-task-pop-up-contact-container {
   padding-left: 15px;
   padding-bottom: 10px;
 
@@ -661,14 +661,14 @@ body .translate-100 {
   gap: 10px;
 }
 
-.show-big-task-pop-up-contact {
+.big-task-pop-up-contact {
   display: flex;
   align-items: center;
 
   gap: 16px;
 }
 
-.show-big-task-pop-up-profile-badge {
+.big-task-pop-up-profile-badge {
   background: #462f8a;
   border: 2px solid #ffffff;
   color: white;
@@ -686,7 +686,7 @@ body .translate-100 {
   align-items: center;
 }
 
-.show-big-task-pop-up-profile-name {
+.big-task-pop-up-profile-name {
   font-family: "Open Sans";
   font-size: 19px;
   font-weight: 400;
@@ -694,7 +694,7 @@ body .translate-100 {
   margin: 0;
 }
 
-#show-big-task-pop-up-subtasks-container {
+#big-task-pop-up-subtasks-container {
   padding-left: 15px;
 
   display: flex;
@@ -703,26 +703,26 @@ body .translate-100 {
   gap: 10px;
 }
 
-.show-big-task-pop-up-subtasks {
+.big-task-pop-up-subtasks {
   display: flex;
   align-items: center;
 
   gap: 16px;
 }
 
-.show-big-task-pop-up-subtasks p {
+.big-task-pop-up-subtasks p {
   font-size: 16px;
   font-weight: 400;
 
   margin: 0;
 }
 
-.show-big-task-pop-up-subtask-checkbox-icon path,
-.show-big-task-pop-up-subtask-checkbox-icon rect {
+.big-task-pop-up-subtask-checkbox-icon path,
+.big-task-pop-up-subtask-checkbox-icon rect {
   stroke: #2a3647;
 }
 
-#show-big-task-pop-up-delete-edit-buttons-container {
+#big-task-pop-up-delete-edit-buttons-container {
   display: flex;
   justify-content: end;
   align-items: center;
@@ -732,7 +732,7 @@ body .translate-100 {
   padding-top: 15px;
 }
 
-.show-big-task-pop-up-stroke {
+.big-task-pop-up-stroke {
   width: 1px;
   height: 24px;
 
@@ -741,8 +741,8 @@ body .translate-100 {
   background-color: #d1d1d1;
 }
 
-#show-big-task-pop-up-edit-button,
-#show-big-task-pop-up-delete-button {
+#big-task-pop-up-edit-button,
+#big-task-pop-up-delete-button {
   display: flex;
   align-items: center;
 
