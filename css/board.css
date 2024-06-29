@@ -758,4 +758,31 @@ body .translate-100 {
 
     height: calc(100vh - 175px);
   }
+
+  #all-sections-container {
+    margin: 0 auto;
+    flex-direction: column;
+    width: 80%;
+  }
+
+  #wrap {
+    overflow: unset;
+  }
+
+  body {
+    overflow: unset;
+  }
+
+  #main-headline {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  /* .board-section {
+    width: 80%;
+  } */
+
+  /* .task {
+    width: 50%;
+  } */
 }

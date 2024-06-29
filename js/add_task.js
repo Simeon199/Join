@@ -177,6 +177,10 @@ async function saveTask() {
   tasksId++;
   await saveTaskIdToFirebase(tasksId); // Speichern der aktuellen tasksId in Firebase
   await uploadToAllTasks(newTask);
+  tasks.push(newTask);
+  saveTasksToLocalStorage();
+  updateCategories();
+  updateHTML();
   // await upload("tasks", {
   //   title: inputTitle,
   //   description: inputDescription,
