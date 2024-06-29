@@ -6,3 +6,11 @@
 .contactIsSelect:hover {
     background-color: rgba(42, 54, 71, 1) !important;
 }
+
+.checked {
+    padding-right: 4px;
+}
+
+.assignetToDivSearch {
+    border: unset;
+}

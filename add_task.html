@@ -59,7 +59,9 @@
             <div>
               <p>Assigned to</p>
               <div id="assignedTo" class="select">
-                <span>Select contacts to assign</span>
+                <div id="changeTo" onclick="changeToInputfield(event)" class="assignetToDivSearch">
+                  <span>Select contacts to assign</span>
+                </div>
                 <svg
                   onclick="checkDropDown('arrowa')"
                   id="arrowa"
@@ -149,7 +151,8 @@
               <p>Subtasks</p>
               <div class="onFocus">
                 <input
-                  onclick="sowInputEditButtons()"
+                  onfocusin="showEditButtons()"
+                  onfocusout ="hideEditButtons()"
                   id="subtask"
                   type="text"
                   placeholder="Add new subtask"

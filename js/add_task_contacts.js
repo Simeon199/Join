@@ -20,13 +20,14 @@ function hideDropDownAssignedTo() {
   contact.innerHTML = "";
 }
 
-function renderAssignedToHTML(user, contact, i, image) {
+function renderAssignedToHTML(user, contact, i) {
   contact.innerHTML += /*html*/`
     <div id="user${i}" class=assignedDropDownField onclick="checkAssignedContacts('${user[`name`]}', '${user[`color`]}', ${i})">
       <div class="circle" id="assignetToLetters${i}"></div>
       <div class="DropDownUser"><span>${user['name']}</span>
         <div class="checkboxesSVG">
-          <img src="Assets/img/Checkbox_black.svg" ${image} alt="">
+          <img id="none_checked${i}" src="Assets/img/Checkbox_black.svg" alt="">
+          <img id="checked${i}" class="checked d-none" src="Assets/img/Checkbox_checked.svg" alt="">
         </div>
       </div>
     </div>
@@ -75,10 +76,14 @@ function checkAssignedContacts(name, color, i) {
   // console.log(x);
   selUser = document.getElementById(`user${i}`);
   if (selUser.classList.contains("contactIsSelect") == true) {
+    document.getElementById(`none_checked${i}`).classList.remove("d-none")
+    document.getElementById(`checked${i}`).classList.add("d-none")
     selUser.classList.remove('contactIsSelect');
     console.log("del_test", x.name); // übergiebt noch dem Falschen Parameter
     removeAssignetToContects('${x.name}')
   } else {
+    document.getElementById(`none_checked${i}`).classList.add("d-none")
+    document.getElementById(`checked${i}`).classList.remove("d-none")
     selUser.classList.add('contactIsSelect');
     y = x.isSelect = true;
     addUserToTask(x, y)

@@ -66,7 +66,7 @@ function editSubtask(i) {
 }
 
 function editSubtaskInput(i) {
-  console.log("edit-test-2", i);
+  console.log("edit-test", i);
   return /*html*/ `
       <input type="text" value="${subArray[i]}">
       <div>
@@ -77,25 +77,26 @@ function editSubtaskInput(i) {
     `;
 }
 
-function sowInputEditButtons() {
-  document
-    .getElementById("subtask")
-    .addEventListener("click", hideOrShowEditButtons());
+function showEditButtons() {
+  document.getElementById("plusSymbole").classList.add("d-none");
+  document.getElementById("subtaskInputButtons").classList.remove("d-none");
 }
 
-function hideOrShowEditButtons() {
-  subBTN = document.getElementById("subtaskInputButtons");
-  plus = document.getElementById("plusSymbole").classList;
-  if (subBTN.classList.contains("d-none") == true) {
-    document.getElementById("subtaskInputButtons").classList.remove("d-none");
-    plus.add("d-none");
-  } else {
-    document.getElementById("subtaskInputButtons").classList.add("d-none");
-    plus.remove("d-none");
-  }
+function hideEditButtons() {
+  document.getElementById("plusSymbole").classList.remove("d-none");
+  document.getElementById("subtaskInputButtons").classList.add("d-none");
 }
 
 function deleteSubtask(i) {
   subArray.splice(i, 1);
   rendersubtask();
+}
+
+function changeToInputfield() {
+  o = document.getElementById("changeTo");
+  //event.stopPropagation();
+  o.innerHTML = /*html*/`
+    <span>AN:</span>
+    <input type="text" placeholder="Search Contact..".stopPropagation>
+  `
 }
