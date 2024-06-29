@@ -547,6 +547,7 @@ body .translate-100 {
 
 /* show big task pop up */
 .show-big-task-pop-up-bg {
+  /* display: none; */
   position: fixed;
   top: 0;
   right: 0;

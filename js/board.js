@@ -47,7 +47,7 @@
 // ];
 
 let tasks = [];
-const BASE_URL = "https://join-privat-default-rtdb.europe-west1.firebasedatabase.app/";
+// const BASE_URL = "https://join-privat-default-rtdb.europe-west1.firebasedatabase.app/";
 let categories = [];
 let allCategories = [
   "to-do-container",
@@ -102,6 +102,7 @@ async function loadData(path = "") {
 async function getTasksFromDatabase() {
   tasks = loadTasksFromLocalStorage() || (await loadTasksFromDatabase());
   updateCategories();
+  updateHTML();
 }
 
 function loadTasksFromLocalStorage() {
