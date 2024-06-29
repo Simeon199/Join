@@ -76,7 +76,7 @@
         <div id="all-sections-container">
           <!-- section to do -->
           <!-- <div class="content-task" id="todo-tasks" ondragover="allowDrop(event) ondrop="moveTo('todo-tasks')"></div> -->
-          <section id="section-to-do" class="board-section" onclick="showBigTaskPopUp()">
+          <section id="section-to-do" class="board-section">
             <div class="section-headline">
               <h2>To do</h2>
 
@@ -106,6 +106,7 @@
             <div
               id="to-do-container"
               class="wrap-container"
+              onclick="showBigTaskPopUp()"
               ondragover="allowDrop(event)"
               ondrop="moveTo('to-do-container')"
             >
@@ -118,7 +119,7 @@
 
           <!-- section in progress -->
           <!-- <div class="content-task" id="inprogress" ondragover="allowDrop(event)" ondrop="moveTo('inprogress')"></div> -->
-          <section id="section-in-progress" class="board-section" onclick="showBigTaskPopUp()">
+          <section id="section-in-progress" class="board-section">
             <div class="section-headline">
               <h2>In progress</h2>
 
@@ -148,6 +149,7 @@
             <div
               id="in-progress-container"
               class="wrap-container"
+              onclick="showBigTaskPopUp()"
               ondragover="allowDrop(event)"
               ondrop="moveTo('in-progress-container')"
             ></div>
@@ -155,7 +157,7 @@
 
           <!-- section await feedback -->
           <!-- <div class="content-task" id="feedback-tasks" ondragover="allowDrop(event)" ondrop="moveTo('feedback-tasks')"></div> -->
-          <section id="section-await-feedback" class="board-section" onclick="showBigTaskPopUp()">
+          <section id="section-await-feedback" class="board-section">
             <div class="section-headline">
               <h2>Await feedback</h2>
 
@@ -185,6 +187,7 @@
             <div
               id="await-feedback-container"
               class="wrap-container"
+              onclick="showBigTaskPopUp()"
               ondragover="allowDrop(event)"
               ondrop="moveTo('await-feedback-container')"
             >
@@ -197,7 +200,7 @@
 
           <!-- section done -->
           <!-- <div class="content-task" id="done" ondragover="allowDrop(event)" ondrop="moveTo('done')"></div> -->
-          <section id="section-done" class="board-section" onclick="showBigTaskPopUp()">
+          <section id="section-done" class="board-section">
             <div class="section-headline">
               <h2>Done</h2>
 
@@ -227,6 +230,7 @@
             <div
               id="done-container"
               class="wrap-container"
+              onclick="showBigTaskPopUp()"
               ondragover="allowDrop(event)"
               ondrop="moveTo('done-container')"
             >
