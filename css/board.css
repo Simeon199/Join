@@ -34,7 +34,7 @@ body .bg-op-0 {
 }
 
 body .translate-100 {
-  transform: translate(100%, -50%);
+  transform: translate(150%, -50%);
 }
 
 /* main headline */
@@ -557,18 +557,20 @@ body .translate-100 {
 
   background-color: rgba(0, 0, 0, 0.5);
 
-  transition: 0.2s;
+  transition: 0.5s;
 }
 
 .show-big-task-pop-up {
-  width: 90%;
+  box-sizing: border-box;
+
+  width: 525px;
 
   background-color: white;
-  box-shadow: 0px 0px 4px 0px #0000001a;
+  box-shadow: 0px 0px 4px 0px #00000029;
 
   border-radius: 30px;
 
-  padding: 50px;
+  padding: 48px 40px;
 
   position: absolute;
 
@@ -578,6 +580,173 @@ body .translate-100 {
   transform: translate(-50%, -50%);
 
   transition: 0.5s ease-in-out;
+}
+
+#show-big-task-pop-up-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding-bottom: 10px;
+}
+
+#show-big-task-pop-up-category {
+  background: #0038ff;
+  color: white;
+
+  font-size: 23px;
+  font-weight: 400;
+
+  padding: 5px 24px 4px 24px;
+  gap: 10px;
+  border-radius: 8px;
+
+  width: max-content;
+}
+
+#show-big-task-pop-up-close-icon path {
+  fill: #2a3647;
+}
+
+#show-big-task-pop-up-title {
+  font-size: 61px;
+  font-weight: 700;
+  line-height: 73.2px;
+
+  padding: 0;
+
+  margin: 0;
+}
+
+#show-big-task-pop-up-description {
+  font-size: 20px;
+  font-weight: 400;
+}
+
+.show-big-task-pop-up-info-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 230px;
+}
+
+.show-big-task-pop-up-label-text {
+  font-size: 20px;
+  font-weight: 400;
+  color: #2a3647;
+
+  margin: 10px 0;
+}
+
+.show-big-task-pop-up-value-text {
+  font-size: 20px;
+  font-weight: 400;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  gap: 10px;
+
+  margin: 0;
+}
+
+#show-big-task-pop-up-contact-container {
+  padding-left: 15px;
+  padding-bottom: 10px;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 10px;
+}
+
+.show-big-task-pop-up-contact {
+  display: flex;
+  align-items: center;
+
+  gap: 16px;
+}
+
+.show-big-task-pop-up-profile-badge {
+  background: #462f8a;
+  border: 2px solid #ffffff;
+  color: white;
+
+  border-radius: 100%;
+
+  width: 42px;
+  height: 42px;
+
+  font-size: 12px;
+  font-weight: 400;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.show-big-task-pop-up-profile-name {
+  font-family: "Open Sans";
+  font-size: 19px;
+  font-weight: 400;
+
+  margin: 0;
+}
+
+#show-big-task-pop-up-subtasks-container {
+  padding-left: 15px;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 10px;
+}
+
+.show-big-task-pop-up-subtasks {
+  display: flex;
+  align-items: center;
+
+  gap: 16px;
+}
+
+.show-big-task-pop-up-subtasks p {
+  font-size: 16px;
+  font-weight: 400;
+
+  margin: 0;
+}
+
+.show-big-task-pop-up-subtask-checkbox-icon path,
+.show-big-task-pop-up-subtask-checkbox-icon rect {
+  stroke: #2a3647;
+}
+
+#show-big-task-pop-up-delete-edit-buttons-container {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+
+  gap: 10px;
+
+  padding-top: 15px;
+}
+
+.show-big-task-pop-up-stroke {
+  width: 1px;
+  height: 24px;
+
+  border-radius: 10px;
+
+  background-color: #d1d1d1;
+}
+
+#show-big-task-pop-up-edit-button,
+#show-big-task-pop-up-delete-button {
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
 }
 
 @media (max-width: 1000px) {
