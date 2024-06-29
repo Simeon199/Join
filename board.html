@@ -150,8 +150,7 @@
               class="wrap-container"
               ondragover="allowDrop(event)"
               ondrop="moveTo('in-progress-container')"
-            >
-           </div>
+            ></div>
           </section>
 
           <!-- section await feedback -->
@@ -366,17 +365,26 @@
         </div>
       </div>
 
-      <!-- <div
-      id="show-big-task-pop-up-bg"
-      class="show-big-task-pop-up-bg bg-op-0"
-      onclick="hideAddTaskPopUp()"
-    >
+      <!-- add .bg-op-0 -->
       <div
-        id="show-big-task-pop-up"
-        class="show-big-task-pop-up translate-100"
-        onclick="stopEvent(event)"
-      ></div>
-    </div> -->
+        id="show-big-task-pop-up-bg"
+        class="show-big-task-pop-up-bg"
+        onclick="hideAddTaskPopUp()"
+      >
+        <!-- add .translate-100 -->
+        <div id="show-big-task-pop-up" class="show-big-task-pop-up" onclick="stopEvent(event)">
+          <div></div>
+
+          <h1></h1>
+
+          <p></p>
+
+          <div>
+            <p></p>
+            <p></p>
+          </div>
+        </div>
+      </div>
 
       <div id="sidebar"></div>
     </div>

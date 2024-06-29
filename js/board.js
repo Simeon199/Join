@@ -163,7 +163,7 @@ async function loadTasksFromDatabase() {
   let response = await loadData();
   // console.log(response.everyTasks);
   if (response && response.everyTasks) {
-    for(index=0; index < response.everyTasks.length; index++){
+    for (index = 0; index < response.everyTasks.length; index++) {
       tasks.push(response.everyTasks[index]);
     }
     return tasks;
@@ -174,11 +174,11 @@ async function loadTasksFromDatabase() {
 
 function iterateThroughSubArray(taskArray, htmlElement) {
   console.log(taskArray);
-  for(i=0; i<taskArray.length; i++){
+  for (i = 0; i < taskArray.length; i++) {
     console.log(taskArray[i]);
     let task = taskArray[i];
     htmlElement.innerHTML += createToDoHTML(task);
-  };
+  }
   // taskArray.forEach((task) => {
   //   console.log(task, htmlElement);
   //   htmlElement.innerHTML += createToDoHTML(task);

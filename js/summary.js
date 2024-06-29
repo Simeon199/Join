@@ -1,9 +1,39 @@
 let userName = getUserNickname();
 let firstTime = "true";
 
+const BASE_URL1 = "https://join-testing-42ce4-default-rtdb.europe-west1.firebasedatabase.app/";
+
+// numberOfToDo
+async function numberOfToDo() {
+  let responseJson = await loadDataTwo();
+  let allTasks = responseJson["tasks"];
+
+  let numberOfToDo = 0;
+
+  for (const key in allTasks) {
+    let task = allTasks[key];
+
+    // change category
+    if (task["category"] === "to-do-container") {
+      console.log(task["category"]);
+      numberOfToDo++;
+    }
+  }
+}
+
+// loadDataTwo
+async function loadDataTwo(path = "") {
+  let response = await fetch(BASE_URL1 + path + ".json");
+  let responseAsJson = await response.json();
+  return responseAsJson;
+}
+
 async function init() {
   greetAnimation();
   greet();
+
+  await numberOfToDo();
+  console.log(await loadDataTwo());
 
   initSidebar();
   checkIfUserIsLoggedIn();
