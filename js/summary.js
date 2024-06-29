@@ -6,7 +6,7 @@ const BASE_URL1 = "https://join-testing-42ce4-default-rtdb.europe-west1.firebase
 
 async function init() {
   let responseJson = await loadDataTwo();
-  allTasks = responseJson["everyTasks"];
+  allTasks = responseJson["tasksList"];
 
   greetAnimation();
   greet();
