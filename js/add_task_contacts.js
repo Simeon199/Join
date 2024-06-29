@@ -10,6 +10,7 @@ function showDropDownAssignedTo() {
     }
     contact.classList.remove("d-none");
     document.getElementById('arrowa').classList.add("rotate");
+    console.log(assignedContacts);
 }
 
 function hideDropDownAssignedTo() {
@@ -32,7 +33,7 @@ function renderAssignedToHTML(user, contact, i, image) {
   `;
   document.getElementById(`assignetToLetters${i}`).style.backgroundColor = user['color'];
   sowUserLetters(`assignetToLetters${i}` , user['name']);
-  checkAssignedContacts(user.name, user.color, i);
+  checkAssignedContactsStatus(user['name'], i)
 }
 
 function assignetToContects() {
@@ -82,7 +83,29 @@ function checkAssignedContacts(name, color, i) {
     y = x.isSelect = true;
     addUserToTask(x, y)
   }
-  console.log(assignedContacts);
+}
+
+function checkAssignedContactsStatus(un, index) {
+  let name = un;
+  console.log(un);
+  for (name in allUsers) {
+    for (let i = 0; i < allUsers.length; i++) {
+      if (name == allUsers[i].name == true) {
+        if (assignedContacts[i].isSelected == true) {
+          document.getElementById(`user${index}`).classList.add('contactIsSelect');
+        }
+      }
+    }
+    // if (Object.hasOwnProperty.call(object, name)) {
+    //   const element = object[name];
+    //   
+    // }
+  }
+  // if (i.isSelected === true) {
+  //   iu = allUsers.includes(i.name)
+  //   console.log(i);
+  //   document.getElementById(iu).classList.add('contactIsSelect');
+  // }
 }
 
 function removeAssignetToContects(x) {

@@ -6,12 +6,27 @@ let priority;
 // let tasks = [];
 let subArray = [];
 let assignedContacts = [];
-let tasksId = 0;
+// let tasksId = 0;
+let standardContainer = "to-do-container";
 
-function init() {
+async function init() {
   changePriority(medium);
   getAllContacts();
+  tasksId = await loadTaskIdFromFirebase();
 }
+
+async function saveTaskIdToFirebase(taskId) {
+  await upload("taskId", taskId);
+}
+
+async function loadTaskIdFromFirebase() {
+  let response = await loadDataTwo("taskId");
+  if (response !== null && response !== undefined) {
+    return response;
+  }
+  return 0; // Fallback-Wert, falls keine taskId gefunden wurde
+}
+
 
 function taskMarker() {
   document.getElementById("addTask").classList.add("currentSection");
@@ -70,12 +85,16 @@ function changeImg(condition) {
   }
 }
 
-async function createTask(standardContainer="to-do-container") {
+async function createTask() {
   console.log("create...");
   // showrequiredText1()
   // debugger
   await ensureAllTasksExists();
-  await saveTask(standardContainer);
+  await saveTask();
+  // if(localStorage.getItem('tasks')){
+  //   console.log('test');
+  //   localStorage.removeItem('tasks');
+  // }
 }
 
 function clearTask() {
@@ -133,12 +152,12 @@ async function upload(path = "", data) {
 
 async function ensureAllTasksExists() {
   let response = await loadDataTwo();
-  if (!response || !response.hasOwnProperty("everyTasks")) {
-    await upload("everyTasks", []);
+  if (!response || !response.hasOwnProperty("tasksList")) {
+    await upload("tasksList", []);
   }
 }
 
-async function saveTask(standardContainer) {
+async function saveTask() {
   let inputTitle = document.getElementById("inputTitle").value;
   let inputDescription = document.getElementById("inputDescription").value;
   let date = document.getElementById("date").value;
@@ -156,6 +175,7 @@ async function saveTask(standardContainer) {
     tasksIdentity: tasksId
   };
   tasksId++;
+  await saveTaskIdToFirebase(tasksId); // Speichern der aktuellen tasksId in Firebase
   await uploadToAllTasks(newTask);
   // await upload("tasks", {
   //   title: inputTitle,
@@ -171,12 +191,12 @@ async function saveTask(standardContainer) {
 async function uploadToAllTasks(task) {
   try {
     let response = await loadDataTwo();
-    let allTasks = response["everyTasks"];
+    let allTasks = response["tasksList"];
     if (!Array.isArray(allTasks)) {
       allTasks = [];
     }
     allTasks.push(task);
-    await upload("everyTasks", allTasks);
+    await upload("tasksList", allTasks);
 
   } catch (error) {
     console.error("Fehler in uploadToAllTasks:", error);

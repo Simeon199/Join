@@ -121,26 +121,26 @@ function updateCategories() {
   categories = [...new Set(tasks.map((task) => task.container))];
 }
 
-async function postData(path = "", data = tasksObject) {
-  try {
-    let response = await fetch(BASE_URL + path + ".json", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
+// async function postData(path = "", data = tasksObject) {
+//   try {
+//     let response = await fetch(BASE_URL1 + path + ".json", {
+//       method: "POST",
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//       body: JSON.stringify(data),
+//     });
 
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
+//     if (!response.ok) {
+//       throw new Error(`HTTP error! status: ${response.status}`);
+//     }
 
-    let responseToJson = await response.json();
-    return responseToJson;
-  } catch (error) {
-    console.error("Error posting data:", error);
-  }
-}
+//     let responseToJson = await response.json();
+//     return responseToJson;
+//   } catch (error) {
+//     console.error("Error posting data:", error);
+//   }
+// }
 
 // postData("tasks", testingTasks4).then(response => {
 //   console.log('Response from Firebase:', response);
@@ -161,10 +161,10 @@ async function postData(path = "", data = tasksObject) {
 
 async function loadTasksFromDatabase() {
   let response = await loadData();
-  // console.log(response.everyTasks);
-  if (response && response.everyTasks) {
-    for (index = 0; index < response.everyTasks.length; index++) {
-      tasks.push(response.everyTasks[index]);
+  console.log(response.tasksList);
+  if (response && response.tasksList) {
+    for (index = 0; index < response.tasksList.length; index++) {
+      tasks.push(response.tasksList[index]);
     }
     return tasks;
     // return Object.values(everyTasks);
@@ -173,9 +173,9 @@ async function loadTasksFromDatabase() {
 }
 
 function iterateThroughSubArray(taskArray, htmlElement) {
-  console.log(taskArray);
+  // console.log(taskArray);
   for (i = 0; i < taskArray.length; i++) {
-    console.log(taskArray[i]);
+    // console.log(taskArray[i]);
     let task = taskArray[i];
     htmlElement.innerHTML += createToDoHTML(task);
   }
@@ -188,7 +188,6 @@ function iterateThroughSubArray(taskArray, htmlElement) {
 function checkIfEmpty(tasksDiv, divWithoutTasks) {
   let tasksDivContainer = document.getElementById(tasksDiv);
   let divWithoutTasksContainer = document.getElementById(divWithoutTasks);
-  // console.log(tasksDiv, divWithoutTasks);
   if (tasksDivContainer.innerHTML == "") {
     divWithoutTasksContainer.classList.remove("d-none");
   }
@@ -293,9 +292,11 @@ function createToDoHTML(element) {
   let oppositeCategory = "no-" + element["container"];
   let contactsHTML = "";
 
-  console.log(element, element["assigned"]);
-  for (let i = 0; i < element["assigned"].length; i++) {
-    contactsHTML += `<div class="task-contact">${element["assigned"][i]}</div>`;
+  // console.log(element, element["assigned"]);
+  if (element["assigned"] || typeof element["assigned"] == Array) {
+    for (let i = 0; i < element["assigned"].length; i++) {
+      contactsHTML += `<div class="task-contact">${element["assigned"][i]}</div>`;
+    }
   }
 
   return generateTaskHTML(
@@ -373,9 +374,10 @@ function allowDrop(event) {
   event.preventDefault();
 }
 
-function showAddTaskPopUp() {
+function showAddTaskPopUp(container = "to-do-container") {
   document.getElementById("add-task-pop-up-bg").classList.remove("bg-op-0");
   document.getElementById("add-task-pop-up").classList.remove("translate-100");
+  standardContainer = container;
 }
 
 function hideAddTaskPopUp() {

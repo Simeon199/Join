@@ -54,7 +54,7 @@
               </svg>
             </div>
 
-            <button id="add-task-button" onclick="showAddTaskPopUp()">
+            <button id="add-task-button" onclick="showAddTaskPopUp(container='to-do-container')">
               Add task
               <svg
                 id="add-task-button-icon"
@@ -80,7 +80,7 @@
             <div class="section-headline">
               <h2>To do</h2>
 
-              <div class="plus-icon-container" onclick="showAddTaskPopUp()">
+              <div class="plus-icon-container" onclick="showAddTaskPopUp('section-to-do')">
                 <svg
                   width="10"
                   height="11"
@@ -122,7 +122,7 @@
             <div class="section-headline">
               <h2>In progress</h2>
 
-              <div class="plus-icon-container" onclick="showAddTaskPopUp()">
+              <div class="plus-icon-container" onclick="showAddTaskPopUp('section-in-progress')">
                 <svg
                   width="10"
                   height="11"
@@ -159,7 +159,7 @@
             <div class="section-headline">
               <h2>Await feedback</h2>
 
-              <div class="plus-icon-container" onclick="showAddTaskPopUp()">
+              <div class="plus-icon-container" onclick="showAddTaskPopUp('section-await-feedback')">
                 <svg
                   width="10"
                   height="11"
@@ -201,7 +201,7 @@
             <div class="section-headline">
               <h2>Done</h2>
 
-              <div class="plus-icon-container" onclick="showAddTaskPopUp()">
+              <div class="plus-icon-container" onclick="showAddTaskPopUp('section-done')">
                 <svg
                   width="10"
                   height="11"
