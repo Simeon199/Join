@@ -1,24 +1,66 @@
 let userName = getUserNickname();
 let firstTime = "true";
+let allTasks;
 
 const BASE_URL1 = "https://join-testing-42ce4-default-rtdb.europe-west1.firebasedatabase.app/";
 
-// numberOfToDo
-async function numberOfToDo() {
+async function init() {
   let responseJson = await loadDataTwo();
-  let allTasks = responseJson["tasks"];
+  allTasks = responseJson["everyTasks"];
 
-  let numberOfToDo = 0;
+  greetAnimation();
+  greet();
+
+  renderNumberOfAllContainers();
+
+  initSidebar();
+  checkIfUserIsLoggedIn();
+
+  console.log(allTasks);
+  console.log(loadDataTwo());
+}
+
+async function renderNumberOfAllContainers() {
+  numberOfSection("to-do");
+  numberOfSection("done");
+  numberOfSection("in-progress");
+  numberOfSection("await-feedback");
+  numberOfSection("tasks-in-board");
+
+  numberOfUrgentSection();
+}
+
+// numberOfSection
+function numberOfSection(section) {
+  let sectionNumber = document.getElementById(section + "-number");
+  let number = 0;
+  if (section === "tasks-in-board") {
+    sectionNumber.innerHTML = allTasks.length;
+    return;
+  }
+  for (const key in allTasks) {
+    let task = allTasks[key];
+    if (task["container"] === section + "-container") {
+      number++;
+    }
+  }
+  try {
+    sectionNumber.innerHTML = number;
+  } catch (error) {}
+}
+
+// numberOfUrgentSection
+function numberOfUrgentSection() {
+  let sectionNumber = document.getElementById("urgent-number");
+  let number = 0;
 
   for (const key in allTasks) {
     let task = allTasks[key];
-
-    // change category
-    if (task["category"] === "to-do-container") {
-      console.log(task["category"]);
-      numberOfToDo++;
+    if (task["priority"] === "urgent") {
+      number++;
     }
   }
+  sectionNumber.innerHTML = number;
 }
 
 // loadDataTwo
@@ -26,17 +68,6 @@ async function loadDataTwo(path = "") {
   let response = await fetch(BASE_URL1 + path + ".json");
   let responseAsJson = await response.json();
   return responseAsJson;
-}
-
-async function init() {
-  greetAnimation();
-  greet();
-
-  await numberOfToDo();
-  console.log(await loadDataTwo());
-
-  initSidebar();
-  checkIfUserIsLoggedIn();
 }
 
 function greet() {
