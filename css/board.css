@@ -574,7 +574,7 @@ body .translate-100 {
 
   border-radius: 30px;
 
-  padding: 48px 40px;
+  padding: 45px 40px;
 
   position: absolute;
 
@@ -772,6 +772,29 @@ body .translate-100 {
   align-items: center;
 
   gap: 8px;
+
+  padding: 10px;
+
+  transition: 0.1s;
+}
+
+#big-task-pop-up-edit-button path,
+#big-task-pop-up-delete-button path {
+  transition: 0.1s;
+}
+
+#big-task-pop-up-edit-button:hover,
+#big-task-pop-up-delete-button:hover {
+  color: #29abe2;
+
+  cursor: pointer;
+
+  font-weight: 900;
+}
+
+#big-task-pop-up-edit-button:hover path,
+#big-task-pop-up-delete-button:hover path {
+  fill: #29abe2;
 }
 
 @media (max-width: 1000px) {

@@ -148,7 +148,7 @@ async function moveTo(container) {
   }
   try {
     await saveTaskToFirebase(task);
-  } catch(error){
+  } catch (error) {
     console.error("Fehler beim Speichern der tasks in der Firebase-Datenbank:", error);
   }
 }
@@ -160,20 +160,19 @@ function saveTasksToLocalStorage() {
 async function saveTaskToFirebase(task) {
   const taskPath = `/tasksList/${task.tasksIdentity}`;
   const response = await fetch(`${BASE_URL1}${taskPath}.json`, {
-    method: 'PATCH',
+    method: "PATCH",
     headers: {
-      'Content-Type': 'application/json'
+      "Content-Type": "application/json",
     },
-    body: JSON.stringify(task)
+    body: JSON.stringify(task),
   });
 
   if (!response.ok) {
-    console.error('Fehler beim Speichern der Task in Firebase:', response.statusText);
+    console.error("Fehler beim Speichern der Task in Firebase:", response.statusText);
   } else {
-    console.log('Task erfolgreich in Firebase gespeichert');
+    console.log("Task erfolgreich in Firebase gespeichert");
   }
 }
-
 
 function removeEmptyMessage(container, oppositeContainer) {
   let categoryContainer = document.getElementById(container);
@@ -239,7 +238,7 @@ function renderBigTask(jsonTextElement) {
   document.getElementById("big-task-pop-up-priority-text").innerHTML = taskJson.priority;
   document.getElementById("big-task-pop-up-priority-icon").innerHTML = checkPriorityIcon(taskJson.priority);
 
-  document.getElementById("big-task-pop-up-delete-edit-buttons-container").innerHTML = returnDeleteEditHTML();
+  document.getElementById("big-task-pop-up-delete-edit-buttons-container").innerHTML = returnDeleteEditHTML(taskJson.tasksIdentity);
 
   document.getElementById("big-task-pop-up-contact-container").innerHTML = "";
   document.getElementById("big-task-pop-up-subtasks-container").innerHTML = "";
@@ -275,8 +274,8 @@ function renderContact(taskJson) {
 }
 
 // deleteTask
-function deleteTask() {
-  // deleteData('')
+function deleteTask(id) {
+  deleteData("tasksList/" + id);
 }
 
 // deleteData
