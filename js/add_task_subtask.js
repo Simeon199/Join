@@ -55,6 +55,7 @@ function clearSubtask() {
   subtask.innerHTML = "";
   i = 0;
   subtask.classList.add("d-none");
+  hideOrShowEditButtons()
 }
 
 function clearSubtaskInput() {
@@ -66,28 +67,53 @@ function editSubtask(i) {
 }
 
 function editSubtaskInput(i) {
-  console.log("edit-test", i);
-  return /*html*/ `
-      <input type="text" value="${subArray[i]}">
-      <div>
-        <img src="Assets/img/" alt="">
+  container = document.getElementById(`yyy${i}`);
+  //container.remove(onmouseover, onmouseout);
+  //container.removeAttribute('onmouseover, onmouseout');
+  container.onmouseover = null;
+  container.onmouseout = null;
+  container.innerHTML = /*html*/`
+      <input id="subtaskEdited" type="text" value="${subArray[i]}">
+      <div class="inputButtons">
+        <img onclick="deleteSubtask(${i})" src="Assets/img/deletetrash.svg" alt="">
         <div class="subtaskBorder"></div>
-        <img src="Assets/img/checksubmit.svg" alt="">
+        <img onclick="saveEditedSubtask(${i})" src="Assets/img/checksubmit.svg" alt="">
       </div>
     `;
+    edit = document.getElementById(`subtaskEdited`);
+    subtask[i] = edit.value;
+    
 }
 
-function showEditButtons() {
-  document.getElementById("plusSymbole").classList.add("d-none");
-  document.getElementById("subtaskInputButtons").classList.remove("d-none");
+function hideOrShowEditButtons() {
+  plus = document.getElementById("plusSymbole");
+  subtask = document.getElementById("subtaskInputButtons");
+  if (subtask.classList.contains("d-none")) {
+    document.getElementById("plusSymbole").classList.add("d-none");
+    document.getElementById("subtaskInputButtons").classList.remove("d-none");
+  } else {
+    document.getElementById("plusSymbole").classList.remove("d-none");
+    document.getElementById("subtaskInputButtons").classList.add("d-none");
+  }
 }
 
-function hideEditButtons() {
-  document.getElementById("plusSymbole").classList.remove("d-none");
-  document.getElementById("subtaskInputButtons").classList.add("d-none");
-}
+// function showEditButtons() {
+//   document.getElementById("plusSymbole").classList.add("d-none");
+//   document.getElementById("subtaskInputButtons").classList.remove("d-none");
+// }
+
+// function hideEditButtons() {
+//   document.getElementById("plusSymbole").classList.remove("d-none");
+//   document.getElementById("subtaskInputButtons").classList.add("d-none");
+// }
 
 function deleteSubtask(i) {
   subArray.splice(i, 1);
   rendersubtask();
+}
+
+function saveEditedSubtask(i) {
+  let text = document.getElementById(`subtaskEdited`).value
+  subArray.splice(i, 1, text)
+  rendersubtask()
 }

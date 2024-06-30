@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="css/generally.css" />
     <link rel="stylesheet" href="css/add_task.css" />
     <link rel="stylesheet" href="css/add_task_contacts.css" />
+    <link rel="stylesheet" href="css/add_task_subtasks.css">
 
     <!-- js -->
     <script src="js/board.js"></script>
@@ -155,8 +156,7 @@
               <p>Subtasks</p>
               <div class="onFocus">
                 <input
-                  onfocusin="showEditButtons()"
-                  onfocusout ="hideEditButtons()"
+                  ondblclick="hideOrShowEditButtons()"
                   id="subtask"
                   type="text"
                   placeholder="Add new subtask"
