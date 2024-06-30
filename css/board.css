@@ -800,10 +800,9 @@ body .translate-100 {
 @media (max-width: 1000px) {
   main {
     box-sizing: unset;
-
+    font-size: 13px;
     padding: 0;
     padding-top: 120px;
-
     height: calc(100vh - 175px);
   }
 
@@ -811,6 +810,40 @@ body .translate-100 {
     margin: 0 auto;
     flex-direction: column;
     width: 80%;
+    gap: 100px;
+  }
+
+  .add-task-pop-up {
+    width: 80%;
+    min-width: 600px;
+  }
+
+  .wrap-container {
+    overflow-x: scroll;
+  }
+
+  .section-headline {
+    justify-content: center;
+    gap: 16px;
+  }
+
+  #to-do-container,
+  #await-feedback-container,
+  #in-progress-container,
+  #done-container {
+    /* padding: 16px; */
+    border-radius: 8px;
+
+    display: flex;
+    flex-direction: unset;
+    gap: 16px;
+
+    /* border: 2px solid black; */
+}
+
+  .task {
+    min-width: 300px;
+    margin: 16px;
   }
 
   #wrap {
@@ -824,13 +857,10 @@ body .translate-100 {
   #main-headline {
     flex-direction: column;
     align-items: center;
+    gap: 16px;
   }
 
   /* .board-section {
     width: 80%;
-  } */
-
-  /* .task {
-    width: 50%;
   } */
 }

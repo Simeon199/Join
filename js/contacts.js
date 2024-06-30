@@ -277,6 +277,7 @@ function renderContactLetterContainer(i, contactListContainer) {
 // renderContact
 function renderContact(i, j, letter) {
   const user = allUsers[j];
+  // console.log(allUsers);
   if (user["name"].toLowerCase().startsWith(letter)) {
     document.querySelectorAll(".letter-list-contact-container")[i].innerHTML += returnContactHTML(
       j,
