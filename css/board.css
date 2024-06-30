@@ -610,6 +610,17 @@ body .translate-100 {
   fill: #2a3647;
 }
 
+#big-task-pop-up-close-icon {
+  padding: 8px;
+  border-radius: 100%;
+  box-sizing: unset;
+  cursor: pointer;
+}
+
+#big-task-pop-up-close-icon:hover {
+  background-color: #d9d9d9;
+}
+
 #big-task-pop-up-title {
   font-size: 61px;
   font-weight: 700;
@@ -765,8 +776,8 @@ body .translate-100 {
   main {
     box-sizing: unset;
 
-    padding-left: 5px;
-    padding-top: 96px;
+    padding: 0;
+    padding-top: 120px;
 
     height: calc(100vh - 175px);
   }
