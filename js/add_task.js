@@ -20,7 +20,7 @@ async function saveTaskIdToFirebase(taskId) {
 }
 
 async function loadTaskIdFromFirebase() {
-  let response = await loadDataTwo("taskId");
+  let response = await loadData("taskId");
   if (response !== null && response !== undefined) {
     return response;
   }
@@ -151,11 +151,18 @@ async function upload(path = "", data) {
 }
 
 async function ensureAllTasksExists() {
-  let response = await loadDataTwo();
+  let response = await loadData();
   if (!response || !response.hasOwnProperty("tasksList")) {
     await upload("tasksList", []);
   }
 }
+
+// async function ensureAllTasksExists() {
+//   let response = await loadData();
+//   if (!response || !response.hasOwnProperty("testRealTasks")) {
+//     await upload("testRealTasks", []);
+//   }
+// }
 
 async function saveTask() {
   let inputTitle = document.getElementById("inputTitle").value;
@@ -194,7 +201,7 @@ async function saveTask() {
 
 async function uploadToAllTasks(task) {
   try {
-    let response = await loadDataTwo();
+    let response = await loadData();
     let allTasks = response["tasksList"];
     if (!Array.isArray(allTasks)) {
       allTasks = [];
@@ -206,6 +213,21 @@ async function uploadToAllTasks(task) {
     console.error("Fehler in uploadToAllTasks:", error);
   }
 }
+
+// async function uploadToAllTasks(task) {
+//   try {
+//     let response = await loadData();
+//     let allTasks = response["testRealTasks"];
+//     if (!Array.isArray(allTasks)) {
+//       allTasks = [];
+//     }
+//     allTasks.push(task);
+//     await upload("testRealTasks", allTasks);
+
+//   } catch (error) {
+//     console.error("Fehler in uploadToAllTasks:", error);
+//   }
+// }
 
 // function um festzustellen ob DropDown offen oder geschlossen ist
 function checkDropDown(id) {
@@ -225,7 +247,7 @@ function checkDropDown(id) {
   }
 }
 
-async function loadDataTwo(path = "") {
+async function loadData(path = "") {
   let response = await fetch(BASE_URL1 + path + ".json");
   let responseAsJson = await response.json();
   return responseAsJson;

@@ -51,6 +51,18 @@ async function loadTasksFromDatabase() {
   return [];
 }
 
+// async function loadTasksFromDatabase() {
+//   let response = await loadData();
+//   console.log(response.testRealTasks);
+//   if (response && response.testRealTasks) {
+//     for (index = 0; index < response.testRealTasks.length; index++) {
+//       tasks.push(response.testRealTasks[index]);
+//     }
+//     return tasks;
+//   }
+//   return [];
+// }
+
 function iterateThroughSubArray(taskArray, htmlElement) {
   for (i = 0; i < taskArray.length; i++) {
     let task = taskArray[i];
@@ -173,6 +185,23 @@ async function saveTaskToFirebase(task) {
     console.log('Task erfolgreich in Firebase gespeichert');
   }
 }
+
+// async function saveTaskToFirebase(task) {
+//   const taskPath = `/testRealTasks/${task.tasksIdentity}`;
+//   const response = await fetch(`${BASE_URL1}${taskPath}.json`, {
+//     method: 'PATCH',
+//     headers: {
+//       'Content-Type': 'application/json'
+//     },
+//     body: JSON.stringify(task)
+//   });
+
+//   if (!response.ok) {
+//     console.error('Fehler beim Speichern der Task in Firebase:', response.statusText);
+//   } else {
+//     console.log('Task erfolgreich in Firebase gespeichert');
+//   }
+// }
 
 
 function removeEmptyMessage(container, oppositeContainer) {
