@@ -228,17 +228,20 @@ function allowDrop(event) {
   event.preventDefault();
 }
 
+// showAddTaskPopUp
 function showAddTaskPopUp(container = "to-do-container") {
   document.getElementById("add-task-pop-up-bg").classList.remove("bg-op-0");
   document.getElementById("add-task-pop-up").classList.remove("translate-100");
   standardContainer = container;
 }
 
+// hideAddTaskPopUp
 function hideAddTaskPopUp() {
   document.getElementById("add-task-pop-up-bg").classList.add("bg-op-0");
   document.getElementById("add-task-pop-up").classList.add("translate-100");
 }
 
+// showBigTaskPopUp
 function showBigTaskPopUp(jsonTextElement) {
   document.getElementById("big-task-pop-up-bg").classList.remove("bg-op-0");
   document.getElementById("big-task-pop-up").classList.remove("translate-100");
@@ -246,11 +249,13 @@ function showBigTaskPopUp(jsonTextElement) {
   renderBigTask(jsonTextElement);
 }
 
+// hideBigTaskPopUp
 function hideBigTaskPopUp() {
   document.getElementById("big-task-pop-up-bg").classList.add("bg-op-0");
   document.getElementById("big-task-pop-up").classList.add("translate-100");
 }
 
+// renderBigTask
 function renderBigTask(jsonTextElement) {
   let taskJson = JSON.parse(decodeURIComponent(jsonTextElement));
   console.log(taskJson);
@@ -261,7 +266,7 @@ function renderBigTask(jsonTextElement) {
   document.getElementById("big-task-pop-up-category").innerHTML = taskJson.category;
   document.getElementById("big-task-pop-up-category").style.backgroundColor = checkCategoryColor(taskJson.category);
   document.getElementById("big-task-pop-up-priority-text").innerHTML = taskJson.priority;
-  document.getElementById("big-task-pop-up-priority-icon").innerHTML = rightPriorityIcon(taskJson.priority);
+  document.getElementById("big-task-pop-up-priority-icon").innerHTML = checkPriorityIcon(taskJson.priority);
 
   document.getElementById("big-task-pop-up-delete-edit-buttons-container").innerHTML = returnDeleteEditHTML();
 
@@ -272,6 +277,7 @@ function renderBigTask(jsonTextElement) {
   renderSubtask(taskJson);
 }
 
+// renderSubtask
 function renderSubtask(taskJson) {
   if (taskJson.subtask) {
     taskJson.subtask.forEach((subtask) => {
@@ -284,6 +290,7 @@ function renderSubtask(taskJson) {
   }
 }
 
+// renderContact
 function renderContact(taskJson) {
   if (taskJson.assigned) {
     taskJson.assigned.forEach((contact) => {
@@ -296,10 +303,12 @@ function renderContact(taskJson) {
   }
 }
 
+// deleteTask
 function deleteTask() {
   // deleteData('')
 }
 
+// deleteData
 async function deleteData(path = "") {
   let response = await fetch(BASE_URL1 + path + ".json", {
     method: "DELETE",
@@ -307,6 +316,7 @@ async function deleteData(path = "") {
   return (responseToJson = await response.json());
 }
 
+// checkCategoryColor
 function checkCategoryColor(category) {
   if (category === "User Story") {
     return "#0038FF";
@@ -317,7 +327,8 @@ function checkCategoryColor(category) {
   }
 }
 
-function rightPriorityIcon(priorityText) {
+// checkPriorityIcon
+function checkPriorityIcon(priorityText) {
   if (priorityText === "urgent") {
     return generateHTMLUrgencyUrgent();
   } else if (priorityText === "medium") {
@@ -327,24 +338,61 @@ function rightPriorityIcon(priorityText) {
   }
 }
 
-searchedInput.addEventListener("input", function () {
-  let searchedValue = this.value.trim().toLowerCase();
-  checkIfTitleContainsSearchedInput(searchedValue);
-});
+// checkIfTitleContainsSearchedInput
+function searchForTasks() {
+  let searchValue = document.getElementById("search-input").value.trim().toLowerCase();
+  searchedTasks = [];
 
-function checkIfTitleContainsSearchedInput(searchedValue) {
-  // let tasks = localStorage.getItem('tasks');
-  // console.log(tasks);
-  for (index = 0; index < tasks.length; index++) {
-    let taskTitle = tasks[index]["title"];
-    if (taskTitle.toLowerCase().includes(searchedValue) & (taskTitle.length > 2)) {
-      console.log(taskTitle);
-      searchedTasks.push(taskTitle);
+  for (i = 0; i < tasks.length; i++) {
+    let task = tasks[i];
+    if (task.title.toLowerCase().includes(searchValue) || task.description.toLowerCase().includes(searchValue)) {
+      searchedTasks.push(task);
     }
   }
-  console.log(searchedTasks);
+  renderSearchedTasks();
 }
 
+// renderSearchedTasks
+function renderSearchedTasks() {
+  for (let i = 0; i < allCategories.length; i++) {
+    const categoryContainer = allCategories[i];
+
+    document.getElementById(categoryContainer).innerHTML = "";
+
+    for (let j = 0; j < searchedTasks.length; j++) {
+      const task = searchedTasks[j];
+
+      if (categoryContainer === task.container) {
+        let jsonElement = JSON.stringify(task);
+        let rightIcon = insertCorrectUrgencyIcon(task);
+        let variableClass = setVariableClass(task);
+        let oppositeCategory = "no-" + task["container"];
+
+        let contactsHTML = "";
+        if (task["assigned"] || typeof task["assigned"] == Array) {
+          for (let index = 0; index < task["assigned"].length; index++) {
+            contactsHTML += `<div class="task-contact">${task["assigned"][index]}</div>`;
+          }
+        }
+
+        document.getElementById(categoryContainer).innerHTML += generateTaskHTML(
+          task["tasksIdentity"],
+          variableClass,
+          task["category"],
+          task["title"],
+          task["description"],
+          contactsHTML,
+          task["container"],
+          oppositeCategory,
+          rightIcon,
+          jsonElement
+        );
+      }
+    }
+  }
+}
+
+// taskMarker
 function taskMarker() {
   document.getElementById("board").classList.add("currentSection");
 }

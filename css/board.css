@@ -34,7 +34,7 @@ body .bg-op-0 {
 }
 
 body .translate-100 {
-  transform: translate(150%, -50%);
+  transform: translate(80vh, -50%);
 }
 
 /* main headline */
@@ -43,6 +43,8 @@ body .translate-100 {
   justify-content: space-between;
 
   width: 100%;
+
+  margin-bottom: 30px;
 }
 
 #main-headline h1 {
@@ -50,7 +52,7 @@ body .translate-100 {
   font-weight: 700;
   padding: 0;
 
-  margin-top: 0;
+  margin: 0;
 }
 
 #search-container {

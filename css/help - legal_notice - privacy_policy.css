@@ -94,7 +94,6 @@ ol {
 
 ol li {
   display: flex;
-  justify-content: center;
 
   counter-increment: item;
   margin-bottom: 5px;
