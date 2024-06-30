@@ -18,6 +18,7 @@ header {
     padding-top: 16px;
 }
 
+
 h1 {
     font-family: 'Open Sans';
     margin: 0px;
@@ -160,7 +161,7 @@ h1.underline::after {
 
 .brightBtn {
     font-size: 21px;
-    border: 1px solid rgba(42, 54, 71, 1)
+    border: 2px solid rgba(42, 54, 71, 1)
 }
 
 .brightBtn:hover{

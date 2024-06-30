@@ -137,7 +137,7 @@ function startDragging(elementId) {
   elementDraggedOver = elementId;
 }
 
-function moveTo(container) {
+async function moveTo(container) {
   let oppositeContainer = "no-" + container;
   let task = tasks.find((task) => task.tasksIdentity == elementDraggedOver);
   if (task) {
@@ -146,11 +146,34 @@ function moveTo(container) {
     updateHTML();
     removeEmptyMessage(container, oppositeContainer);
   }
+  try {
+    await saveTaskToFirebase(task);
+  } catch(error){
+    console.error("Fehler beim Speichern der tasks in der Firebase-Datenbank:", error);
+  }
 }
 
 function saveTasksToLocalStorage() {
   localStorage.setItem("tasks", JSON.stringify(tasks));
 }
+
+async function saveTaskToFirebase(task) {
+  const taskPath = `/tasksList/${task.tasksIdentity}`;
+  const response = await fetch(`${BASE_URL1}${taskPath}.json`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(task)
+  });
+
+  if (!response.ok) {
+    console.error('Fehler beim Speichern der Task in Firebase:', response.statusText);
+  } else {
+    console.log('Task erfolgreich in Firebase gespeichert');
+  }
+}
+
 
 function removeEmptyMessage(container, oppositeContainer) {
   let categoryContainer = document.getElementById(container);
