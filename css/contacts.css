@@ -22,6 +22,10 @@ main {
   display: flex;
 }
 
+#headerForm {
+  z-index: 1;
+}
+
 /* contact list container */
 #contact-list-container {
   min-width: 352px;
@@ -231,8 +235,6 @@ main {
   background-color: #f9f9f9;
 
   transition: transform 0.3s ease-in-out;
-
-  z-index: -1;
 }
 
 .right-site-container-translate-100 {
