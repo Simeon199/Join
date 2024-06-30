@@ -34,7 +34,7 @@ body .bg-op-0 {
 }
 
 body .translate-100 {
-  transform: translate(150%, -50%);
+  transform: translate(80vh, -50%);
 }
 
 /* main headline */

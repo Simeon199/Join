@@ -15,9 +15,6 @@ async function init() {
 
   initSidebar();
   checkIfUserIsLoggedIn();
-
-  console.log(allTasks);
-  console.log(loadDataTwo());
 }
 
 async function renderNumberOfAllContainers() {
