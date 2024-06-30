@@ -150,19 +150,19 @@ async function upload(path = "", data) {
   return (responseToJson = await response.json());
 }
 
-async function ensureAllTasksExists() {
-  let response = await loadData();
-  if (!response || !response.hasOwnProperty("tasksList")) {
-    await upload("tasksList", []);
-  }
-}
-
 // async function ensureAllTasksExists() {
 //   let response = await loadData();
-//   if (!response || !response.hasOwnProperty("testRealTasks")) {
-//     await upload("testRealTasks", []);
+//   if (!response || !response.hasOwnProperty("tasksList")) {
+//     await upload("tasksList", []);
 //   }
 // }
+
+async function ensureAllTasksExists() {
+  let response = await loadData();
+  if (!response || !response.hasOwnProperty("testRealTasks")) {
+    await upload("testRealTasks", []);
+  }
+}
 
 async function saveTask() {
   let inputTitle = document.getElementById("inputTitle").value;
@@ -199,35 +199,35 @@ async function saveTask() {
   // });
 }
 
-async function uploadToAllTasks(task) {
-  try {
-    let response = await loadData();
-    let allTasks = response["tasksList"];
-    if (!Array.isArray(allTasks)) {
-      allTasks = [];
-    }
-    allTasks.push(task);
-    await upload("tasksList", allTasks);
-
-  } catch (error) {
-    console.error("Fehler in uploadToAllTasks:", error);
-  }
-}
-
 // async function uploadToAllTasks(task) {
 //   try {
 //     let response = await loadData();
-//     let allTasks = response["testRealTasks"];
+//     let allTasks = response["tasksList"];
 //     if (!Array.isArray(allTasks)) {
 //       allTasks = [];
 //     }
 //     allTasks.push(task);
-//     await upload("testRealTasks", allTasks);
+//     await upload("tasksList", allTasks);
 
 //   } catch (error) {
 //     console.error("Fehler in uploadToAllTasks:", error);
 //   }
 // }
+
+async function uploadToAllTasks(task) {
+  try {
+    let response = await loadData();
+    let allTasks = response["testRealTasks"];
+    if (!Array.isArray(allTasks)) {
+      allTasks = [];
+    }
+    allTasks.push(task);
+    await upload("testRealTasks", allTasks);
+
+  } catch (error) {
+    console.error("Fehler in uploadToAllTasks:", error);
+  }
+}
 
 // function um festzustellen ob DropDown offen oder geschlossen ist
 function checkDropDown(id) {
@@ -251,4 +251,31 @@ async function loadData(path = "") {
   let response = await fetch(BASE_URL1 + path + ".json");
   let responseAsJson = await response.json();
   return responseAsJson;
+}
+
+
+// async function deleteTask(taskId) {
+//   tasks = tasks.filter(task => task.tasksIdentity !== taskId);
+//   for (let i = taskId; i < tasks.length; i++) {
+//     tasks[i].tasksIdentity = i;
+//   }
+//   await upload("tasksList", tasks);
+//   saveTasksToLocalStorage();
+//   tasksId = tasks.length;
+//   await saveTaskIdToFirebase(tasksId);
+//   updateCategories();
+//   updateHTML();
+// }
+
+async function deleteTask(taskId) {
+  tasks = tasks.filter(task => task.tasksIdentity !== taskId);
+  for (let i = taskId; i < tasks.length; i++) {
+    tasks[i].tasksIdentity = i;
+  }
+  await upload("testRealTasks", tasks);
+  saveTasksToLocalStorage();
+  tasksId = tasks.length;
+  await saveTaskIdToFirebase(tasksId);
+  updateCategories();
+  updateHTML();
 }

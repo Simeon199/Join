@@ -39,29 +39,29 @@ function updateCategories() {
   categories = [...new Set(tasks.map((task) => task.container))];
 }
 
-async function loadTasksFromDatabase() {
-  let response = await loadData();
-  console.log(response.tasksList);
-  if (response && response.tasksList) {
-    for (index = 0; index < response.tasksList.length; index++) {
-      tasks.push(response.tasksList[index]);
-    }
-    return tasks;
-  }
-  return [];
-}
-
 // async function loadTasksFromDatabase() {
 //   let response = await loadData();
-//   console.log(response.testRealTasks);
-//   if (response && response.testRealTasks) {
-//     for (index = 0; index < response.testRealTasks.length; index++) {
-//       tasks.push(response.testRealTasks[index]);
+//   console.log(response.tasksList);
+//   if (response && response.tasksList) {
+//     for (index = 0; index < response.tasksList.length; index++) {
+//       tasks.push(response.tasksList[index]);
 //     }
 //     return tasks;
 //   }
 //   return [];
 // }
+
+async function loadTasksFromDatabase() {
+  let response = await loadData();
+  console.log(response.testRealTasks);
+  if (response && response.testRealTasks) {
+    for (index = 0; index < response.testRealTasks.length; index++) {
+      tasks.push(response.testRealTasks[index]);
+    }
+    return tasks;
+  }
+  return [];
+}
 
 function iterateThroughSubArray(taskArray, htmlElement) {
   for (i = 0; i < taskArray.length; i++) {
@@ -169,39 +169,40 @@ function saveTasksToLocalStorage() {
   localStorage.setItem("tasks", JSON.stringify(tasks));
 }
 
-async function saveTaskToFirebase(task) {
-  const taskPath = `/tasksList/${task.tasksIdentity}`;
-  const response = await fetch(`${BASE_URL1}${taskPath}.json`, {
-    method: "PATCH",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(task),
-  });
-
-  if (!response.ok) {
-    console.error("Fehler beim Speichern der Task in Firebase:", response.statusText);
-  } else {
-    console.log("Task erfolgreich in Firebase gespeichert");
-  }
-}
-
 // async function saveTaskToFirebase(task) {
-//   const taskPath = `/testRealTasks/${task.tasksIdentity}`;
+//   const taskPath = `/tasksList/${task.tasksIdentity}`;
 //   const response = await fetch(`${BASE_URL1}${taskPath}.json`, {
-//     method: 'PATCH',
+//     method: "PATCH",
 //     headers: {
-//       'Content-Type': 'application/json'
+//       "Content-Type": "application/json",
 //     },
-//     body: JSON.stringify(task)
+//     body: JSON.stringify(task),
 //   });
 
 //   if (!response.ok) {
-//     console.error('Fehler beim Speichern der Task in Firebase:', response.statusText);
+//     console.error("Fehler beim Speichern der Task in Firebase:", response.statusText);
 //   } else {
-//     console.log('Task erfolgreich in Firebase gespeichert');
+//     console.log("Task erfolgreich in Firebase gespeichert");
 //   }
 // }
+
+async function saveTaskToFirebase(task) {
+  const taskPath = `/testRealTasks/${task.tasksIdentity}`;
+  const response = await fetch(`${BASE_URL1}${taskPath}.json`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(task)
+  });
+
+  if (!response.ok) {
+    console.error('Fehler beim Speichern der Task in Firebase:', response.statusText);
+  } else {
+    console.log('Task erfolgreich in Firebase gespeichert');
+  }
+}
+
 
 function removeEmptyMessage(container, oppositeContainer) {
   let categoryContainer = document.getElementById(container);
@@ -303,9 +304,13 @@ function renderContact(taskJson) {
 }
 
 // deleteTask
-function deleteTask(id) {
-  deleteData("tasksList/" + id);
-}
+// function deleteTask(id) {
+//   deleteData("tasksList/" + id);
+// }
+
+// function deleteTask(id) {
+//   deleteData("testRealTask/" + id);
+// }
 
 // deleteData
 async function deleteData(path = "") {
