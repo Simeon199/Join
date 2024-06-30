@@ -1,5 +1,6 @@
 let userCredicals;
 let isSelect;
+let searchResults = [];
 
 function showDropDownAssignedTo() {
   contact = document.getElementById("assignedToDropDown");
@@ -10,7 +11,7 @@ function showDropDownAssignedTo() {
     }
     contact.classList.remove("d-none");
     document.getElementById('arrowa').classList.add("rotate");
-    console.log(assignedContacts);
+    // console.log(assignedContacts);
 }
 
 function hideDropDownAssignedTo() {
@@ -73,14 +74,12 @@ function addUserToTask(u , isSelect) {
 
 function checkAssignedContacts(name, color, i) {
   x = {name: name, color: color, selected: isSelect = false};
-  // console.log(x);
   selUser = document.getElementById(`user${i}`);
   if (selUser.classList.contains("contactIsSelect") == true) {
     document.getElementById(`none_checked${i}`).classList.remove("d-none")
     document.getElementById(`checked${i}`).classList.add("d-none")
     selUser.classList.remove('contactIsSelect');
-    console.log("del_test", x.name); // übergiebt noch dem Falschen Parameter
-    removeAssignetToContects('${x.name}')
+    removeAssignetToContects(x.name)
   } else {
     document.getElementById(`none_checked${i}`).classList.add("d-none")
     document.getElementById(`checked${i}`).classList.remove("d-none")
@@ -92,7 +91,7 @@ function checkAssignedContacts(name, color, i) {
 
 function checkAssignedContactsStatus(un, index) {
   let name = un;
-  console.log(un);
+  // console.log(un);
   for (name in allUsers) {
     for (let i = 0; i < allUsers.length; i++) {
       if (name == allUsers[i].name == true) {
@@ -113,9 +112,58 @@ function checkAssignedContactsStatus(un, index) {
   // }
 }
 
-function removeAssignetToContects(x) {
-    indexOfName = assignedContacts.indexOf(x)
-    console.log(indexOfName);
-    assignedContacts.splice(indexOfName, 1)
+function removeAssignetToContects(name) {
+  console.log(name);
+    for (let i = 0; i < assignedContacts.length; i++) {
+      indexOfName = assignedContacts[i].includes(name);
+      if (indexOfName == true) {
+        assignedContacts.splice(indexOfName, 1)
+      }
+    }
+    
     assignetToContects()
+}
+
+function changeToInputfield() {
+let visibilitycheck = document.getElementById("searchArea").classList.contains("d-none")
+  if (visibilitycheck == true) {
+    document.getElementById("searchArea").classList.remove("d-none");
+    document.getElementById("standartValue").classList.add("d-none");
+  } else {
+    document.getElementById("searchArea").classList.add("d-none");
+    document.getElementById("standartValue").classList.remove("d-none");
+  }
+}
+
+function searchContacts() {
+  search = document.getElementById("searchField");
+  text = search.value.toLowerCase();
+  console.log(text);
+  if (text.length <=2) {
+  } else {
+    for (let i = 0; i < allUsers.length; i++) {
+      aU = allUsers[i].name.toLowerCase();
+      console.log(aU);
+      if (aU.includes(text)) {
+        searchResults.push(allUsers[i]);
+        showDropDownAssignedToOnlyResult();
+      }
+    }
+  }
+  searchResults = [];
+  if (text.length = 0) {
+    showDropDownAssignedTo()
+  }
+}
+
+function showDropDownAssignedToOnlyResult() {
+  contact = document.getElementById("assignedToDropDown");
+    
+    for (let i = 0; i < searchResults.length; i++) {
+      user = searchResults[i];
+      renderAssignedToHTML(user,contact, i);
+    }
+    contact.classList.remove("d-none");
+    document.getElementById('arrowa').classList.add("rotate");
+    console.log(searchResults);
 }
