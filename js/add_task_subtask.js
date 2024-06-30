@@ -91,12 +91,3 @@ function deleteSubtask(i) {
   subArray.splice(i, 1);
   rendersubtask();
 }
-
-function changeToInputfield() {
-  o = document.getElementById("changeTo");
-  //event.stopPropagation();
-  o.innerHTML = /*html*/`
-    <span>AN:</span>
-    <input type="text" placeholder="Search Contact..".stopPropagation>
-  `
-}
