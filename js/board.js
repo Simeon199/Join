@@ -1,15 +1,10 @@
 let tasks = [];
 let categories = [];
 let searchedTasks = [];
-let allCategories = [
-  "to-do-container",
-  "await-feedback-container",
-  "done-container",
-  "in-progress-container",
-];
+let allCategories = ["to-do-container", "await-feedback-container", "done-container", "in-progress-container"];
 let elementDraggedOver;
-console.log(document.getElementById('search-input'));
-let searchedInput = document.getElementById('search-input');
+console.log(document.getElementById("search-input"));
+let searchedInput = document.getElementById("search-input");
 
 /* Bemerkung: Die Ausführung von deleteCertainElements(), deren Aufgabe es wäre ausgewählte Datenbankeinträge wieder zu entfernen
 funktioniert noch nicht, da die Firebase-Datenbank in diesem Fall den Zugriff verweigert ('Probleme mit der CORS policy') */
@@ -114,12 +109,15 @@ function createToDoHTML(element) {
   let rightIcon = insertCorrectUrgencyIcon(element);
   let variableClass = setVariableClass(element);
   let oppositeCategory = "no-" + element["container"];
+
   let contactsHTML = "";
   if (element["assigned"] || typeof element["assigned"] == Array) {
     for (let i = 0; i < element["assigned"].length; i++) {
       contactsHTML += `<div class="task-contact">${element["assigned"][i]}</div>`;
     }
   }
+
+  let jsonElement = JSON.stringify(element);
 
   return generateTaskHTML(
     element["tasksIdentity"],
@@ -130,7 +128,8 @@ function createToDoHTML(element) {
     contactsHTML,
     element["container"],
     oppositeCategory,
-    rightIcon
+    rightIcon,
+    jsonElement
   );
 }
 
@@ -188,9 +187,11 @@ function hideAddTaskPopUp() {
   document.getElementById("add-task-pop-up").classList.add("translate-100");
 }
 
-function showBigTaskPopUp() {
+function showBigTaskPopUp(jsonTextElement) {
   document.getElementById("big-task-pop-up-bg").classList.remove("bg-op-0");
   document.getElementById("big-task-pop-up").classList.remove("translate-100");
+
+  renderBigTask(jsonTextElement);
 }
 
 function hideBigTaskPopUp() {
@@ -198,24 +199,100 @@ function hideBigTaskPopUp() {
   document.getElementById("big-task-pop-up").classList.add("translate-100");
 }
 
-function taskMarker() {
-  document.getElementById("board").classList.add("currentSection");
+function renderBigTask(jsonTextElement) {
+  let taskJson = JSON.parse(decodeURIComponent(jsonTextElement));
+  console.log(taskJson);
+
+  document.getElementById("big-task-pop-up-title").innerHTML = taskJson.title;
+  document.getElementById("big-task-pop-up-description").innerHTML = taskJson.description;
+  document.getElementById("big-task-pop-up-date").innerHTML = taskJson.date;
+  document.getElementById("big-task-pop-up-category").innerHTML = taskJson.category;
+  document.getElementById("big-task-pop-up-category").style.backgroundColor = checkCategoryColor(taskJson.category);
+  document.getElementById("big-task-pop-up-priority-text").innerHTML = taskJson.priority;
+  document.getElementById("big-task-pop-up-priority-icon").innerHTML = rightPriorityIcon(taskJson.priority);
+
+  document.getElementById("big-task-pop-up-delete-edit-buttons-container").innerHTML = returnDeleteEditHTML();
+
+  document.getElementById("big-task-pop-up-contact-container").innerHTML = "";
+  document.getElementById("big-task-pop-up-subtasks-container").innerHTML = "";
+
+  renderContact(taskJson);
+  renderSubtask(taskJson);
 }
 
-searchedInput.addEventListener('input', function(){
+function renderSubtask(taskJson) {
+  if (taskJson.subtask) {
+    taskJson.subtask.forEach((subtask) => {
+      document.getElementById("big-task-pop-up-subtasks-container").innerHTML += returnSubtaskHTML(subtask);
+    });
+  } else {
+    document.getElementById("big-task-pop-up-subtasks-container").innerHTML = /*html*/ `  
+    <p class='big-task-pop-up-value-text'>No Subtasks</p>
+    `;
+  }
+}
+
+function renderContact(taskJson) {
+  if (taskJson.assigned) {
+    taskJson.assigned.forEach((contact) => {
+      document.getElementById("big-task-pop-up-contact-container").innerHTML += returnAssignedContactHTML(contact);
+    });
+  } else {
+    document.getElementById("big-task-pop-up-contact-container").innerHTML = /*html*/ `  
+    <p class='big-task-pop-up-value-text'>No One Assigned</p>
+    `;
+  }
+}
+
+function deleteTask() {
+  // deleteData('')
+}
+
+async function deleteData(path = "") {
+  let response = await fetch(BASE_URL1 + path + ".json", {
+    method: "DELETE",
+  });
+  return (responseToJson = await response.json());
+}
+
+function checkCategoryColor(category) {
+  if (category === "User Story") {
+    return "#0038FF";
+  } else if (category === "Technical Task") {
+    return "#1FD7C1";
+  } else {
+    return "#42526e";
+  }
+}
+
+function rightPriorityIcon(priorityText) {
+  if (priorityText === "urgent") {
+    return generateHTMLUrgencyUrgent();
+  } else if (priorityText === "medium") {
+    return generateHTMLUrgencyMedium();
+  } else if (priorityText === "low") {
+    return generateHTMLUrgencyLow();
+  }
+}
+
+searchedInput.addEventListener("input", function () {
   let searchedValue = this.value.trim().toLowerCase();
   checkIfTitleContainsSearchedInput(searchedValue);
-})
+});
 
-function checkIfTitleContainsSearchedInput(searchedValue){
+function checkIfTitleContainsSearchedInput(searchedValue) {
   // let tasks = localStorage.getItem('tasks');
   // console.log(tasks);
-  for(index = 0; index < tasks.length; index++){
-    let taskTitle = tasks[index]['title'];
-    if(taskTitle.toLowerCase().includes(searchedValue) & taskTitle.length > 2){
+  for (index = 0; index < tasks.length; index++) {
+    let taskTitle = tasks[index]["title"];
+    if (taskTitle.toLowerCase().includes(searchedValue) & (taskTitle.length > 2)) {
       console.log(taskTitle);
       searchedTasks.push(taskTitle);
     }
   }
   console.log(searchedTasks);
+}
+
+function taskMarker() {
+  document.getElementById("board").classList.add("currentSection");
 }

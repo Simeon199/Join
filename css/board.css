@@ -49,6 +49,8 @@ body .translate-100 {
   font-size: 61px;
   font-weight: 700;
   padding: 0;
+
+  margin-top: 0;
 }
 
 #search-container {
@@ -649,6 +651,16 @@ body .translate-100 {
   gap: 10px;
 
   margin: 0;
+}
+
+#big-task-pop-up-priority-text::first-letter {
+  text-transform: uppercase;
+}
+
+.big-task-pop-up-value-text div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 #big-task-pop-up-contact-container {
