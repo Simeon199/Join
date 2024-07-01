@@ -3,7 +3,7 @@ let categories = [];
 let searchedTasks = [];
 let allCategories = ["to-do-container", "await-feedback-container", "done-container", "in-progress-container"];
 let elementDraggedOver;
-console.log(document.getElementById("search-input"));
+// console.log(document.getElementById("search-input"));
 let searchedInput = document.getElementById("search-input");
 let isBigTaskPopUpOpen = false;
 
@@ -74,7 +74,7 @@ function updateCategories() {
 
 async function loadTasksFromDatabase() {
   let response = await loadRelevantData();
-  console.log(response.testRealTasks);
+  // console.log(response.testRealTasks);
   if (response && response.testRealTasks) {
     for (index = 0; index < response.testRealTasks.length; index++) {
       tasks.push(response.testRealTasks[index]);
@@ -105,7 +105,10 @@ function updateHTML() {
     let oppositeElementName = "no-" + container;
     let oppositeElement = getRightOppositeElement(oppositeElementName);
     if (element) {
+      // console.log(container);
+      // console.log(tasks);
       let filteredTasks = tasks.filter((task) => task.container === container);
+      // console.log(filteredTasks);
       element.innerHTML = "";
       if (filteredTasks.length > 0) {
         iterateThroughSubArray(filteredTasks, element);
@@ -294,8 +297,7 @@ function hideBigTaskPopUp() {
 // renderBigTask
 function renderBigTask(jsonTextElement) {
   let taskJson = JSON.parse(decodeURIComponent(jsonTextElement));
-  console.log(taskJson["assigned"].length);
-  // convertInUsualArray(taskJson);
+  // console.log(taskJson["assigned"].length);
 
   document.getElementById("big-task-pop-up-title").innerHTML = taskJson.title;
   document.getElementById("big-task-pop-up-description").innerHTML = taskJson.description;
@@ -325,14 +327,6 @@ function renderBigTask(jsonTextElement) {
 
   renderContact(taskJson);
   renderSubtask(taskJson);
-}
-
-function convertInUsualArray(jsonObject){
-  console.log(jsonObject["assigned"]);
-  for(let index=0; index < jsonObject["assigned"].length; index++){
-    contactsArray.push(jsonObject["assigned"][index]);
-  }
-  return contactsArray;
 }
 
 // renderSubtask
