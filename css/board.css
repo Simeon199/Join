@@ -625,6 +625,8 @@ body .translate-100 {
 #big-task-pop-up-description {
   font-size: 20px;
   font-weight: 400;
+
+  word-break: break-all;
 }
 
 .big-task-pop-up-info-container {
@@ -667,14 +669,15 @@ body .translate-100 {
 
 #big-task-pop-up-contact-all {
   display: flex;
-  align-items: center;
+  /* align-items: center; */
+  flex-direction: column;
 }
 
 #big-task-pop-up-contact-container {
   padding-left: 15px;
   padding-bottom: 10px;
   display: flex;
-  /* flex-direction: column; */
+  flex-direction: column;
 
   gap: 20px;
 }

@@ -157,16 +157,6 @@ function createToDoHTML(element) {
     }
   }
 
-  function getInitials(name) {
-    // Split the name by space to get an array of words
-    let nameArray = name.trim().split(" ");
-
-    // Map through the array and return the first character of each word in uppercase
-    let initials = nameArray.map((word) => word.charAt(0).toUpperCase()).join("");
-
-    return initials;
-  }
-
   let jsonElement = JSON.stringify(element);
 
   return generateTaskHTML(
@@ -315,8 +305,8 @@ function renderBigTask(jsonTextElement) {
       let name = taskJson["assigned"][index]["name"];
       let nameArray = name.trim().split(" ");
       initials = nameArray.map((word) => word.charAt(0).toUpperCase()).join("");
-      contactsHTML += /*html*/ `
-      <div class="task-contact" style='background-color: ${taskJson["assigned"][index]["color"]}'>${initials}</div>`;
+      // contactsHTML += /*html*/ `
+      // <div class="task-contact" style='background-color: ${taskJson["assigned"][index]["color"]}'>${initials}</div>`;
     }
     // contactsHTML += `<div class="task-contact">${taskJson["assigned"][index]["name"]}</div>`;
   }
@@ -324,7 +314,7 @@ function renderBigTask(jsonTextElement) {
   document.getElementById("big-task-pop-up-contact-container").innerHTML = contactsHTML;
   document.getElementById("big-task-pop-up-subtasks-container").innerHTML = "";
 
-  renderContact(taskJson);
+  renderTaskContact(taskJson);
   renderSubtask(taskJson);
 }
 
@@ -342,7 +332,7 @@ function renderSubtask(taskJson) {
 }
 
 // renderContact
-function renderContact(taskJson) {
+function renderTaskContact(taskJson) {
   if (taskJson.assigned) {
     taskJson.assigned.forEach((contact) => {
       document.getElementById("big-task-pop-up-contact-container").innerHTML += returnAssignedContactHTML(contact);
@@ -424,9 +414,13 @@ function renderSearchedTasks() {
         let oppositeCategory = "no-" + task["container"];
 
         let contactsHTML = "";
-        if (task["assigned"] || typeof task["assigned"] == Array) {
+        if (task["assigned"]) {
           for (let index = 0; index < task["assigned"].length; index++) {
-            contactsHTML += `<div class="task-contact">${task["assigned"][index]}</div>`;
+            let name = task["assigned"][index]["name"];
+            let initials = getInitials(name);
+
+            contactsHTML += /*html*/ `
+              <div class="task-contact">${initials}</div>`;
           }
         }
 
@@ -450,4 +444,14 @@ function renderSearchedTasks() {
 // taskMarker
 function taskMarker() {
   document.getElementById("board").classList.add("currentSection");
+}
+
+function getInitials(name) {
+  // Split the name by space to get an array of words
+  let nameArray = name.trim().split(" ");
+
+  // Map through the array and return the first character of each word in uppercase
+  let initials = nameArray.map((word) => word.charAt(0).toUpperCase()).join("");
+
+  return initials;
 }
