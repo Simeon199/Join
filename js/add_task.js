@@ -96,6 +96,7 @@ async function createTask() {
   //   console.log('test');
   //   localStorage.removeItem('tasks');
   // }
+  clearTask();
 }
 
 function clearTask() {
