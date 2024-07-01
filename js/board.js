@@ -314,9 +314,11 @@ function renderBigTask(jsonTextElement) {
   if (taskJson["assigned"] || typeof(taskJson["assigned"]) == Array) {
     for (let index = 0; index < taskJson["assigned"].length; index++) {
       let name = taskJson["assigned"][index]["name"];
+      let color = taskJson["assigned"][index]["color"];
+      console.log(color);
       let nameArray = name.trim().split(' ');
       initials = nameArray.map(word => word.charAt(0).toUpperCase()).join('');
-      contactsHTML += `<div class="task-contact">${initials}</div>`;
+      contactsHTML += `<div class="task-contact" style="background-color: ${color}">${initials}</div>`;
     }
     // contactsHTML += `<div class="task-contact">${taskJson["assigned"][index]["name"]}</div>`;
   }
