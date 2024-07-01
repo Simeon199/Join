@@ -125,15 +125,37 @@ function removeAssignetToContects(name) {
 }
 
 function changeToInputfield() {
-let visibilitycheck = document.getElementById("searchArea").classList.contains("d-none")
-  if (visibilitycheck == true) {
-    document.getElementById("searchArea").classList.remove("d-none");
-    document.getElementById("standartValue").classList.add("d-none");
-  } else {
-    document.getElementById("searchArea").classList.add("d-none");
-    document.getElementById("standartValue").classList.remove("d-none");
-  }
+  changecont = document.getElementById("changeTo");
+  search = document.getElementById("searchArea");
+  input = document.getElementById("searchField");
+  stV = document.getElementById("standartValue");
+
+  window.addEventListener('click', function (e) {
+    if (changecont.contains(e.target)) {
+        search.classList.remove("d-none");
+        input.classList.remove("d-none");
+        stV.classList.add("d-none");
+        checkDropDown('arrowa');
+      } else {
+        search.classList.add("d-none");
+        input.classList.add("d-none");
+        stV.classList.remove("d-none");
+        input.value = "";
+        checkDropDown('arrowa');
+      }
+  })
 }
+
+// function changeToInputfield() {
+// let visibilitycheck = document.getElementById("searchArea").classList.contains("d-none")
+//   if (visibilitycheck == true) {
+//     document.getElementById("searchArea").classList.remove("d-none");
+//     document.getElementById("standartValue").classList.add("d-none");
+//   } else {
+//     document.getElementById("searchArea").classList.add("d-none");
+//     document.getElementById("standartValue").classList.remove("d-none");
+//   }
+// }
 
 function searchContacts() {
   search = document.getElementById("searchField");

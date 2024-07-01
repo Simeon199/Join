@@ -60,7 +60,7 @@
             <div>
               <p>Assigned to</p>
               <div id="assignedTo" class="select">
-                <div id="changeTo" ondblclick="changeToInputfield()" class="assignetToDivSearch">
+                <div id="changeTo" onclick="changeToInputfield()" class="assignetToDivSearch">
                   <span id="standartValue">Select contacts to assign</span>
                   <div id="searchArea" class="border-unset d-none">
                     <span>AN:</span>
@@ -154,9 +154,9 @@
             </div>
             <div>
               <p>Subtasks</p>
-              <div class="onFocus">
+              <div id="testForFunction" class="onFocus">
                 <input
-                  ondblclick="hideOrShowEditButtons()"
+                  onclick="hideOrShowEditButtons()"
                   id="subtask"
                   type="text"
                   placeholder="Add new subtask"
