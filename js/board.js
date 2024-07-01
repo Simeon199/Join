@@ -29,7 +29,8 @@ async function loadRelevantData(path = "") {
 
 
 async function getTasksFromDatabase() {
-  tasks = loadTasksFromLocalStorage() || (await loadTasksFromDatabase());
+  // tasks = loadTasksFromLocalStorage() || (await loadTasksFromDatabase());
+  tasks = await loadTasksFromDatabase();
   // tasks = await loadTasksFromDatabase();
   updateCategories();
   updateHTML();
