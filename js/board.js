@@ -14,14 +14,22 @@ document.addEventListener("DOMContentLoaded", async function () {
   updateHTML();
 });
 
-async function loadData(path = "") {
+// async function loadData(path = "") {
+//   let response = await fetch(BASE_URL1 + path + ".json");
+//   let responseAsJson = await response.json();
+//   return responseAsJson;
+// }
+
+async function loadRelevantData(path = "") {
   let response = await fetch(BASE_URL1 + path + ".json");
   let responseAsJson = await response.json();
   return responseAsJson;
 }
 
+
 async function getTasksFromDatabase() {
   tasks = loadTasksFromLocalStorage() || (await loadTasksFromDatabase());
+  // tasks = await loadTasksFromDatabase();
   updateCategories();
   updateHTML();
 }
@@ -51,8 +59,20 @@ function updateCategories() {
 //   return [];
 // }
 
+// async function loadTasksFromDatabase() {
+//   let response = await loadData();
+//   console.log(response.testRealTasks);
+//   if (response && response.testRealTasks) {
+//     for (index = 0; index < response.testRealTasks.length; index++) {
+//       tasks.push(response.testRealTasks[index]);
+//     }
+//     return tasks;
+//   }
+//   return [];
+// }
+
 async function loadTasksFromDatabase() {
-  let response = await loadData();
+  let response = await loadRelevantData();
   console.log(response.testRealTasks);
   if (response && response.testRealTasks) {
     for (index = 0; index < response.testRealTasks.length; index++) {

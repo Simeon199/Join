@@ -20,7 +20,8 @@ async function saveTaskIdToFirebase(taskId) {
 }
 
 async function loadTaskIdFromFirebase() {
-  let response = await loadData("taskId");
+  let response = await loadRelevantData("taskId");
+  // let response = await loadData("taskId");
   if (response !== null && response !== undefined) {
     return response;
   }
@@ -158,7 +159,8 @@ async function upload(path = "", data) {
 // }
 
 async function ensureAllTasksExists() {
-  let response = await loadData();
+  let response = await loadRelevantData();
+  // let response = await loadData();
   if (!response || !response.hasOwnProperty("testRealTasks")) {
     await upload("testRealTasks", []);
   }
@@ -216,7 +218,8 @@ async function saveTask() {
 
 async function uploadToAllTasks(task) {
   try {
-    let response = await loadData();
+    let response = await loadRelevantData();
+    // let response = await loadData();
     let allTasks = response["testRealTasks"];
     if (!Array.isArray(allTasks)) {
       allTasks = [];
@@ -247,11 +250,18 @@ function checkDropDown(id) {
   }
 }
 
-async function loadData(path = "") {
+async function loadRelevantData(path = "") {
   let response = await fetch(BASE_URL1 + path + ".json");
   let responseAsJson = await response.json();
   return responseAsJson;
 }
+
+
+// async function loadData(path = "") {
+//   let response = await fetch(BASE_URL1 + path + ".json");
+//   let responseAsJson = await response.json();
+//   return responseAsJson;
+// }
 
 
 // async function deleteTask(taskId) {
