@@ -28,7 +28,6 @@ async function loadTaskIdFromFirebase() {
   return 0; // Fallback-Wert, falls keine taskId gefunden wurde
 }
 
-
 function taskMarker() {
   document.getElementById("addTask").classList.add("currentSection");
 }
@@ -103,14 +102,14 @@ function clearTask() {
   let inputTitle = document.getElementById("inputTitle");
   let inputDescription = document.getElementById("inputDescription");
   let date = document.getElementById("date");
-    console.error("Clearing...")
-    inputTitle.value= "";
-    inputDescription.value='';
-    clearAssignedTo();
-    date.value = '';
-    category = changeCategory('Select task category');
-    clearSubtask();
-    changePriority(medium);
+  console.error("Clearing...");
+  inputTitle.value = "";
+  inputDescription.value = "";
+  clearAssignedTo();
+  date.value = "";
+  category = changeCategory("Select task category");
+  clearSubtask();
+  changePriority(medium);
 }
 
 function showDropDownCategory() {
@@ -182,7 +181,7 @@ async function saveTask() {
     category: category,
     subtask: subArray,
     container: standardContainer,
-    tasksIdentity: tasksId
+    tasksIdentity: tasksId,
   };
   tasksId++;
   await saveTaskIdToFirebase(tasksId); // Speichern der aktuellen tasksId in Firebase
@@ -227,7 +226,6 @@ async function uploadToAllTasks(task) {
     }
     allTasks.push(task);
     await upload("testRealTasks", allTasks);
-
   } catch (error) {
     console.error("Fehler in uploadToAllTasks:", error);
   }
@@ -251,19 +249,22 @@ function checkDropDown(id) {
   }
 }
 
+function hideAllAddTaskPopups() {
+  hideDropDownAssignedTo();
+  hideDropDownCategory();
+}
+
 async function loadRelevantData(path = "") {
   let response = await fetch(BASE_URL1 + path + ".json");
   let responseAsJson = await response.json();
   return responseAsJson;
 }
 
-
 // async function loadData(path = "") {
 //   let response = await fetch(BASE_URL1 + path + ".json");
 //   let responseAsJson = await response.json();
 //   return responseAsJson;
 // }
-
 
 // async function deleteTask(taskId) {
 //   tasks = tasks.filter(task => task.tasksIdentity !== taskId);
@@ -279,7 +280,7 @@ async function loadRelevantData(path = "") {
 // }
 
 async function deleteTask(taskId) {
-  tasks = tasks.filter(task => task.tasksIdentity !== taskId);
+  tasks = tasks.filter((task) => task.tasksIdentity !== taskId);
   for (let i = taskId; i < tasks.length; i++) {
     tasks[i].tasksIdentity = i;
   }
