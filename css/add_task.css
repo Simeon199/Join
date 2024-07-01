@@ -268,60 +268,6 @@ h1 {
   border: rgba(41, 171, 226, 1);
 }
 
-#subtask:focus {
-    border: unset;
-}
-
-.subtasksvg {
-    margin-right: 25px;
-}
-
-.subtasksvg:hover {
-    cursor: pointer;
-    padding: 8px;
-    border-radius: 100%;
-    background-color: #d9d9d9;
-    margin-right: 18px;
-}
-
-.subtask {
-    background: unset !important;
-    border: unset !important;
-    justify-content: unset;
-    flex-direction: column;
-    margin: 0px !important;
-    overflow-y: scroll;
-    height: 100px;
-}
-
-.subtasks {
-    background-color: unset !important;
-    border: unset !important;
-    margin: 5px 0px 0px 0px !important;
-    .subBtn1 {
-      background: unset !important;
-      border: unset !important;
-      justify-content: end;
-      gap: 12px;
-      padding-right: 20px;
-      margin: 0px;
-      width: 68px;
-    }
-    /* .subBtn1 svg:hover {
-      cursor: pointer;
-    } */
-    li {
-      padding-left: 15px;
-      width: 100%;
-    }
-}
-
-.subtasks:hover {
-  cursor: pointer;
-  background-color: rgba(238, 238, 238, 1)!important;
-  margin: 0px;
-}
-
 .transparent {
   color: transparent !important;
 }
@@ -405,25 +351,6 @@ h1 {
   justify-content: end !important;
   padding-right: 20px;
 }
-
-.subtaskIcons {
-  justify-content: end;
-  gap: 12px;
-  border: unset;
-  margin: 0px !important;
-  padding-right: 20px;
-  width: 56px !important;
-  :hover {
-    cursor: pointer;
-  }
-}
-
-.subtaskBorder {
-  width: 0px !important;
-  height: 24px;
-  border: 1px solid rgba(209, 209, 209, 1)
-}
-
 
 @media (max-width:1000px) {
   .main {
