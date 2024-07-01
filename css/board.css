@@ -388,7 +388,7 @@ body .translate-100 {
   display: flex;
   justify-content: center;
   align-items: center;
-
+  /* padding: 24px; */
   height: 32px;
   width: 32px;
   border-radius: 100%;
@@ -676,20 +676,23 @@ body .translate-100 {
   align-items: center;
 }
 
+#big-task-pop-up-contact-all {
+  display: flex;
+  align-items: center;
+}
+
 #big-task-pop-up-contact-container {
   padding-left: 15px;
   padding-bottom: 10px;
-
   display: flex;
-  flex-direction: column;
+  /* flex-direction: column; */
 
-  gap: 10px;
+  gap: 20px;
 }
 
 .big-task-pop-up-contact {
   display: flex;
   align-items: center;
-
   gap: 16px;
 }
 

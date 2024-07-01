@@ -5,6 +5,7 @@ let allCategories = ["to-do-container", "await-feedback-container", "done-contai
 let elementDraggedOver;
 console.log(document.getElementById("search-input"));
 let searchedInput = document.getElementById("search-input");
+let isBigTaskPopUpOpen = false;
 
 /* Bemerkung: Die Ausführung von deleteCertainElements(), deren Aufgabe es wäre ausgewählte Datenbankeinträge wieder zu entfernen
 funktioniert noch nicht, da die Firebase-Datenbank in diesem Fall den Zugriff verweigert ('Probleme mit der CORS policy') */
@@ -145,9 +146,22 @@ function createToDoHTML(element) {
   let contactsHTML = "";
   if (element["assigned"] || typeof element["assigned"] == Array) {
     for (let i = 0; i < element["assigned"].length; i++) {
-      contactsHTML += `<div class="task-contact">${element["assigned"][i]}</div>`;
+      let name = element["assigned"][i]["name"];
+      let initials = getInitials(name);
+      contactsHTML += `<div class="task-contact">${initials}</div>`;
+      // contactsHTML += `<div class="task-contact">${element["assigned"][i]["name"]}</div>`;
     }
   }
+
+function getInitials(name) {
+  // Split the name by space to get an array of words
+  let nameArray = name.trim().split(' ');
+    
+  // Map through the array and return the first character of each word in uppercase
+  let initials = nameArray.map(word => word.charAt(0).toUpperCase()).join('');
+    
+  return initials;
+}
 
   let jsonElement = JSON.stringify(element);
 
@@ -263,6 +277,7 @@ function hideAddTaskPopUp() {
 
 // showBigTaskPopUp
 function showBigTaskPopUp(jsonTextElement) {
+  isBigTaskPopUpOpen = true;
   document.getElementById("big-task-pop-up-bg").classList.remove("bg-op-0");
   document.getElementById("big-task-pop-up").classList.remove("translate-100");
 
@@ -271,6 +286,7 @@ function showBigTaskPopUp(jsonTextElement) {
 
 // hideBigTaskPopUp
 function hideBigTaskPopUp() {
+  isBigTaskPopUpOpen = false;
   document.getElementById("big-task-pop-up-bg").classList.add("bg-op-0");
   document.getElementById("big-task-pop-up").classList.add("translate-100");
 }
@@ -278,7 +294,8 @@ function hideBigTaskPopUp() {
 // renderBigTask
 function renderBigTask(jsonTextElement) {
   let taskJson = JSON.parse(decodeURIComponent(jsonTextElement));
-  console.log(taskJson);
+  console.log(taskJson["assigned"].length);
+  // convertInUsualArray(taskJson);
 
   document.getElementById("big-task-pop-up-title").innerHTML = taskJson.title;
   document.getElementById("big-task-pop-up-description").innerHTML = taskJson.description;
@@ -289,12 +306,33 @@ function renderBigTask(jsonTextElement) {
   document.getElementById("big-task-pop-up-priority-icon").innerHTML = checkPriorityIcon(taskJson.priority);
 
   document.getElementById("big-task-pop-up-delete-edit-buttons-container").innerHTML = returnDeleteEditHTML(taskJson.tasksIdentity);
+  let contactsHTML = "";
+  let initials = "";
+  if (taskJson["assigned"] || typeof(taskJson["assigned"]) == Array) {
+    for (let index = 0; index < taskJson["assigned"].length; index++) {
+      let name = taskJson["assigned"][index]["name"];
+      let nameArray = name.trim().split(' ');
+      initials = nameArray.map(word => word.charAt(0).toUpperCase()).join('');
+      contactsHTML += `<div class="task-contact">${initials}</div>`;
+    }
+    // contactsHTML += `<div class="task-contact">${taskJson["assigned"][index]["name"]}</div>`;
+  }
 
-  document.getElementById("big-task-pop-up-contact-container").innerHTML = "";
+  
+
+  document.getElementById("big-task-pop-up-contact-container").innerHTML = contactsHTML;
   document.getElementById("big-task-pop-up-subtasks-container").innerHTML = "";
 
   renderContact(taskJson);
   renderSubtask(taskJson);
+}
+
+function convertInUsualArray(jsonObject){
+  console.log(jsonObject["assigned"]);
+  for(let index=0; index < jsonObject["assigned"].length; index++){
+    contactsArray.push(jsonObject["assigned"][index]);
+  }
+  return contactsArray;
 }
 
 // renderSubtask
