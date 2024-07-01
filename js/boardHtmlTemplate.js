@@ -21,7 +21,7 @@ function generateTaskHTML(
           ondrop="moveTo('${category}')"
           onclick="showBigTaskPopUp('${jsonTextElement}')"
       >
-        <div class='${variableClass}'>${storyCategory}</div>
+        <div class='task-category' style='background-color: ${checkCategoryColor(storyCategory)}'>${storyCategory}</div>
         <h3 class="task-title">${title}</h3>
         <p class="task-description">${taskDescription}</p>
         <div class="task-bar-container">

@@ -299,19 +299,6 @@ body .translate-100 {
   padding: 5px 16px;
   border-radius: 8px;
   color: white;
-
-  /* bg rendern !!! */
-  background: #0038ff;
-}
-
-.technical-task-category {
-  width: fit-content;
-  padding: 5px 16px;
-  border-radius: 8px;
-  color: white;
-
-  /* bg rendern !!! */
-  background: #22d7c1;
 }
 
 .task-title {
@@ -330,6 +317,8 @@ body .translate-100 {
   color: #a8a8a8;
 
   margin: 8px 0 0 0;
+
+  word-break: break-all;
 }
 
 .task-bar-container {
@@ -842,7 +831,7 @@ body .translate-100 {
     gap: 16px;
 
     /* border: 2px solid black; */
-}
+  }
 
   .task {
     min-width: 300px;
