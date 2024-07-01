@@ -1,5 +1,7 @@
 body {
   background-color: rgba(246, 247, 248, 1);
+
+  min-height: 100vh;
 }
 
 .main {
@@ -301,7 +303,7 @@ h1 {
     align-items: center;
   }
   .circle span {
-  padding: 0px;
+    padding: 0px;
   }
   :focus {
     background: rgba(9, 25, 49, 1);
@@ -352,7 +354,7 @@ h1 {
   padding-right: 20px;
 }
 
-@media (max-width:1000px) {
+@media (max-width: 1000px) {
   .main {
     padding: 90px 0px;
   }
@@ -402,7 +404,7 @@ h1 {
   }
 }
 
-@media (max-width:350px) {
+@media (max-width: 350px) {
   .buttons {
     flex-direction: column;
     padding-bottom: 90px;
