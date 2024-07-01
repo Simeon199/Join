@@ -27,7 +27,6 @@ async function loadRelevantData(path = "") {
   return responseAsJson;
 }
 
-
 async function getTasksFromDatabase() {
   // tasks = loadTasksFromLocalStorage() || (await loadTasksFromDatabase());
   tasks = await loadTasksFromDatabase();
@@ -152,20 +151,21 @@ function createToDoHTML(element) {
     for (let i = 0; i < element["assigned"].length; i++) {
       let name = element["assigned"][i]["name"];
       let initials = getInitials(name);
-      contactsHTML += `<div class="task-contact">${initials}</div>`;
+      contactsHTML += /*html*/ `  
+      <div class="task-contact" style='background-color: ${element["assigned"][i]["color"]}'>${initials}</div>`;
       // contactsHTML += `<div class="task-contact">${element["assigned"][i]["name"]}</div>`;
     }
   }
 
-function getInitials(name) {
-  // Split the name by space to get an array of words
-  let nameArray = name.trim().split(' ');
-    
-  // Map through the array and return the first character of each word in uppercase
-  let initials = nameArray.map(word => word.charAt(0).toUpperCase()).join('');
-    
-  return initials;
-}
+  function getInitials(name) {
+    // Split the name by space to get an array of words
+    let nameArray = name.trim().split(" ");
+
+    // Map through the array and return the first character of each word in uppercase
+    let initials = nameArray.map((word) => word.charAt(0).toUpperCase()).join("");
+
+    return initials;
+  }
 
   let jsonElement = JSON.stringify(element);
 
@@ -227,20 +227,19 @@ function saveTasksToLocalStorage() {
 async function saveTaskToFirebase(task) {
   const taskPath = `/testRealTasks/${task.tasksIdentity}`;
   const response = await fetch(`${BASE_URL1}${taskPath}.json`, {
-    method: 'PATCH',
+    method: "PATCH",
     headers: {
-      'Content-Type': 'application/json'
+      "Content-Type": "application/json",
     },
-    body: JSON.stringify(task)
+    body: JSON.stringify(task),
   });
 
   if (!response.ok) {
-    console.error('Fehler beim Speichern der Task in Firebase:', response.statusText);
+    console.error("Fehler beim Speichern der Task in Firebase:", response.statusText);
   } else {
-    console.log('Task erfolgreich in Firebase gespeichert');
+    console.log("Task erfolgreich in Firebase gespeichert");
   }
 }
-
 
 function removeEmptyMessage(container, oppositeContainer) {
   let categoryContainer = document.getElementById(container);
@@ -311,17 +310,16 @@ function renderBigTask(jsonTextElement) {
   document.getElementById("big-task-pop-up-delete-edit-buttons-container").innerHTML = returnDeleteEditHTML(taskJson.tasksIdentity);
   let contactsHTML = "";
   let initials = "";
-  if (taskJson["assigned"] || typeof(taskJson["assigned"]) == Array) {
+  if (taskJson["assigned"] || typeof taskJson["assigned"] == Array) {
     for (let index = 0; index < taskJson["assigned"].length; index++) {
       let name = taskJson["assigned"][index]["name"];
-      let nameArray = name.trim().split(' ');
-      initials = nameArray.map(word => word.charAt(0).toUpperCase()).join('');
-      contactsHTML += `<div class="task-contact">${initials}</div>`;
+      let nameArray = name.trim().split(" ");
+      initials = nameArray.map((word) => word.charAt(0).toUpperCase()).join("");
+      contactsHTML += /*html*/ `
+      <div class="task-contact" style='background-color: ${taskJson["assigned"][index]["color"]}'>${initials}</div>`;
     }
     // contactsHTML += `<div class="task-contact">${taskJson["assigned"][index]["name"]}</div>`;
   }
-
-  
 
   document.getElementById("big-task-pop-up-contact-container").innerHTML = contactsHTML;
   document.getElementById("big-task-pop-up-subtasks-container").innerHTML = "";
