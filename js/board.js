@@ -159,19 +159,28 @@ function createToDoHTML(element) {
   }
 
   let jsonElement = JSON.stringify(element);
-
   return generateTaskHTML(
-    element["tasksIdentity"],
+    element,
     variableClass,
-    element["category"],
-    element["title"],
-    element["description"],
     contactsHTML,
-    element["container"],
     oppositeCategory,
     rightIcon,
     jsonElement
   );
+  
+
+  // return generateTaskHTML(
+  //   element["tasksIdentity"],
+  //   variableClass,
+  //   element["category"],
+  //   element["title"],
+  //   element["description"],
+  //   contactsHTML,
+  //   element["container"],
+  //   oppositeCategory,
+  //   rightIcon,
+  //   jsonElement
+  // );
 }
 
 function startDragging(elementId) {
@@ -317,13 +326,16 @@ function renderBigTask(jsonTextElement) {
 
   renderTaskContact(taskJson);
   renderSubtask(taskJson);
+  // console.log(taskJson);
 }
 
 // renderSubtask
 function renderSubtask(taskJson) {
+  // console.log(taskJson)
   if (taskJson.subtask) {
     taskJson.subtask.forEach((subtask) => {
-      document.getElementById("big-task-pop-up-subtasks-container").innerHTML += returnSubtaskHTML(subtask);
+      // console.log(subtask["task-description"]);
+      document.getElementById("big-task-pop-up-subtasks-container").innerHTML += returnSubtaskHTML(subtask["task-description"]);
     });
   } else {
     document.getElementById("big-task-pop-up-subtasks-container").innerHTML = /*html*/ `  
