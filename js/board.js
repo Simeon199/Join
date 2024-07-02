@@ -437,7 +437,7 @@ function renderSearchedTasks() {
           }
         }
 
-        document.getElementById(categoryContainer).innerHTML += generateTaskHTML(
+        document.getElementById(categoryContainer).innerHTML += generateTaskHTMLForSearch(
           task["tasksIdentity"],
           variableClass,
           task["category"],
