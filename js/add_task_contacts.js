@@ -7,11 +7,19 @@ function showDropDownAssignedTo() {
     
     for (let i = 0; i < allUsers.length; i++) {
       user = allUsers[i];
-      renderAssignedToHTML(user,contact, i);
+      renderAssignedToHTML(user, contact, i)
+      if (assignedContacts != 0 ) {
+        if (checkAssignedContactsStatus(user.name) === true) {
+          document.getElementById(`user${i}`).classList.add('contactIsSelect');
+          document.getElementById(`checked${i}`).classList.remove("d-none")
+        } else {
+          document.getElementById(`user${i}`).classList.remove('contactIsSelect');
+          document.getElementById(`checked${i}`).classList.add("d-none")
+        }
+      }
     }
     contact.classList.remove("d-none");
     document.getElementById('arrowa').classList.add("rotate");
-    // console.log(assignedContacts);
 }
 
 function hideDropDownAssignedTo() {
@@ -35,7 +43,6 @@ function renderAssignedToHTML(user, contact, i) {
   `;
   document.getElementById(`assignetToLetters${i}`).style.backgroundColor = user['color'];
   sowUserLetters(`assignetToLetters${i}` , user['name']);
-  checkAssignedContactsStatus(user['name'], i)
 }
 
 function assignetToContects() {
@@ -88,27 +95,22 @@ function checkAssignedContacts(name, color, i) {
   }
 }
 
-function checkAssignedContactsStatus(un, index) {
-  let name = un;
-  // console.log(un);
-  for (name in allUsers) {
-    for (let i = 0; i < allUsers.length; i++) {
-      if (name == allUsers[i].name == true) {
-        if (assignedContacts[i].isSelected == true) {
-          document.getElementById(`user${index}`).classList.add('contactIsSelect');
+function checkAssignedContactsStatus(un) {
+    if (!assignedContacts == 0) {
+      for (let i = 0; i < assignedContacts.length; i++) {
+        if (assignedContacts[i].name == un) {
+          if (assignedContacts[i].isSelected == true) {
+            return true
+          }
         }
       }
+    } else {
+      return false
     }
     // if (Object.hasOwnProperty.call(object, name)) {
     //   const element = object[name];
     //   
     // }
-  }
-  // if (i.isSelected === true) {
-  //   iu = allUsers.includes(i.name)
-  //   console.log(i);
-  //   document.getElementById(iu).classList.add('contactIsSelect');
-  // }
 }
 
 function removeAssignetToContects(name) {

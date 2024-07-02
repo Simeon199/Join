@@ -13,6 +13,7 @@ async function init() {
   changePriority(medium);
   getAllContacts();
   tasksId = await loadTaskIdFromFirebase();
+  console.warn("checkRequiredFields() funktion noch niocht fertig um zu validiren ob die required felder ausgefüllt sind; wenn möglich fertig machen!! (add_task.js: 144)");
 }
 
 async function saveTaskIdToFirebase(taskId) {
@@ -89,7 +90,6 @@ async function createTask() {
   console.log("create...");
   // showrequiredText1()
   // debugger
-  ckeckCategory()
   await ensureAllTasksExists();
   await saveTask();
   // if(localStorage.getItem('tasks')){
@@ -131,12 +131,27 @@ function changeCategory(text) {
   document.getElementById("categoryText").innerHTML = `${text}`;
 }
 
-function ckeckCategory() {
+function checkCategory() {
   let select = document.getElementById("categoryText").textContent;
   let standart = "Select task category";
-  let b = document.getElementById("subButton");
   if (select == standart) {
-    b.ariaDisabled = true; // muss noch deaktiviert werden!!
+    return false;
+  } else {
+    return true;
+  }
+}
+
+function checkRequiredFields() {
+  let title = document.getElementById("inputTitle").value;
+  let date = document.getElementById("date").value;
+  console.log(title.length && date.length);
+  // console.log(title.length && date.length < 1 && checkCategory() == false == true);
+  if (title.length && date.length <= 1) {
+    showrequiredText();
+    console.log("no upload");
+  } else {
+    console.log("upload");
+    // createTask()
   }
 }
 
@@ -144,8 +159,11 @@ function showrequiredText() {
   let ids = ["requiredTitle", "requiredDate", "requiredCatergory"];
   ids.forEach(function (id) {
     let element = document.getElementById(id);
-    if (element) {
+    if (element.classList.contains("d-none")) {
       element.classList.remove("d-none");
+      console.log(element);
+    } else {
+      element.classList.add("d-none");
     }
   });
 }

@@ -86,6 +86,14 @@ form div div div {
   width: 24px;
 }
 
+.arrow:hover {
+  border-radius: 100%;
+  background-color: #d9d9d9;
+  padding: 10px !important;
+  margin-right: 20px;
+  width: unset;
+}
+
 .rotate {
   transform: rotate(180deg);
   padding: 0px 0px 0px 20px !important;
@@ -98,8 +106,6 @@ form div div div {
 #calender:hover {
   cursor: pointer;
   padding: 5px;
-  border-radius: 100%;
-  background-color: #d9d9d9;
   margin-right: 20px;
 }
 
@@ -216,7 +222,7 @@ h1 {
   align-items: center;
   width: 309px;
   height: 56px;
-  gap: 16px;
+  gap: 15px;
   padding-right: 10%;
 }
 
@@ -224,31 +230,52 @@ h1 {
   width: 183px;
   border-radius: 10px;
   background-color: rgba(42, 54, 71, 1);
-  padding: 16px;
+  padding: 10px 7px;
   color: rgba(255, 255, 255, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  span {
+    font-family: "Inter";
+    font-size: 21px;
+    font-weight: 700;
+    line-height: 25.2px;
+    text-align: left;
+  }
 }
 
 .darkBTN:hover {
   cursor: pointer;
+  border-color: rgba(41, 171, 226, 1);
+  background-color: rgba(41, 171, 226, 1);
 }
 
 .btn {
   width: 110px;
   background: rgba(246, 247, 248, 1);
-  border: 1px solid rgba(42, 54, 71, 1);
+  border: 2px solid rgba(42, 54, 71, 1);
   border-radius: 10px;
-  padding: 16px;
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 }
 
 .btn:hover {
   cursor: pointer;
+  border: 2px solid rgba(41, 171, 226, 1);
+  color: rgba(41, 171, 226, 1);
+  path {
+    stroke: rgba(41, 171, 226, 1);
+  }
 }
 
 .drop-bg {
   position: absolute;
   max-width: 440px;
   height: auto;
-  /* padding: 10px 0px 0px 0px; */
   z-index: 9999;
   flex-direction: column;
 }
