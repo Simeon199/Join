@@ -6,6 +6,7 @@ let elementDraggedOver;
 // console.log(document.getElementById("search-input"));
 let searchedInput = document.getElementById("search-input");
 let isBigTaskPopUpOpen = false;
+let allTasksWithSubtasks = [];
 
 /* Bemerkung: Die Ausführung von deleteCertainElements(), deren Aufgabe es wäre ausgewählte Datenbankeinträge wieder zu entfernen
 funktioniert noch nicht, da die Firebase-Datenbank in diesem Fall den Zugriff verweigert ('Probleme mit der CORS policy') */
@@ -143,7 +144,7 @@ function insertCorrectUrgencyIcon(element) {
 
 function createToDoHTML(element) {
   let rightIcon = insertCorrectUrgencyIcon(element);
-  let variableClass = setVariableClass(element);
+  // let variableClass = setVariableClass(element);
   let oppositeCategory = "no-" + element["container"];
 
   let contactsHTML = "";
@@ -158,19 +159,28 @@ function createToDoHTML(element) {
   }
 
   let jsonElement = JSON.stringify(element);
-
   return generateTaskHTML(
-    element["tasksIdentity"],
-    variableClass,
-    element["category"],
-    element["title"],
-    element["description"],
+    element,
+    // variableClass,
     contactsHTML,
-    element["container"],
     oppositeCategory,
     rightIcon,
     jsonElement
   );
+  
+
+  // return generateTaskHTML(
+  //   element["tasksIdentity"],
+  //   variableClass,
+  //   element["category"],
+  //   element["title"],
+  //   element["description"],
+  //   contactsHTML,
+  //   element["container"],
+  //   oppositeCategory,
+  //   rightIcon,
+  //   jsonElement
+  // );
 }
 
 function startDragging(elementId) {
@@ -316,13 +326,16 @@ function renderBigTask(jsonTextElement) {
 
   renderTaskContact(taskJson);
   renderSubtask(taskJson);
+  // console.log(taskJson);
 }
 
 // renderSubtask
 function renderSubtask(taskJson) {
+  // console.log(taskJson)
   if (taskJson.subtask) {
     taskJson.subtask.forEach((subtask) => {
-      document.getElementById("big-task-pop-up-subtasks-container").innerHTML += returnSubtaskHTML(subtask);
+      // console.log(subtask["task-description"]);
+      document.getElementById("big-task-pop-up-subtasks-container").innerHTML += returnSubtaskHTML(subtask["task-description"]);
     });
   } else {
     document.getElementById("big-task-pop-up-subtasks-container").innerHTML = /*html*/ `  
@@ -485,7 +498,7 @@ function renderSearchedTasks() {
           }
         }
 
-        document.getElementById(categoryContainer).innerHTML += generateTaskHTML(
+        document.getElementById(categoryContainer).innerHTML += generateTaskHTMLForSearch(
           task["tasksIdentity"],
           variableClass,
           task["category"],
@@ -516,3 +529,18 @@ function getInitials(name) {
 
   return initials;
 }
+
+function checkIfSubtaskExists(){
+  for(index = 0; index < tasks.length; index++){
+    let certainTask = tasks[index];
+    for(key in certainTask){
+      if(key == "subtask"){
+        console.log(tasks[index]);
+        allTasksWithSubtasks.push(certainTask);
+      }
+    }
+  }
+}
+
+// checkIfSubtaskExists();
+// console.log(allTasksWithSubtasks);
