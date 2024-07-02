@@ -89,6 +89,7 @@ async function createTask() {
   console.log("create...");
   // showrequiredText1()
   // debugger
+  ckeckCategory()
   await ensureAllTasksExists();
   await saveTask();
   // if(localStorage.getItem('tasks')){
@@ -128,6 +129,15 @@ function hideDropDownCategory() {
 
 function changeCategory(text) {
   document.getElementById("categoryText").innerHTML = `${text}`;
+}
+
+function ckeckCategory() {
+  let select = document.getElementById("categoryText").textContent;
+  let standart = "Select task category";
+  let b = document.getElementById("subButton");
+  if (select == standart) {
+    b.ariaDisabled = true; // muss noch deaktiviert werden!!
+  }
 }
 
 function showrequiredText() {

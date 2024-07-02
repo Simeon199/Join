@@ -65,7 +65,6 @@ form div div div {
     box-sizing: border-box;
   } */
   :focus {
-    /* border: 1px solid rgba(41, 171, 226, 1); */
     border: 1px solid;
     border-color: rgba(41, 171, 226, 1);
   }
@@ -331,14 +330,6 @@ h1 {
     background: rgba(9, 25, 49, 1);
   }
 }
-
-/* .assignedDropDownField:hover {
-  background-color: rgba(42, 54, 71, 1) !important;
-  color: rgba(255, 255, 255, 1);
-    .contact.container-checked {
-      background-image: url("../Assets/img/Checkbox_checked.svg");
-    }
-} */
 
 .assignedDropDownField div:hover {
   background-color: unset;
