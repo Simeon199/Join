@@ -46,7 +46,7 @@
 
 function generateTaskHTML(
   element,
-  variableClass,
+  // variableClass,
   contactsHTML,
   oppositeCategory,
   rightIcon,
@@ -60,9 +60,100 @@ function generateTaskHTML(
         numberOfTasksChecked += 1; 
       }
     }
-  let taskbarWidth = Math.round(numberOfTasksChecked/element["subtask"].length*100);
-  console.log(taskbarWidth);
-    return /*html*/ `
+    // let taskbarWidth = Math.round(numberOfTasksChecked/element["subtask"].length*100);
+  //   returnTaskHtmlWithSubtask(element, contactsHTML, oppositeCategory, rightIcon, jsonTextElement, taskbarWidth, numberOfTasksChecked);
+  // } else {
+  //   returnTaskHtmlWithoutSubtask(element, contactsHTML, oppositeCategory, rightIcon, jsonTextElement);
+  // }
+    let taskbarWidth = Math.round(numberOfTasksChecked/element["subtask"].length*100);
+    // returnTaskHtmlWithSubtask(element, contactsHTML, oppositeCategory, rightIcon, jsonTextElement, taskbarWidth, numberOfTasksChecked);
+      return /*html*/ `
+        <div class="task" 
+            draggable="true" 
+            ondragstart="startDragging(${element["tasksIdentity"]})" 
+            ondragend="checkIfEmpty('${element["container"]}', '${oppositeCategory}')" 
+            ondragover="allowDrop(event)"
+            ondrop="moveTo('${element["container"]}')"
+            onclick="showBigTaskPopUp('${jsonTextElement}')"
+        >
+          <div class='task-category' style='background-color: ${checkCategoryColor(element["category"])}'>${element["category"]}</div>
+          <h3 class="task-title">${element["title"]}</h3>
+          <p class="task-description">${element["description"]}</p>
+          <div class="task-bar-container">
+            <div class="task-bar">
+              <div class="task-bar-content" style="width: ${taskbarWidth}"></div>
+            </div>
+            <p class="task-bar-text">${numberOfTasksChecked}/${element["subtask"].length} Subtasks</p>
+          </div>
+          <div class="task-contacts-container">
+            <div class="task-contacts">
+              ${contactsHTML}
+            </div>
+            ${rightIcon}
+          </div>
+        </div>
+        
+        <div id="${oppositeCategory}" class="no-task d-none">
+          <p>No tasks in ${element["container"]}</p>
+        </div>
+      `;
+    } else {
+      // returnTaskHtmlWithoutSubtask(element, contactsHTML, oppositeCategory, rightIcon, jsonTextElement);
+      return /*html*/ `
+        <div class="task" 
+            draggable="true" 
+            ondragstart="startDragging(${element["tasksIdentity"]})" 
+            ondragend="checkIfEmpty('${element["container"]}', '${oppositeCategory}')" 
+            ondragover="allowDrop(event)"
+            ondrop="moveTo('${element["container"]}')"
+            onclick="showBigTaskPopUp('${jsonTextElement}')"
+        >
+          <div class='task-category' style='background-color: ${checkCategoryColor(element["category"])}'>${element["category"]}</div>
+          <h3 class="task-title">${element["title"]}</h3>
+          <p class="task-description">${element["description"]}</p>
+          <div class="task-contacts-container">
+            <div class="task-contacts">
+              ${contactsHTML}
+            </div>
+            ${rightIcon}
+          </div>
+        </div>
+        
+        <div id="${oppositeCategory}" class="no-task d-none">
+          <p>No tasks in ${element["container"]}</p>
+        </div>
+      `;
+    }
+  }
+
+function returnTaskHtmlWithoutSubtask(element, contactsHTML, oppositeCategory, rightIcon, jsonTextElement){
+  return `<div class="task" 
+            draggable="true" 
+            ondragstart="startDragging(${element["tasksIdentity"]})" 
+            ondragend="checkIfEmpty('${element["container"]}', '${oppositeCategory}')" 
+            ondragover="allowDrop(event)"
+            ondrop="moveTo('${element["container"]}')"
+            onclick="showBigTaskPopUp('${jsonTextElement}')"
+          >
+          <div class='task-category' style='background-color: ${checkCategoryColor(element["category"])}'>${element["category"]}</div>
+          <h3 class="task-title">${element["title"]}</h3>
+          <p class="task-description">${element["description"]}</p>
+          <div class="task-contacts-container">
+            <div class="task-contacts">
+              ${contactsHTML}
+            </div>
+            ${rightIcon}
+          </div>
+          </div>
+
+          <div id="${oppositeCategory}" class="no-task d-none">
+          <p>No tasks in ${element["container"]}</p>
+          </div>
+          `;
+}
+
+function returnTaskHtmlWithSubtask(element, contactsHTML, oppositeCategory, rightIcon, jsonTextElement, taskbarWidth, numberOfTasksChecked){
+  return /*html*/ `
       <div class="task" 
           draggable="true" 
           ondragstart="startDragging(${element["tasksIdentity"]})" 
@@ -90,36 +181,8 @@ function generateTaskHTML(
       
       <div id="${oppositeCategory}" class="no-task d-none">
         <p>No tasks in ${element["container"]}</p>
-      </div>
-    `;
-  } else {
-     return /*html*/ `
-      <div class="task" 
-          draggable="true" 
-          ondragstart="startDragging(${element["tasksIdentity"]})" 
-          ondragend="checkIfEmpty('${element["container"]}', '${oppositeCategory}')" 
-          ondragover="allowDrop(event)"
-          ondrop="moveTo('${element["container"]}')"
-          onclick="showBigTaskPopUp('${jsonTextElement}')"
-      >
-        <div class='task-category' style='background-color: ${checkCategoryColor(element["category"])}'>${element["category"]}</div>
-        <h3 class="task-title">${element["title"]}</h3>
-        <p class="task-description">${element["description"]}</p>
-        <div class="task-contacts-container">
-          <div class="task-contacts">
-            ${contactsHTML}
-          </div>
-          ${rightIcon}
-        </div>
-      </div>
-      
-      <div id="${oppositeCategory}" class="no-task d-none">
-        <p>No tasks in ${element["container"]}</p>
-      </div>
-    `;
-  }
+      </div>`;
 }
-
 
 
 // onclick="showBigTaskPopUp()"
@@ -237,6 +300,5 @@ function returnDeleteEditHTML(id) {
     </svg>
   
     Edit
-</div>
-`;
+</div>`;
 }

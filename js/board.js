@@ -144,7 +144,7 @@ function insertCorrectUrgencyIcon(element) {
 
 function createToDoHTML(element) {
   let rightIcon = insertCorrectUrgencyIcon(element);
-  let variableClass = setVariableClass(element);
+  // let variableClass = setVariableClass(element);
   let oppositeCategory = "no-" + element["container"];
 
   let contactsHTML = "";
@@ -161,7 +161,7 @@ function createToDoHTML(element) {
   let jsonElement = JSON.stringify(element);
   return generateTaskHTML(
     element,
-    variableClass,
+    // variableClass,
     contactsHTML,
     oppositeCategory,
     rightIcon,
