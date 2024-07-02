@@ -468,6 +468,7 @@ function searchForTasks() {
       searchedTasks.push(task);
     }
   }
+  console.log(searchedTasks);
   renderSearchedTasks();
 }
 
@@ -494,22 +495,24 @@ function renderSearchedTasks() {
             let initials = getInitials(name);
 
             contactsHTML += /*html*/ `
-              <div class="task-contact">${initials}</div>`;
+              <div class="task-contact" style='background-color: ${task["assigned"][index]["color"]}'>${initials}</div>`;
           }
         }
 
-        document.getElementById(categoryContainer).innerHTML += generateTaskHTMLForSearch(
-          task["tasksIdentity"],
-          variableClass,
-          task["category"],
-          task["title"],
-          task["description"],
-          contactsHTML,
-          task["container"],
-          oppositeCategory,
-          rightIcon,
-          jsonElement
-        );
+        document.getElementById(categoryContainer).innerHTML += generateTaskHTML(task, contactsHTML, oppositeCategory, rightIcon, jsonElement);
+
+        // document.getElementById(categoryContainer).innerHTML += generateTaskHTMLForSearch(
+        //   task["tasksIdentity"],
+        //   variableClass,
+        //   task["category"],
+        //   task["title"],
+        //   task["description"],
+        //   contactsHTML,
+        //   task["container"],
+        //   oppositeCategory,
+        //   rightIcon,
+        //   jsonElement
+        // );
       }
     }
   }
