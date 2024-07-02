@@ -6,6 +6,7 @@ let elementDraggedOver;
 // console.log(document.getElementById("search-input"));
 let searchedInput = document.getElementById("search-input");
 let isBigTaskPopUpOpen = false;
+let allTasksWithSubtasks = [];
 
 /* Bemerkung: Die Ausführung von deleteCertainElements(), deren Aufgabe es wäre ausgewählte Datenbankeinträge wieder zu entfernen
 funktioniert noch nicht, da die Firebase-Datenbank in diesem Fall den Zugriff verweigert ('Probleme mit der CORS policy') */
@@ -455,3 +456,18 @@ function getInitials(name) {
 
   return initials;
 }
+
+function checkIfSubtaskExists(){
+  for(index = 0; index < tasks.length; index++){
+    let certainTask = tasks[index];
+    for(key in certainTask){
+      if(key == "subtask"){
+        console.log(tasks[index]);
+        allTasksWithSubtasks.push(certainTask);
+      }
+    }
+  }
+}
+
+// checkIfSubtaskExists();
+// console.log(allTasksWithSubtasks);
