@@ -612,7 +612,7 @@ body .translate-100 {
   background-color: #d9d9d9;
 }
 
-#big-task-pop-up-title {
+#big-task-pop-up-title h1 {
   font-size: 61px;
   font-weight: 700;
   line-height: 73.2px;
@@ -627,6 +627,8 @@ body .translate-100 {
   font-weight: 400;
 
   word-break: break-all;
+
+  padding: 10px 0;
 }
 
 .big-task-pop-up-info-container {
@@ -742,7 +744,7 @@ body .translate-100 {
   stroke: #2a3647;
 }
 
-#big-task-pop-up-delete-edit-buttons-container {
+#big-task-pop-up-bottom-buttons-container {
   display: flex;
   justify-content: end;
   align-items: center;
@@ -790,6 +792,141 @@ body .translate-100 {
 #big-task-pop-up-edit-button:hover path,
 #big-task-pop-up-delete-button:hover path {
   fill: #29abe2;
+}
+
+.big-edit-task-section-headline {
+  font-size: 20px;
+  font-weight: 400;
+
+  margin-bottom: 10px;
+
+  color: #2a3647;
+}
+
+body .big-edit-task-pop-up-section-container {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+
+  width: 100%;
+
+  padding-bottom: 15px;
+}
+
+/* padding: 12px 21px; */
+
+#big-edit-task-subtask-input,
+#big-edit-task-due-date-input,
+#big-edit-task-assigned-to-input,
+#big-edit-task-description-input,
+#big-edit-task-title-input {
+  border-radius: 10px;
+
+  background: #ffffff;
+
+  border: 1px solid #d1d1d1;
+
+  width: 100%;
+
+  font-size: 20px;
+  font-weight: 400;
+
+  outline: none;
+}
+
+#big-edit-task-subtask-input:focus,
+#big-edit-task-due-date-input:focus,
+#big-edit-task-description-input:focus,
+#big-edit-task-assigned-to-input:focus,
+#big-edit-task-title-input:focus {
+  border: 1px solid #29abe2;
+}
+
+#big-edit-task-subtask-input::placeholder,
+#big-edit-task-due-date-input::placeholder,
+#big-edit-task-description-input::placeholder,
+#big-edit-task-assigned-to-input::placeholder,
+#big-edit-task-title-input::placeholder {
+  font-size: 20px;
+  font-weight: 400;
+  color: #d1d1d1;
+}
+
+#big-edit-task-title-input {
+  padding: 12px 21px;
+}
+
+#big-edit-task-description-input {
+  padding: 18px 16px;
+
+  max-width: 100%;
+  min-width: 100%;
+
+  max-height: 300px;
+  min-height: 62px;
+}
+
+#big-edit-task-assigned-to-input {
+  padding: 12px 16px;
+}
+
+#big-edit-task-due-date-input {
+  padding: 12px 16px;
+}
+
+#big-edit-task-subtask-input {
+  padding: 12px 16px;
+}
+
+#big-edit-task-priority-section-headline {
+  font-size: 19px;
+  font-weight: 700;
+
+  color: #42526e;
+}
+
+#big-edit-task-priority-container {
+  display: flex;
+  justify-content: space-between;
+
+  gap: 16px;
+
+  width: 100%;
+}
+
+.big-edit-task-priority-item {
+  box-shadow: 0px 0px 4px 0px #0000001a;
+
+  width: 100%;
+
+  padding: 16px 10px;
+  border-radius: 10px;
+
+  background: #ffffff;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-size: 20px;
+  font-weight: 400;
+}
+
+#big-task-pop-up-priority-container + #big-task-pop-up-contact-all {
+  padding-bottom: 15px;
+}
+
+#big-edit-task-pop-up-save-button {
+  background: #2a3647;
+
+  padding: 16px;
+  gap: 4px;
+  border-radius: 10px;
+
+  font-size: 21px;
+  font-weight: 700;
+
+  color: white;
 }
 
 @media (max-width: 1000px) {

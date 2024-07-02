@@ -289,7 +289,7 @@ function renderBigTask(jsonTextElement) {
   let taskJson = JSON.parse(decodeURIComponent(jsonTextElement));
   // console.log(taskJson["assigned"].length);
 
-  document.getElementById("big-task-pop-up-title").innerHTML = taskJson.title;
+  document.getElementById("big-task-pop-up-title").innerHTML = /*html*/ `<h1 id='big-task-pop-up-title-text'>${taskJson.title}</h1>`;
   document.getElementById("big-task-pop-up-description").innerHTML = taskJson.description;
   document.getElementById("big-task-pop-up-date").innerHTML = taskJson.date;
   document.getElementById("big-task-pop-up-category").innerHTML = taskJson.category;
@@ -297,7 +297,7 @@ function renderBigTask(jsonTextElement) {
   document.getElementById("big-task-pop-up-priority-text").innerHTML = taskJson.priority;
   document.getElementById("big-task-pop-up-priority-icon").innerHTML = checkPriorityIcon(taskJson.priority);
 
-  document.getElementById("big-task-pop-up-delete-edit-buttons-container").innerHTML = returnDeleteEditHTML(taskJson.tasksIdentity);
+  document.getElementById("big-task-pop-up-bottom-buttons-container").innerHTML = returnDeleteEditHTML(taskJson.tasksIdentity);
   let contactsHTML = "";
   let initials = "";
   if (taskJson["assigned"] || typeof taskJson["assigned"] == Array) {
@@ -342,6 +342,67 @@ function renderTaskContact(taskJson) {
     <p class='big-task-pop-up-value-text'>No One Assigned</p>
     `;
   }
+}
+
+// renderEditTask
+function renderEditTask() {
+  let oldTitle = document.getElementById("big-task-pop-up-title-text").innerHTML;
+  let oldDescription = document.getElementById("big-task-pop-up-description").innerHTML;
+
+  document.getElementById("big-task-pop-up-category").innerHTML = "";
+  document.getElementById("big-task-pop-up-category").style = "background-color: white;";
+
+  document.getElementById("big-task-pop-up-title").innerHTML = /*html*/ `
+    <p class='big-edit-task-section-headline'>Title</p>
+    <input type="text" id='big-edit-task-title-input' value='${oldTitle}' placeholder='Enter a title'>
+  `;
+
+  document.getElementById("big-task-pop-up-description").innerHTML = /*html*/ `
+    <p class='big-edit-task-section-headline'>Description</p>
+    <textarea id="big-edit-task-description-input" placeholder='Enter a Description'>${oldDescription}</textarea>
+  `;
+
+  document.getElementById("big-task-pop-up-due-date-container").classList.add("big-edit-task-pop-up-section-container");
+  document.getElementById("big-task-pop-up-due-date-container").innerHTML = /*html*/ `
+    <p class='big-edit-task-section-headline'>Due date</p>
+    <input type="date" id='big-edit-task-due-date-input'>
+  `;
+
+  document.getElementById("big-task-pop-up-priority-container").classList.add("big-edit-task-pop-up-section-container");
+  document.getElementById("big-task-pop-up-priority-container").innerHTML = /*html*/ `
+    <p id='big-edit-task-priority-section-headline'>Priority</p>
+    <div id='big-edit-task-priority-container'>
+      <div class='big-edit-task-priority-item'>Urgent</div>
+      <div class='big-edit-task-priority-item'>Medium</div>
+      <div class='big-edit-task-priority-item'>Low</div>
+    </div>
+  `;
+
+  document.getElementById("big-task-pop-up-contact-all").innerHTML = /*html*/ `
+    <p class='big-edit-task-section-headline'>Assigned to</p>
+
+    <input type='text' id='big-edit-task-assigned-to-input' placeholder='Select contacts to assign'>
+
+    <div id='big-edit-task-assigned-to-pop-up' class='d-none'>
+      <div class='big-edit-task-assigned-to-pop-up-contact-container'>
+        <div class='big-edit-task-assigned-to-pop-up-contact'>
+          <div>SM</div>
+          <p>Sofia Müller</p>
+        </div>
+
+        <input type="checkbox">
+      </div>
+    </div>
+    `;
+
+  document.getElementById("big-task-pop-up-subtask-all").innerHTML = /*html*/ `
+    <p class='big-edit-task-section-headline'>Subtasks</p>
+    <input type="text" id='big-edit-task-subtask-input' placeholder='Add new Subtask'>
+  `;
+
+  document.getElementById("big-task-pop-up-bottom-buttons-container").innerHTML = /*html*/ `
+  <button id='big-edit-task-pop-up-save-button'>Ok</button>
+`;
 }
 
 // deleteTask
