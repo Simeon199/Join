@@ -964,11 +964,13 @@ body .big-edit-task-pop-up-section-container {
 
 @media (max-width: 1000px) {
   main {
+    /* height: 100%; */
     box-sizing: unset;
     font-size: 13px;
     padding: 0;
+    padding-bottom: 100px;
     padding-top: 120px;
-    height: calc(100vh - 175px);
+    height: 100%;
   }
 
   #all-sections-container {
@@ -992,7 +994,7 @@ body .big-edit-task-pop-up-section-container {
   }
 
   .section-headline {
-    justify-content: center;
+    /* justify-content: center; */
     gap: 16px;
   }
 

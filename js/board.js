@@ -423,6 +423,7 @@ async function saveTaskChanges(id) {
   } catch (error) {
     console.error("Fehler beim Speichern der Änderungen: ", error);
   }
+  updateHTML();
 
   // let newTaskReady = updateTasksThroughEditing(id, taskForEditing);
   // let newJsonElement = JSON.stringify(newTaskReady);
@@ -465,7 +466,7 @@ function saveChangesSingleTaskWithoutSubtask(taskId, objectForEditing, container
     date: objectForEditing["newDate"],
     description: objectForEditing["newDescription"],
     priority: objectForEditing["newPriority"],
-    taskIdentity: taskId,
+    tasksIdentity: taskId,
     title: objectForEditing["newTitle"],
   };
   let newTask = tasks[taskId];

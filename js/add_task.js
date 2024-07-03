@@ -146,7 +146,7 @@ function checkRequiredFields() {
   let date = document.getElementById("date").value;
   console.log(title.length && date.length);
   // console.log(title.length && date.length < 1 && checkCategory() == false == true);
-  if (title.length && date.length <= 1) {
+  if (title.length || date.length <= 1) {
     showrequiredText();
     console.log("no upload");
   } else {

@@ -129,6 +129,22 @@ body .sidebar {
   position: fixed;
 }
 
+.subnumberedList {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+/* ul {
+  display: flex;
+  flex-direction: column;
+} */
+
+li {
+  display: flex;
+  flex-direction: column;
+}
+
 @media (max-width: 1000px) {
   main {
     padding: 130px 30px 20px 30px;
