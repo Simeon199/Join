@@ -40,10 +40,7 @@ function checkIfUserIsLoggedIn() {
   ) {
     console.log("Nutzer ist eingeloggt");
   } else {
-    if (
-      LoggedInObject["currentPath"] !== "register.html" &&
-      LoggedInObject["currentPath"] !== "login.html"
-    ) {
+    if (LoggedInObject["currentPath"] !== "register.html" && LoggedInObject["currentPath"] !== "login.html") {
       window.location.href = "login.html";
     }
   }
@@ -107,13 +104,7 @@ async function signUp(event) {
   let password = document.getElementById("loginPassword").value;
   let passwordRepeat = document.getElementById("loginPasswordRepeat").value;
   let privacyPolicity = document.getElementById("privacyPolicity");
-  let signUpValid = await checkSignInRequirements(
-    name,
-    email,
-    password,
-    passwordRepeat,
-    privacyPolicity
-  );
+  let signUpValid = await checkSignInRequirements(name, email, password, passwordRepeat, privacyPolicity);
   if (!signUpValid) {
     return;
   }
@@ -245,13 +236,7 @@ function showPassword(variable) {
   let visibilityInputImageRepeat = document.getElementById("visibilityInputImageRepeat");
   let visibility = document.getElementById("visibility");
   let visibilityRepeat = document.getElementById("visibilityRepeat");
-  checkAllCasesForShowPassword(
-    variable,
-    visibilityInputImage,
-    visibilityInputImageRepeat,
-    visibility,
-    visibilityRepeat
-  );
+  checkAllCasesForShowPassword(variable, visibilityInputImage, visibilityInputImageRepeat, visibility, visibilityRepeat);
   checkPasswordContentType(passwordContent);
 }
 
@@ -271,12 +256,7 @@ function showLoginPassword(variable) {
   checkPasswordContentType(passwordContent);
 }
 
-function registerInputFieldFunction(
-  inputLock,
-  registerInputField,
-  visibilityInputImage,
-  visibility
-) {
+function registerInputFieldFunction(inputLock, registerInputField, visibilityInputImage, visibility) {
   registerInputField.addEventListener("input", function () {
     inputLock.classList.add("d-none");
     if (registerInputField.value.length > 0 && registerInputField.type == "password") {
@@ -293,22 +273,13 @@ function registerInputFieldFunction(
   });
 }
 
-function registerInputFieldRepeatFunction(
-  registerInputFieldRepeat,
-  inputLockRepeat,
-  visibilityInputImageRepeat,
-  visibility,
-  visibilityRepeat
-) {
+function registerInputFieldRepeatFunction(registerInputFieldRepeat, inputLockRepeat, visibilityInputImageRepeat, visibility, visibilityRepeat) {
   registerInputFieldRepeat.addEventListener("input", function () {
     inputLockRepeat.classList.add("d-none");
     if (registerInputFieldRepeat.value.length > 0 && registerInputFieldRepeat.type == "password") {
       visibilityInputImageRepeat.classList.remove("d-none");
       visibility.classList.add("d-none");
-    } else if (
-      registerInputFieldRepeat.value.length > 0 &&
-      registerInputFieldRepeat.type == "text"
-    ) {
+    } else if (registerInputFieldRepeat.value.length > 0 && registerInputFieldRepeat.type == "text") {
       visibilityInputImageRepeat.classList.add("d-none");
       visibilityRepeat.classList.remove("d-none");
     } else if (registerInputFieldRepeat.value.length == 0) {
@@ -330,12 +301,7 @@ function checkWebsiteLocation() {
   } else if (currentURL.includes("register.html")) {
     document.addEventListener("DOMContentLoaded", () => {
       let obj = createObjectforEventListener();
-      registerInputFieldFunction(
-        obj["inputLock"],
-        obj["registerInputField"],
-        obj["visibilityInputImage"],
-        obj["visibility"]
-      );
+      registerInputFieldFunction(obj["inputLock"], obj["registerInputField"], obj["visibilityInputImage"], obj["visibility"]);
       registerInputFieldRepeatFunction(
         obj["registerInputFieldRepeat"],
         obj["inputLockRepeat"],

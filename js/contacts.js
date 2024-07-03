@@ -160,17 +160,13 @@ function hidePopUp() {
 
 // show ContactSuccessfullyCreatedPopUp
 function showContactSuccessfullyCreatedPopUp() {
-  document
-    .getElementById("contact-successfully-created-pop-up-bg")
-    .classList.remove("hide-pop-up-translate-100");
+  document.getElementById("contact-successfully-created-pop-up-bg").classList.remove("hide-pop-up-translate-100");
 }
 
 // hide ContactSuccessfullyCreatedPopUp
 function hideContactSuccessfullyCreatedPopUp() {
   setTimeout(() => {
-    document
-      .getElementById("contact-successfully-created-pop-up-bg")
-      .classList.add("hide-pop-up-translate-100");
+    document.getElementById("contact-successfully-created-pop-up-bg").classList.add("hide-pop-up-translate-100");
   }, 3000);
 }
 
@@ -199,40 +195,23 @@ function toggleBigContact(i, userName, userEmail, userNumber, userID, userColor)
 async function deselectContact() {
   document.getElementById("big-contact").classList.add("hide-big-contact");
   document.querySelectorAll(".contact")[activeContactIndex].classList.remove("contact-aktiv");
-  document
-    .getElementById("right-site-container")
-    .classList.add("right-site-container-translate-100");
-  document
-    .getElementById("show-icon-container-button")
-    .classList.add("show-icon-container-button-translate-100");
+  document.getElementById("right-site-container").classList.add("right-site-container-translate-100");
+  document.getElementById("show-icon-container-button").classList.add("show-icon-container-button-translate-100");
   document.getElementById("show-icon-container-button").classList.remove("animation");
 
   activeContactIndex = null;
 }
 
 // selectContact
-async function selectContact(
-  userName,
-  userEmail,
-  userNumber,
-  userID,
-  i,
-  userColor,
-  bigContact,
-  contactEl
-) {
+async function selectContact(userName, userEmail, userNumber, userID, i, userColor, bigContact, contactEl) {
   await renderBigContact(userName, userEmail, userNumber, userID, i, userColor);
   if (activeContactIndex !== null) {
     document.querySelectorAll(".contact")[activeContactIndex].classList.remove("contact-aktiv");
   }
   contactEl.classList.add("contact-aktiv");
   bigContact.classList.remove("hide-big-contact");
-  document
-    .getElementById("right-site-container")
-    .classList.remove("right-site-container-translate-100");
-  document
-    .getElementById("show-icon-container-button")
-    .classList.remove("show-icon-container-button-translate-100");
+  document.getElementById("right-site-container").classList.remove("right-site-container-translate-100");
+  document.getElementById("show-icon-container-button").classList.remove("show-icon-container-button-translate-100");
   document.getElementById("show-icon-container-button").classList.add("animation");
   activeContactIndex = i;
 
@@ -279,10 +258,7 @@ function renderContact(i, j, letter) {
   const user = allUsers[j];
   // console.log(allUsers);
   if (user["name"].toLowerCase().startsWith(letter)) {
-    document.querySelectorAll(".letter-list-contact-container")[i].innerHTML += returnContactHTML(
-      j,
-      user
-    );
+    document.querySelectorAll(".letter-list-contact-container")[i].innerHTML += returnContactHTML(j, user);
   }
 }
 
@@ -293,36 +269,22 @@ function renderBigContact(userName, userEmail, userNumber, userID, i, userColor)
   document.getElementById("big-name").innerHTML = userName;
   document.getElementById("big-email").innerHTML = userEmail;
   document.getElementById("big-number").innerHTML = userNumber;
-  document.getElementById("icon-container").innerHTML = returnBigContactIconContainerHTML(
-    userName,
-    userEmail,
-    userNumber,
-    userID,
-    i,
-    userColor
-  );
+  document.getElementById("icon-container").innerHTML = returnBigContactIconContainerHTML(userName, userEmail, userNumber, userID, i, userColor);
 }
 
 // renderAddContactPopUp
 function renderAddContactPopUp() {
   document.getElementById("pop-up-inputs-container").innerHTML = returnAddContactPopUpFormHTML();
-  document.getElementById("pop-up-headline-container").innerHTML =
-    returnAddContactPopUpHeadlineHTML();
+  document.getElementById("pop-up-headline-container").innerHTML = returnAddContactPopUpHeadlineHTML();
   document.getElementById("pop-up-contact-logo").innerHTML = returnAddContactPopUpContactLogoHTML();
   document.getElementById("pop-up-contact-logo").style.backgroundColor = "#d1d1d1";
 }
 
 // renderEditContactPopUp
 function renderEditContactPopUp(userID, userName, userEmail, userNumber, i, userColor) {
-  document.getElementById("pop-up-inputs-container").innerHTML = returnEditContactPopUpFormHTML(
-    userID,
-    i,
-    userColor
-  );
-  document.getElementById("pop-up-headline-container").innerHTML =
-    returnEditContactPopUpHeadlineHTML();
-  document.getElementById("pop-up-contact-logo").innerHTML =
-    returnEditContactPopUpLogoHTML(userName);
+  document.getElementById("pop-up-inputs-container").innerHTML = returnEditContactPopUpFormHTML(userID, i, userColor);
+  document.getElementById("pop-up-headline-container").innerHTML = returnEditContactPopUpHeadlineHTML();
+  document.getElementById("pop-up-contact-logo").innerHTML = returnEditContactPopUpLogoHTML(userName);
   document.getElementById("pop-up-contact-logo").style.backgroundColor = userColor;
   document.getElementById("pop-up-name-input").value = userName;
   document.getElementById("pop-up-email-input").value = userEmail;
@@ -340,17 +302,18 @@ async function editContact(userID, i, userColor) {
 
 // deleteData
 async function deleteContact(userID) {
+  showLoadScreen();
   await deleteData("/contacts/" + userID);
   deselectContact();
   await initContact();
+  hideLoadScreen();
 }
 
 // addNewContact
 async function addNewContact(bgColor = randomColor(), action) {
   showLoadScreen();
 
-  document.getElementById("contact-successfully-created-pop-up").innerHTML =
-    "Contact successfully " + action;
+  document.getElementById("contact-successfully-created-pop-up").innerHTML = "Contact successfully " + action;
 
   await hidePopUp();
   let nameInputValue = document.getElementById("pop-up-name-input").value;
@@ -381,15 +344,9 @@ function afterAddingNewContactShowBigContact(nameInputValue) {
   renderBigContact(userName, userEmail, userNumber, userID, index, userColor);
   document.querySelectorAll(".contact")[index].classList.add("contact-aktiv");
   document.getElementById("big-contact").classList.remove("hide-big-contact");
-  document
-    .getElementById("right-site-container")
-    .classList.remove("right-site-container-translate-100");
-  document
-    .getElementById("show-icon-container-button")
-    .classList.remove("show-icon-container-button-translate-100");
+  document.getElementById("right-site-container").classList.remove("right-site-container-translate-100");
+  document.getElementById("show-icon-container-button").classList.remove("show-icon-container-button-translate-100");
   document.getElementById("show-icon-container-button").classList.add("animation");
   activeContactIndex = index;
-  document
-    .querySelectorAll(".contact")
-    [index].scrollIntoView({ behavior: "smooth", block: "nearest" });
+  document.querySelectorAll(".contact")[index].scrollIntoView({ behavior: "smooth", block: "nearest" });
 }
