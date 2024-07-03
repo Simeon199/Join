@@ -6,8 +6,8 @@ let tasks = [];
 const BASE_URL1 = "https://join-testing-42ce4-default-rtdb.europe-west1.firebasedatabase.app/";
 
 async function init() {
-  let responseJson = await loadDataTwo();
-  allTasks = responseJson["tasksList"];
+  let responseJson = await loadTasksFromDatabase();
+  allTasks = responseJson;
 
   greetAnimation();
   greet();
@@ -17,7 +17,7 @@ async function init() {
   initSidebar();
   checkIfUserIsLoggedIn();
 
-  loadTasksFromDatabase()
+  loadTasksFromDatabase();
 }
 
 async function renderNumberOfAllContainers() {
