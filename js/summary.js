@@ -1,6 +1,7 @@
 let userName = getUserNickname();
 let firstTime = "true";
 let allTasks;
+let tasks = [];
 
 const BASE_URL1 = "https://join-testing-42ce4-default-rtdb.europe-west1.firebasedatabase.app/";
 
@@ -15,6 +16,8 @@ async function init() {
 
   initSidebar();
   checkIfUserIsLoggedIn();
+
+  loadTasksFromDatabase()
 }
 
 async function renderNumberOfAllContainers() {
@@ -127,4 +130,23 @@ function checkIfFirstTime() {
   if (trueOrFalse) {
     firstTime = trueOrFalse;
   }
+}
+
+async function loadTasksFromDatabase() {
+  let response = await loadRelevantData();
+  // console.log(response.testRealTasks);
+  if (response && response.testRealTasks) {
+    for (index = 0; index < response.testRealTasks.length; index++) {
+      tasks.push(response.testRealTasks[index]);
+    }
+    console.log(tasks);
+    return tasks;
+  }
+  return [];
+}
+
+async function loadRelevantData(path = "") {
+  let response = await fetch(BASE_URL1 + path + ".json");
+  let responseAsJson = await response.json();
+  return responseAsJson;
 }

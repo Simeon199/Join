@@ -82,13 +82,13 @@ function checkAssignedContacts(name, color, i) {
   x = {name: name, color: color, selected: isSelect = false};
   selUser = document.getElementById(`user${i}`);
   if (selUser.classList.contains("contactIsSelect") == true) {
-    document.getElementById(`none_checked${i}`).classList.remove("d-none")
-    document.getElementById(`checked${i}`).classList.add("d-none")
+    document.getElementById(`none_checked${i}`).classList.remove("d-none");
+    document.getElementById(`checked${i}`).classList.add("d-none");
     selUser.classList.remove('contactIsSelect');
-    removeAssignetToContects(x.name)
+    removeAssignetToContects(x.name, i)
   } else {
-    document.getElementById(`none_checked${i}`).classList.add("d-none")
-    document.getElementById(`checked${i}`).classList.remove("d-none")
+    document.getElementById(`none_checked${i}`).classList.add("d-none");
+    document.getElementById(`checked${i}`).classList.remove("d-none");
     selUser.classList.add('contactIsSelect');
     y = x.isSelect = true;
     addUserToTask(x, y)
@@ -113,12 +113,13 @@ function checkAssignedContactsStatus(un) {
     // }
 }
 
-function removeAssignetToContects(name) {
+function removeAssignetToContects(name, index) {
   console.log(name);
     for (let i = 0; i < assignedContacts.length; i++) {
-      indexOfName = assignedContacts[i].includes(name);
+      indexOfName = assignedContacts[i].name.includes(name);
       if (indexOfName == true) {
-        assignedContacts.splice(indexOfName, 1)
+        document.getElementById(`user${index}`).classList.remove("contactIsSelect");
+        assignedContacts.splice(i, 1)
       }
     }
     
