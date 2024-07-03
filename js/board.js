@@ -167,7 +167,6 @@ function createToDoHTML(element) {
     rightIcon,
     jsonElement
   );
-  
 
   // return generateTaskHTML(
   //   element["tasksIdentity"],
@@ -298,16 +297,43 @@ function hideBigTaskPopUp() {
 function renderBigTask(jsonTextElement) {
   let taskJson = JSON.parse(decodeURIComponent(jsonTextElement));
   // console.log(taskJson["assigned"].length);
+  document.getElementById("big-task-pop-up-priority-container").classList.remove("big-edit-task-pop-up-section-container");
+  document.getElementById("big-task-pop-up-due-date-container").classList.remove("big-edit-task-pop-up-section-container");
 
   document.getElementById("big-task-pop-up-title").innerHTML = /*html*/ `<h1 id='big-task-pop-up-title-text'>${taskJson.title}</h1>`;
   document.getElementById("big-task-pop-up-description").innerHTML = taskJson.description;
-  document.getElementById("big-task-pop-up-date").innerHTML = taskJson.date;
+
+  document.getElementById("big-task-pop-up-due-date-container").innerHTML = /*html*/ `
+    <h2 class="big-task-pop-up-label-text">Due date:</h2>
+    <p id="big-task-pop-up-date" class="big-task-pop-up-value-text">${taskJson.date}</p>
+  `;
+
   document.getElementById("big-task-pop-up-category").innerHTML = taskJson.category;
   document.getElementById("big-task-pop-up-category").style.backgroundColor = checkCategoryColor(taskJson.category);
-  document.getElementById("big-task-pop-up-priority-text").innerHTML = taskJson.priority;
+
+  document.getElementById("big-task-pop-up-priority-container").innerHTML = /*html*/ `
+    <h2 class="big-task-pop-up-label-text">Priority:</h2>
+    <div class="big-task-pop-up-value-text">
+      <p id="big-task-pop-up-priority-text">${taskJson.priority}</p>
+
+      <div id="big-task-pop-up-priority-icon">
+        <svg width="17" height="8" viewBox="0 0 17 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M16.0685 7.16658H0.931507C0.684456 7.16658 0.447523 7.06773 0.272832 6.89177C0.0981406 6.71581 0 6.47716 0 6.22831C0 5.97947 0.0981406 5.74081 0.272832 5.56485C0.447523 5.38889 0.684456 5.29004 0.931507 5.29004H16.0685C16.3155 5.29004 16.5525 5.38889 16.7272 5.56485C16.9019 5.74081 17 5.97947 17 6.22831C17 6.47716 16.9019 6.71581 16.7272 6.89177C16.5525 7.06773 16.3155 7.16658 16.0685 7.16658Z"
+            fill="#FF7A00"
+          />
+          <path
+            d="M16.0685 2.7098H0.931507C0.684456 2.7098 0.447523 2.61094 0.272832 2.43498C0.0981406 2.25902 0 2.02037 0 1.77152C0 1.52268 0.0981406 1.28403 0.272832 1.10807C0.447523 0.932105 0.684456 0.833252 0.931507 0.833252H16.0685C16.3155 0.833252 16.5525 0.932105 16.7272 1.10807C16.9019 1.28403 17 1.52268 17 1.77152C17 2.02037 16.9019 2.25902 16.7272 2.43498C16.5525 2.61094 16.3155 2.7098 16.0685 2.7098Z"
+            fill="#FF7A00"
+          />
+        </svg>
+      </div>
+    </div>
+  `;
+
   document.getElementById("big-task-pop-up-priority-icon").innerHTML = checkPriorityIcon(taskJson.priority);
 
-  document.getElementById("big-task-pop-up-bottom-buttons-container").innerHTML = returnDeleteEditHTML(taskJson.tasksIdentity);
+  document.getElementById("big-task-pop-up-bottom-buttons-container").innerHTML = returnDeleteEditHTML(taskJson.tasksIdentity, jsonTextElement);
   let contactsHTML = "";
   let initials = "";
   if (taskJson["assigned"] || typeof taskJson["assigned"] == Array) {
@@ -321,8 +347,15 @@ function renderBigTask(jsonTextElement) {
     // contactsHTML += `<div class="task-contact">${taskJson["assigned"][index]["name"]}</div>`;
   }
 
-  document.getElementById("big-task-pop-up-contact-container").innerHTML = contactsHTML;
-  document.getElementById("big-task-pop-up-subtasks-container").innerHTML = "";
+  document.getElementById("big-task-pop-up-contact-all").innerHTML = /*html*/ `
+    <h2 class="big-task-pop-up-label-text">Assigned To:</h2>
+    <div id="big-task-pop-up-contact-container">${contactsHTML}</div>
+  `;
+
+  document.getElementById("big-task-pop-up-subtask-all").innerHTML = /*html*/ `
+    <h2 class="big-task-pop-up-label-text">Subtasks</h2>
+    <div id="big-task-pop-up-subtasks-container"></div>
+  `;
 
   renderTaskContact(taskJson);
   renderSubtask(taskJson);
@@ -358,7 +391,7 @@ function renderTaskContact(taskJson) {
 }
 
 // renderEditTask
-function renderEditTask() {
+function renderEditTask(jsonTextElement) {
   let oldTitle = document.getElementById("big-task-pop-up-title-text").innerHTML;
   let oldDescription = document.getElementById("big-task-pop-up-description").innerHTML;
 
@@ -414,7 +447,7 @@ function renderEditTask() {
   `;
 
   document.getElementById("big-task-pop-up-bottom-buttons-container").innerHTML = /*html*/ `
-  <button id='big-edit-task-pop-up-save-button'>Ok</button>
+  <button id='big-edit-task-pop-up-save-button' onclick='renderBigTask("${jsonTextElement}")'>Ok</button>
 `;
 }
 
@@ -530,11 +563,11 @@ function getInitials(name) {
   return initials;
 }
 
-function checkIfSubtaskExists(){
-  for(index = 0; index < tasks.length; index++){
+function checkIfSubtaskExists() {
+  for (index = 0; index < tasks.length; index++) {
     let certainTask = tasks[index];
-    for(key in certainTask){
-      if(key == "subtask"){
+    for (key in certainTask) {
+      if (key == "subtask") {
         console.log(tasks[index]);
         allTasksWithSubtasks.push(certainTask);
       }
