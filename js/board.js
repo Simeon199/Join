@@ -8,9 +8,6 @@ let searchedInput = document.getElementById("search-input");
 let isBigTaskPopUpOpen = false;
 let allTasksWithSubtasks = [];
 
-/* Bemerkung: Die Ausführung von deleteCertainElements(), deren Aufgabe es wäre ausgewählte Datenbankeinträge wieder zu entfernen
-funktioniert noch nicht, da die Firebase-Datenbank in diesem Fall den Zugriff verweigert ('Probleme mit der CORS policy') */
-
 document.addEventListener("DOMContentLoaded", async function () {
   await getTasksFromDatabase();
   updateHTML();
@@ -391,7 +388,7 @@ function renderTaskContact(taskJson) {
 }
 
 // renderEditTask
-function renderEditTask(jsonTextElement) {
+function renderEditTask(jsonTextElement, id) {
   let oldTitle = document.getElementById("big-task-pop-up-title-text").innerHTML;
   let oldDescription = document.getElementById("big-task-pop-up-description").innerHTML;
 
@@ -449,6 +446,54 @@ function renderEditTask(jsonTextElement) {
   document.getElementById("big-task-pop-up-bottom-buttons-container").innerHTML = /*html*/ `
   <button id='big-edit-task-pop-up-save-button' onclick='renderBigTask("${jsonTextElement}")'>Ok</button>
 `;
+  let objectForEditing = createObjectForEditing(id);
+  console.log(objectForEditing);
+}
+
+function createObjectForEditing(taskId) {
+  let interimTaskIdentity = taskId;
+  let objectForEditing = {
+    newTitle: document.getElementById("big-edit-task-title-input").value,
+    newDescription: document.getElementById("big-edit-task-description-input").value,
+    newDate: document.getElementById("big-edit-task-due-date-input").value,
+    newPriority: "priority",
+    newAssignedTo: document.getElementById("big-edit-task-assigned-to-input").value,
+    newSubtaskArray: "ArrayWillFollow",
+  };
+  // return objectForEditing;
+  return updateTasksThroughEditing(interimTaskIdentity, objectForEditing);
+}
+
+function updateTasksThroughEditing(taskId, objectForEditing) {
+  for (index = 0; index < tasks.length; index++) {
+    if (index == taskId) {
+      let container = tasks[taskId]["container"];
+      let category = tasks[taskId]["category"];
+      if (tasks[taskId]["subtask"]) {
+        tasks[taskId] = {
+          category: category,
+          container: container,
+          date: objectForEditing["newDate"],
+          description: objectForEditing["newDescription"],
+          priority: objectForEditing["newPriority"],
+          taskIdentity: taskId,
+          title: objectForEditing["newTitle"],
+          subtask: objectForEditing["newSubtaskArray"],
+        };
+      } else {
+        tasks[taskId] = {
+          category: category,
+          container: container,
+          date: objectForEditing["newDate"],
+          description: objectForEditing["newDescription"],
+          priority: objectForEditing["newPriority"],
+          taskIdentity: taskId,
+          title: objectForEditing["newTitle"],
+        };
+      }
+    }
+  }
+  console.log(tasks);
 }
 
 // deleteTask
@@ -501,6 +546,7 @@ function searchForTasks() {
       searchedTasks.push(task);
     }
   }
+  console.log(searchedTasks);
   renderSearchedTasks();
 }
 
@@ -527,22 +573,24 @@ function renderSearchedTasks() {
             let initials = getInitials(name);
 
             contactsHTML += /*html*/ `
-              <div class="task-contact">${initials}</div>`;
+              <div class="task-contact" style='background-color: ${task["assigned"][index]["color"]}'>${initials}</div>`;
           }
         }
 
-        document.getElementById(categoryContainer).innerHTML += generateTaskHTMLForSearch(
-          task["tasksIdentity"],
-          variableClass,
-          task["category"],
-          task["title"],
-          task["description"],
-          contactsHTML,
-          task["container"],
-          oppositeCategory,
-          rightIcon,
-          jsonElement
-        );
+        document.getElementById(categoryContainer).innerHTML += generateTaskHTML(task, contactsHTML, oppositeCategory, rightIcon, jsonElement);
+
+        // document.getElementById(categoryContainer).innerHTML += generateTaskHTMLForSearch(
+        //   task["tasksIdentity"],
+        //   variableClass,
+        //   task["category"],
+        //   task["title"],
+        //   task["description"],
+        //   contactsHTML,
+        //   task["container"],
+        //   oppositeCategory,
+        //   rightIcon,
+        //   jsonElement
+        // );
       }
     }
   }

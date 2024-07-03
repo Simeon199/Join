@@ -7,11 +7,19 @@ function showDropDownAssignedTo() {
     
     for (let i = 0; i < allUsers.length; i++) {
       user = allUsers[i];
-      renderAssignedToHTML(user,contact, i);
+      renderAssignedToHTML(user, contact, i)
+      if (assignedContacts != 0 ) {
+        if (checkAssignedContactsStatus(user.name) === true) {
+          document.getElementById(`user${i}`).classList.add('contactIsSelect');
+          document.getElementById(`checked${i}`).classList.remove("d-none")
+        } else {
+          document.getElementById(`user${i}`).classList.remove('contactIsSelect');
+          document.getElementById(`checked${i}`).classList.add("d-none")
+        }
+      }
     }
     contact.classList.remove("d-none");
     document.getElementById('arrowa').classList.add("rotate");
-    // console.log(assignedContacts);
 }
 
 function hideDropDownAssignedTo() {
@@ -35,7 +43,6 @@ function renderAssignedToHTML(user, contact, i) {
   `;
   document.getElementById(`assignetToLetters${i}`).style.backgroundColor = user['color'];
   sowUserLetters(`assignetToLetters${i}` , user['name']);
-  checkAssignedContactsStatus(user['name'], i)
 }
 
 function assignetToContects() {
@@ -59,7 +66,6 @@ function clearAssignedTo() {
   let div = document.getElementById("userCircles");
   assignedContacts.splice(0)
   div.innerHTML = "";
-  //div.classList.add('d-none');
 }
 
 function addUserToTask(u , isSelect) {
@@ -89,27 +95,22 @@ function checkAssignedContacts(name, color, i) {
   }
 }
 
-function checkAssignedContactsStatus(un, index) {
-  let name = un;
-  // console.log(un);
-  for (name in allUsers) {
-    for (let i = 0; i < allUsers.length; i++) {
-      if (name == allUsers[i].name == true) {
-        if (assignedContacts[i].isSelected == true) {
-          document.getElementById(`user${index}`).classList.add('contactIsSelect');
+function checkAssignedContactsStatus(un) {
+    if (!assignedContacts == 0) {
+      for (let i = 0; i < assignedContacts.length; i++) {
+        if (assignedContacts[i].name == un) {
+          if (assignedContacts[i].isSelected == true) {
+            return true
+          }
         }
       }
+    } else {
+      return false
     }
     // if (Object.hasOwnProperty.call(object, name)) {
     //   const element = object[name];
     //   
     // }
-  }
-  // if (i.isSelected === true) {
-  //   iu = allUsers.includes(i.name)
-  //   console.log(i);
-  //   document.getElementById(iu).classList.add('contactIsSelect');
-  // }
 }
 
 function removeAssignetToContects(name) {
@@ -126,54 +127,42 @@ function removeAssignetToContects(name) {
 
 function changeToInputfield() {
   changecont = document.getElementById("changeTo");
-  search = document.getElementById("searchArea");
+  search = document.getElementById("searchArea").classList;
   input = document.getElementById("searchField");
-  stV = document.getElementById("standartValue");
+  stV = document.getElementById("standartValue").classList;
 
   window.addEventListener('click', function (e) {
     if (changecont.contains(e.target)) {
-        search.classList.remove("d-none");
+        search.remove("d-none");
         input.classList.remove("d-none");
-        stV.classList.add("d-none");
+        stV.add("d-none");
         checkDropDown('arrowa');
       } else {
-        search.classList.add("d-none");
+        search.add("d-none");
         input.classList.add("d-none");
-        stV.classList.remove("d-none");
+        stV.remove("d-none");
         input.value = "";
         checkDropDown('arrowa');
       }
   })
 }
 
-// function changeToInputfield() {
-// let visibilitycheck = document.getElementById("searchArea").classList.contains("d-none")
-//   if (visibilitycheck == true) {
-//     document.getElementById("searchArea").classList.remove("d-none");
-//     document.getElementById("standartValue").classList.add("d-none");
-//   } else {
-//     document.getElementById("searchArea").classList.add("d-none");
-//     document.getElementById("standartValue").classList.remove("d-none");
-//   }
-// }
-
 function searchContacts() {
+  document.getElementById("assignedToDropDown").innerHTML=""
   search = document.getElementById("searchField");
   text = search.value.toLowerCase();
-  console.log(text);
-  if (text.length <=2) {
-  } else {
+  
+  if (text.length >=1) {
+    searchResults = [];
     for (let i = 0; i < allUsers.length; i++) {
       aU = allUsers[i].name.toLowerCase();
-      console.log(aU);
       if (aU.includes(text)) {
         searchResults.push(allUsers[i]);
-        showDropDownAssignedToOnlyResult();
       }
     }
-  }
-  searchResults = [];
-  if (text.length = 0) {
+    showDropDownAssignedToOnlyResult()
+  } else {
+    searchResults = [];
     showDropDownAssignedTo()
   }
 }
@@ -187,5 +176,4 @@ function showDropDownAssignedToOnlyResult() {
     }
     contact.classList.remove("d-none");
     document.getElementById('arrowa').classList.add("rotate");
-    console.log(searchResults);
 }
