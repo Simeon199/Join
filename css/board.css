@@ -840,8 +840,6 @@ body .big-edit-task-pop-up-section-container {
   padding-bottom: 15px;
 }
 
-/* padding: 12px 21px; */
-
 #big-edit-task-subtask-input,
 #big-edit-task-due-date-input,
 #big-edit-task-assigned-to-input,
@@ -1032,7 +1030,7 @@ body .big-edit-task-pop-up-section-container {
   }
 }
 
-@media(max-width: 700px) {
+@media (max-width: 700px) {
   .headline-button {
     display: flex;
     justify-content: space-between;

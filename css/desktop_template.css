@@ -110,6 +110,8 @@ body.menuBarDesktop {
   display: flex;
   justify-content: center;
   align-items: center;
+
+  user-select: none;
 }
 
 .circle span {
@@ -135,25 +137,56 @@ body.menuBarDesktop {
   transform: scale(1.1);
 }
 
+.header-help-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transition: 0.1s;
+}
+
+.header-help-icon:hover {
+  transform: scale(1.2);
+}
+
 #dropDown {
-  position: fixed;
+  box-sizing: border-box;
+
   top: 96px;
   right: 20px;
+
   background-color: rgb(42, 54, 71, 1);
   box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.1);
   color: rgba(205, 205, 205, 1);
+
+  position: fixed;
   display: flex;
   flex-direction: column;
+
   border-radius: 20px 0px 20px 20px;
   z-index: 99;
+
+  transition: 0.2s ease-in-out;
+
+  padding: 10px;
+
   div {
+    box-sizing: border-box;
     width: 130px;
     height: 46px;
     display: flex;
-    justify-content: center;
+    /* justify-content: center; */
     align-items: center;
-    font-weight: 600;
+
+    padding: 10px;
+
+    font-size: 16px;
+    font-weight: 400;
   }
+}
+
+.translate-100-header {
+  transform: translateX(100vh);
 }
 
 .dropDown-bg {
@@ -167,8 +200,8 @@ body.menuBarDesktop {
 }
 
 #dropDown div:hover {
-  background-color: rgb(21, 14, 26);
-  border-radius: 20px;
+  background-color: #2a3d59;
+
   cursor: pointer;
 }
 
