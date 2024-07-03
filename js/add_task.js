@@ -13,7 +13,9 @@ async function init() {
   changePriority(medium);
   getAllContacts();
   tasksId = await loadTaskIdFromFirebase();
-  console.warn("checkRequiredFields() funktion noch niocht fertig um zu validiren ob die required felder ausgefüllt sind; wenn möglich fertig machen!! (add_task.js: 144)");
+  console.warn(
+    "checkRequiredFields() funktion noch niocht fertig um zu validiren ob die required felder ausgefüllt sind; wenn möglich fertig machen!! (add_task.js: 144)"
+  );
 }
 
 async function saveTaskIdToFirebase(taskId) {
@@ -88,7 +90,7 @@ function changeImg(condition) {
 
 async function createTask() {
   console.log("create...");
-  // showrequiredText1()
+  // showRequiredText1()
   // debugger
   await ensureAllTasksExists();
   await saveTask();
@@ -145,9 +147,10 @@ function checkRequiredFields() {
   let title = document.getElementById("inputTitle").value;
   let date = document.getElementById("date").value;
   console.log(title.length && date.length);
+
   // console.log(title.length && date.length < 1 && checkCategory() == false == true);
-  if (title.length && date.length <= 1) {
-    showrequiredText();
+  if (title.length || date.length <= 1) {
+    showRequiredText();
     console.log("no upload");
   } else {
     console.log("upload");
@@ -155,7 +158,7 @@ function checkRequiredFields() {
   }
 }
 
-function showrequiredText() {
+function showRequiredText() {
   let ids = ["requiredTitle", "requiredDate", "requiredCatergory"];
   ids.forEach(function (id) {
     let element = document.getElementById(id);
@@ -308,6 +311,8 @@ async function loadRelevantData(path = "") {
 // }
 
 async function deleteTask(taskId) {
+  showBoardLoadScreen();
+
   tasks = tasks.filter((task) => task.tasksIdentity !== taskId);
   for (let i = taskId; i < tasks.length; i++) {
     tasks[i].tasksIdentity = i;
@@ -318,4 +323,6 @@ async function deleteTask(taskId) {
   await saveTaskIdToFirebase(tasksId);
   updateCategories();
   updateHTML();
+
+  hideBoardLoadScreen();
 }

@@ -37,6 +37,18 @@ body .translate-100 {
   transform: translate(80vh, -50%);
 }
 
+#board-load-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  background-color: rgba(0, 0, 0, 0.5);
+
+  z-index: 999;
+}
+
 .headline-button {
   display: flex;
   justify-content: center;
@@ -939,8 +951,40 @@ body .big-edit-task-pop-up-section-container {
   justify-content: center;
   align-items: center;
 
+  gap: 8px;
+
   font-size: 20px;
   font-weight: 400;
+
+  transition: 0.2s;
+
+  cursor: pointer;
+}
+
+.big-edit-task-urgent-priority-aktiv {
+  background: #ff3d00;
+  color: white;
+}
+
+.big-edit-task-low-priority-aktiv {
+  background: #7ae229;
+  color: white;
+}
+
+.big-edit-task-medium-priority-aktiv {
+  background: #ffa800;
+  color: white;
+}
+
+.big-edit-task-urgent-priority-aktiv path,
+.big-edit-task-medium-priority-aktiv path,
+.big-edit-task-low-priority-aktiv path {
+  fill: white;
+  transition: 0.2s;
+}
+
+.big-edit-task-priority-item:hover {
+  box-shadow: 0px 4px 4px 0px #00000040;
 }
 
 #big-task-pop-up-priority-container + #big-task-pop-up-contact-all {
