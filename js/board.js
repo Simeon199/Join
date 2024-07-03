@@ -13,12 +13,6 @@ document.addEventListener("DOMContentLoaded", async function () {
   updateHTML();
 });
 
-// async function loadData(path = "") {
-//   let response = await fetch(BASE_URL1 + path + ".json");
-//   let responseAsJson = await response.json();
-//   return responseAsJson;
-// }
-
 async function loadRelevantData(path = "") {
   let response = await fetch(BASE_URL1 + path + ".json");
   let responseAsJson = await response.json();
@@ -46,33 +40,8 @@ function updateCategories() {
   categories = [...new Set(tasks.map((task) => task.container))];
 }
 
-// async function loadTasksFromDatabase() {
-//   let response = await loadData();
-//   console.log(response.tasksList);
-//   if (response && response.tasksList) {
-//     for (index = 0; index < response.tasksList.length; index++) {
-//       tasks.push(response.tasksList[index]);
-//     }
-//     return tasks;
-//   }
-//   return [];
-// }
-
-// async function loadTasksFromDatabase() {
-//   let response = await loadData();
-//   console.log(response.testRealTasks);
-//   if (response && response.testRealTasks) {
-//     for (index = 0; index < response.testRealTasks.length; index++) {
-//       tasks.push(response.testRealTasks[index]);
-//     }
-//     return tasks;
-//   }
-//   return [];
-// }
-
 async function loadTasksFromDatabase() {
   let response = await loadRelevantData();
-  // console.log(response.testRealTasks);
   if (response && response.testRealTasks) {
     for (index = 0; index < response.testRealTasks.length; index++) {
       tasks.push(response.testRealTasks[index]);
@@ -103,10 +72,7 @@ function updateHTML() {
     let oppositeElementName = "no-" + container;
     let oppositeElement = getRightOppositeElement(oppositeElementName);
     if (element) {
-      // console.log(container);
-      // console.log(tasks);
       let filteredTasks = tasks.filter((task) => task.container === container);
-      // console.log(filteredTasks);
       element.innerHTML = "";
       if (filteredTasks.length > 0) {
         iterateThroughSubArray(filteredTasks, element);
@@ -141,7 +107,6 @@ function insertCorrectUrgencyIcon(element) {
 
 function createToDoHTML(element) {
   let rightIcon = insertCorrectUrgencyIcon(element);
-  // let variableClass = setVariableClass(element);
   let oppositeCategory = "no-" + element["container"];
 
   let contactsHTML = "";
@@ -151,7 +116,6 @@ function createToDoHTML(element) {
       let initials = getInitials(name);
       contactsHTML += /*html*/ `  
       <div class="task-contact" style='background-color: ${element["assigned"][i]["color"]}'>${initials}</div>`;
-      // contactsHTML += `<div class="task-contact">${element["assigned"][i]["name"]}</div>`;
     }
   }
 
@@ -164,19 +128,6 @@ function createToDoHTML(element) {
     rightIcon,
     jsonElement
   );
-
-  // return generateTaskHTML(
-  //   element["tasksIdentity"],
-  //   variableClass,
-  //   element["category"],
-  //   element["title"],
-  //   element["description"],
-  //   contactsHTML,
-  //   element["container"],
-  //   oppositeCategory,
-  //   rightIcon,
-  //   jsonElement
-  // );
 }
 
 function startDragging(elementId) {
@@ -202,23 +153,6 @@ async function moveTo(container) {
 function saveTasksToLocalStorage() {
   localStorage.setItem("tasks", JSON.stringify(tasks));
 }
-
-// async function saveTaskToFirebase(task) {
-//   const taskPath = `/tasksList/${task.tasksIdentity}`;
-//   const response = await fetch(`${BASE_URL1}${taskPath}.json`, {
-//     method: "PATCH",
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//     body: JSON.stringify(task),
-//   });
-
-//   if (!response.ok) {
-//     console.error("Fehler beim Speichern der Task in Firebase:", response.statusText);
-//   } else {
-//     console.log("Task erfolgreich in Firebase gespeichert");
-//   }
-// }
 
 async function saveTaskToFirebase(task) {
   const taskPath = `/testRealTasks/${task.tasksIdentity}`;
@@ -281,6 +215,7 @@ function showBigTaskPopUp(jsonTextElement) {
   document.getElementById("big-task-pop-up").classList.remove("translate-100");
 
   renderBigTask(jsonTextElement);
+  console.log(jsonTextElement);
 }
 
 // hideBigTaskPopUp
@@ -293,7 +228,11 @@ function hideBigTaskPopUp() {
 // renderBigTask
 function renderBigTask(jsonTextElement) {
   let taskJson = JSON.parse(decodeURIComponent(jsonTextElement));
-  // console.log(taskJson["assigned"].length);
+  console.log(taskJson.title);
+  console.log(taskJson.description);
+  console.log(taskJson.category);
+  console.log(taskJson.date);
+  console.log(taskJson.priority);
   document.getElementById("big-task-pop-up-priority-container").classList.remove("big-edit-task-pop-up-section-container");
   document.getElementById("big-task-pop-up-due-date-container").classList.remove("big-edit-task-pop-up-section-container");
 
@@ -338,10 +277,7 @@ function renderBigTask(jsonTextElement) {
       let name = taskJson["assigned"][index]["name"];
       let nameArray = name.trim().split(" ");
       initials = nameArray.map((word) => word.charAt(0).toUpperCase()).join("");
-      // contactsHTML += /*html*/ `
-      // <div class="task-contact" style='background-color: ${taskJson["assigned"][index]["color"]}'>${initials}</div>`;
     }
-    // contactsHTML += `<div class="task-contact">${taskJson["assigned"][index]["name"]}</div>`;
   }
 
   document.getElementById("big-task-pop-up-contact-all").innerHTML = /*html*/ `
@@ -443,15 +379,59 @@ function renderEditTask(jsonTextElement, id) {
     <input type="text" id='big-edit-task-subtask-input' placeholder='Add new Subtask'>
   `;
 
+  // let taskForEditing = createObjectForEditing(id);
+  // console.log(taskForEditing);
+  // let newTaskReady = updateTasksThroughEditing(id, taskForEditing);
+  // console.log(newTaskReady);
+  // let newJsonElement = JSON.stringify(newTaskReady);
+  // console.log(newJsonElement);
+  // let newJsontextElement = encodeURIComponent(newJsonElement);
+  // console.log(newJsontextElement);
+
   document.getElementById("big-task-pop-up-bottom-buttons-container").innerHTML = /*html*/ `
-  <button id='big-edit-task-pop-up-save-button' onclick='renderBigTask("${jsonTextElement}")'>Ok</button>
+  <button id='big-edit-task-pop-up-save-button' onclick='saveTaskChanges(${id})'>Ok</button>
 `;
-  let objectForEditing = createObjectForEditing(id);
-  console.log(objectForEditing);
+
+// Hier Original!
+
+//   document.getElementById("big-task-pop-up-bottom-buttons-container").innerHTML = /*html*/ `
+//   <button id='big-edit-task-pop-up-save-button' onclick='renderBigTask("${jsonTextElement}")'>Ok</button>
+// `;
 }
 
-function createObjectForEditing(taskId) {
-  let interimTaskIdentity = taskId;
+async function saveTaskChanges(id) {
+  let newTitle = document.getElementById("big-edit-task-title-input").value;
+  let newDescription = document.getElementById("big-edit-task-description-input").value;
+  let newDate = document.getElementById("big-edit-task-due-date-input").value;
+  let newPriority = "priority"; 
+  let newAssignedTo = document.getElementById("big-edit-task-assigned-to-input").value;
+  let newSubtaskArray = "ArrayWillFollow"; 
+  let taskForEditing = {
+    newTitle: newTitle,
+    newDescription: newDescription,
+    newDate: newDate,
+    newPriority: newPriority,
+    newAssignedTo: newAssignedTo,
+    newSubtaskArray: newSubtaskArray,
+  };
+
+  try {
+    let newTaskReady = await updateTasksThroughEditing(id, taskForEditing);
+    let newJsonElement = JSON.stringify(newTaskReady);
+    let newJsontextElement = encodeURIComponent(newJsonElement);
+    renderBigTask(newJsontextElement);
+  } catch (error) {
+    console.error("Fehler beim Speichern der Änderungen: ", error);
+  }
+
+  // let newTaskReady = updateTasksThroughEditing(id, taskForEditing);
+  // let newJsonElement = JSON.stringify(newTaskReady);
+  // let newJsontextElement = encodeURIComponent(newJsonElement);
+
+  // renderBigTask(newJsontextElement);
+}
+
+function createObjectForEditing() {
   let objectForEditing = {
     newTitle: document.getElementById("big-edit-task-title-input").value,
     newDescription: document.getElementById("big-edit-task-description-input").value,
@@ -460,49 +440,75 @@ function createObjectForEditing(taskId) {
     newAssignedTo: document.getElementById("big-edit-task-assigned-to-input").value,
     newSubtaskArray: "ArrayWillFollow",
   };
-  // return objectForEditing;
-  return updateTasksThroughEditing(interimTaskIdentity, objectForEditing);
+  return objectForEditing;
 }
 
-function updateTasksThroughEditing(taskId, objectForEditing) {
-  for (index = 0; index < tasks.length; index++) {
+function saveChangesSingleTaskWithSubtask(taskId, objectForEditing, container, category){
+  tasks[taskId] = {
+    category: category,
+    container: container,
+    date: objectForEditing["newDate"],
+    description: objectForEditing["newDescription"],
+    priority: objectForEditing["newPriority"],
+    tasksIdentity: taskId,
+    title: objectForEditing["newTitle"],
+    subtask: objectForEditing["newSubtaskArray"],
+  };
+  let newTask = tasks[taskId];
+  return newTask;
+}
+
+function saveChangesSingleTaskWithoutSubtask(taskId, objectForEditing, container, category){
+  tasks[taskId] = {
+    category: category,
+    container: container,
+    date: objectForEditing["newDate"],
+    description: objectForEditing["newDescription"],
+    priority: objectForEditing["newPriority"],
+    taskIdentity: taskId,
+    title: objectForEditing["newTitle"],
+  };
+  let newTask = tasks[taskId];
+  return newTask;
+}
+
+async function updateTasksThroughEditing(taskId, objectForEditing) {
+  for (let index = 0; index < tasks.length; index++) {
     if (index == taskId) {
       let container = tasks[taskId]["container"];
       let category = tasks[taskId]["category"];
       if (tasks[taskId]["subtask"]) {
-        tasks[taskId] = {
-          category: category,
-          container: container,
-          date: objectForEditing["newDate"],
-          description: objectForEditing["newDescription"],
-          priority: objectForEditing["newPriority"],
-          taskIdentity: taskId,
-          title: objectForEditing["newTitle"],
-          subtask: objectForEditing["newSubtaskArray"],
-        };
+        tasks[taskId] = saveChangesSingleTaskWithSubtask(taskId, objectForEditing, container, category);
       } else {
-        tasks[taskId] = {
-          category: category,
-          container: container,
-          date: objectForEditing["newDate"],
-          description: objectForEditing["newDescription"],
-          priority: objectForEditing["newPriority"],
-          taskIdentity: taskId,
-          title: objectForEditing["newTitle"],
-        };
+        tasks[taskId] = saveChangesSingleTaskWithoutSubtask(taskId, objectForEditing, container, category);
       }
+      try {
+        await saveTaskToFirebase(tasks[taskId]);
+        // await deleteData(path = "/testRealTasks/undefined");
+      } catch (error) {
+        console.error("Fehler beim Hochladen der Daten: ", error);
+      }
+      return tasks[taskId];
     }
   }
-  console.log(tasks);
 }
 
-// deleteTask
-// function deleteTask(id) {
-//   deleteData("tasksList/" + id);
-// }
-
-// function deleteTask(id) {
-//   deleteData("testRealTask/" + id);
+// function updateTasksThroughEditing(taskId, objectForEditing) {
+//   for (index = 0; index < tasks.length; index++) {
+//     if (index == taskId) {
+//       let container = tasks[taskId]["container"];
+//       let category = tasks[taskId]["category"];
+//       if (tasks[taskId]["subtask"]) {
+//         tasks[taskId] = saveChangesSingleTaskWithSubtask(taskId, objectForEditing, container, category);
+//         await upload("testRealTasks", tasks);
+//         return tasks[taskId];
+//       } else {
+//         tasks[taskId] = saveChangesSingleTaskWithoutSubtask(taskId, objectForEditing, container, category);
+//         await upload("testRealTasks", tasks);
+//         return tasks[taskId];
+//       }
+//     }
+//   }
 // }
 
 // deleteData
@@ -578,19 +584,6 @@ function renderSearchedTasks() {
         }
 
         document.getElementById(categoryContainer).innerHTML += generateTaskHTML(task, contactsHTML, oppositeCategory, rightIcon, jsonElement);
-
-        // document.getElementById(categoryContainer).innerHTML += generateTaskHTMLForSearch(
-        //   task["tasksIdentity"],
-        //   variableClass,
-        //   task["category"],
-        //   task["title"],
-        //   task["description"],
-        //   contactsHTML,
-        //   task["container"],
-        //   oppositeCategory,
-        //   rightIcon,
-        //   jsonElement
-        // );
       }
     }
   }
@@ -602,10 +595,7 @@ function taskMarker() {
 }
 
 function getInitials(name) {
-  // Split the name by space to get an array of words
   let nameArray = name.trim().split(" ");
-
-  // Map through the array and return the first character of each word in uppercase
   let initials = nameArray.map((word) => word.charAt(0).toUpperCase()).join("");
 
   return initials;
@@ -622,6 +612,3 @@ function checkIfSubtaskExists() {
     }
   }
 }
-
-// checkIfSubtaskExists();
-// console.log(allTasksWithSubtasks);
