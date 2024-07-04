@@ -3,7 +3,7 @@ let categories = [];
 let searchedTasks = [];
 let allCategories = ["to-do-container", "await-feedback-container", "done-container", "in-progress-container"];
 let elementDraggedOver;
-// console.log(document.getElementById("search-input"));
+let priorityValue = '';
 let searchedInput = document.getElementById("search-input");
 let isBigTaskPopUpOpen = false;
 let allTasksWithSubtasks = [];
@@ -431,7 +431,7 @@ async function saveTaskChanges(id) {
   let newTitle = document.getElementById("big-edit-task-title-input").value;
   let newDescription = document.getElementById("big-edit-task-description-input").value;
   let newDate = document.getElementById("big-edit-task-due-date-input").value;
-  let newPriority = "priority";
+  let newPriority = priorityValue;
   let newAssignedTo = document.getElementById("big-edit-task-assigned-to-input").value;
   let newSubtaskArray = "ArrayWillFollow";
   let taskForEditing = {
@@ -452,11 +452,6 @@ async function saveTaskChanges(id) {
     console.error("Fehler beim Speichern der Änderungen: ", error);
   }
   updateHTML();
-  // let newTaskReady = updateTasksThroughEditing(id, taskForEditing);
-  // let newJsonElement = JSON.stringify(newTaskReady);
-  // let newJsontextElement = encodeURIComponent(newJsonElement);
-
-  // renderBigTask(newJsontextElement);
 }
 
 function checkBigEditTaskPriority(priority) {
@@ -473,6 +468,12 @@ function checkBigEditTaskPriority(priority) {
     document.getElementById("big-edit-task-medium-priority").classList.remove("big-edit-task-medium-priority-aktiv");
     document.getElementById("big-edit-task-urgent-priority").classList.remove("big-edit-task-urgent-priority-aktiv");
   }
+  return savePriorityValue(priority);
+}
+
+function savePriorityValue(priority) {
+  priorityValue = priority;
+  return priorityValue;
 }
 
 function createObjectForEditing() {
@@ -529,7 +530,6 @@ async function updateTasksThroughEditing(taskId, objectForEditing) {
       }
       try {
         await saveTaskToFirebase(tasks[taskId]);
-        // await deleteData(path = "/testRealTasks/undefined");
       } catch (error) {
         console.error("Fehler beim Hochladen der Daten: ", error);
       }
@@ -603,6 +603,7 @@ function searchForTasks() {
 
 // renderSearchedTasks
 function renderSearchedTasks() {
+  // proofIfSearchedTaskEmpty();
   for (let i = 0; i < allCategories.length; i++) {
     const categoryContainer = allCategories[i];
 
@@ -633,6 +634,12 @@ function renderSearchedTasks() {
     }
   }
 }
+
+// function proofIfSearchedTaskEmpty() {
+//   if (searchedTasks.length == 0) {
+//     updateHTML();
+//   }
+// }
 
 // taskMarker
 function taskMarker() {
