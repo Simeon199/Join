@@ -7,6 +7,7 @@ let priorityValue = "";
 let searchedInput = document.getElementById("search-input");
 let isBigTaskPopUpOpen = false;
 let allTasksWithSubtasks = [];
+let assignedToContactsBigContainer = [];
 
 document.addEventListener("DOMContentLoaded", async function () {
   await getTasksFromDatabase();
@@ -421,6 +422,7 @@ function renderEditTask(jsonTextElement, id) {
 
   for (let i = 0; i < taskJson.assigned.length; i++) {
     const contact = taskJson.assigned[i];
+    // console.log(contact);
 
     document.getElementById("big-edit-task-assigned-to-contact-container").innerHTML += /*html*/ `
       <div class='big-edit-task-assigned-to-contact' style='background-color:${contact.color}'>
@@ -431,9 +433,12 @@ function renderEditTask(jsonTextElement, id) {
 
   for (let i = 0; i < allUsers.length; i++) {
     const contact = allUsers[i];
+    // console.log(contact.color);
+    let contactObject = JSON.stringify({ name: contact.name, color: contact.color, isSelected: false });
+    console.log(contactObject);
 
     document.getElementById("big-edit-task-assigned-to-pop-up").innerHTML += /*html*/ `
-<div onclick='checkBigEditTaskContact(${i})' class='big-edit-task-assigned-to-pop-up-contact-container'>
+<div onclick='checkBigEditTaskContact(${i}, ${contactObject})' class='big-edit-task-assigned-to-pop-up-contact-container'>
   <div class='big-edit-task-assigned-to-pop-up-contact' >
     <div class='big-edit-task-assigned-to-pop-up-contact-badge' style='background-color: ${contact.color}'>${firstLetterFirstTwoWords(
       contact.name
@@ -450,24 +455,9 @@ function renderEditTask(jsonTextElement, id) {
     `;
   }
 
-  // let taskForEditing = createObjectForEditing(id);
-  // console.log(taskForEditing);
-  // let newTaskReady = updateTasksThroughEditing(id, taskForEditing);
-  // console.log(newTaskReady);
-  // let newJsonElement = JSON.stringify(newTaskReady);
-  // console.log(newJsonElement);
-  // let newJsontextElement = encodeURIComponent(newJsonElement);
-  // console.log(newJsontextElement);
-
   document.getElementById("big-task-pop-up-bottom-buttons-container").innerHTML = /*html*/ `
   <button id='big-edit-task-pop-up-save-button' onclick='saveTaskChanges(${id})'>Ok</button>
 `;
-
-  // Hier Original!
-
-  //   document.getElementById("big-task-pop-up-bottom-buttons-container").innerHTML = /*html*/ `
-  //   <button id='big-edit-task-pop-up-save-button' onclick='renderBigTask("${jsonTextElement}")'>Ok</button>
-  // `;
 }
 
 function showEditTaskAssignedToPopUp() {
@@ -476,9 +466,10 @@ function showEditTaskAssignedToPopUp() {
   document.getElementById("big-edit-task-assigned-to-input-arrow").classList.toggle("rotate-90");
 }
 
-function checkBigEditTaskContact(i) {
+function checkBigEditTaskContact(i, contactObject) {
+  contactObject["isSelected"] = true;
+  assignContactsBigContainer(contactObject);
   HTMLContactContainer = document.querySelectorAll(".big-edit-task-assigned-to-pop-up-contact-container")[i];
-
   HTMLContactContainer.classList.toggle("big-edit-task-assigned-to-pop-up-active-contact");
 
   if (HTMLContactContainer.classList.contains("big-edit-task-assigned-to-pop-up-active-contact")) {
@@ -498,12 +489,17 @@ function checkBigEditTaskContact(i) {
   }
 }
 
+function assignContactsBigContainer(contact) {
+  assignedToContactsBigContainer.push(contact);
+  console.log(assignedToContactsBigContainer);
+}
+
 async function saveTaskChanges(id) {
   let newTitle = document.getElementById("big-edit-task-title-input").value;
   let newDescription = document.getElementById("big-edit-task-description-input").value;
   let newDate = document.getElementById("big-edit-task-due-date-input").value;
   let newPriority = priorityValue;
-  let newAssignedTo = document.getElementById("big-edit-task-assigned-to-input").value;
+  let newAssignedTo = assignedToContactsBigContainer;
   let newSubtaskArray = "ArrayWillFollow";
   let taskForEditing = {
     newTitle: newTitle,
@@ -522,6 +518,7 @@ async function saveTaskChanges(id) {
   } catch (error) {
     console.error("Fehler beim Speichern der Änderungen: ", error);
   }
+  assignedToContactsBigContainer = [];
   updateHTML();
 }
 
