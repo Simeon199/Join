@@ -590,6 +590,9 @@ body .translate-100 {
   box-sizing: border-box;
 
   width: 525px;
+  max-height: 950px;
+
+  overflow-y: scroll;
 
   background-color: white;
   box-shadow: 0px 0px 4px 0px #00000029;
@@ -662,6 +665,10 @@ body .translate-100 {
   word-break: break-all;
 
   padding: 10px 0;
+
+  position: relative;
+  z-index: 1;
+  background-color: white;
 }
 
 .big-task-pop-up-info-container {
@@ -844,6 +851,11 @@ body .big-edit-task-pop-up-section-container {
   width: 100%;
 
   padding-bottom: 15px;
+
+  position: relative;
+  z-index: 1;
+
+  background-color: white;
 }
 
 #big-edit-task-subtask-input,
@@ -885,6 +897,160 @@ body .big-edit-task-pop-up-section-container {
 
 #big-edit-task-title-input {
   padding: 12px 21px;
+}
+
+#big-edit-task-assigned-to-input-container {
+  position: relative;
+
+  cursor: pointer;
+}
+
+#big-edit-task-assigned-to-input {
+  cursor: pointer;
+}
+
+#big-edit-task-assigned-to-input::placeholder {
+  color: #000000;
+
+  font-size: 20px;
+  font-weight: 400;
+}
+
+.big-edit-task-assigned-to-input-arrow {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+
+  padding: 10px;
+
+  box-sizing: unset;
+
+  transform: translateY(-50%);
+
+  border-radius: 100%;
+
+  transition: 0.1s;
+
+  cursor: pointer;
+
+  height: 7px;
+  width: 7px;
+
+  transition: 0.2s ease-in-out;
+}
+
+.rotate-90 {
+  transform: translateY(-50%) rotate(-180deg);
+}
+
+.big-edit-task-assigned-to-input-arrow:hover {
+  background-color: #f0f0f0;
+}
+
+#big-edit-task-assigned-to-top-container {
+  background-color: white;
+  position: relative;
+  z-index: 1;
+}
+
+#big-edit-task-assigned-to-contact-container {
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
+
+  padding: 10px 0;
+}
+
+.big-edit-task-assigned-to-contact {
+  width: 42px;
+  height: 42px;
+
+  border-radius: 100%;
+
+  border: 2px solid #ffffff;
+  color: white;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.big-edit-task-assigned-to-pop-up-container {
+  transition: 0.2s ease-in-out;
+
+  transform: translateY(-60px);
+}
+
+.big-edit-task-assigned-to-pop-up {
+  overflow: hidden;
+  overflow-y: scroll;
+
+  transition: 0.2s ease-in-out;
+
+  max-height: 320px;
+
+  position: absolute;
+  left: 0;
+  right: 0;
+
+  background-color: white;
+  box-shadow: 0px 0px 14px 3px #0000000a;
+
+  border-radius: 10px;
+}
+
+body .height-0 {
+  transform: translateY(-400px);
+}
+
+body .box-shadow-none {
+  box-shadow: none;
+}
+
+.big-edit-task-assigned-to-pop-up-contact-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 7px 16px;
+}
+
+.big-edit-task-assigned-to-pop-up-contact {
+  display: flex;
+  align-items: center;
+
+  gap: 16px;
+}
+
+.big-edit-task-assigned-to-pop-up-contact-badge {
+  width: 42px;
+  height: 42px;
+
+  border: 2px solid #ffffff;
+  color: white;
+
+  border-radius: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.big-edit-task-assigned-to-pop-up-contact-name {
+  font-size: 20px;
+  font-weight: 400;
+}
+
+.big-edit-task-assigned-to-pop-up-active-contact {
+  background: #091931;
+
+  color: white;
+
+  border-radius: 10px;
 }
 
 #big-edit-task-description-input {
@@ -981,7 +1147,7 @@ body .big-edit-task-pop-up-section-container {
   box-shadow: 0px 4px 4px 0px #00000040;
 }
 
-#big-task-pop-up-priority-container+#big-task-pop-up-contact-all {
+#big-task-pop-up-priority-container + #big-task-pop-up-contact-all {
   padding-bottom: 15px;
 }
 
@@ -1051,7 +1217,6 @@ body .big-edit-task-pop-up-section-container {
   .wrap-container::-webkit-scrollbar-corner {
     background: #838181;
   }
-
 
   .wrap-container::-webkit-scrollbar-button:hover {
     background: #aaa;

@@ -3,7 +3,7 @@ let categories = [];
 let searchedTasks = [];
 let allCategories = ["to-do-container", "await-feedback-container", "done-container", "in-progress-container"];
 let elementDraggedOver;
-let priorityValue = '';
+let priorityValue = "";
 let searchedInput = document.getElementById("search-input");
 let isBigTaskPopUpOpen = false;
 let allTasksWithSubtasks = [];
@@ -388,24 +388,29 @@ function renderEditTask(jsonTextElement, id) {
     </div>
   </div>
   `;
+
   document
     .getElementById("big-edit-task-" + oldPriority.toLowerCase() + "-priority")
     .classList.add("big-edit-task-" + oldPriority.toLowerCase() + "-priority-aktiv");
 
+  priorityValue = oldPriority;
+
   document.getElementById("big-task-pop-up-contact-all").innerHTML = /*html*/ `
-    <p class='big-edit-task-section-headline'>Assigned to</p>
-
-    <input type='text' id='big-edit-task-assigned-to-input' placeholder='Select contacts to assign'>
-
-    <div id='big-edit-task-assigned-to-pop-up' class='d-none'>
-      <div class='big-edit-task-assigned-to-pop-up-contact-container'>
-        <div class='big-edit-task-assigned-to-pop-up-contact'>
-          <div>SM</div>
-          <p>Sofia Müller</p>
-        </div>
-
-        <input type="checkbox">
+    <div id='big-edit-task-assigned-to-top-container'>
+      <p class='big-edit-task-section-headline'>Assigned to</p>
+      
+      <div onclick='showEditTaskAssignedToPopUp()' id='big-edit-task-assigned-to-input-container'>
+        <input type='text' id='big-edit-task-assigned-to-input' placeholder='Select contacts to assign'>
+          <svg id='big-edit-task-assigned-to-input-arrow' class='big-edit-task-assigned-to-input-arrow' width="8" height="5" viewBox="0 0 8 5" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3.44451 4.3L0.844506 1.7C0.52784 1.38333 0.457006 1.02083 0.632006 0.6125C0.807006 0.204167 1.11951 0 1.56951 0H6.71951C7.16951 0 7.48201 0.204167 7.65701 0.6125C7.83201 1.02083 7.76117 1.38333 7.44451 1.7L4.84451 4.3C4.74451 4.4 4.63617 4.475 4.51951 4.525C4.40284 4.575 4.27784 4.6 4.14451 4.6C4.01117 4.6 3.88617 4.575 3.76951 4.525C3.65284 4.475 3.54451 4.4 3.44451 4.3Z" fill="#2A3647"/>
+          </svg>
       </div>
+    </div>
+
+      <div id='big-edit-task-assigned-to-contact-container'></div>
+
+    <div id='big-edit-task-assigned-to-pop-up-container' class='big-edit-task-assigned-to-pop-up-container height-0'>
+      <div id='big-edit-task-assigned-to-pop-up' class='big-edit-task-assigned-to-pop-up box-shadow-none'></div>
     </div>
     `;
 
@@ -413,6 +418,37 @@ function renderEditTask(jsonTextElement, id) {
     <p class='big-edit-task-section-headline'>Subtasks</p>
     <input type="text" id='big-edit-task-subtask-input' placeholder='Add new Subtask'>
   `;
+
+  for (let i = 0; i < taskJson.assigned.length; i++) {
+    const contact = taskJson.assigned[i];
+
+    document.getElementById("big-edit-task-assigned-to-contact-container").innerHTML += /*html*/ `
+      <div class='big-edit-task-assigned-to-contact' style='background-color:${contact.color}'>
+        ${firstLetterFirstTwoWords(contact.name)}
+      </div>
+    `;
+  }
+
+  for (let i = 0; i < allUsers.length; i++) {
+    const contact = allUsers[i];
+
+    document.getElementById("big-edit-task-assigned-to-pop-up").innerHTML += /*html*/ `
+<div onclick='checkBigEditTaskContact(${i})' class='big-edit-task-assigned-to-pop-up-contact-container'>
+  <div class='big-edit-task-assigned-to-pop-up-contact' >
+    <div class='big-edit-task-assigned-to-pop-up-contact-badge' style='background-color: ${contact.color}'>${firstLetterFirstTwoWords(
+      contact.name
+    )}</div>
+    <p class='big-edit-task-assigned-to-pop-up-contact-name'>${contact.name}</p>
+  </div>
+  
+  <div class='big-edit-task-assigned-to-pop-up-contact-checkbox-icon-container'>
+    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="1" y="1" width="16" height="16" rx="3" stroke="#2A3647" stroke-width="2"/>
+    </svg>
+  </div>
+</div>
+    `;
+  }
 
   // let taskForEditing = createObjectForEditing(id);
   // console.log(taskForEditing);
@@ -432,6 +468,34 @@ function renderEditTask(jsonTextElement, id) {
   //   document.getElementById("big-task-pop-up-bottom-buttons-container").innerHTML = /*html*/ `
   //   <button id='big-edit-task-pop-up-save-button' onclick='renderBigTask("${jsonTextElement}")'>Ok</button>
   // `;
+}
+
+function showEditTaskAssignedToPopUp() {
+  document.getElementById("big-edit-task-assigned-to-pop-up-container").classList.toggle("height-0");
+  document.getElementById("big-edit-task-assigned-to-pop-up").classList.toggle("box-shadow-none");
+  document.getElementById("big-edit-task-assigned-to-input-arrow").classList.toggle("rotate-90");
+}
+
+function checkBigEditTaskContact(i) {
+  HTMLContactContainer = document.querySelectorAll(".big-edit-task-assigned-to-pop-up-contact-container")[i];
+
+  HTMLContactContainer.classList.toggle("big-edit-task-assigned-to-pop-up-active-contact");
+
+  if (HTMLContactContainer.classList.contains("big-edit-task-assigned-to-pop-up-active-contact")) {
+    console.log("ak");
+    document.querySelectorAll(".big-edit-task-assigned-to-pop-up-contact-checkbox-icon-container")[i].innerHTML = /*html*/ `
+    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M17 8V14C17 15.6569 15.6569 17 14 17H4C2.34315 17 1 15.6569 1 14V4C1 2.34315 2.34315 1 4 1H12" stroke="white" stroke-width="2" stroke-linecap="round"/>
+      <path d="M5 9L9 13L17 1.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+      `;
+  } else {
+    document.querySelectorAll(".big-edit-task-assigned-to-pop-up-contact-checkbox-icon-container")[i].innerHTML = /*html*/ `
+    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="1" y="1" width="16" height="16" rx="3" stroke="#2A3647" stroke-width="2" />
+    </svg>
+     `;
+  }
 }
 
 async function saveTaskChanges(id) {
