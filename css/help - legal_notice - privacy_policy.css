@@ -158,11 +158,6 @@ li {
     padding: 130px 30px 100px 30px;
   }
 
-  span,
-  h1 {
-    word-break: break-all;
-  }
-
   main h1 {
     font-size: 47px;
   }
