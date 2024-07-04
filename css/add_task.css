@@ -133,6 +133,8 @@ h1 {
   justify-content: space-between;
 
   padding-top: 30px;
+
+  gap: 30px;
 }
 
 .input1 {
@@ -473,7 +475,7 @@ h1 {
 
 @media (max-width: 1000px) {
   .main {
-    padding: 90px 0px;
+    padding: 100px 30px;
   }
   .submitSection {
     left: 0px;
