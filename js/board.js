@@ -336,6 +336,7 @@ function renderTaskContact(taskJson) {
 // renderEditTask
 function renderEditTask(jsonTextElement, id) {
   let taskJson = JSON.parse(decodeURIComponent(jsonTextElement));
+  console.log(taskJson);
 
   let oldPriority = taskJson.priority;
 
@@ -419,7 +420,7 @@ function renderEditTask(jsonTextElement, id) {
     <p class='big-edit-task-section-headline'>Subtasks</p>
     <input type="text" id='big-edit-task-subtask-input' placeholder='Add new Subtask'>
   `;
-
+  console.log(taskJson.assigned);
   for (let i = 0; i < taskJson.assigned.length; i++) {
     const contact = taskJson.assigned[i];
     // console.log(contact);
