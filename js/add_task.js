@@ -87,8 +87,6 @@ function changeImg(condition) {
 
 async function createTask() {
   console.log("create...");
-  // showRequiredText1()
-  // debugger
   await ensureAllTasksExists();
   await saveTask();
   // if(localStorage.getItem('tasks')){
@@ -144,7 +142,7 @@ function checkRequiredFields() {
   let title = document.getElementById("inputTitle").value;
   let date = document.getElementById("date").value;
   console.log(title.length, date.length);
-  if (title.length <=1 || date.length <= 1 || checkCategory() == false == true) {
+  if (title.length <=1 || date.length <= 1 || checkCategory() == false) {
     showRequiredText();
   } else {
     createTask();

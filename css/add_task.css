@@ -130,7 +130,7 @@ h1 {
 .addTaskBody form {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-around;
 
   padding-top: 30px;
 

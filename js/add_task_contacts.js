@@ -96,34 +96,29 @@ function checkAssignedContacts(name, color, i) {
 }
 
 function checkAssignedContactsStatus(un) {
-    if (!assignedContacts == 0) {
-      for (let i = 0; i < assignedContacts.length; i++) {
-        if (assignedContacts[i].name == un) {
-          if (assignedContacts[i].isSelected == true) {
-            return true
-          }
+  if (!assignedContacts == 0) {
+    for (let i = 0; i < assignedContacts.length; i++) {
+      if (assignedContacts[i].name == un) {
+        if (assignedContacts[i].isSelected == true) {
+          return true
         }
       }
-    } else {
-      return false
     }
-    // if (Object.hasOwnProperty.call(object, name)) {
-    //   const element = object[name];
-    //   
-    // }
+  } else {
+    return false
+  }
 }
 
 function removeAssignetToContects(name, index) {
-  console.log(name);
-    for (let i = 0; i < assignedContacts.length; i++) {
-      indexOfName = assignedContacts[i].name.includes(name);
-      if (indexOfName == true) {
-        document.getElementById(`user${index}`).classList.remove("contactIsSelect");
-        assignedContacts.splice(i, 1)
-      }
+  for (let i = 0; i < assignedContacts.length; i++) {
+    indexOfName = assignedContacts[i].name.includes(name);
+    if (indexOfName == true) {
+      document.getElementById(`user${index}`).classList.remove("contactIsSelect");
+      assignedContacts.splice(i, 1)
     }
-    
-    assignetToContects()
+  }
+  
+  assignetToContects()
 }
 
 function changeToInputfield() {
@@ -137,13 +132,13 @@ function changeToInputfield() {
         search.remove("d-none");
         input.classList.remove("d-none");
         stV.add("d-none");
-        checkDropDown('arrowa');
+        // checkDropDown('arrowa');
       } else {
         search.add("d-none");
         input.classList.add("d-none");
         stV.remove("d-none");
         input.value = "";
-        checkDropDown('arrowa');
+        // checkDropDown('arrowa');
       }
   })
 }
