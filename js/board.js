@@ -8,6 +8,7 @@ let searchedInput = document.getElementById("search-input");
 let isBigTaskPopUpOpen = false;
 let allTasksWithSubtasks = [];
 let assignedToContactsBigContainer = [];
+// let oppositeCategoryArray = [];
 
 document.addEventListener("DOMContentLoaded", async function () {
   await getTasksFromDatabase();
@@ -343,6 +344,9 @@ function renderEditTask(jsonTextElement, id) {
   let oldTitle = document.getElementById("big-task-pop-up-title-text").innerHTML;
   let oldDescription = document.getElementById("big-task-pop-up-description").innerHTML;
   let oldDate = document.getElementById("big-task-pop-up-date").innerHTML;
+  // console.log(oldTitle);
+  // console.log(oldDescription);
+  // console.log(oldDate);
 
   document.getElementById("big-task-pop-up-category").innerHTML = "";
   document.getElementById("big-task-pop-up-category").style = "background-color: white;";
@@ -431,67 +435,74 @@ function renderEditTask(jsonTextElement, id) {
 
     <ul id='big-edit-task-subtask-container'></ul>
   `;
-  console.log(taskJson.assigned);
-  for (let i = 0; i < taskJson.assigned.length; i++) {
-    const contact = taskJson.assigned[i];
-    // console.log(contact);
+  if (taskJson.assigned) {
+    console.log(taskJson);
+    for (let i = 0; i < taskJson.assigned.length; i++) {
+      const contact = taskJson.assigned[i];
+      // console.log(contact);
 
-    document.getElementById("big-edit-task-assigned-to-contact-container").innerHTML += /*html*/ `
-      <div class='big-edit-task-assigned-to-contact' style='background-color:${contact.color}'>
-        ${firstLetterFirstTwoWords(contact.name)}
-      </div>
-    `;
+      document.getElementById("big-edit-task-assigned-to-contact-container").innerHTML += /*html*/ `
+        <div class='big-edit-task-assigned-to-contact' style='background-color:${contact.color}'>
+          ${firstLetterFirstTwoWords(contact.name)}
+        </div>
+      `;
+    }
+  } else {
+    taskJson.assigned = [];
   }
 
   for (let i = 0; i < allUsers.length; i++) {
+    console.log(allUsers);
     const contact = allUsers[i];
     let contactObject = JSON.stringify({ name: contact.name, color: contact.color, isSelected: false });
 
     document.getElementById("big-edit-task-assigned-to-pop-up").innerHTML += /*html*/ `
-<div onclick='checkBigEditTaskContact(${i}, ${contactObject})' class='big-edit-task-assigned-to-pop-up-contact-container'>
-  <div class='big-edit-task-assigned-to-pop-up-contact' >
-    <div class='big-edit-task-assigned-to-pop-up-contact-badge' style='background-color: ${contact.color}'>${firstLetterFirstTwoWords(
-      contact.name
-    )}</div>
-    <p class='big-edit-task-assigned-to-pop-up-contact-name'>${contact.name}</p>
-  </div>
-  
-  <div class='big-edit-task-assigned-to-pop-up-contact-checkbox-icon-container'>
-    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <rect x="1" y="1" width="16" height="16" rx="3" stroke="#2A3647" stroke-width="2"/>
-    </svg>
-  </div>
-</div>
+      <div onclick='checkBigEditTaskContact(${i}, ${contactObject})' class='big-edit-task-assigned-to-pop-up-contact-container'>
+        <div class='big-edit-task-assigned-to-pop-up-contact' >
+          <div class='big-edit-task-assigned-to-pop-up-contact-badge' style='background-color: ${contact.color}'>
+            ${firstLetterFirstTwoWords(contact.name)}
+          </div>
+          <p class='big-edit-task-assigned-to-pop-up-contact-name'>${contact.name}</p>
+        </div>
+
+        <div class='big-edit-task-assigned-to-pop-up-contact-checkbox-icon-container'>
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="1" y="1" width="16" height="16" rx="3" stroke="#2A3647" stroke-width="2"/>
+          </svg>
+        </div>
+      </div>
     `;
 
     document.getElementById("big-edit-task-subtask-container").innerHTML = "";
 
-    for (let i = 0; i < taskJson.subtask.length; i++) {
-      const subtask = taskJson.subtask[i]["task-description"];
 
-      document.getElementById("big-edit-task-subtask-container").innerHTML += /*html*/ `
-      <li class='big-edit-task-subtask'>
-        ${subtask}
+    if (taskJson.subtask) {
+      for (let i = 0; i < taskJson.subtask.length; i++) {
+        const subtask = taskJson.subtask[i]["task-description"];
 
-        <div class='big-edit-task-subtask-icon-container'>
-          <svg class='big-edit-task-subtask-edit-icon' width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M2.14453 17H3.54453L12.1695 8.375L10.7695 6.975L2.14453 15.6V17ZM16.4445 6.925L12.1945 2.725L13.5945 1.325C13.9779 0.941667 14.4487 0.75 15.007 0.75C15.5654 0.75 16.0362 0.941667 16.4195 1.325L17.8195 2.725C18.2029 3.10833 18.4029 3.57083 18.4195 4.1125C18.4362 4.65417 18.2529 5.11667 17.8695 5.5L16.4445 6.925ZM14.9945 8.4L4.39453 19H0.144531V14.75L10.7445 4.15L14.9945 8.4Z" fill="#2A3647"/>
-          </svg>
-          
-          <div class='big-edit-task-subtask-icon-line'></div>
-          
-          <svg class='big-edit-task-subtask-delete-icon' width="17" height="18" viewBox="0 0 17 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M3.14453 18C2.59453 18 2.1237 17.8042 1.73203 17.4125C1.34036 17.0208 1.14453 16.55 1.14453 16V3C0.861198 3 0.623698 2.90417 0.432031 2.7125C0.240365 2.52083 0.144531 2.28333 0.144531 2C0.144531 1.71667 0.240365 1.47917 0.432031 1.2875C0.623698 1.09583 0.861198 1 1.14453 1H5.14453C5.14453 0.716667 5.24036 0.479167 5.43203 0.2875C5.6237 0.0958333 5.8612 0 6.14453 0H10.1445C10.4279 0 10.6654 0.0958333 10.857 0.2875C11.0487 0.479167 11.1445 0.716667 11.1445 1H15.1445C15.4279 1 15.6654 1.09583 15.857 1.2875C16.0487 1.47917 16.1445 1.71667 16.1445 2C16.1445 2.28333 16.0487 2.52083 15.857 2.7125C15.6654 2.90417 15.4279 3 15.1445 3V16C15.1445 16.55 14.9487 17.0208 14.557 17.4125C14.1654 17.8042 13.6945 18 13.1445 18H3.14453ZM3.14453 3V16H13.1445V3H3.14453ZM5.14453 13C5.14453 13.2833 5.24036 13.5208 5.43203 13.7125C5.6237 13.9042 5.8612 14 6.14453 14C6.42786 14 6.66536 13.9042 6.85703 13.7125C7.0487 13.5208 7.14453 13.2833 7.14453 13V6C7.14453 5.71667 7.0487 5.47917 6.85703 5.2875C6.66536 5.09583 6.42786 5 6.14453 5C5.8612 5 5.6237 5.09583 5.43203 5.2875C5.24036 5.47917 5.14453 5.71667 5.14453 6V13ZM9.14453 13C9.14453 13.2833 9.24037 13.5208 9.43203 13.7125C9.6237 13.9042 9.8612 14 10.1445 14C10.4279 14 10.6654 13.9042 10.857 13.7125C11.0487 13.5208 11.1445 13.2833 11.1445 13V6C11.1445 5.71667 11.0487 5.47917 10.857 5.2875C10.6654 5.09583 10.4279 5 10.1445 5C9.8612 5 9.6237 5.09583 9.43203 5.2875C9.24037 5.47917 9.14453 5.71667 9.14453 6V13Z" fill="#2A3647"/>
-          </svg>
-        </div>
-      </li>
-      `;
+        document.getElementById("big-edit-task-subtask-container").innerHTML += /*html*/ `
+        <li class='big-edit-task-subtask'>
+          ${subtask}
+
+          <div class='big-edit-task-subtask-icon-container'>
+            <svg class='big-edit-task-subtask-edit-icon' width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M2.14453 17H3.54453L12.1695 8.375L10.7695 6.975L2.14453 15.6V17ZM16.4445 6.925L12.1945 2.725L13.5945 1.325C13.9779 0.941667 14.4487 0.75 15.007 0.75C15.5654 0.75 16.0362 0.941667 16.4195 1.325L17.8195 2.725C18.2029 3.10833 18.4029 3.57083 18.4195 4.1125C18.4362 4.65417 18.2529 5.11667 17.8695 5.5L16.4445 6.925ZM14.9945 8.4L4.39453 19H0.144531V14.75L10.7445 4.15L14.9945 8.4Z" fill="#2A3647"/>
+            </svg>
+            
+            <div class='big-edit-task-subtask-icon-line'></div>
+            
+            <svg class='big-edit-task-subtask-delete-icon' width="17" height="18" viewBox="0 0 17 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M3.14453 18C2.59453 18 2.1237 17.8042 1.73203 17.4125C1.34036 17.0208 1.14453 16.55 1.14453 16V3C0.861198 3 0.623698 2.90417 0.432031 2.7125C0.240365 2.52083 0.144531 2.28333 0.144531 2C0.144531 1.71667 0.240365 1.47917 0.432031 1.2875C0.623698 1.09583 0.861198 1 1.14453 1H5.14453C5.14453 0.716667 5.24036 0.479167 5.43203 0.2875C5.6237 0.0958333 5.8612 0 6.14453 0H10.1445C10.4279 0 10.6654 0.0958333 10.857 0.2875C11.0487 0.479167 11.1445 0.716667 11.1445 1H15.1445C15.4279 1 15.6654 1.09583 15.857 1.2875C16.0487 1.47917 16.1445 1.71667 16.1445 2C16.1445 2.28333 16.0487 2.52083 15.857 2.7125C15.6654 2.90417 15.4279 3 15.1445 3V16C15.1445 16.55 14.9487 17.0208 14.557 17.4125C14.1654 17.8042 13.6945 18 13.1445 18H3.14453ZM3.14453 3V16H13.1445V3H3.14453ZM5.14453 13C5.14453 13.2833 5.24036 13.5208 5.43203 13.7125C5.6237 13.9042 5.8612 14 6.14453 14C6.42786 14 6.66536 13.9042 6.85703 13.7125C7.0487 13.5208 7.14453 13.2833 7.14453 13V6C7.14453 5.71667 7.0487 5.47917 6.85703 5.2875C6.66536 5.09583 6.42786 5 6.14453 5C5.8612 5 5.6237 5.09583 5.43203 5.2875C5.24036 5.47917 5.14453 5.71667 5.14453 6V13ZM9.14453 13C9.14453 13.2833 9.24037 13.5208 9.43203 13.7125C9.6237 13.9042 9.8612 14 10.1445 14C10.4279 14 10.6654 13.9042 10.857 13.7125C11.0487 13.5208 11.1445 13.2833 11.1445 13V6C11.1445 5.71667 11.0487 5.47917 10.857 5.2875C10.6654 5.09583 10.4279 5 10.1445 5C9.8612 5 9.6237 5.09583 9.43203 5.2875C9.24037 5.47917 9.14453 5.71667 9.14453 6V13Z" fill="#2A3647"/>
+            </svg>
+          </div>
+        </li>
+        `;
+      }
     }
   }
 
   document.getElementById("big-task-pop-up-bottom-buttons-container").innerHTML = /*html*/ `
-  <button id='big-edit-task-pop-up-save-button' onclick='saveTaskChanges(${id})'>Ok</button>
-`;
+  <button id='big-edit-task-pop-up-save-button' onclick='saveTaskChanges(${id})'>Ok</button>`;
 }
 
 function showEditTaskAssignedToPopUp() {
@@ -724,13 +735,15 @@ function searchForTasks() {
       searchedTasks.push(task);
     }
   }
+  if (searchedTasks.length == 0) {
+    updateHTML();
+  }
   console.log(searchedTasks);
   renderSearchedTasks();
 }
 
 // renderSearchedTasks
 function renderSearchedTasks() {
-  // proofIfSearchedTaskEmpty();
   for (let i = 0; i < allCategories.length; i++) {
     const categoryContainer = allCategories[i];
 
@@ -744,29 +757,24 @@ function renderSearchedTasks() {
         let rightIcon = insertCorrectUrgencyIcon(task);
         let variableClass = setVariableClass(task);
         let oppositeCategory = "no-" + task["container"];
-
         let contactsHTML = "";
         if (task["assigned"]) {
           for (let index = 0; index < task["assigned"].length; index++) {
             let name = task["assigned"][index]["name"];
             let initials = getInitials(name);
-
             contactsHTML += /*html*/ `
               <div class="task-contact" style='background-color: ${task["assigned"][index]["color"]}'>${initials}</div>`;
           }
         }
-
         document.getElementById(categoryContainer).innerHTML += generateTaskHTML(task, contactsHTML, oppositeCategory, rightIcon, jsonElement);
       }
+      else {
+        document.getElementById(oppositeCategory).classList.remove('d-none');
+      }
     }
+    console.log(oppositeCategoryArray);
   }
 }
-
-// function proofIfSearchedTaskEmpty() {
-//   if (searchedTasks.length == 0) {
-//     updateHTML();
-//   }
-// }
 
 // taskMarker
 function taskMarker() {
