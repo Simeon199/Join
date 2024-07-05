@@ -154,7 +154,7 @@ function checkRequiredFields() {
     console.log("no upload");
   } else {
     console.log("upload");
-    // createTask()
+    createTask()
   }
 }
 
