@@ -62,7 +62,7 @@
                   </div>
                 </div>
                 <svg
-                  onclick="checkDropDown('arrowa')"
+                  onclick="checkDropDown('arrowa'); stopEvent(event)"
                   id="arrowa"
                   class="arrow"
                   width="8"
@@ -77,7 +77,7 @@
                   />
                 </svg>
               </div>
-              <div id="assignedToDropDown" class="drop-bg d-none"></div>
+              <div id="assignedToDropDown" class="drop-bg d-none" onclick="stopEvent(event)"></div>
               <div id="userCircles"></div>
             </div>
           </div>

@@ -269,6 +269,7 @@ function checkDropDown(id) {
 function hideAllAddTaskPopups() {
   hideDropDownAssignedTo();
   hideDropDownCategory();
+  changeToInputfield()
 }
 
 async function loadRelevantData(path = "") {
