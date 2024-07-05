@@ -153,7 +153,7 @@ function showRequiredText() {
   let ids = ["requiredTitle", "requiredDate", "requiredCatergory"];
   ids.forEach(function (id) {
     let element = document.getElementById(id);
-      element.classList.remove("d-none");
+    element.classList.remove("d-none");
   });
 }
 

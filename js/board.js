@@ -433,9 +433,7 @@ function renderEditTask(jsonTextElement, id) {
 
   for (let i = 0; i < allUsers.length; i++) {
     const contact = allUsers[i];
-    // console.log(contact.color);
     let contactObject = JSON.stringify({ name: contact.name, color: contact.color, isSelected: false });
-    console.log(contactObject);
 
     document.getElementById("big-edit-task-assigned-to-pop-up").innerHTML += /*html*/ `
 <div onclick='checkBigEditTaskContact(${i}, ${contactObject})' class='big-edit-task-assigned-to-pop-up-contact-container'>
@@ -509,6 +507,7 @@ async function saveTaskChanges(id) {
     newAssignedTo: newAssignedTo,
     newSubtaskArray: newSubtaskArray,
   };
+  // console.log(taskForEditing);
 
   try {
     let newTaskReady = await updateTasksThroughEditing(id, taskForEditing);
@@ -518,7 +517,7 @@ async function saveTaskChanges(id) {
   } catch (error) {
     console.error("Fehler beim Speichern der Änderungen: ", error);
   }
-  assignedToContactsBigContainer = [];
+  // assignedToContactsBigContainer = [];
   updateHTML();
 }
 
@@ -544,20 +543,22 @@ function savePriorityValue(priority) {
   return priorityValue;
 }
 
-function createObjectForEditing() {
-  let objectForEditing = {
-    newTitle: document.getElementById("big-edit-task-title-input").value,
-    newDescription: document.getElementById("big-edit-task-description-input").value,
-    newDate: document.getElementById("big-edit-task-due-date-input").value,
-    newPriority: "priority",
-    newAssignedTo: document.getElementById("big-edit-task-assigned-to-input").value,
-    newSubtaskArray: "ArrayWillFollow",
-  };
-  return objectForEditing;
-}
+// function createObjectForEditing() {
+//   let objectForEditing = {
+//     newTitle: document.getElementById("big-edit-task-title-input").value,
+//     newDescription: document.getElementById("big-edit-task-description-input").value,
+//     newDate: document.getElementById("big-edit-task-due-date-input").value,
+//     newPriority: "priority",
+//     newAssignedTo: document.getElementById("big-edit-task-assigned-to-input").value,
+//     newSubtaskArray: "ArrayWillFollow",
+//   };
+//   return objectForEditing;
+// }
 
 function saveChangesSingleTaskWithSubtask(taskId, objectForEditing, container, category) {
+  console.log(objectForEditing);
   tasks[taskId] = {
+    assigned: objectForEditing["newAssignedTo"],
     category: category,
     container: container,
     date: objectForEditing["newDate"],
@@ -568,21 +569,26 @@ function saveChangesSingleTaskWithSubtask(taskId, objectForEditing, container, c
     subtask: objectForEditing["newSubtaskArray"],
   };
   let newTask = tasks[taskId];
+  console.log(newTask);
+  assignedToContactsBigContainer = [];
   return newTask;
 }
 
 function saveChangesSingleTaskWithoutSubtask(taskId, objectForEditing, container, category) {
+  console.log(objectForEditing);
   tasks[taskId] = {
+    assigned: objectForEditing["newAssignedTo"],
     category: category,
     container: container,
     date: objectForEditing["newDate"],
     description: objectForEditing["newDescription"],
     priority: objectForEditing["newPriority"],
     tasksIdentity: taskId,
-    tasksIdentity: taskId,
     title: objectForEditing["newTitle"],
   };
   let newTask = tasks[taskId];
+  console.log(newTask);
+  assignedToContactsBigContainer = [];
   return newTask;
 }
 
@@ -605,24 +611,6 @@ async function updateTasksThroughEditing(taskId, objectForEditing) {
     }
   }
 }
-
-// function updateTasksThroughEditing(taskId, objectForEditing) {
-//   for (index = 0; index < tasks.length; index++) {
-//     if (index == taskId) {
-//       let container = tasks[taskId]["container"];
-//       let category = tasks[taskId]["category"];
-//       if (tasks[taskId]["subtask"]) {
-//         tasks[taskId] = saveChangesSingleTaskWithSubtask(taskId, objectForEditing, container, category);
-//         await upload("testRealTasks", tasks);
-//         return tasks[taskId];
-//       } else {
-//         tasks[taskId] = saveChangesSingleTaskWithoutSubtask(taskId, objectForEditing, container, category);
-//         await upload("testRealTasks", tasks);
-//         return tasks[taskId];
-//       }
-//     }
-//   }
-// }
 
 // deleteData
 async function deleteData(path = "") {
