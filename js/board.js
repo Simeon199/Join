@@ -1,6 +1,7 @@
 let tasks = [];
 let categories = [];
 let searchedTasks = [];
+noSearchedTasks = [];
 let allCategories = ["to-do-container", "await-feedback-container", "done-container", "in-progress-container"];
 let elementDraggedOver;
 let priorityValue = "";
@@ -735,9 +736,6 @@ function searchForTasks() {
       searchedTasks.push(task);
     }
   }
-  if (searchedTasks.length == 0) {
-    updateHTML();
-  }
   console.log(searchedTasks);
   renderSearchedTasks();
 }
@@ -746,33 +744,31 @@ function searchForTasks() {
 function renderSearchedTasks() {
   for (let i = 0; i < allCategories.length; i++) {
     const categoryContainer = allCategories[i];
-
     document.getElementById(categoryContainer).innerHTML = "";
+    if (searchedTasks.length < tasks.length) {
+      for (let j = 0; j < searchedTasks.length; j++) {
+        const task = searchedTasks[j];
 
-    for (let j = 0; j < searchedTasks.length; j++) {
-      const task = searchedTasks[j];
-
-      if (categoryContainer === task.container) {
-        let jsonElement = JSON.stringify(task);
-        let rightIcon = insertCorrectUrgencyIcon(task);
-        let variableClass = setVariableClass(task);
-        let oppositeCategory = "no-" + task["container"];
-        let contactsHTML = "";
-        if (task["assigned"]) {
-          for (let index = 0; index < task["assigned"].length; index++) {
-            let name = task["assigned"][index]["name"];
-            let initials = getInitials(name);
-            contactsHTML += /*html*/ `
-              <div class="task-contact" style='background-color: ${task["assigned"][index]["color"]}'>${initials}</div>`;
+        if (categoryContainer === task.container) {
+          let jsonElement = JSON.stringify(task);
+          let rightIcon = insertCorrectUrgencyIcon(task);
+          let variableClass = setVariableClass(task);
+          let oppositeCategory = "no-" + task["container"];
+          let contactsHTML = "";
+          if (task["assigned"]) {
+            for (let index = 0; index < task["assigned"].length; index++) {
+              let name = task["assigned"][index]["name"];
+              let initials = getInitials(name);
+              contactsHTML += /*html*/ `
+                <div class="task-contact" style='background-color: ${task["assigned"][index]["color"]}'>${initials}</div>`;
+            }
           }
+          document.getElementById(categoryContainer).innerHTML += generateTaskHTML(task, contactsHTML, oppositeCategory, rightIcon, jsonElement);
         }
-        document.getElementById(categoryContainer).innerHTML += generateTaskHTML(task, contactsHTML, oppositeCategory, rightIcon, jsonElement);
       }
-      else {
-        document.getElementById(oppositeCategory).classList.remove('d-none');
-      }
+    } else {
+      updateHTML();
     }
-    console.log(oppositeCategoryArray);
   }
 }
 
