@@ -87,6 +87,7 @@ function changeImg(condition) {
 
 async function createTask() {
   console.log("create...");
+  startAnimation()
   await ensureAllTasksExists();
   await saveTask();
   // if(localStorage.getItem('tasks')){
@@ -312,4 +313,14 @@ async function deleteTask(taskId) {
   updateHTML();
 
   hideBoardLoadScreen();
+}
+
+function startAnimation() {
+  document.getElementById("addedAnimation").classList.remove('d-none');
+  document.getElementById("addedAnimation").classList.add('erase-in');
+  setTimeout(goToBoard , 1500)
+}
+
+function goToBoard() {
+  window.location.href = "board.html";
 }

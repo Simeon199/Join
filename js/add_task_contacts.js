@@ -132,13 +132,11 @@ function changeToInputfield() {
         search.remove("d-none");
         input.classList.remove("d-none");
         stV.add("d-none");
-        // checkDropDown('arrowa');
       } else {
         search.add("d-none");
         input.classList.add("d-none");
         stV.remove("d-none");
         input.value = "";
-        // checkDropDown('arrowa');
       }
   })
 }

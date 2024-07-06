@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="css/add_task.css" />
     <link rel="stylesheet" href="css/add_task_contacts.css" />
     <link rel="stylesheet" href="css/add_task_subtasks.css" />
+    <link rel="stylesheet" href="css/add_task_animation.css">
 
     <!-- js -->
     <script src="js/board.js"></script>
@@ -36,7 +37,8 @@
         <h1>Add Task</h1>
       </div>
       <section id="section99" class="addTaskBody">
-        <form onsubmit="checkRequiredFields(); return false;">
+        <!-- onsubmit="checkRequiredFields() -->
+        <form onsubmit="createTask(); return false;">
           <div class="input1">
             <div>
               <p>Title<b>*</b></p>
@@ -174,6 +176,13 @@
           </section>
         </form>
       </section>
+    </div>
+
+    <div id="addedAnimation" class="d-none">
+        <div class="animation-bg">
+          <span>Task added to board</span>
+          <img src="Assets/img/board.svg" alt="">
+        </div>
     </div>
 
     <div id="sidebar"></div>

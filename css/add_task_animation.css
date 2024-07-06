@@ -1,0 +1,44 @@
+body {
+    overflow: hidden;
+}
+
+#addedAnimation {
+    position: absolute;
+    height: 100vh;
+    top: 0;
+    left: 232px;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 99999;
+    /* transition: 2s ease-in-out; */
+    transition: 2s ease-in;
+}
+
+.animation-bg {
+    background-color: rgba(42, 54, 71, 1);
+    color: rgba(255, 255, 255, 1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+    border-radius: 15px;
+    gap: 15px;
+}
+
+.erase-in {
+    animation: moveLogo  0.2s ease-in-out;
+}
+
+@keyframes moveLogo {
+    0% {
+      bottom: 0px;
+      left: 0px;
+      transform: translate(+50% +50%);
+    }
+    100% {
+      bottom: 50%;
+      /* transform: translate(-50%, -50%); */
+    }
+  }
