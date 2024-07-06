@@ -510,6 +510,12 @@ function showEditTaskAssignedToPopUp() {
   document.getElementById("big-edit-task-assigned-to-pop-up-container").classList.toggle("height-0");
   document.getElementById("big-edit-task-assigned-to-pop-up").classList.toggle("box-shadow-none");
   document.getElementById("big-edit-task-assigned-to-input-arrow").classList.toggle("rotate-90");
+  let bigEditTaskInput = document.getElementById('big-edit-task-subtask-input-container');
+  if (!bigEditTaskInput.classList.contains('d-none')) {
+    bigEditTaskInput.classList.add('d-none');
+  } else {
+    bigEditTaskInput.classList.remove('d-none');
+  }
 }
 
 function checkBigEditTaskContact(i, contactObject) {
