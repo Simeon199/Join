@@ -339,36 +339,61 @@ function renderTaskContact(taskJson) {
 function renderEditTask(jsonTextElement, id) {
   let taskJson = JSON.parse(decodeURIComponent(jsonTextElement));
   console.log(taskJson);
-
   let oldPriority = taskJson.priority;
-
   let oldTitle = document.getElementById("big-task-pop-up-title-text").innerHTML;
   let oldDescription = document.getElementById("big-task-pop-up-description").innerHTML;
   let oldDate = document.getElementById("big-task-pop-up-date").innerHTML;
-  // console.log(oldTitle);
-  // console.log(oldDescription);
-  // console.log(oldDate);
-
   document.getElementById("big-task-pop-up-category").innerHTML = "";
   document.getElementById("big-task-pop-up-category").style = "background-color: white;";
+  returnBigTaskPopUpTitle(oldTitle);
+  returnBigTaskPopUpDescription(oldDescription);
+  document.getElementById("big-task-pop-up-due-date-container").classList.add("big-edit-task-pop-up-section-container");
+  returnBigTaskPopUpDueDateContainer(oldDate);
+  document.getElementById("big-task-pop-up-priority-container").classList.add("big-edit-task-pop-up-section-container");
+  returnBigTaskPopUpPriorityContainer();
+  document.getElementById("big-edit-task-" + oldPriority.toLowerCase() + "-priority").classList.add("big-edit-task-" + oldPriority.toLowerCase() + "-priority-aktiv");
+  priorityValue = oldPriority;
+  returnBigTaskPopUpContactAll();
+  returnBigTaskPopUpSubtasksAll();
+  renderBigTaskAssignedContactContainer(taskJson);
+  renderBigEditTaskAssignedToPopUp(taskJson);
+  returnBigPopUpEditButtons(id);
+}
 
-  document.getElementById("big-task-pop-up-title").innerHTML = /*html*/ `
-    <p class='big-edit-task-section-headline'>Title</p>
-    <input type="text" id='big-edit-task-title-input' value='${oldTitle}' placeholder='Enter a title'>
-  `;
-
+function returnBigTaskPopUpDescription(oldDescription) {
   document.getElementById("big-task-pop-up-description").innerHTML = /*html*/ `
     <p class='big-edit-task-section-headline'>Description</p>
     <textarea id="big-edit-task-description-input" placeholder='Enter a Description'>${oldDescription}</textarea>
   `;
+}
 
-  document.getElementById("big-task-pop-up-due-date-container").classList.add("big-edit-task-pop-up-section-container");
+function returnBigTaskPopUpTitle(oldTitle) {
+  document.getElementById("big-task-pop-up-title").innerHTML = /*html*/ `
+    <p class='big-edit-task-section-headline'>Title</p>
+    <input type="text" id='big-edit-task-title-input' value='${oldTitle}' placeholder='Enter a title'>
+  `;
+};
+
+function showEditTaskAssignedToPopUp() {
+  document.getElementById("big-edit-task-assigned-to-pop-up-container").classList.toggle("height-0");
+  document.getElementById("big-edit-task-assigned-to-pop-up").classList.toggle("box-shadow-none");
+  document.getElementById("big-edit-task-assigned-to-input-arrow").classList.toggle("rotate-90");
+  let bigEditTaskInput = document.getElementById('big-edit-task-subtask-input-container');
+  if (!bigEditTaskInput.classList.contains('d-none')) {
+    bigEditTaskInput.classList.add('d-none');
+  } else {
+    bigEditTaskInput.classList.remove('d-none');
+  }
+}
+
+function returnBigTaskPopUpDueDateContainer(oldDate) {
   document.getElementById("big-task-pop-up-due-date-container").innerHTML = /*html*/ `
     <p class='big-edit-task-section-headline'>Due date</p>
     <input type="date" value='${oldDate}' id='big-edit-task-due-date-input'>
   `;
+}
 
-  document.getElementById("big-task-pop-up-priority-container").classList.add("big-edit-task-pop-up-section-container");
+function returnBigTaskPopUpPriorityContainer() {
   document.getElementById("big-task-pop-up-priority-container").innerHTML = /*html*/ `
     <p id='big-edit-task-priority-section-headline'>Priority</p>
     <div id='big-edit-task-priority-container'>
@@ -395,32 +420,30 @@ function renderEditTask(jsonTextElement, id) {
     </div>
   </div>
   `;
+}
 
-  document
-    .getElementById("big-edit-task-" + oldPriority.toLowerCase() + "-priority")
-    .classList.add("big-edit-task-" + oldPriority.toLowerCase() + "-priority-aktiv");
-
-  priorityValue = oldPriority;
-
+function returnBigTaskPopUpContactAll() {
   document.getElementById("big-task-pop-up-contact-all").innerHTML = /*html*/ `
-    <div id='big-edit-task-assigned-to-top-container'>
-      <p class='big-edit-task-section-headline'>Assigned to</p>
-      
-      <div onclick='showEditTaskAssignedToPopUp()' id='big-edit-task-assigned-to-input-container'>
-        <input type='text' id='big-edit-task-assigned-to-input' placeholder='Select contacts to assign'>
-          <svg id='big-edit-task-assigned-to-input-arrow' class='big-edit-task-assigned-to-input-arrow' width="8" height="5" viewBox="0 0 8 5" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M3.44451 4.3L0.844506 1.7C0.52784 1.38333 0.457006 1.02083 0.632006 0.6125C0.807006 0.204167 1.11951 0 1.56951 0H6.71951C7.16951 0 7.48201 0.204167 7.65701 0.6125C7.83201 1.02083 7.76117 1.38333 7.44451 1.7L4.84451 4.3C4.74451 4.4 4.63617 4.475 4.51951 4.525C4.40284 4.575 4.27784 4.6 4.14451 4.6C4.01117 4.6 3.88617 4.575 3.76951 4.525C3.65284 4.475 3.54451 4.4 3.44451 4.3Z" fill="#2A3647"/>
-          </svg>
+      <div id='big-edit-task-assigned-to-top-container'>
+        <p class='big-edit-task-section-headline'>Assigned to</p>
+        
+        <div onclick='showEditTaskAssignedToPopUp()' id='big-edit-task-assigned-to-input-container'>
+          <input type='text' id='big-edit-task-assigned-to-input' placeholder='Select contacts to assign'>
+            <svg id='big-edit-task-assigned-to-input-arrow' class='big-edit-task-assigned-to-input-arrow' width="8" height="5" viewBox="0 0 8 5" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M3.44451 4.3L0.844506 1.7C0.52784 1.38333 0.457006 1.02083 0.632006 0.6125C0.807006 0.204167 1.11951 0 1.56951 0H6.71951C7.16951 0 7.48201 0.204167 7.65701 0.6125C7.83201 1.02083 7.76117 1.38333 7.44451 1.7L4.84451 4.3C4.74451 4.4 4.63617 4.475 4.51951 4.525C4.40284 4.575 4.27784 4.6 4.14451 4.6C4.01117 4.6 3.88617 4.575 3.76951 4.525C3.65284 4.475 3.54451 4.4 3.44451 4.3Z" fill="#2A3647"/>
+            </svg>
+        </div>
       </div>
-    </div>
 
       <div id='big-edit-task-assigned-to-contact-container'></div>
 
-    <div id='big-edit-task-assigned-to-pop-up-container' class='big-edit-task-assigned-to-pop-up-container height-0'>
-      <div id='big-edit-task-assigned-to-pop-up' class='big-edit-task-assigned-to-pop-up box-shadow-none'></div>
-    </div>
-    `;
+      <div id='big-edit-task-assigned-to-pop-up-container' class='big-edit-task-assigned-to-pop-up-container height-0'>
+        <div id='big-edit-task-assigned-to-pop-up' class='big-edit-task-assigned-to-pop-up box-shadow-none'></div>
+      </div>
+  `;
+}
 
+function returnBigTaskPopUpSubtasksAll() {
   document.getElementById("big-task-pop-up-subtask-all").innerHTML = /*html*/ `
     <p class='big-edit-task-section-headline'>Subtasks</p>
 
@@ -436,12 +459,12 @@ function renderEditTask(jsonTextElement, id) {
 
     <ul id='big-edit-task-subtask-container'></ul>
   `;
+}
+
+function renderBigTaskAssignedContactContainer(taskJson) {
   if (taskJson.assigned) {
-    console.log(taskJson);
     for (let i = 0; i < taskJson.assigned.length; i++) {
       const contact = taskJson.assigned[i];
-      // console.log(contact);
-
       document.getElementById("big-edit-task-assigned-to-contact-container").innerHTML += /*html*/ `
         <div class='big-edit-task-assigned-to-contact' style='background-color:${contact.color}'>
           ${firstLetterFirstTwoWords(contact.name)}
@@ -451,7 +474,14 @@ function renderEditTask(jsonTextElement, id) {
   } else {
     taskJson.assigned = [];
   }
+}
 
+function returnBigPopUpEditButtons(id) {
+  document.getElementById("big-task-pop-up-bottom-buttons-container").innerHTML = /*html*/ `
+  <button id='big-edit-task-pop-up-save-button' onclick='saveTaskChanges(${id})'>Ok</button>`;
+}
+
+function renderBigEditTaskAssignedToPopUp(taskJson) {
   for (let i = 0; i < allUsers.length; i++) {
     console.log(allUsers);
     const contact = allUsers[i];
@@ -482,41 +512,143 @@ function renderEditTask(jsonTextElement, id) {
         const subtask = taskJson.subtask[i]["task-description"];
 
         document.getElementById("big-edit-task-subtask-container").innerHTML += /*html*/ `
-        <li class='big-edit-task-subtask'>
-          ${subtask}
+          <li class='big-edit-task-subtask'>
+            ${subtask}
 
-          <div class='big-edit-task-subtask-icon-container'>
-            <svg class='big-edit-task-subtask-edit-icon' width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M2.14453 17H3.54453L12.1695 8.375L10.7695 6.975L2.14453 15.6V17ZM16.4445 6.925L12.1945 2.725L13.5945 1.325C13.9779 0.941667 14.4487 0.75 15.007 0.75C15.5654 0.75 16.0362 0.941667 16.4195 1.325L17.8195 2.725C18.2029 3.10833 18.4029 3.57083 18.4195 4.1125C18.4362 4.65417 18.2529 5.11667 17.8695 5.5L16.4445 6.925ZM14.9945 8.4L4.39453 19H0.144531V14.75L10.7445 4.15L14.9945 8.4Z" fill="#2A3647"/>
-            </svg>
-            
-            <div class='big-edit-task-subtask-icon-line'></div>
-            
-            <svg class='big-edit-task-subtask-delete-icon' width="17" height="18" viewBox="0 0 17 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M3.14453 18C2.59453 18 2.1237 17.8042 1.73203 17.4125C1.34036 17.0208 1.14453 16.55 1.14453 16V3C0.861198 3 0.623698 2.90417 0.432031 2.7125C0.240365 2.52083 0.144531 2.28333 0.144531 2C0.144531 1.71667 0.240365 1.47917 0.432031 1.2875C0.623698 1.09583 0.861198 1 1.14453 1H5.14453C5.14453 0.716667 5.24036 0.479167 5.43203 0.2875C5.6237 0.0958333 5.8612 0 6.14453 0H10.1445C10.4279 0 10.6654 0.0958333 10.857 0.2875C11.0487 0.479167 11.1445 0.716667 11.1445 1H15.1445C15.4279 1 15.6654 1.09583 15.857 1.2875C16.0487 1.47917 16.1445 1.71667 16.1445 2C16.1445 2.28333 16.0487 2.52083 15.857 2.7125C15.6654 2.90417 15.4279 3 15.1445 3V16C15.1445 16.55 14.9487 17.0208 14.557 17.4125C14.1654 17.8042 13.6945 18 13.1445 18H3.14453ZM3.14453 3V16H13.1445V3H3.14453ZM5.14453 13C5.14453 13.2833 5.24036 13.5208 5.43203 13.7125C5.6237 13.9042 5.8612 14 6.14453 14C6.42786 14 6.66536 13.9042 6.85703 13.7125C7.0487 13.5208 7.14453 13.2833 7.14453 13V6C7.14453 5.71667 7.0487 5.47917 6.85703 5.2875C6.66536 5.09583 6.42786 5 6.14453 5C5.8612 5 5.6237 5.09583 5.43203 5.2875C5.24036 5.47917 5.14453 5.71667 5.14453 6V13ZM9.14453 13C9.14453 13.2833 9.24037 13.5208 9.43203 13.7125C9.6237 13.9042 9.8612 14 10.1445 14C10.4279 14 10.6654 13.9042 10.857 13.7125C11.0487 13.5208 11.1445 13.2833 11.1445 13V6C11.1445 5.71667 11.0487 5.47917 10.857 5.2875C10.6654 5.09583 10.4279 5 10.1445 5C9.8612 5 9.6237 5.09583 9.43203 5.2875C9.24037 5.47917 9.14453 5.71667 9.14453 6V13Z" fill="#2A3647"/>
-            </svg>
-          </div>
-        </li>
-        `;
+            <div class='big-edit-task-subtask-icon-container'>
+              <svg class='big-edit-task-subtask-edit-icon' width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M2.14453 17H3.54453L12.1695 8.375L10.7695 6.975L2.14453 15.6V17ZM16.4445 6.925L12.1945 2.725L13.5945 1.325C13.9779 0.941667 14.4487 0.75 15.007 0.75C15.5654 0.75 16.0362 0.941667 16.4195 1.325L17.8195 2.725C18.2029 3.10833 18.4029 3.57083 18.4195 4.1125C18.4362 4.65417 18.2529 5.11667 17.8695 5.5L16.4445 6.925ZM14.9945 8.4L4.39453 19H0.144531V14.75L10.7445 4.15L14.9945 8.4Z" fill="#2A3647"/>
+              </svg>
+              
+              <div class='big-edit-task-subtask-icon-line'></div>
+              
+              <svg class='big-edit-task-subtask-delete-icon' width="17" height="18" viewBox="0 0 17 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3.14453 18C2.59453 18 2.1237 17.8042 1.73203 17.4125C1.34036 17.0208 1.14453 16.55 1.14453 16V3C0.861198 3 0.623698 2.90417 0.432031 2.7125C0.240365 2.52083 0.144531 2.28333 0.144531 2C0.144531 1.71667 0.240365 1.47917 0.432031 1.2875C0.623698 1.09583 0.861198 1 1.14453 1H5.14453C5.14453 0.716667 5.24036 0.479167 5.43203 0.2875C5.6237 0.0958333 5.8612 0 6.14453 0H10.1445C10.4279 0 10.6654 0.0958333 10.857 0.2875C11.0487 0.479167 11.1445 0.716667 11.1445 1H15.1445C15.4279 1 15.6654 1.09583 15.857 1.2875C16.0487 1.47917 16.1445 1.71667 16.1445 2C16.1445 2.28333 16.0487 2.52083 15.857 2.7125C15.6654 2.90417 15.4279 3 15.1445 3V16C15.1445 16.55 14.9487 17.0208 14.557 17.4125C14.1654 17.8042 13.6945 18 13.1445 18H3.14453ZM3.14453 3V16H13.1445V3H3.14453ZM5.14453 13C5.14453 13.2833 5.24036 13.5208 5.43203 13.7125C5.6237 13.9042 5.8612 14 6.14453 14C6.42786 14 6.66536 13.9042 6.85703 13.7125C7.0487 13.5208 7.14453 13.2833 7.14453 13V6C7.14453 5.71667 7.0487 5.47917 6.85703 5.2875C6.66536 5.09583 6.42786 5 6.14453 5C5.8612 5 5.6237 5.09583 5.43203 5.2875C5.24036 5.47917 5.14453 5.71667 5.14453 6V13ZM9.14453 13C9.14453 13.2833 9.24037 13.5208 9.43203 13.7125C9.6237 13.9042 9.8612 14 10.1445 14C10.4279 14 10.6654 13.9042 10.857 13.7125C11.0487 13.5208 11.1445 13.2833 11.1445 13V6C11.1445 5.71667 11.0487 5.47917 10.857 5.2875C10.6654 5.09583 10.4279 5 10.1445 5C9.8612 5 9.6237 5.09583 9.43203 5.2875C9.24037 5.47917 9.14453 5.71667 9.14453 6V13Z" fill="#2A3647"/>
+              </svg>
+            </div>
+          </li>
+          `;
       }
     }
   }
-
-  document.getElementById("big-task-pop-up-bottom-buttons-container").innerHTML = /*html*/ `
-  <button id='big-edit-task-pop-up-save-button' onclick='saveTaskChanges(${id})'>Ok</button>`;
 }
 
-function showEditTaskAssignedToPopUp() {
-  document.getElementById("big-edit-task-assigned-to-pop-up-container").classList.toggle("height-0");
-  document.getElementById("big-edit-task-assigned-to-pop-up").classList.toggle("box-shadow-none");
-  document.getElementById("big-edit-task-assigned-to-input-arrow").classList.toggle("rotate-90");
-  let bigEditTaskInput = document.getElementById('big-edit-task-subtask-input-container');
-  if (!bigEditTaskInput.classList.contains('d-none')) {
-    bigEditTaskInput.classList.add('d-none');
-  } else {
-    bigEditTaskInput.classList.remove('d-none');
-  }
-}
+
+/* Hier ist der Bereich mit den Funktionen, die die Subtasks im großen Popup-Fenster hinzufügen sollen */
+
+// function addSubtaskInBigPopUp() {
+//   let text = document.getElementById(`big-edit-task-subtask-input`);
+//   if (text.value.length <= 0) {
+//     alert("Leeres Feld kann nicht gespeichert werden");
+//   } else {
+//     let subtaskJson = createSubtaskJson(text.value);
+//     subArray.push(subtaskJson);
+//     text.value = "";
+//     rendersubtaskInBigPopUp();
+//     hideOrShowEditButtons();
+//   }
+// }
+
+// function rendersubtaskInBigPopUp() {
+//   subtask = document.getElementById("sowSubtasks");
+//   subtask.innerHTML = "";
+
+//   if (subArray.length >= 1) {
+//     for (let i = 0; i < subArray.length; i++) {
+//       let content = subArray[i]["task-description"];
+//       renderSubtaskHTML(i, content);
+//     }
+//   } else {
+//     subtask.classList.add("d-none");
+//   }
+// }
+
+// function renderSubtaskHTML(i, content) {
+//   aS = document.getElementById("sowSubtasks");
+//   aS.classList.remove("d-none");
+//   aS.innerHTML += /*html*/ `
+//       <div ondblclick="editSubtask(${i})" id="yyy${i}" class="subtasks" onmouseover="sowSubaskEdditButtons(${i})" onmouseout="hideSubaskEdditButtons(${i})">
+//         <li >${content}</li>
+//         <div id="subBTN${i}" class="subBtn1 d-none">
+//           <svg onclick="editSubtask(${i}), stopEvent(event)" width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+//             <path d="M2.14453 17H3.54453L12.1695 8.375L10.7695 6.975L2.14453 15.6V17ZM16.4445 6.925L12.1945 2.725L13.5945 1.325C13.9779 0.941667 14.4487 0.75 15.007 0.75C15.5654 0.75 16.0362 0.941667 16.4195 1.325L17.8195 2.725C18.2029 3.10833 18.4029 3.57083 18.4195 4.1125C18.4362 4.65417 18.2529 5.11667 17.8695 5.5L16.4445 6.925ZM14.9945 8.4L4.39453 19H0.144531V14.75L10.7445 4.15L14.9945 8.4Z" fill="#2A3647"/>
+//           </svg>
+//           <svg onclick="deleteSubtask(${i}), stopEvent(event)" width="17" height="18" viewBox="0 0 17 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+//             <path d="M3.14453 18C2.59453 18 2.1237 17.8042 1.73203 17.4125C1.34036 17.0208 1.14453 16.55 1.14453 16V3C0.861198 3 0.623698 2.90417 0.432031 2.7125C0.240365 2.52083 0.144531 2.28333 0.144531 2C0.144531 1.71667 0.240365 1.47917 0.432031 1.2875C0.623698 1.09583 0.861198 1 1.14453 1H5.14453C5.14453 0.716667 5.24036 0.479167 5.43203 0.2875C5.6237 0.0958333 5.8612 0 6.14453 0H10.1445C10.4279 0 10.6654 0.0958333 10.857 0.2875C11.0487 0.479167 11.1445 0.716667 11.1445 1H15.1445C15.4279 1 15.6654 1.09583 15.857 1.2875C16.0487 1.47917 16.1445 1.71667 16.1445 2C16.1445 2.28333 16.0487 2.52083 15.857 2.7125C15.6654 2.90417 15.4279 3 15.1445 3V16C15.1445 16.55 14.9487 17.0208 14.557 17.4125C14.1654 17.8042 13.6945 18 13.1445 18H3.14453ZM3.14453 3V16H13.1445V3H3.14453ZM5.14453 13C5.14453 13.2833 5.24036 13.5208 5.43203 13.7125C5.6237 13.9042 5.8612 14 6.14453 14C6.42786 14 6.66536 13.9042 6.85703 13.7125C7.0487 13.5208 7.14453 13.2833 7.14453 13V6C7.14453 5.71667 7.0487 5.47917 6.85703 5.2875C6.66536 5.09583 6.42786 5 6.14453 5C5.8612 5 5.6237 5.09583 5.43203 5.2875C5.24036 5.47917 5.14453 5.71667 5.14453 6V13ZM9.14453 13C9.14453 13.2833 9.24037 13.5208 9.43203 13.7125C9.6237 13.9042 9.8612 14 10.1445 14C10.4279 14 10.6654 13.9042 10.857 13.7125C11.0487 13.5208 11.1445 13.2833 11.1445 13V6C11.1445 5.71667 11.0487 5.47917 10.857 5.2875C10.6654 5.09583 10.4279 5 10.1445 5C9.8612 5 9.6237 5.09583 9.43203 5.2875C9.24037 5.47917 9.14453 5.71667 9.14453 6V13Z" fill="#2A3647"/>
+//           </svg>
+//         </div>
+//       </div>
+//     `;
+// }
+
+// function editSubtask(i) {
+//   editSubtaskInput(i);
+// }
+
+// function sowSubaskEdditButtons(i) {
+//   document.getElementById(`subBTN${i}`).classList.remove("d-none");
+// }
+
+// function hideSubaskEdditButtons(i) {
+//   document.getElementById(`subBTN${i}`).classList.add("d-none");
+// }
+
+// function clearSubtask() {
+//   let subtask = document.getElementById("sowSubtasks");
+//   subtask.innerHTML = "";
+//   i = 0;
+//   subtask.classList.add("d-none");
+//   hideOrShowEditButtons()
+// }
+
+// function clearSubtaskInput() {
+//   document.getElementById("subtask").value = "";
+// }
+
+// function editSubtaskInput(i) {
+//   container = document.getElementById(`yyy${i}`);
+//   container.onmouseover = null;
+//   container.onmouseout = null;
+//   container.innerHTML = /*html*/`
+//       <input id="subtaskEdited" type="text" value="${subArray[i]["task-description"]}">
+//       <div class="inputButtons">
+//         <img onclick="deleteSubtask(${i}), stopEvent(event)" src="Assets/img/deletetrash.svg" alt="">
+//         <div class="subtaskBorder"></div>
+//         <img onclick="saveEditedSubtask(${i}), stopEvent(event)" src="Assets/img/checksubmit.svg" alt="">
+//       </div>
+//     `;
+//   edit = document.getElementById(`subtaskEdited`);
+//   subtask[i] = edit.value;
+// }
+
+// function hideOrShowEditButtons() {
+//   cont = document.getElementById("testForFunction");
+//   plus = document.getElementById("plusSymbole");
+//   subtask = document.getElementById("subtaskInputButtons");
+
+//   window.addEventListener('click', function (e) {
+//     if (cont.contains(e.target)) {
+//         plus.classList.add("d-none");
+//         subtask.classList.remove("d-none");
+//       } else {
+//         plus.classList.remove("d-none");
+//         subtask.classList.add("d-none");
+//       }
+//   });
+// }
+
+// function deleteSubtask(i) {
+//   subArray.splice(i, 1);
+//   rendersubtask();
+// }
+
+// function saveEditedSubtask(i) {
+//   let text = document.getElementById(`subtaskEdited`).value
+//   subArray[i]["task-description"] = text;
+//   rendersubtask()
+// }
+
+/* Hier endet dieser Bereich */
 
 function checkBigEditTaskContact(i, contactObject) {
   contactObject["isSelected"] = true;
