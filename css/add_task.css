@@ -446,6 +446,7 @@ h1 {
   border: unset;
   justify-content: start;
   flex-wrap: wrap;
+  height: auto;
 }
 
 .assignetToDiv {
