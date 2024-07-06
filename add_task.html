@@ -29,7 +29,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet" />
   </head>
-  <body onload="initSidebar(); init()" onclick="hideAllAddTaskPopups()">
+  <body id="addTaskBody" onload="initSidebar(); init()" onclick="hideAllAddTaskPopups()">
     <header id="headerForm"></header>
 
     <div class="main">
@@ -37,8 +37,7 @@
         <h1>Add Task</h1>
       </div>
       <section id="section99" class="addTaskBody">
-        <!-- onsubmit="checkRequiredFields() -->
-        <form onsubmit="createTask(); return false;">
+        <form onsubmit="checkRequiredFields(); return false;">
           <div class="input1">
             <div>
               <p>Title<b>*</b></p>

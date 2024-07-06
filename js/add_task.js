@@ -87,9 +87,9 @@ function changeImg(condition) {
 
 async function createTask() {
   console.log("create...");
-  startAnimation()
   await ensureAllTasksExists();
   await saveTask();
+  startAnimation()
   // if(localStorage.getItem('tasks')){
   //   console.log('test');
   //   localStorage.removeItem('tasks');
@@ -109,6 +109,7 @@ function clearTask() {
   category = changeCategory("Select task category");
   clearSubtask();
   changePriority(medium);
+  hideRequiredText();
 }
 
 function showDropDownCategory() {
@@ -155,6 +156,14 @@ function showRequiredText() {
   ids.forEach(function (id) {
     let element = document.getElementById(id);
     element.classList.remove("d-none");
+  });
+}
+
+function hideRequiredText() {
+  let ids = ["requiredTitle", "requiredDate", "requiredCatergory"];
+  ids.forEach(function (id) {
+    let element = document.getElementById(id);
+    element.classList.add("d-none");
   });
 }
 
@@ -316,8 +325,10 @@ async function deleteTask(taskId) {
 }
 
 function startAnimation() {
+  scrollTo(0, 0);
   document.getElementById("addedAnimation").classList.remove('d-none');
   document.getElementById("addedAnimation").classList.add('erase-in');
+  document.getElementById('addTaskBody').classList.add('overflow-hidden');
   setTimeout(goToBoard , 1500)
 }
 

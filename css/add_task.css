@@ -352,8 +352,7 @@ h1 {
 }
 
 .drop-bg {
-  position: absolute;
-  width: calc((100% = 449px) *0.8) !important;
+  position: relative;
   /* max-width: 449px; */
   height: auto;
   z-index: 9999;
@@ -465,13 +464,14 @@ h1 {
   width: 100%;
   justify-content: space-around;
   span {
-    width: 50%;
+    flex: 1;
   }
 }
 
 .checkboxesSVG {
   justify-content: end !important;
   padding-right: 20px;
+  width: 40px !important;
 }
 
 @media (max-width: 1000px) {
