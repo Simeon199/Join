@@ -141,7 +141,7 @@
               <div>
                 <p>Subtasks</p>
                 <div id="testForFunction" class="onFocus">
-                  <input onclick="hideOrShowEditButtons()" id="subtask" type="text" placeholder="Add new subtask" />
+                  <input onclick="  stopEvent(event);hideOrShowEditButtons()" id="subtask" type="text" placeholder="Add new subtask" />
                   <div id="subtaskInputButtons" class="subtaskIcons d-none">
                     <img onclick="clearSubtaskInput()" src="Assets/img/close.svg" alt="" />
                     <div class="subtaskBorder"></div>

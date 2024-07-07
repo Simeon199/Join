@@ -89,7 +89,7 @@ async function createTask() {
   console.log("create...");
   await ensureAllTasksExists();
   await saveTask();
-  startAnimation()
+  startAnimation();
   // if(localStorage.getItem('tasks')){
   //   console.log('test');
   //   localStorage.removeItem('tasks');
@@ -143,7 +143,7 @@ function checkRequiredFields() {
   let title = document.getElementById("inputTitle").value;
   let date = document.getElementById("date").value;
   console.log(title.length, date.length);
-  if (title.length <=1 || date.length <= 1 || checkCategory() == false) {
+  if (title.length <= 1 || date.length <= 1 || checkCategory() == false) {
     showRequiredText();
   } else {
     createTask();
@@ -278,7 +278,13 @@ function checkDropDown(id) {
 function hideAllAddTaskPopups() {
   hideDropDownAssignedTo();
   hideDropDownCategory();
-  changeToInputfield()
+  changeToInputfield();
+
+  plus = document.getElementById("plusSymbole");
+  subtask = document.getElementById("subtaskInputButtons");
+
+  plus.classList.remove("d-none");
+  subtask.classList.add("d-none");
 }
 
 async function loadRelevantData(path = "") {
@@ -325,10 +331,10 @@ async function deleteTask(taskId) {
 
 function startAnimation() {
   scrollTo(0, 0);
-  document.getElementById("addedAnimation").classList.remove('d-none');
-  document.getElementById("addedAnimation").classList.add('erase-in');
-  document.getElementById('addTaskBody').classList.add('overflow-hidden');
-  setTimeout(goToBoard , 1500)
+  document.getElementById("addedAnimation").classList.remove("d-none");
+  document.getElementById("addedAnimation").classList.add("erase-in");
+  document.getElementById("addTaskBody").classList.add("overflow-hidden");
+  setTimeout(goToBoard, 1500);
 }
 
 function goToBoard() {
