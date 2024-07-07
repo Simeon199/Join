@@ -613,7 +613,7 @@ body .translate-100 {
   box-sizing: border-box;
 
   width: 525px;
-  max-height: 950px;
+  max-height: 850px;
 
   overflow-y: scroll;
 
@@ -679,6 +679,10 @@ body .translate-100 {
   padding: 0;
 
   margin: 0;
+}
+
+#big-task-pop-up-title #big-edit-task-section-headline {
+  margin-top: 0;
 }
 
 #big-task-pop-up-description {

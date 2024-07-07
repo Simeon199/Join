@@ -23,8 +23,8 @@ function addSubtask() {
   }
 }
 
-function createSubtaskJson(value){
-  return {"task-description": value, "is-tasked-checked": false};
+function createSubtaskJson(value) {
+  return { "task-description": value, "is-tasked-checked": false };
 }
 
 function rendersubtask() {
@@ -85,7 +85,7 @@ function clearSubtask() {
   subtask.innerHTML = "";
   i = 0;
   subtask.classList.add("d-none");
-  hideOrShowEditButtons()
+  hideOrShowEditButtons();
 }
 
 function clearSubtaskInput() {
@@ -116,7 +116,7 @@ function editSubtaskInput(i) {
   container = document.getElementById(`yyy${i}`);
   container.onmouseover = null;
   container.onmouseout = null;
-  container.innerHTML = /*html*/`
+  container.innerHTML = /*html*/ `
       <input id="subtaskEdited" type="text" value="${subArray[i]["task-description"]}">
       <div class="inputButtons">
         <img onclick="deleteSubtask(${i}), stopEvent(event)" src="Assets/img/deletetrash.svg" alt="">
@@ -125,6 +125,7 @@ function editSubtaskInput(i) {
       </div>
     `;
   edit = document.getElementById(`subtaskEdited`);
+  console.log(subtask);
   subtask[i] = edit.value;
 }
 
@@ -133,15 +134,16 @@ function hideOrShowEditButtons() {
   plus = document.getElementById("plusSymbole");
   subtask = document.getElementById("subtaskInputButtons");
 
-  window.addEventListener('click', function (e) {
-    if (cont.contains(e.target)) {
-        plus.classList.add("d-none");
-        subtask.classList.remove("d-none");
-      } else {
-        plus.classList.remove("d-none");
-        subtask.classList.add("d-none");
-      }
-  });
+  // window.addEventListener("click", function (e) {
+  // if (cont.contains(e.target)) {
+  console.log("t");
+  plus.classList.add("d-none");
+  subtask.classList.remove("d-none");
+  // } else {
+  //   plus.classList.remove("d-none");
+  //   subtask.classList.add("d-none");
+  // }
+  // });
 }
 
 function deleteSubtask(i) {
@@ -156,7 +158,7 @@ function deleteSubtask(i) {
 // }
 
 function saveEditedSubtask(i) {
-  let text = document.getElementById(`subtaskEdited`).value
+  let text = document.getElementById(`subtaskEdited`).value;
   subArray[i]["task-description"] = text;
-  rendersubtask()
+  rendersubtask();
 }
