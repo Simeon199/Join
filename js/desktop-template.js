@@ -90,7 +90,7 @@ function headerHTML() {
         6.99915 9.2375 6.86582C9.5125 6.73249 9.8 6.66582 10.1 6.66582Z" fill="#A8A8A8"/>
       </svg>
         </a>
-    <div onclick="stopEvent(event);openDropDownMenu()" class="circle" id="userLetters"></div>
+    <div onclick="stopEvent(event);openDropDownMenu()" class="circlehead" id="userLetters"></div>
     <div id="dropDown" class='translate-100-header'></div>
   </div>
     `;

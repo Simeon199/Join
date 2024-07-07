@@ -85,7 +85,7 @@ function checkAssignedContacts(name, color, i) {
     document.getElementById(`none_checked${i}`).classList.remove("d-none");
     document.getElementById(`checked${i}`).classList.add("d-none");
     selUser.classList.remove('contactIsSelect');
-    removeAssignetToContects(x.name, i)
+    removeAssignedToContects(x.name, i)
   } else {
     document.getElementById(`none_checked${i}`).classList.add("d-none");
     document.getElementById(`checked${i}`).classList.remove("d-none");
@@ -109,7 +109,7 @@ function checkAssignedContactsStatus(un) {
   }
 }
 
-function removeAssignetToContects(name, index) {
+function removeAssignedToContects(name, index) {
   for (let i = 0; i < assignedContacts.length; i++) {
     indexOfName = assignedContacts[i].name.includes(name);
     if (indexOfName == true) {

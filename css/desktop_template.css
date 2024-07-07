@@ -102,7 +102,7 @@ body.menuBarDesktop {
   background-color: rgba(9, 25, 49, 1) !important;
 }
 
-.circle {
+.circlehead {
   border-radius: 100%;
   width: 56px;
   height: 56px;
@@ -114,13 +114,13 @@ body.menuBarDesktop {
   user-select: none;
 }
 
-.circle span {
+.circlehead span {
   color: rgba(41, 171, 266, 1);
   font-size: 20px;
   font-weight: bold;
 }
 
-.circle:hover {
+.circlehead:hover {
   background-color: rgba(12, 46, 98, 0.12);
   transition: 5ms;
   transform: scale(1.03);
