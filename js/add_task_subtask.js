@@ -125,6 +125,7 @@ function editSubtaskInput(i) {
       </div>
     `;
   edit = document.getElementById(`subtaskEdited`);
+  console.log(subtask);
   subtask[i] = edit.value;
 }
 
