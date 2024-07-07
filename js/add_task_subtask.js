@@ -34,8 +34,9 @@ function rendersubtask() {
   if (subArray.length >= 1) {
     for (let i = 0; i < subArray.length; i++) {
       let content = subArray[i]["task-description"];
-      renderSubtaskHTML(i, content);
+      subtask.innerHTML += renderSubtaskHTML(i, content);
     }
+    subtask.classList.remove("d-none");
   } else {
     subtask.classList.add("d-none");
   }
@@ -56,9 +57,7 @@ function rendersubtask() {
 // }
 
 function renderSubtaskHTML(i, content) {
-  aS = document.getElementById("sowSubtasks");
-  aS.classList.remove("d-none");
-  aS.innerHTML += /*html*/ `
+  return /*html*/ `
       <div ondblclick="editSubtask(${i})" id="yyy${i}" class="subtasks" onmouseover="sowSubaskEdditButtons(${i})" onmouseout="hideSubaskEdditButtons(${i})">
         <li >${content}</li>
         <div id="subBTN${i}" class="subBtn1 d-none">

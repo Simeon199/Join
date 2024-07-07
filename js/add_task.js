@@ -101,7 +101,6 @@ function clearTask() {
   let inputTitle = document.getElementById("inputTitle");
   let inputDescription = document.getElementById("inputDescription");
   let date = document.getElementById("date");
-  console.error("Clearing...");
   inputTitle.value = "";
   inputDescription.value = "";
   clearAssignedTo();

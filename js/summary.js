@@ -74,11 +74,11 @@ function greet() {
   cont = document.getElementById("greetingCont");
   if (userName === "Guest") {
     cont.innerHTML = /*html*/ `
-        <p>Good morning</p>
+        <p>${greetTime()}</p>
     `;
   } else {
     cont.innerHTML = /*html*/ `
-        <p>Good morning,<span class='greet-username'>${userName}</span></p>
+        <p>${greetTime()},<span class='greet-username'>${userName}</span></p>
     `;
   }
 }
@@ -99,11 +99,11 @@ function greetAnimation() {
   if (firstTime === "true") {
     if (userName === "Guest") {
       greetAnimationText.innerHTML = /*html*/ `
-          Good morning
+        <p>${greetTime()}</p>
       `;
     } else {
       greetAnimationText.innerHTML = /*html*/ `
-         Good morning, <span class='greet-animation-username'>${userName}</span>
+        <p>${greetTime()},</p> <span class='greet-animation-username'>${userName}</span>
       `;
     }
 
@@ -149,4 +149,17 @@ async function loadRelevantData(path = "") {
   let response = await fetch(BASE_URL1 + path + ".json");
   let responseAsJson = await response.json();
   return responseAsJson;
+}
+
+function greetTime() {
+  const d = new Date();
+  const time = (d.getHours());
+
+  if (time <= 10) {
+    return "Good morning"
+  } else if (time >=10 && time < 15) {
+    return "Good afternoon"
+  } else {
+    return "Good evening"
+  }
 }
