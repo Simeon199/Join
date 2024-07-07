@@ -313,15 +313,12 @@ function renderBigTask(jsonTextElement) {
 // renderSubtask
 function renderSubtask(taskJson) {
   console.log(taskJson)
-  let renderSubtaskInput = document.getElementById('big-edit-task-subtask-input');
+  // let renderSubtaskInput = document.getElementById('big-edit-task-subtask-input');
   if (taskJson.subtask) {
     taskJson.subtask.forEach((subtask) => {
       // console.log(subtask["task-description"]);
       document.getElementById("big-task-pop-up-subtasks-container").innerHTML += returnSubtaskHTML(subtask["task-description"]);
     });
-  } else if (taskJson.subtask == null && isSaveIconClicked == true && renderSubtaskInput.value !== null) {
-    let task = renderSubtaskInput.value;
-    console.log(task);
   } else {
     document.getElementById("big-task-pop-up-subtasks-container").innerHTML = /*html*/ `  
     <p class='big-task-pop-up-value-text'>No Subtasks</p>
