@@ -153,11 +153,11 @@ async function loadRelevantData(path = "") {
 
 function greetTime() {
   const d = new Date();
-  const time = (d.getUTCHours()) - (d.getTimezoneOffset() /60);
+  const time = (d.getHours());
 
   if (time <= 10) {
     return "Good morning"
-  } else if (time >=10 <= 15) {
+  } else if (time >=10 && time < 15) {
     return "Good afternoon"
   } else {
     return "Good evening"
