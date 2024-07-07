@@ -696,6 +696,8 @@ body .translate-100 {
   justify-content: center;
   align-items: center;
 
+  width: 100%;
+
   gap: 10px;
 
   margin: 0;
@@ -1025,6 +1027,8 @@ body .big-edit-task-pop-up-section-container {
   gap: 8px;
 
   padding: 10px 0;
+
+  min-height: 62px;
 }
 
 .big-edit-task-assigned-to-contact {
@@ -1103,6 +1107,8 @@ body .box-shadow-none {
 
   font-size: 12px;
   font-weight: 400;
+
+  user-select: none;
 }
 
 .big-edit-task-assigned-to-pop-up-contact-name {
@@ -1212,7 +1218,7 @@ body .box-shadow-none {
   box-shadow: 0px 4px 4px 0px #00000040;
 }
 
-#big-task-pop-up-priority-container+#big-task-pop-up-contact-all {
+#big-task-pop-up-priority-container + #big-task-pop-up-contact-all {
   padding-bottom: 15px;
 }
 

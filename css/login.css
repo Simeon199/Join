@@ -117,6 +117,7 @@ h1.underline::after {
 }
 
 .input:has(#loginPassword:focus),
+.input:has(.loginInputStyle:focus),
 .input:has(#loginEmail:focus) {
   border: 1px solid #29abe2;
 }

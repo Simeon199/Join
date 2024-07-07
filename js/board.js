@@ -226,6 +226,8 @@ function showBigTaskPopUp(jsonTextElement) {
   document.getElementById("big-task-pop-up-bg").classList.remove("bg-op-0");
   document.getElementById("big-task-pop-up").classList.remove("translate-100");
 
+  document.body.style.overflow = "hidden";
+
   renderBigTask(jsonTextElement);
   console.log(jsonTextElement);
 }
@@ -235,6 +237,8 @@ function hideBigTaskPopUp() {
   isBigTaskPopUpOpen = false;
   document.getElementById("big-task-pop-up-bg").classList.add("bg-op-0");
   document.getElementById("big-task-pop-up").classList.add("translate-100");
+
+  document.body.style.overflow = "unset";
 }
 
 // renderBigTask
@@ -355,7 +359,9 @@ function renderAllBigPopUp(oldTitle, oldDescription, oldDate, oldPriority, taskJ
   returnBigTaskPopUpDueDateContainer(oldDate);
   document.getElementById("big-task-pop-up-priority-container").classList.add("big-edit-task-pop-up-section-container");
   returnBigTaskPopUpPriorityContainer();
-  document.getElementById("big-edit-task-" + oldPriority.toLowerCase() + "-priority").classList.add("big-edit-task-" + oldPriority.toLowerCase() + "-priority-aktiv");
+  document
+    .getElementById("big-edit-task-" + oldPriority.toLowerCase() + "-priority")
+    .classList.add("big-edit-task-" + oldPriority.toLowerCase() + "-priority-aktiv");
   priorityValue = oldPriority;
   returnBigTaskPopUpContactAll();
   returnBigTaskPopUpSubtasksAll();
@@ -376,17 +382,17 @@ function returnBigTaskPopUpTitle(oldTitle) {
     <p class='big-edit-task-section-headline'>Title</p>
     <input type="text" id='big-edit-task-title-input' value='${oldTitle}' placeholder='Enter a title'>
   `;
-};
+}
 
 function showEditTaskAssignedToPopUp() {
   document.getElementById("big-edit-task-assigned-to-pop-up-container").classList.toggle("height-0");
   document.getElementById("big-edit-task-assigned-to-pop-up").classList.toggle("box-shadow-none");
   document.getElementById("big-edit-task-assigned-to-input-arrow").classList.toggle("rotate-90");
-  let bigEditTaskInput = document.getElementById('big-edit-task-subtask-input-container');
-  if (!bigEditTaskInput.classList.contains('d-none')) {
-    bigEditTaskInput.classList.add('d-none');
+  let bigEditTaskInput = document.getElementById("big-edit-task-subtask-input-container");
+  if (!bigEditTaskInput.classList.contains("d-none")) {
+    bigEditTaskInput.classList.add("d-none");
   } else {
-    bigEditTaskInput.classList.remove('d-none');
+    bigEditTaskInput.classList.remove("d-none");
   }
 }
 
@@ -466,6 +472,7 @@ function returnBigTaskPopUpSubtasksAll() {
 }
 
 function renderBigTaskAssignedContactContainer(taskJson) {
+  console.log(taskJson);
   if (taskJson.assigned) {
     for (let i = 0; i < taskJson.assigned.length; i++) {
       const contact = taskJson.assigned[i];
@@ -477,6 +484,10 @@ function renderBigTaskAssignedContactContainer(taskJson) {
     }
   } else {
     taskJson.assigned = [];
+
+    document.getElementById("big-edit-task-assigned-to-contact-container").innerHTML = /*html*/ `
+    <p class='big-task-pop-up-value-text'>No one is assigned</p>
+  `;
   }
 }
 
@@ -487,18 +498,19 @@ function returnBigPopUpEditButtons(id) {
 
 function renderBigEditTaskAssignedToPopUp(taskJson) {
   for (let i = 0; i < allUsers.length; i++) {
-    console.log(allUsers);
+    let taskIndex = taskJson.tasksIdentity;
+
     const contact = allUsers[i];
     let contactObject = JSON.stringify({ name: contact.name, color: contact.color, isSelected: false });
-    renderOnlyAssignedToPopUp(contact, contactObject, i);
+    renderOnlyAssignedToPopUp(contact, contactObject, i, taskIndex);
     document.getElementById("big-edit-task-subtask-container").innerHTML = "";
     renderOnlySubtaskContainerPopUp(taskJson);
   }
 }
 
-function renderOnlyAssignedToPopUp(contact, contactObject, i) {
+function renderOnlyAssignedToPopUp(contact, contactObject, i, taskIndex) {
   document.getElementById("big-edit-task-assigned-to-pop-up").innerHTML += /*html*/ `
-      <div onclick='checkBigEditTaskContact(${i}, ${contactObject})' class='big-edit-task-assigned-to-pop-up-contact-container'>
+      <div onclick='checkBigEditTaskContact(${i}, ${contactObject},${taskIndex})' class='big-edit-task-assigned-to-pop-up-contact-container'>
         <div class='big-edit-task-assigned-to-pop-up-contact' >
           <div class='big-edit-task-assigned-to-pop-up-contact-badge' style='background-color: ${contact.color}'>
             ${firstLetterFirstTwoWords(contact.name)}
@@ -536,7 +548,6 @@ function renderOnlySubtaskContainerPopUp(taskJson) {
     }
   }
 }
-
 
 /* Hier ist der Bereich mit den Funktionen, die die Subtasks im großen Popup-Fenster hinzufügen sollen */
 
@@ -654,14 +665,15 @@ function renderOnlySubtaskContainerPopUp(taskJson) {
 
 /* Hier endet dieser Bereich */
 
-function checkBigEditTaskContact(i, contactObject) {
-  contactObject["isSelected"] = true;
-  assignContactsBigContainer(contactObject);
+function checkBigEditTaskContact(i, contactObject, taskIndex) {
   HTMLContactContainer = document.querySelectorAll(".big-edit-task-assigned-to-pop-up-contact-container")[i];
   HTMLContactContainer.classList.toggle("big-edit-task-assigned-to-pop-up-active-contact");
 
   if (HTMLContactContainer.classList.contains("big-edit-task-assigned-to-pop-up-active-contact")) {
-    console.log("ak");
+    contactObject["isSelected"] = true;
+    assignContactsBigContainer(contactObject);
+    addContactToAssigned(contactObject, taskIndex);
+
     document.querySelectorAll(".big-edit-task-assigned-to-pop-up-contact-checkbox-icon-container")[i].innerHTML = /*html*/ `
     <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M17 8V14C17 15.6569 15.6569 17 14 17H4C2.34315 17 1 15.6569 1 14V4C1 2.34315 2.34315 1 4 1H12" stroke="white" stroke-width="2" stroke-linecap="round"/>
@@ -669,12 +681,31 @@ function checkBigEditTaskContact(i, contactObject) {
     </svg>
       `;
   } else {
+    deleteContactToAssigned(contactObject, taskIndex);
     document.querySelectorAll(".big-edit-task-assigned-to-pop-up-contact-checkbox-icon-container")[i].innerHTML = /*html*/ `
     <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
       <rect x="1" y="1" width="16" height="16" rx="3" stroke="#2A3647" stroke-width="2" />
     </svg>
      `;
   }
+}
+
+// addContactToAssigned
+function addContactToAssigned(contactObject, taskIndex) {
+  let taskJson = tasks[taskIndex];
+
+  // Hier contactObject zur tasks[taskIndex].assigned hinzufügen
+
+  renderBigTaskAssignedContactContainer(taskJson);
+}
+
+// deleteContactToAssigned
+function deleteContactToAssigned(contactObject, taskIndex) {
+  let taskJson = tasks[taskIndex];
+
+  // Hier contactObject von tasks[taskIndex].assigned löschen
+
+  renderBigTaskAssignedContactContainer(taskJson);
 }
 
 function focusSubtaskInput() {
