@@ -198,6 +198,7 @@ async function deselectContact() {
   document.getElementById("right-site-container").classList.add("right-site-container-translate-100");
   document.getElementById("show-icon-container-button").classList.add("show-icon-container-button-translate-100");
   document.getElementById("show-icon-container-button").classList.remove("animation");
+  document.getElementById("add-new-contacts-mobile-button").classList.remove("d-none");
 
   activeContactIndex = null;
 }
@@ -213,6 +214,7 @@ async function selectContact(userName, userEmail, userNumber, userID, i, userCol
   document.getElementById("right-site-container").classList.remove("right-site-container-translate-100");
   document.getElementById("show-icon-container-button").classList.remove("show-icon-container-button-translate-100");
   document.getElementById("show-icon-container-button").classList.add("animation");
+  document.getElementById("add-new-contacts-mobile-button").classList.add("d-none");
   activeContactIndex = i;
 
   contactEl.scrollIntoView({ behavior: "smooth", block: "nearest" });
