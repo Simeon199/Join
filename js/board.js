@@ -555,6 +555,7 @@ function renderOnlySubtaskContainerPopUp(taskJson) {
   }
 }
 
+
 function checkBigEditTaskContact(i, contactObject, taskIndex) {
   HTMLContactContainer = document.querySelectorAll(".big-edit-task-assigned-to-pop-up-contact-container")[i];
   HTMLContactContainer.classList.toggle("big-edit-task-assigned-to-pop-up-active-contact");
