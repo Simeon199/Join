@@ -740,13 +740,12 @@ body .translate-100 {
   flex-direction: column;
 }
 
-#big-task-pop-up-priority-container + #big-task-pop-up-contact-all {
+#big-task-pop-up-contact-all:has(input) {
   padding-bottom: 260px;
 
   transition: 0.2s ease-in-out;
 }
-
-#big-task-pop-up-priority-container + #big-task-pop-up-contact-all:has(.height-0) {
+body #big-task-pop-up-contact-all:has(.height-0) {
   padding-bottom: 15px;
 }
 

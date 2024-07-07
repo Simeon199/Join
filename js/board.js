@@ -402,7 +402,7 @@ function toggleFocusAssignedToInput() {
 function returnBigTaskPopUpDueDateContainer(oldDate) {
   document.getElementById("big-task-pop-up-due-date-container").innerHTML = /*html*/ `
     <p class='big-edit-task-section-headline'>Due date</p>
-    <input type="date" value='${oldDate}' id='big-edit-task-due-date-input'>
+    <input type="text" value='${oldDate}' maxlength='10' placeholder='dd/mm/yyyy' id='big-edit-task-due-date-input'>
   `;
 }
 
