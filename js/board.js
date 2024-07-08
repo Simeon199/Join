@@ -315,6 +315,7 @@ function renderBigTask(jsonTextElement) {
   `;
 
   renderTaskContact(taskJson);
+  // checkIfSubtasksAreChecked(taskJson);
   renderSubtask(taskJson);
   // console.log(taskJson);
 }
@@ -332,12 +333,31 @@ function renderBigTask(jsonTextElement) {
 //   }
 // }
 
+// function renderSubtask(taskJson) {
+//   let correctTaskId = taskJson.tasksIdentity;
+//   let subtaskLength = taskJson.subtask.length;
+//   if (taskJson.subtask) {
+//     taskJson.subtask.forEach((subtask, index) => {
+//       document.getElementById("big-task-pop-up-subtasks-container").innerHTML += returnSubtaskHTML(correctTaskId, subtask["task-description"], index, subtaskLength)
+//     });
+//   } else {
+//     document.getElementById("big-task-pop-up-subtasks-container").innerHTML = /*html*/ `  
+//     <p class='big-task-pop-up-value-text'>No Subtasks</p>
+//     `;
+//   }
+// }
+
 function renderSubtask(taskJson) {
   let correctTaskId = taskJson.tasksIdentity;
-  let subtaskLength = taskJson.subtask.length;
   if (taskJson.subtask) {
     taskJson.subtask.forEach((subtask, index) => {
-      document.getElementById("big-task-pop-up-subtasks-container").innerHTML += returnSubtaskHTML(correctTaskId, subtask["task-description"], index, subtaskLength);
+      if (subtask["is-tasked-checked"] == false) {
+        console.log('Komme rein!');
+        document.getElementById("big-task-pop-up-subtasks-container").innerHTML += returnSubtaskHTML(correctTaskId, subtask["task-description"], index);
+      } else if (subtask["is-tasked-checked"] == true) {
+        console.log("Werte sind auf true gesetzt!");
+        document.getElementById("big-task-pop-up-subtasks-container").innerHTML += returnSubtaskHTMLWithBolean(correctTaskId, subtask["task-description"], index);
+      }
     });
   } else {
     document.getElementById("big-task-pop-up-subtasks-container").innerHTML = /*html*/ `  
@@ -355,18 +375,17 @@ function renderSubtask(taskJson) {
 //   }
 // }
 
-async function addCheckedStatus(i, correctTaskId, subtaskLength) {
-  console.log("subtaskLength:", subtaskLength);
+async function addCheckedStatus(i, correctTaskId) {
   let checkBoxChecked;
   let checkBoxIconUnchecked = document.getElementById(`checkBoxIconUnchecked${i}`);
   let checkBoxIconChecked = document.getElementById(`checkBoxIconChecked${i}`);
-  if (!checkBoxIconUnchecked.classList.contains("d-none")) {
+  if (!checkBoxIconUnchecked.classList.contains("d-none") && checkBoxIconChecked.classList.contains("d-none")) {
     checkBoxChecked = true;
     checkBoxCheckedJson[i] = checkBoxChecked;
     checkBoxIconUnchecked.classList.add("d-none");
     checkBoxIconChecked.classList.remove("d-none");
     // await depositSubtaskChanges(i, correctTaskId);
-  } else if (!checkBoxIconChecked.classList.contains("d-none")) {
+  } else if (!checkBoxIconChecked.classList.contains("d-none") && checkBoxIconUnchecked.classList.contains("d-none")) {
     checkBoxChecked = false;
     checkBoxCheckedJson[i] = checkBoxChecked;
     checkBoxIconUnchecked.classList.remove("d-none");
@@ -391,10 +410,8 @@ async function depositSubtaskChanges(correctTaskId) {
     }
   }
   // subtasks[i]["is-tasked-checked"] = checkBoxCheckedJson[i];
-  console.log(changedSubtaskArray);
-  console.log(subtaskArray);
   subtaskArray = changedSubtaskArray;
-  console.log(subtaskArray);
+  // insertSubtasksIntoContainer();
 }
 
 // async function depositSubtaskChanges(i, correctTaskId, checkBoxChecked) {
@@ -450,6 +467,7 @@ function renderAllBigPopUp(oldTitle, oldDescription, oldDate, oldPriority, taskJ
   renderBigTaskAssignedContactContainer(taskJson);
   renderBigEditTaskAssignedToPopUp(taskJson);
   returnBigPopUpEditButtons(id);
+  // renderSubtask(taskJson);
 }
 
 function returnBigTaskPopUpDescription(oldDescription) {
@@ -846,13 +864,14 @@ async function saveTaskChanges(id) {
     let newTaskReady = await updateTasksThroughEditing(id, taskForEditing);
     let newJsonElement = JSON.stringify(newTaskReady);
     let newJsontextElement = encodeURIComponent(newJsonElement);
+    // insertSubtasksIntoContainer();
     renderBigTask(newJsontextElement);
   } catch (error) {
     console.error("Fehler beim Speichern der Änderungen: ", error);
   }
   // assignedToContactsBigContainer = [];
   subtaskArray = [];
-  checkBoxCheckedJson = {};
+  // checkBoxCheckedJson = {};
   updateHTML();
 }
 
@@ -947,6 +966,7 @@ async function updateTasksThroughEditing(taskId, objectForEditing) {
       return tasks[taskId];
     }
   }
+  checkBoxCheckedJson = {};
 }
 
 // deleteData
