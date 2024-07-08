@@ -41,7 +41,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   max-height: 200px;
   min-height: 50px;
 
-  border: unset !important;
   border-radius: 10px;
   padding: 12px;
   outline: none;
@@ -216,8 +215,6 @@ h1 {
 #inputDescription {
   font-size: 20px;
   font-weight: 400;
-
-  border: 1px solid #d1d1d1;
 
   font-family: "Inter", sans-serif;
 }

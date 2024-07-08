@@ -11,21 +11,21 @@
   }
   
   @media (max-width: 900px) {
-    .prio div {
-      flex-direction: column !important;
-    }
-    .prio div div {
-      flex-direction: row !important;
-    }
-  }
-  
-  @media (max-width: 600px) {
     .addTaskBody form {
       flex-direction: column;
       align-items: center;
     }
-    .prio div {
-      flex-direction: row !important;
+    .submitSection {
+      position: relative;
+      align-items: center;
+      margin-bottom: 100px;
+      gap: 20px;
+    }
+  }
+  
+  @media (max-width: 600px) {
+    .submitSection {
+      flex-direction: column;
     }
     .borderLine {
       display: none;
@@ -37,15 +37,6 @@
     .input2 {
       padding: 0px;
       width: 90%;
-    }
-    .submitSection {
-      position: relative;
-      justify-content: space-around;
-      bottom: 0;
-      flex-direction: column;
-      align-items: center;
-      margin-bottom: 100px;
-      gap: 20px;
     }
     .buttons {
       padding-right: 0px;
