@@ -212,7 +212,7 @@ function showAddTaskPopUp(container = "to-do-container") {
   const screenWidth = window.screen.width
   console.log(screenWidth);
   if (screenWidth <= 600) {
-    window.location= "add_task.html";
+    window.location = "add_task.html";
   } else {
     document.getElementById("add-task-pop-up-bg").classList.remove("bg-op-0");
     document.getElementById("add-task-pop-up").classList.remove("translate-100");
@@ -318,18 +318,49 @@ function renderBigTask(jsonTextElement) {
 }
 
 // renderSubtask
+// function renderSubtask(taskJson) {
+//   if (taskJson.subtask) {
+//     taskJson.subtask.forEach((subtask) => {
+//       document.getElementById("big-task-pop-up-subtasks-container").innerHTML += returnSubtaskHTML(subtask["task-description"]);
+//     });
+//   } else {
+//     document.getElementById("big-task-pop-up-subtasks-container").innerHTML = /*html*/ `  
+//     <p class='big-task-pop-up-value-text'>No Subtasks</p>
+//     `;
+//   }
+// }
+
 function renderSubtask(taskJson) {
-  console.log(taskJson)
-  // let renderSubtaskInput = document.getElementById('big-edit-task-subtask-input');
   if (taskJson.subtask) {
-    taskJson.subtask.forEach((subtask) => {
-      // console.log(subtask["task-description"]);
-      document.getElementById("big-task-pop-up-subtasks-container").innerHTML += returnSubtaskHTML(subtask["task-description"]);
+    taskJson.subtask.forEach((subtask, index) => {
+      console.log(index);
+      document.getElementById("big-task-pop-up-subtasks-container").innerHTML += returnSubtaskHTML(subtask["task-description"], index);
     });
   } else {
     document.getElementById("big-task-pop-up-subtasks-container").innerHTML = /*html*/ `  
     <p class='big-task-pop-up-value-text'>No Subtasks</p>
     `;
+  }
+}
+
+// function addCheck() {
+//   let checkboxCheck = document.getElementById("checkbox-check");
+//   if (!checkboxCheck.classList.contains("d-none")) {
+//     checkboxCheck.classList.add("d-none");
+//   } else {
+//     checkboxCheck.classList.remove("d-none");
+//   }
+// }
+
+function addCheckedStatus(i) {
+  let checkBoxIconUnchecked = document.getElementById(`checkBoxIconUnchecked${i}`);
+  let checkBoxIconChecked = document.getElementById(`checkBoxIconChecked${i}`);
+  if (!checkBoxIconUnchecked.classList.contains("d-none")) {
+    checkBoxIconUnchecked.classList.add("d-none");
+    checkBoxIconChecked.classList.remove("d-none");
+  } else if (!checkBoxIconChecked.classList.contains("d-none")) {
+    checkBoxIconUnchecked.classList.remove("d-none");
+    checkBoxIconChecked.classList.add("d-none");
   }
 }
 
