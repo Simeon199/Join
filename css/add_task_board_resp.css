@@ -23,9 +23,6 @@
 }
 
 @media (max-width: 1000px) {
-    body {
-        overflow: hidden;
-    }
     .main {
         flex-direction: column;
         overflow-x: scroll;
@@ -54,6 +51,7 @@
       flex-direction: column;
       align-items: center;
       gap: 20px;
+      margin-bottom: 0;
     }
     .prio div {
       flex-direction: row !important;

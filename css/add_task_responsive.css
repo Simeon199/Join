@@ -24,8 +24,10 @@
   }
   
   @media (max-width: 600px) {
-    .submitSection {
-      flex-direction: column;
+    .main {
+      p {
+        font-size: 16px;
+      }
     }
     .borderLine {
       display: none;
@@ -40,6 +42,7 @@
     }
     .buttons {
       padding-right: 0px;
+      width: unset;
     }
     .circle span {
       font-size: 12px !important;
@@ -47,6 +50,37 @@
     }
     h1 {
         font-size: 47px;
+    }
+    .btn {
+      display: none;
+    }
+    #inputTitle::placeholder,
+    #date::placeholder,
+    #subtask::placeholder,
+    #inputDescription::placeholder {
+      font-size: 16px;
+    }
+    #inputTitle,
+    #date,
+    #subtask,
+    #inputDescription {
+      font-size: 16px;
+    }
+    .assignetToDivSearch span, .select span{
+      font-size: 16px;
+    }
+  }
+
+  @media (max-width: 500px) {
+    .input2 {
+      .prio div {
+        flex-direction: column;
+        height: auto;
+      }
+      .prio div div {
+        flex-direction: row;
+        height: 41px;
+      }
     }
   }
   
@@ -56,10 +90,14 @@
       padding-bottom: 90px;
       width: 80%;
     }
-    .btn {
-      width: 80%;
-    }
     .darkBTN {
       width: 80%;
+      span {
+        font-size: 16px;
+      }
+    }
+    .submitSection {
+      flex-direction: column;
+      margin-bottom: 25px;
     }
   }

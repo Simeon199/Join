@@ -15,6 +15,7 @@
     border: unset;
     span {
         padding: 0px 0px 0px 10px !important;
+        font-size: 20px;
     }
     input {
         padding: 0px 5px 0px 5px;

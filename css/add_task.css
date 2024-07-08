@@ -2,6 +2,10 @@ body {
   background-color: rgba(246, 247, 248, 1);
 
   min-height: 100vh;
+  p {
+    margin: 0px 0px 5px 0px;
+    font-size: 20px;
+  }
 }
 
 .main {
@@ -15,9 +19,6 @@ body {
 
   b {
     color: red;
-  }
-  p {
-    font-size: 16px;
   }
 }
 
@@ -91,6 +92,7 @@ form div div div {
 }
 .select span {
   padding: 0px 10px 0px 10px;
+  font-size: 20px;
 }
 .select:focus {
   border: 1px solid rgba(41, 171, 226, 1);
@@ -161,9 +163,9 @@ h1 {
   div {
     width: 100%;
   }
-  p {
+  /* p {
     margin: 0px 0px 5px 0px;
-  }
+  } */
 }
 
 .borderLine {
@@ -185,12 +187,11 @@ h1 {
   div {
     width: 100%;
   }
-  p {
+  /* p {
     margin: 0px 0px 5px 0px;
-  }
+  } */
   .prio div {
     display: flex;
-    flex-direction: row;
     gap: 8px;
     height: 56px;
     border: unset;
@@ -327,7 +328,7 @@ h1 {
   border: 2px solid #2a3647;
 
   border-radius: 10px;
-  padding: 16px;
+  padding: 14px;
 
   display: flex;
   align-items: center;
@@ -484,4 +485,8 @@ h1 {
   justify-content: end !important;
   padding-right: 20px;
   width: 40px !important;
+}
+
+.hide-overflow {
+  overflow: hidden;
 }
