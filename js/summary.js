@@ -157,7 +157,7 @@ function greetTime() {
 
   if (time <= 10) {
     return "Good morning"
-  } else if (time >=10 && time < 15) {
+  } else if (time > 10 && time < 15) {
     return "Good afternoon"
   } else {
     return "Good evening"
