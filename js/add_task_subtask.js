@@ -58,7 +58,7 @@ function rendersubtask() {
 
 function renderSubtaskHTML(i, content) {
   return /*html*/ `
-      <div ondblclick="editSubtask(${i})" id="yyy${i}" class="subtasks" onmouseover="sowSubaskEdditButtons(${i})" onmouseout="hideSubaskEdditButtons(${i})">
+      <div onmouseover="toggleDNone(${i})" onmouseout="toggleDNone(${i})" ondblclick="editSubtask(${i})" id="yyy${i}" class="subtasks">
         <li >${content}</li>
         <div id="subBTN${i}" class="subBtn1 d-none">
           <svg onclick="editSubtask(${i}), stopEvent(event)" width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -72,13 +72,13 @@ function renderSubtaskHTML(i, content) {
     `;
 }
 
-function sowSubaskEdditButtons(i) {
-  document.getElementById(`subBTN${i}`).classList.remove("d-none");
-}
+// function sowSubaskEdditButtons(i) {
+//   document.getElementById(`subBTN${i}`).classList.remove("d-none");
+// }
 
-function hideSubaskEdditButtons(i) {
-  document.getElementById(`subBTN${i}`).classList.add("d-none");
-}
+// function hideSubaskEdditButtons(i) {
+//   document.getElementById(`subBTN${i}`).classList.add("d-none");
+// }
 
 function clearSubtask() {
   let subtask = document.getElementById("sowSubtasks");
@@ -161,4 +161,8 @@ function saveEditedSubtask(i) {
   let text = document.getElementById(`subtaskEdited`).value;
   subArray[i]["task-description"] = text;
   rendersubtask();
+}
+
+function toggleDNone(id) {
+  document.getElementById(`subBTN${id}`).classList.toggle("d-none");
 }

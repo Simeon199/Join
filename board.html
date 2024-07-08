@@ -138,7 +138,7 @@
 
       <!-- pop up -->
       <div id="add-task-pop-up-bg" class="add-task-pop-up-bg bg-op-0" onclick="hideAddTaskPopUp()">
-        <div id="add-task-pop-up" class="add-task-pop-up translate-100" onclick="stopEvent(event)">
+        <div id="add-task-pop-up" class="add-task-pop-up translate-100" onclick="stopEvent(event); hideAllAddTaskPopups()">
           <svg
             onclick="hideAddTaskPopUp()"
             id="close-add-task-pop-up"
@@ -177,7 +177,7 @@
                     <div>
                       <p>Assigned to</p>
                       <div id="assignedTo" class="select">
-                        <div id="changeTo" onclick="changeToInputfield(); stopEvent(event)" class="assignetToDivSearch">
+                        <div id="changeTo" onclick="changeToInputfieldOnBoard(); stopEvent(event)" class="assignetToDivSearch">
                           <span id="standartValue">Select contacts to assign</span>
                           <div id="searchArea" class="border-unset d-none">
                             <input id="searchField" oninput="searchContacts(); stopEvent(event)" class="border-unset" type="text" placeholder="Search Contact.." />
@@ -367,6 +367,7 @@
     <script src="js/boardHtmlTemplate.js"></script>
     <script src="js/add_task_contacts.js"></script>
     <script src="js/add_task_subtask.js"></script>
+    <script src="js/add_task_board.js"></script>
     <script src="js/board.js"></script>
   </body>
 </html>

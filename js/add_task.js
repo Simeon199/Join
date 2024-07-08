@@ -279,6 +279,7 @@ function hideAllAddTaskPopups() {
   hideDropDownAssignedTo();
   hideDropDownCategory();
   changeToInputfield();
+  changeToInputfieldOnBoard();
 
   plus = document.getElementById("plusSymbole");
   subtask = document.getElementById("subtaskInputButtons");
