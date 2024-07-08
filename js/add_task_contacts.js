@@ -132,6 +132,8 @@ function changeToInputfield() {
         search.remove("d-none");
         input.classList.remove("d-none");
         stV.add("d-none");
+        input.focus();
+        showDropDownAssignedTo();
       } else {
         search.add("d-none");
         input.classList.add("d-none");

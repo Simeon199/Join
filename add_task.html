@@ -56,7 +56,7 @@
               <div>
                 <p>Assigned to</p>
                 <div id="assignedTo" class="select">
-                  <div id="changeTo" onclick="changeToInputfield()" class="assignetToDivSearch">
+                  <div id="changeTo" onclick="changeToInputfield(); stopEvent(event);" class="assignetToDivSearch">
                     <span id="standartValue">Select contacts to assign</span>
                     <div id="searchArea" class="border-unset d-none">
                       <input id="searchField" oninput="searchContacts()" class="border-unset" type="text" placeholder="Search Contact.." />

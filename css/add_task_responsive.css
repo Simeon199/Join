@@ -72,6 +72,11 @@
     .assignetToDivSearch span, .select span{
       font-size: 16px;
     }
+    .input2 {
+      .prio div div {
+        font-size: 16px;
+      }
+    }
   }
 
   @media (max-width: 500px) {
