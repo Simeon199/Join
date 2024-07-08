@@ -852,6 +852,7 @@ async function saveTaskChanges(id) {
   }
   // assignedToContactsBigContainer = [];
   subtaskArray = [];
+  checkBoxCheckedJson = {};
   updateHTML();
 }
 
