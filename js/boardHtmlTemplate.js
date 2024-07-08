@@ -53,13 +53,16 @@ function generateTaskHTML(
 ) {
   let jsonTextElement = encodeURIComponent(jsonElement);
   if (element["subtask"]) {
+    console.log(element["subtask"]);
     let numberOfTasksChecked = 0;
-    for (index = 0; index < element["subtask"]; index++) {
+    for (index = 0; index < element["subtask"].length; index++) {
       if (element["subtask"][index]["is-tasked-checked"] == true) {
         numberOfTasksChecked += 1;
       }
     }
+    console.log(numberOfTasksChecked);
     let taskbarWidth = Math.round((numberOfTasksChecked / element["subtask"].length) * 100);
+    console.log(taskbarWidth);
     return returnTaskHtmlWithSubtask(element, contactsHTML, oppositeCategory, rightIcon, jsonTextElement, taskbarWidth, numberOfTasksChecked);
   } else {
     return returnTaskHtmlWithoutSubtask(element, contactsHTML, oppositeCategory, rightIcon, jsonTextElement);
@@ -107,7 +110,7 @@ function returnTaskHtmlWithSubtask(element, contactsHTML, oppositeCategory, righ
         <p class="task-description">${element["description"]}</p>
         <div class="task-bar-container">
           <div class="task-bar">
-            <div class="task-bar-content" style="width: ${taskbarWidth}"></div>
+            <div class="task-bar-content" style="width: ${taskbarWidth}%"></div>
           </div>
           <p class="task-bar-text">${numberOfTasksChecked}/${element["subtask"].length} Subtasks</p>
         </div>
