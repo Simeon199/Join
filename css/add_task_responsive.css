@@ -21,6 +21,9 @@
       margin-bottom: 100px;
       gap: 20px;
     }
+    .borderLine {
+      display: none;
+    }
   }
   
   @media (max-width: 600px) {

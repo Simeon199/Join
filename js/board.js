@@ -211,7 +211,6 @@ function allowDrop(event) {
 // showAddTaskPopUp
 function showAddTaskPopUp(container = "to-do-container") {
   const screenWidth = window.screen.width
-  console.log(screenWidth);
   if (screenWidth <= 600) {
     window.location = "add_task.html";
   } else {
