@@ -10,6 +10,7 @@ let allTasksWithSubtasks = [];
 let assignedToContactsBigContainer = [];
 let isSaveIconClicked = false;
 let subtaskArray = [];
+let checkBoxCheckedJson = {};
 
 document.addEventListener("DOMContentLoaded", async function () {
   await getTasksFromDatabase();
@@ -237,7 +238,7 @@ function showBigTaskPopUp(jsonTextElement) {
   document.body.style.overflow = "hidden";
 
   renderBigTask(jsonTextElement);
-  console.log(jsonTextElement);
+  // console.log(jsonTextElement);
 }
 
 // hideBigTaskPopUp
@@ -252,11 +253,11 @@ function hideBigTaskPopUp() {
 // renderBigTask
 function renderBigTask(jsonTextElement) {
   let taskJson = JSON.parse(decodeURIComponent(jsonTextElement));
-  console.log(taskJson.title);
-  console.log(taskJson.description);
-  console.log(taskJson.category);
-  console.log(taskJson.date);
-  console.log(taskJson.priority);
+  // console.log(taskJson.title);
+  // console.log(taskJson.description);
+  // console.log(taskJson.category);
+  // console.log(taskJson.date);
+  // console.log(taskJson.priority);
   document.getElementById("big-task-pop-up-priority-container").classList.remove("big-edit-task-pop-up-section-container");
   document.getElementById("big-task-pop-up-due-date-container").classList.remove("big-edit-task-pop-up-section-container");
 
@@ -333,10 +334,12 @@ function renderBigTask(jsonTextElement) {
 // }
 
 function renderSubtask(taskJson) {
+  let correctTaskId = taskJson.tasksIdentity;
+  let subtaskLength = taskJson.subtask.length;
   if (taskJson.subtask) {
     taskJson.subtask.forEach((subtask, index) => {
       console.log(index);
-      document.getElementById("big-task-pop-up-subtasks-container").innerHTML += returnSubtaskHTML(subtask["task-description"], index);
+      document.getElementById("big-task-pop-up-subtasks-container").innerHTML += returnSubtaskHTML(correctTaskId, subtask["task-description"], index, subtaskLength);
     });
   } else {
     document.getElementById("big-task-pop-up-subtasks-container").innerHTML = /*html*/ `  
@@ -354,17 +357,58 @@ function renderSubtask(taskJson) {
 //   }
 // }
 
-function addCheckedStatus(i) {
+async function addCheckedStatus(i, correctTaskId, subtaskLength) {
+  console.log("subtaskLength:", subtaskLength);
+  let checkBoxChecked;
   let checkBoxIconUnchecked = document.getElementById(`checkBoxIconUnchecked${i}`);
   let checkBoxIconChecked = document.getElementById(`checkBoxIconChecked${i}`);
   if (!checkBoxIconUnchecked.classList.contains("d-none")) {
+    checkBoxChecked = true;
+    checkBoxCheckedJson[i] = checkBoxChecked;
     checkBoxIconUnchecked.classList.add("d-none");
     checkBoxIconChecked.classList.remove("d-none");
+    // await depositSubtaskChanges(i, correctTaskId);
   } else if (!checkBoxIconChecked.classList.contains("d-none")) {
+    checkBoxChecked = false;
+    checkBoxCheckedJson[i] = checkBoxChecked;
     checkBoxIconUnchecked.classList.remove("d-none");
     checkBoxIconChecked.classList.add("d-none");
+    // await depositSubtaskChanges(i, correctTaskId);
   }
+  depositSubtaskChanges(correctTaskId);
+  // console.log(subtaskArray);
+  console.log(checkBoxCheckedJson);
 }
+
+async function depositSubtaskChanges(correctTaskId) {
+  let changedSubtaskArray = [];
+  let subtasks = await loadRelevantData(`/testRealTasks/${correctTaskId}/subtask`);
+  for (index = 0; index < subtasks.length; index++) {
+    if (checkBoxCheckedJson[index]) {
+      let jsonObject = { "is-tasked-checked": checkBoxCheckedJson[index], "task-description": subtasks[index]["task-description"] };
+      changedSubtaskArray.push(jsonObject);
+    } else {
+      let jsonObject = { "is-tasked-checked": false, "task-description": subtasks[index]["task-description"] };
+      changedSubtaskArray.push(jsonObject);
+    }
+  }
+  // subtasks[i]["is-tasked-checked"] = checkBoxCheckedJson[i];
+  console.log(changedSubtaskArray);
+  console.log(subtaskArray);
+  subtaskArray = changedSubtaskArray;
+  console.log(subtaskArray);
+}
+
+// async function depositSubtaskChanges(i, correctTaskId, checkBoxChecked) {
+//   let subtasks = await loadRelevantData(`/testRealTasks/${correctTaskId}/subtask`);
+//   if (subtasks[i]["is-tasked-checked"] == false && checkBoxChecked == true) {
+//     subtasks[i]["is-tasked-checked"] = true;
+//   } else if (subtasks[i]["is-tasked-checked"] == true && checkBoxChecked == false) {
+//     subtasks[i]["is-tasked-checked"] = false;
+//   }
+//   console.log(subtasks);
+//   console.log(checkBoxCheckedJson);
+// }
 
 // renderContact
 function renderTaskContact(taskJson) {
@@ -810,6 +854,7 @@ async function saveTaskChanges(id) {
   }
   // assignedToContactsBigContainer = [];
   subtaskArray = [];
+  checkBoxCheckedJson = {};
   updateHTML();
 }
 

@@ -196,12 +196,12 @@ function returnAssignedContactHTML(contact) {
       `;
 }
 
-function returnSubtaskHTML(subtask, i) {
+function returnSubtaskHTML(correctTaskId, subtask, i, subtaskLength) {
   return /*html*/ `
   <div class="big-task-pop-up-subtasks" id="bigSubtaskNo${i}">
     <svg
       id="checkBoxIconUnchecked${i}"
-      onclick="addCheckedStatus(${i})"
+      onclick="addCheckedStatus(${i}, ${correctTaskId}, ${subtaskLength})"
       class="big-task-pop-up-subtask-checkbox-icon"
       width="18"
       height="18"
@@ -213,7 +213,7 @@ function returnSubtaskHTML(subtask, i) {
     </svg>
     <svg 
       id="checkBoxIconChecked${i}"
-      onclick="addCheckedStatus(${i})"
+      onclick="addCheckedStatus(${i}, ${correctTaskId}, ${subtaskLength})"
       class="big-task-pop-up-subtask-checkbox-icon d-none"
       width="22" 
       height="22" 
