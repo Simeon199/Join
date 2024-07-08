@@ -337,7 +337,6 @@ function renderSubtask(taskJson) {
   let subtaskLength = taskJson.subtask.length;
   if (taskJson.subtask) {
     taskJson.subtask.forEach((subtask, index) => {
-      console.log(index);
       document.getElementById("big-task-pop-up-subtasks-container").innerHTML += returnSubtaskHTML(correctTaskId, subtask["task-description"], index, subtaskLength);
     });
   } else {
