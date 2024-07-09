@@ -653,27 +653,21 @@ function renderBigEditTaskAssignedToPopUp(taskJson) {
   for (let i = 0; i < allUsers.length; i++) {
     let taskIndex = taskJson.tasksIdentity;
     const contact = allUsers[i];
-
     let allNames = [];
 
     for (let j = 0; j < taskJson.assigned.length; j++) {
       const assignedContact = taskJson.assigned[j];
-
       if (contact.name === taskJson.assigned[j].name) {
         let contactObject = JSON.stringify({ name: contact.name, color: contact.color, isSelected: true });
         renderOnlyActiveAssignedToPopUp(contact, contactObject, i, taskIndex);
-
         allNames.push(contact.name);
       }
     }
-
     if (!allNames.includes(contact.name)) {
       let contactObject = JSON.stringify({ name: contact.name, color: contact.color, isSelected: false });
       renderOnlyAssignedToPopUp(contact, contactObject, i, taskIndex);
-
       allNames.push(contact.name);
     }
-
     renderOnlySubtaskContainerPopUp(taskJson);
   }
 }
@@ -709,7 +703,8 @@ function renderOnlyActiveAssignedToPopUp(contact, contactObject, i, taskIndex) {
 
         <div class='big-edit-task-assigned-to-pop-up-contact-checkbox-icon-container'>
           <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="1" y="1" width="16" height="16" rx="3" stroke="#2A3647" stroke-width="2"/>
+            <path d="M17 8V14C17 15.6569 15.6569 17 14 17H4C2.34315 17 1 15.6569 1 14V4C1 2.34315 2.34315 1 4 1H12" stroke="white" stroke-width="2" stroke-linecap="round"/>
+            <path d="M5 9L9 13L17 1.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </div>
       </div>
@@ -741,7 +736,6 @@ function renderOnlyActiveAssignedToPopUp(contact, contactObject, i, taskIndex) {
 function renderOnlySubtaskContainerPopUp(taskJson) {
   document.getElementById("big-edit-task-subtask-container").innerHTML = "";
 
-  // console.log(taskJson);
   subtaskArray = taskJson.subtask;
   if (taskJson.subtask) {
     for (let i = 0; i < taskJson.subtask.length; i++) {
@@ -757,6 +751,8 @@ function checkBigEditTaskContact(i, contactObject, taskIndex) {
   HTMLContactContainer = document.querySelectorAll(".big-edit-task-assigned-to-pop-up-contact-container")[i];
   HTMLContactContainer.classList.toggle("big-edit-task-assigned-to-pop-up-active-contact");
 
+  assignedToContactsBigContainer = tasks[taskIndex].assigned;
+
   if (HTMLContactContainer.classList.contains("big-edit-task-assigned-to-pop-up-active-contact")) {
     contactObject["isSelected"] = true;
     addContactToAssigned(contactObject, taskIndex);
@@ -766,7 +762,7 @@ function checkBigEditTaskContact(i, contactObject, taskIndex) {
       <path d="M17 8V14C17 15.6569 15.6569 17 14 17H4C2.34315 17 1 15.6569 1 14V4C1 2.34315 2.34315 1 4 1H12" stroke="white" stroke-width="2" stroke-linecap="round"/>
       <path d="M5 9L9 13L17 1.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>
-      `;
+    `;
   } else {
     contactObject["isSelected"] = false;
     deleteContactToAssigned(contactObject, taskIndex);
@@ -774,8 +770,9 @@ function checkBigEditTaskContact(i, contactObject, taskIndex) {
     <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
       <rect x="1" y="1" width="16" height="16" rx="3" stroke="#2A3647" stroke-width="2" />
     </svg>
-     `;
+    `;
   }
+  console.log(assignedToContactsBigContainer);
 }
 
 // addContactToAssigned
