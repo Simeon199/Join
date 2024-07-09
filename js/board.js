@@ -210,7 +210,7 @@ function allowDrop(event) {
 
 // showAddTaskPopUp
 function showAddTaskPopUp(container = "to-do-container") {
-  const screenWidth = window.screen.width
+  const screenWidth = window.screen.width;
   if (screenWidth <= 600) {
     window.location = "add_task.html";
   } else {
@@ -327,7 +327,7 @@ function renderBigTask(jsonTextElement) {
 //       document.getElementById("big-task-pop-up-subtasks-container").innerHTML += returnSubtaskHTML(subtask["task-description"]);
 //     });
 //   } else {
-//     document.getElementById("big-task-pop-up-subtasks-container").innerHTML = /*html*/ `  
+//     document.getElementById("big-task-pop-up-subtasks-container").innerHTML = /*html*/ `
 //     <p class='big-task-pop-up-value-text'>No Subtasks</p>
 //     `;
 //   }
@@ -341,7 +341,7 @@ function renderBigTask(jsonTextElement) {
 //       document.getElementById("big-task-pop-up-subtasks-container").innerHTML += returnSubtaskHTML(correctTaskId, subtask["task-description"], index, subtaskLength)
 //     });
 //   } else {
-//     document.getElementById("big-task-pop-up-subtasks-container").innerHTML = /*html*/ `  
+//     document.getElementById("big-task-pop-up-subtasks-container").innerHTML = /*html*/ `
 //     <p class='big-task-pop-up-value-text'>No Subtasks</p>
 //     `;
 //   }
@@ -352,7 +352,7 @@ function renderSubtask(taskJson) {
   if (taskJson.subtask) {
     taskJson.subtask.forEach((subtask, index) => {
       if (subtask["is-tasked-checked"] == false) {
-        console.log('Komme rein!');
+        console.log("Komme rein!");
         document.getElementById("big-task-pop-up-subtasks-container").innerHTML += returnSubtaskHTML(correctTaskId, subtask, index);
       } else if (subtask["is-tasked-checked"] == true) {
         console.log("Werte sind auf true gesetzt!");
@@ -375,14 +375,15 @@ function renderSubtask(taskJson) {
 //   }
 // }
 
-async function addCheckedStatus(i, correctTaskId, subtask) {
-  console.log("is-tasked-checked:", subtask);
+async function addCheckedStatus(i, correctTaskId) {
   let checkBoxChecked = false;
   let checkBoxIconUnchecked = document.getElementById(`checkBoxIconUnchecked${i}`);
   let checkBoxIconChecked = document.getElementById(`checkBoxIconChecked${i}`);
+
   if (!checkBoxIconUnchecked.classList.contains("d-none") && checkBoxIconChecked.classList.contains("d-none")) {
     checkBoxChecked = true;
     checkBoxCheckedJson[i] = checkBoxChecked;
+
     checkBoxIconUnchecked.classList.add("d-none");
     checkBoxIconChecked.classList.remove("d-none");
     // await depositSubtaskChanges(i, correctTaskId);
@@ -400,7 +401,8 @@ async function addCheckedStatus(i, correctTaskId, subtask) {
 
 async function depositSubtaskChanges(correctTaskId) {
   // let changedSubtaskArray = [];
-  let subtasks = await loadRelevantData(`/testRealTasks/${correctTaskId}/subtask`);
+
+  let subtasks = tasks[correctTaskId].subtask;
   // console.log(subtasks);
   for (index = 0; index < subtasks.length; index++) {
     if (checkBoxCheckedJson[index]) {
@@ -582,7 +584,8 @@ function returnBigTaskPopUpSubtasksAll() {
 }
 
 function renderBigTaskAssignedContactContainer(taskJson) {
-  // console.log(taskJson);
+  document.getElementById("big-edit-task-assigned-to-contact-container").innerHTML = "";
+
   if (taskJson.assigned) {
     for (let i = 0; i < taskJson.assigned.length; i++) {
       const contact = taskJson.assigned[i];
@@ -609,11 +612,28 @@ function returnBigPopUpEditButtons(id) {
 function renderBigEditTaskAssignedToPopUp(taskJson) {
   for (let i = 0; i < allUsers.length; i++) {
     let taskIndex = taskJson.tasksIdentity;
-
     const contact = allUsers[i];
-    let contactObject = JSON.stringify({ name: contact.name, color: contact.color, isSelected: false });
-    renderOnlyAssignedToPopUp(contact, contactObject, i, taskIndex);
-    document.getElementById("big-edit-task-subtask-container").innerHTML = "";
+
+    let allNames = [];
+
+    for (let j = 0; j < taskJson.assigned.length; j++) {
+      const assignedContact = taskJson.assigned[j];
+
+      if (contact.name === taskJson.assigned[j].name) {
+        let contactObject = JSON.stringify({ name: contact.name, color: contact.color, isSelected: true });
+        renderOnlyActiveAssignedToPopUp(contact, contactObject, i, taskIndex);
+
+        allNames.push(contact.name);
+      }
+    }
+
+    if (!allNames.includes(contact.name)) {
+      let contactObject = JSON.stringify({ name: contact.name, color: contact.color, isSelected: false });
+      renderOnlyAssignedToPopUp(contact, contactObject, i, taskIndex);
+
+      allNames.push(contact.name);
+    }
+
     renderOnlySubtaskContainerPopUp(taskJson);
   }
 }
@@ -621,6 +641,25 @@ function renderBigEditTaskAssignedToPopUp(taskJson) {
 function renderOnlyAssignedToPopUp(contact, contactObject, i, taskIndex) {
   document.getElementById("big-edit-task-assigned-to-pop-up").innerHTML += /*html*/ `
       <div onclick='checkBigEditTaskContact(${i}, ${contactObject},${taskIndex})' class='big-edit-task-assigned-to-pop-up-contact-container'>
+        <div class='big-edit-task-assigned-to-pop-up-contact' >
+          <div class='big-edit-task-assigned-to-pop-up-contact-badge' style='background-color: ${contact.color}'>
+            ${firstLetterFirstTwoWords(contact.name)}
+          </div>
+          <p class='big-edit-task-assigned-to-pop-up-contact-name'>${contact.name}</p>
+        </div>
+
+        <div class='big-edit-task-assigned-to-pop-up-contact-checkbox-icon-container'>
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="1" y="1" width="16" height="16" rx="3" stroke="#2A3647" stroke-width="2"/>
+          </svg>
+        </div>
+      </div>
+    `;
+}
+
+function renderOnlyActiveAssignedToPopUp(contact, contactObject, i, taskIndex) {
+  document.getElementById("big-edit-task-assigned-to-pop-up").innerHTML += /*html*/ `
+      <div onclick='checkBigEditTaskContact(${i}, ${contactObject},${taskIndex})' class='big-edit-task-assigned-to-pop-up-contact-container big-edit-task-assigned-to-pop-up-active-contact'>
         <div class='big-edit-task-assigned-to-pop-up-contact' >
           <div class='big-edit-task-assigned-to-pop-up-contact-badge' style='background-color: ${contact.color}'>
             ${firstLetterFirstTwoWords(contact.name)}
@@ -660,6 +699,8 @@ function renderOnlyAssignedToPopUp(contact, contactObject, i, taskIndex) {
 // }
 
 function renderOnlySubtaskContainerPopUp(taskJson) {
+  document.getElementById("big-edit-task-subtask-container").innerHTML = "";
+
   // console.log(taskJson);
   subtaskArray = taskJson.subtask;
   if (taskJson.subtask) {
@@ -672,14 +713,12 @@ function renderOnlySubtaskContainerPopUp(taskJson) {
   }
 }
 
-
 function checkBigEditTaskContact(i, contactObject, taskIndex) {
   HTMLContactContainer = document.querySelectorAll(".big-edit-task-assigned-to-pop-up-contact-container")[i];
   HTMLContactContainer.classList.toggle("big-edit-task-assigned-to-pop-up-active-contact");
 
   if (HTMLContactContainer.classList.contains("big-edit-task-assigned-to-pop-up-active-contact")) {
     contactObject["isSelected"] = true;
-    assignContactsBigContainer(contactObject);
     addContactToAssigned(contactObject, taskIndex);
 
     document.querySelectorAll(".big-edit-task-assigned-to-pop-up-contact-checkbox-icon-container")[i].innerHTML = /*html*/ `
@@ -703,7 +742,9 @@ function checkBigEditTaskContact(i, contactObject, taskIndex) {
 function addContactToAssigned(contactObject, taskIndex) {
   let taskJson = tasks[taskIndex];
 
-  // Hier contactObject zur tasks[taskIndex].assigned hinzufügen
+  assignedToContactsBigContainer.push(contactObject);
+
+  taskJson.assigned = assignedToContactsBigContainer;
 
   renderBigTaskAssignedContactContainer(taskJson);
 }
@@ -711,8 +752,9 @@ function addContactToAssigned(contactObject, taskIndex) {
 // deleteContactToAssigned
 function deleteContactToAssigned(contactObject, taskIndex) {
   let taskJson = tasks[taskIndex];
+  let contactObjectIndex = assignedToContactsBigContainer.findIndex((jsonObject) => jsonObject.name === contactObject.name);
 
-  // Hier contactObject von tasks[taskIndex].assigned löschen
+  assignedToContactsBigContainer.splice(contactObjectIndex, 1);
 
   renderBigTaskAssignedContactContainer(taskJson);
 }
@@ -758,23 +800,23 @@ function resetSubtaskInput() {
   changeSubtaskInputIcons();
 }
 
-function assignContactsBigContainer(contact) {
-  assignedToContactsBigContainer.push(contact);
-  // console.log(assignedToContactsBigContainer);
-}
-
 function buildSubtaskArrayForUpload() {
+  // document.getElementById("big-edit-task-subtask-container").innerHTML = "";
+
   let subtaskInput = document.getElementById("big-edit-task-subtask-input");
   let subtaskJson = createSubtaskJson(subtaskInput.value);
   subtaskArray.push(subtaskJson);
-  insertSubtasksIntoContainer(subtaskJson);
+
+  insertSubtasksIntoContainer();
   subtaskInput.innerHTML = "";
 }
 
 function insertSubtasksIntoContainer() {
+  document.getElementById("big-edit-task-subtask-container").innerHTML = "";
+
   // let bigEditTaskSubtaskContainer = document.getElementById("big-edit-task-subtask-container");
   let subtaskAllContainer = document.getElementById("big-task-pop-up-subtask-all");
-  subtaskAllContainer.innerHTML += `<div id="onlySubtasks"></div>`
+  subtaskAllContainer.innerHTML += `<div id="onlySubtasks"></div>`;
   let onlySubtasks = document.getElementById("onlySubtasks");
   onlySubtasks.innerHTML = "";
   if (subtaskArray.length >= 1) {
@@ -784,9 +826,8 @@ function insertSubtasksIntoContainer() {
       // console.log(subtask);
       onlySubtasks.innerHTML += renderSubtaskInPopUpContainer(i, subtask);
     }
-  }
-  else {
-    onlySubtasks.classList.add('d-none');
+  } else {
+    onlySubtasks.classList.add("d-none");
   }
 }
 
@@ -806,13 +847,11 @@ function insertSubtasksIntoContainer() {
 //     `;
 // }
 
-
 function renderSubtaskInPopUpContainer(i, subtask) {
-  subtask = JSON.stringify(subtask["task-description"]);
   // console.log(subtask);
   return /*html*/ `
     <div ondblclick="editSubtask(${i})" id="subtaskNumber${i}" class="subtasks" onmouseover="sowSubaskEdditButtons(${i})" onmouseout="hideSubaskEdditButtons(${i})">
-      <li >${subtask}</li>
+      <li >${subtask["task-description"]}</li>
       <div id="popUpSubBTN${i}" class="subBtn1 d-none">
         <svg onclick="editSubtaskPopUpInput(${i}), stopEvent(event)" width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M2.14453 17H3.54453L12.1695 8.375L10.7695 6.975L2.14453 15.6V17ZM16.4445 6.925L12.1945 2.725L13.5945 1.325C13.9779 0.941667 14.4487 0.75 15.007 0.75C15.5654 0.75 16.0362 0.941667 16.4195 1.325L17.8195 2.725C18.2029 3.10833 18.4029 3.57083 18.4195 4.1125C18.4362 4.65417 18.2529 5.11667 17.8695 5.5L16.4445 6.925ZM14.9945 8.4L4.39453 19H0.144531V14.75L10.7445 4.15L14.9945 8.4Z" fill="#2A3647"/>
@@ -850,7 +889,7 @@ function editSubtaskPopUpInput(i) {
 }
 
 function closeSubtaskContainer() {
-  let bigSubtaskContainer = document.getElementById('big-edit-task-subtask-container');
+  let bigSubtaskContainer = document.getElementById("big-edit-task-subtask-container");
   bigSubtaskContainer.classList.add("d-none");
 }
 
@@ -890,6 +929,8 @@ async function saveTaskChanges(id) {
     newAssignedTo: newAssignedTo,
     newSubtaskArray: newSubtaskArray,
   };
+
+  console.log(taskForEditing);
   try {
     let newTaskReady = await updateTasksThroughEditing(id, taskForEditing);
     let newJsonElement = JSON.stringify(newTaskReady);
