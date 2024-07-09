@@ -772,7 +772,7 @@ function buildSubtaskArrayForUpload() {
 }
 
 function insertSubtasksIntoContainer() {
-  let bigEditTaskSubtaskContainer = document.getElementById("big-edit-task-subtask-container");
+  // let bigEditTaskSubtaskContainer = document.getElementById("big-edit-task-subtask-container");
   let subtaskAllContainer = document.getElementById("big-task-pop-up-subtask-all");
   subtaskAllContainer.innerHTML += `<div id="onlySubtasks"></div>`
   let onlySubtasks = document.getElementById("onlySubtasks");
@@ -784,12 +784,10 @@ function insertSubtasksIntoContainer() {
       // console.log(subtask);
       onlySubtasks.innerHTML += renderSubtaskInPopUpContainer(i, subtask);
     }
-    bigEditTaskSubtaskContainer.classList.add("d-none");
   }
   else {
     onlySubtasks.classList.add('d-none');
   }
-
 }
 
 // function renderSubtaskHTML(i, content) {
@@ -844,11 +842,16 @@ function editSubtaskPopUpInput(i) {
       <div class="inputButtons">
         <img onclick="deleteSubtaskPopUp(${i}), stopEvent(event)" src="Assets/img/deletetrash.svg" alt="">
         <div class="subtaskBorder"></div>
-        <img onclick="saveEditedSubtaskPopUp(${i}), stopEvent(event)" src="Assets/img/checksubmit.svg" alt="">
+        <img onclick="saveEditedSubtaskPopUp(${i}), stopEvent(event), closeSubtaskContainer()" src="Assets/img/checksubmit.svg" alt="">
       </div>
     `;
   // edit = document.getElementById(`subtaskEditedPopUp`);
   // onlySubtask[i] = edit.value;
+}
+
+function closeSubtaskContainer() {
+  let bigSubtaskContainer = document.getElementById('big-edit-task-subtask-container');
+  bigSubtaskContainer.classList.add("d-none");
 }
 
 function saveEditedSubtaskPopUp(i) {
