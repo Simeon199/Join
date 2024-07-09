@@ -30,7 +30,7 @@ function sidebarHTML() {
         </div>
         <footer>
             <div>
-                <a href="privacy_policy.html" id="privatePolicy">Privacy Policy</a>
+                <a href="privacy_policy_en.html" id="privatePolicy">Privacy Policy</a>
                 <a href="legal_notice.html" id = "legalNotice">Legal notice</a>
             </div>
         </footer>
@@ -125,7 +125,7 @@ function logout() {
 }
 
 function goToPP() {
-  window.location.href = "privacy_policy.html";
+  window.location.href = "privacy_policy_en.html";
 }
 
 function goToLN() {
