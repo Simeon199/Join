@@ -417,10 +417,50 @@ async function depositSubtaskChanges(correctTaskId) {
   }
   // subtasks[i]["is-tasked-checked"] = checkBoxCheckedJson[i];
   subtaskArray = subtasks;
-  console.log(subtaskArray);
-  await saveTaskChanges(correctTaskId);
+  // console.log(subtaskArray);
+  await updateSubtaskInDataBase(correctTaskId);
+  // await saveTaskChanges(correctTaskId);
   // insertSubtasksIntoContainer();
 }
+
+async function updateSubtaskInDataBase(correctTaskId) {
+  await saveChangedSubtaskToFirebase(correctTaskId);
+}
+
+async function saveChangedSubtaskToFirebase(correctTaskId) {
+  console.log(subtaskArray);
+  let taskPath = `/testRealTasks/${correctTaskId}/subtask`;
+  let response = await fetch(`${BASE_URL1}${taskPath}.json`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(subtaskArray),
+  });
+  if (!response.ok) {
+    console.error("Fehler beim Speichern der Task in Firebase:", response.statusText);
+  } else {
+    console.log("Task erfolgreich in Firebase gespeichert");
+  }
+  // await loadRelevantData(`testRealTasks/${correctTaskId}/subtask`);
+};
+
+// async function saveTaskToFirebase(task) {
+//   const taskPath = `/testRealTasks/${task.tasksIdentity}`;
+//   const response = await fetch(`${BASE_URL1}${taskPath}.json`, {
+//     method: "PATCH",
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//     body: JSON.stringify(task),
+//   });
+
+//   if (!response.ok) {
+//     console.error("Fehler beim Speichern der Task in Firebase:", response.statusText);
+//   } else {
+//     console.log("Task erfolgreich in Firebase gespeichert");
+//   }
+// }
 
 // async function depositSubtaskChanges(i, correctTaskId, checkBoxChecked) {
 //   let subtasks = await loadRelevantData(`/testRealTasks/${correctTaskId}/subtask`);
