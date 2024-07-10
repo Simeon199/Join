@@ -233,9 +233,12 @@ function hideBigTaskPopUp() {
   document.getElementById("big-task-pop-up-bg").classList.add("bg-op-0");
   document.getElementById("big-task-pop-up").classList.add("translate-100");
   document.body.style.overflow = "unset";
-  let title = document.getElementById("big-task-pop-up-title-text").innerHTML;
-  let id = tasks.findIndex((task) => task.title === title);
-  saveSubtaskChanges(id);
+
+  if (document.getElementById("big-task-pop-up-title-text")) {
+    let title = document.getElementById("big-task-pop-up-title-text").innerHTML;
+    let id = tasks.findIndex((task) => task.title === title);
+    saveSubtaskChanges(id);
+  }
 }
 
 // renderBigTask
@@ -369,7 +372,9 @@ function renderAllBigPopUp(oldTitle, oldDescription, oldDate, oldPriority, taskJ
   returnBigTaskPopUpDueDateContainer(oldDate);
   document.getElementById("big-task-pop-up-priority-container").classList.add("big-edit-task-pop-up-section-container");
   returnBigTaskPopUpPriorityContainer();
-  document.getElementById("big-edit-task-" + oldPriority.toLowerCase() + "-priority").classList.add("big-edit-task-" + oldPriority.toLowerCase() + "-priority-aktiv");
+  document
+    .getElementById("big-edit-task-" + oldPriority.toLowerCase() + "-priority")
+    .classList.add("big-edit-task-" + oldPriority.toLowerCase() + "-priority-aktiv");
   priorityValue = oldPriority;
   returnBigTaskPopUpContactAll(id);
   returnBigTaskPopUpSubtasksAll();
@@ -393,11 +398,13 @@ function toggleEditTaskAssignedToPopUp() {
 }
 
 function closeAllSmallPopUpPopUps() {
-  document.getElementById("big-edit-task-assigned-to-pop-up-container").classList.add("height-0");
-  document.getElementById("big-edit-task-assigned-to-pop-up").classList.add("box-shadow-none");
-  document.getElementById("big-edit-task-assigned-to-input-arrow").classList.remove("rotate-90");
+  if (document.getElementById("big-edit-task-title-input")) {
+    document.getElementById("big-edit-task-assigned-to-pop-up-container").classList.add("height-0");
+    document.getElementById("big-edit-task-assigned-to-pop-up").classList.add("box-shadow-none");
+    document.getElementById("big-edit-task-assigned-to-input-arrow").classList.remove("rotate-90");
 
-  insertSubtasksIntoContainer();
+    insertSubtasksIntoContainer();
+  }
 }
 
 function toggleFocusAssignedToInput() {
