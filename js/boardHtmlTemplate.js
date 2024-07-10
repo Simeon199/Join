@@ -225,7 +225,17 @@ function returnSubtaskHTML(correctTaskId, subtask, i) {
     >   
       <rect x="1" y="1" width="16" height="16" rx="3" stroke="#2A3647" stroke-width="2" />
     </svg>
+
     <svg 
+      id="checkBoxIconChecked${i}"
+      onclick="addCheckedStatus(${i}, ${correctTaskId})"
+      class="big-task-pop-up-subtask-checkbox-icon d-none" width="18" height="19" viewBox="0 0 18 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M17 8.96582V14.9658C17 16.6227 15.6569 17.9658 14 17.9658H4C2.34315 17.9658 1 16.6227 1 14.9658V4.96582C1 3.30897 2.34315 1.96582 4 1.96582H12" stroke="#2A3647" stroke-width="2" stroke-linecap="round"/>
+        <path d="M5 9.96582L9 13.9658L17 2.46582" stroke="#2A3647" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+
+
+    <!-- <svg 
       id="checkBoxIconChecked${i}"
       onclick="addCheckedStatus(${i}, ${correctTaskId})"
       class="big-task-pop-up-subtask-checkbox-icon d-none"
@@ -236,7 +246,7 @@ function returnSubtaskHTML(correctTaskId, subtask, i) {
       xmlns="http://www.w3.org/2000/svg">
        <path d="M20 11V17C20 18.6569 18.6569 20 17 20H7C5.34315 20 4 18.6569 4 17V7C4 5.34315 5.34315 4 7 4H15" stroke="#2A3647" stroke-width="2" stroke-linecap="round"/>
        <path d="M8 12L12 16L20 4.5" stroke="#2A3647" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>
+    </svg> -->
 
 
     <p>${subtask["task-description"]}</p>
@@ -259,18 +269,16 @@ function returnSubtaskHTMLWithBolean(correctTaskId, subtask, i) {
     >   
       <rect x="1" y="1" width="16" height="16" rx="3" stroke="#2A3647" stroke-width="2" />
     </svg>
+
     <svg 
       id="checkBoxIconChecked${i}"
       onclick="addCheckedStatus(${i}, ${correctTaskId})"
-      class="big-task-pop-up-subtask-checkbox-icon"
-      width="22" 
-      height="22" 
-      viewBox="0 0 22 22" 
-      fill="none" 
-      xmlns="http://www.w3.org/2000/svg">
-       <path d="M20 11V17C20 18.6569 18.6569 20 17 20H7C5.34315 20 4 18.6569 4 17V7C4 5.34315 5.34315 4 7 4H15" stroke="#2A3647" stroke-width="2" stroke-linecap="round"/>
-       <path d="M8 12L12 16L20 4.5" stroke="#2A3647" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      class="big-task-pop-up-subtask-checkbox-icon" width="18" height="19" viewBox="0 0 18 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M17 8.96582V14.9658C17 16.6227 15.6569 17.9658 14 17.9658H4C2.34315 17.9658 1 16.6227 1 14.9658V4.96582C1 3.30897 2.34315 1.96582 4 1.96582H12" stroke="#2A3647" stroke-width="2" stroke-linecap="round"/>
+        <path d="M5 9.96582L9 13.9658L17 2.46582" stroke="#2A3647" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>
+
+
 
 
     <p>${subtask["task-description"]}</p>
@@ -339,9 +347,9 @@ function returnBigTaskPopUpContactAll(id) {
       <div id='big-edit-task-assigned-to-top-container'>
         <p class='big-edit-task-section-headline'>Assigned to</p>
         
-        <div onclick='showEditTaskAssignedToPopUp()' id='big-edit-task-assigned-to-input-container'>
-          <input type='text' id='big-edit-task-assigned-to-input' onkeyup='editPopUpSearchContacts("${id}")' placeholder='Select contacts to assign'>
-            <svg id='big-edit-task-assigned-to-input-arrow' class='big-edit-task-assigned-to-input-arrow' width="8" height="5" viewBox="0 0 8 5" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <div onclick='stopEvent(event);' id='big-edit-task-assigned-to-input-container'>
+          <input  onclick=' showEditTaskAssignedToPopUp()' type='text' id='big-edit-task-assigned-to-input' onkeyup='editPopUpSearchContacts("${id}")' placeholder='Select contacts to assign'>
+            <svg onclick=' toggleEditTaskAssignedToPopUp()' id='big-edit-task-assigned-to-input-arrow' class='big-edit-task-assigned-to-input-arrow' width="8" height="5" viewBox="0 0 8 5" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M3.44451 4.3L0.844506 1.7C0.52784 1.38333 0.457006 1.02083 0.632006 0.6125C0.807006 0.204167 1.11951 0 1.56951 0H6.71951C7.16951 0 7.48201 0.204167 7.65701 0.6125C7.83201 1.02083 7.76117 1.38333 7.44451 1.7L4.84451 4.3C4.74451 4.4 4.63617 4.475 4.51951 4.525C4.40284 4.575 4.27784 4.6 4.14451 4.6C4.01117 4.6 3.88617 4.575 3.76951 4.525C3.65284 4.475 3.54451 4.4 3.44451 4.3Z" fill="#2A3647"/>
             </svg>
         </div>
@@ -350,7 +358,7 @@ function returnBigTaskPopUpContactAll(id) {
       <div id='big-edit-task-assigned-to-contact-container'></div>
 
       <div id='big-edit-task-assigned-to-pop-up-container' class='big-edit-task-assigned-to-pop-up-container height-0'>
-        <div id='big-edit-task-assigned-to-pop-up' class='big-edit-task-assigned-to-pop-up box-shadow-none'></div>
+        <div id='big-edit-task-assigned-to-pop-up' onclick='stopEvent(event);' class='big-edit-task-assigned-to-pop-up box-shadow-none'></div>
       </div>
   `;
 }
@@ -414,12 +422,15 @@ function renderOnlyActiveAssignedToPopUp(contact, contactObject, i, taskIndex) {
 
 function renderSubtaskInPopUpContainer(i, subtask) {
   return /*html*/ `
-    <div ondblclick="editSubtask(${i})" id="subtaskNumber${i}" class="subtasks" onmouseover="sowSubaskEdditButtons(${i})" onmouseout="hideSubaskEdditButtons(${i})">
+    <div ondblclick=" editSubtaskPopUpInput(${i})" onclick='stopEvent(event);' id="subtaskNumber${i}" class="edit-popup-subtasks" >
       <li >${subtask["task-description"]}</li>
-      <div id="popUpSubBTN${i}" class="subBtn1 d-none">
+      <div id="popUpSubBTN${i}" class="edit-popup-subtask-icon-container">
         <svg onclick="editSubtaskPopUpInput(${i}), stopEvent(event)" width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M2.14453 17H3.54453L12.1695 8.375L10.7695 6.975L2.14453 15.6V17ZM16.4445 6.925L12.1945 2.725L13.5945 1.325C13.9779 0.941667 14.4487 0.75 15.007 0.75C15.5654 0.75 16.0362 0.941667 16.4195 1.325L17.8195 2.725C18.2029 3.10833 18.4029 3.57083 18.4195 4.1125C18.4362 4.65417 18.2529 5.11667 17.8695 5.5L16.4445 6.925ZM14.9945 8.4L4.39453 19H0.144531V14.75L10.7445 4.15L14.9945 8.4Z" fill="#2A3647"/>
         </svg>
+
+        <div class='edit-popup-subtasks-line'></div>
+
         <svg onclick="deleteSubtaskPopUp(${i}), stopEvent(event)" width="17" height="18" viewBox="0 0 17 18" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M3.14453 18C2.59453 18 2.1237 17.8042 1.73203 17.4125C1.34036 17.0208 1.14453 16.55 1.14453 16V3C0.861198 3 0.623698 2.90417 0.432031 2.7125C0.240365 2.52083 0.144531 2.28333 0.144531 2C0.144531 1.71667 0.240365 1.47917 0.432031 1.2875C0.623698 1.09583 0.861198 1 1.14453 1H5.14453C5.14453 0.716667 5.24036 0.479167 5.43203 0.2875C5.6237 0.0958333 5.8612 0 6.14453 0H10.1445C10.4279 0 10.6654 0.0958333 10.857 0.2875C11.0487 0.479167 11.1445 0.716667 11.1445 1H15.1445C15.4279 1 15.6654 1.09583 15.857 1.2875C16.0487 1.47917 16.1445 1.71667 16.1445 2C16.1445 2.28333 16.0487 2.52083 15.857 2.7125C15.6654 2.90417 15.4279 3 15.1445 3V16C15.1445 16.55 14.9487 17.0208 14.557 17.4125C14.1654 17.8042 13.6945 18 13.1445 18H3.14453ZM3.14453 3V16H13.1445V3H3.14453ZM5.14453 13C5.14453 13.2833 5.24036 13.5208 5.43203 13.7125C5.6237 13.9042 5.8612 14 6.14453 14C6.42786 14 6.66536 13.9042 6.85703 13.7125C7.0487 13.5208 7.14453 13.2833 7.14453 13V6C7.14453 5.71667 7.0487 5.47917 6.85703 5.2875C6.66536 5.09583 6.42786 5 6.14453 5C5.8612 5 5.6237 5.09583 5.43203 5.2875C5.24036 5.47917 5.14453 5.71667 5.14453 6V13ZM9.14453 13C9.14453 13.2833 9.24037 13.5208 9.43203 13.7125C9.6237 13.9042 9.8612 14 10.1445 14C10.4279 14 10.6654 13.9042 10.857 13.7125C11.0487 13.5208 11.1445 13.2833 11.1445 13V6C11.1445 5.71667 11.0487 5.47917 10.857 5.2875C10.6654 5.09583 10.4279 5 10.1445 5C9.8612 5 9.6237 5.09583 9.43203 5.2875C9.24037 5.47917 9.14453 5.71667 9.14453 6V13Z" fill="#2A3647"/>
         </svg>

@@ -7,7 +7,7 @@
     <link rel="shortcut icon" href="Assets/img/Capa2logo_klein.svg" type="image/x-icon" />
 
     <!-- fonts -->
-    <link rel="stylesheet" href="css/fonts.css">
+    <link rel="stylesheet" href="css/fonts.css" />
 
     <!-- css -->
     <link rel="stylesheet" href="css/fonts.css" />
@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="css/add_task_responsive.css">
     <link rel="stylesheet" href="css/add_task_board_resp.css">
     <link rel="stylesheet" href="css/add_task_subtasks.css">
+    <link rel="stylesheet" href="css/board_responsive.css">
 
     <!-- js -->
     <!-- <script src="js/desktop-template.js"></script>
@@ -71,7 +72,6 @@
 
         <div id="all-sections-container">
           <!-- section to do -->
-          <!-- <div class="content-task" id="todo-tasks" ondragover="allowDrop(event) ondrop="moveTo('todo-tasks')"></div> -->
           <section id="section-to-do" class="board-section">
             <div class="section-headline">
               <h2>To do</h2>
@@ -120,13 +120,6 @@
           <section id="section-done" class="board-section">
             <div class="section-headline">
               <h2>Done</h2>
-
-              <!-- <div class="plus-icon-container" onclick="showAddTaskPopUp('done-container')">
-                <svg width="10" height="11" viewBox="0 0 10 11" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M5 1.5V9.5" stroke="#2A3647" stroke-width="2" stroke-linecap="round" />
-                  <path d="M9 5.57544L1 5.57544" stroke="#2A3647" stroke-width="2" stroke-linecap="round" />
-                </svg>
-              </div> -->
             </div>
 
             <div id="done-container" class="wrap-container" ondragover="allowDrop(event)" ondrop="moveTo('done-container')"></div>
@@ -157,7 +150,7 @@
               <div>
                 <h1>Add Task</h1>
               </div>
-      
+
               <section id="section99" class="addTaskBody">
                 <form onsubmit="checkRequiredFields('board'); return false;">
                   <div class="input1">
@@ -178,7 +171,13 @@
                         <div id="changeTo" onclick="changeToInputfieldOnBoard(); stopEvent(event)" class="assignetToDivSearch">
                           <span id="standartValue">Select contacts to assign</span>
                           <div id="searchArea" class="border-unset d-none">
-                            <input id="searchField" oninput="searchContacts(); stopEvent(event)" class="border-unset" type="text" placeholder="Search Contact.." />
+                            <input
+                              id="searchField"
+                              oninput="searchContacts(); stopEvent(event)"
+                              class="border-unset"
+                              type="text"
+                              placeholder="Search Contact.."
+                            />
                           </div>
                         </div>
                         <svg
@@ -264,7 +263,15 @@
                           <div class="subtaskBorder"></div>
                           <img onclick="addSubtask()" src="Assets/img/checksubmit.svg" alt="" />
                         </div>
-                        <svg id="plusSymbole" class="subtasksvg" width="15" height="14" viewBox="0 0 15 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <svg
+                          id="plusSymbole"
+                          class="subtasksvg"
+                          width="15"
+                          height="14"
+                          viewBox="0 0 15 14"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
                           <path
                             d="M6.24854 8H1.24854C0.965202 8 0.727702 7.90417 0.536035 7.7125C0.344368 7.52083 0.248535 7.28333 0.248535 7C0.248535 6.71667 0.344368 6.47917 0.536035 6.2875C0.727702 6.09583 0.965202 6 1.24854 6H6.24854V1C6.24854 0.716667 6.34437 0.479167 6.53604 0.2875C6.7277 0.0958333 6.9652 0 7.24854 0C7.53187 0 7.76937 0.0958333 7.96104 0.2875C8.1527 0.479167 8.24854 0.716667 8.24854 1V6H13.2485C13.5319 6 13.7694 6.09583 13.961 6.2875C14.1527 6.47917 14.2485 6.71667 14.2485 7C14.2485 7.28333 14.1527 7.52083 13.961 7.7125C13.7694 7.90417 13.5319 8 13.2485 8H8.24854V13C8.24854 13.2833 8.1527 13.5208 7.96104 13.7125C7.76937 13.9042 7.53187 14 7.24854 14C6.9652 14 6.7277 13.9042 6.53604 13.7125C6.34437 13.5208 6.24854 13.2833 6.24854 13V8Z"
                             fill="#2A3647"
@@ -308,7 +315,7 @@
       </div>
 
       <div id="big-task-pop-up-bg" class="big-task-pop-up-bg bg-op-0" onmousedown="hideBigTaskPopUp()">
-        <div id="big-task-pop-up" class="big-task-pop-up translate-100" onmousedown="stopEvent(event)">
+        <div id="big-task-pop-up" onclick="closeAllSmallPopUpPopUps()" class="big-task-pop-up translate-100" onmousedown="stopEvent(event)">
           <div id="big-task-pop-up-header">
             <div id="big-task-pop-up-category"></div>
 
@@ -349,12 +356,6 @@
 
       <div id="sidebar"></div>
     </div>
-    <!-- original js -->
-    <!-- <script src="js/add_task.js"></script>
-    <script src="js/desktop-template.js"></script>
-    <script src="js/board.js"></script>
-    <script src="js/boardHtmlTemplate.js"></script>
-    <script src="script.js"></script> -->
 
     <!--New JS imported from addtask.html -->
     <script src="js/contacts.js"></script>
