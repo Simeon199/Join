@@ -170,7 +170,7 @@ function saveTasksToLocalStorage() {
 async function saveTaskToFirebase(task) {
   const taskPath = `/testRealTasks/${task.tasksIdentity}`;
   const response = await fetch(`${BASE_URL1}${taskPath}.json`, {
-    method: "PATCH",
+    method: "PUT",
     headers: {
       "Content-Type": "application/json",
     },
@@ -348,14 +348,13 @@ function renderBigTask(jsonTextElement) {
 // }
 
 function renderSubtask(taskJson) {
+  console.log(taskJson);
   let correctTaskId = taskJson.tasksIdentity;
   if (taskJson.subtask) {
     taskJson.subtask.forEach((subtask, index) => {
       if (subtask["is-tasked-checked"] == false) {
-        console.log("Komme rein!");
         document.getElementById("big-task-pop-up-subtasks-container").innerHTML += returnSubtaskHTML(correctTaskId, subtask, index);
       } else if (subtask["is-tasked-checked"] == true) {
-        console.log("Werte sind auf true gesetzt!");
         document.getElementById("big-task-pop-up-subtasks-container").innerHTML += returnSubtaskHTMLWithBolean(correctTaskId, subtask, index);
       }
     });
@@ -395,12 +394,12 @@ async function addCheckedStatus(i, correctTaskId) {
     checkBoxIconUnchecked.classList.remove("d-none");
     checkBoxIconChecked.classList.add("d-none");
   }
-  depositSubtaskChanges(subtasks);
+  depositSubtaskChanges(correctTaskId, subtasks);
   // console.log(subtaskArray);
   // console.log(checkBoxCheckedJson);
 }
 
-function depositSubtaskChanges(subtasks) {
+async function depositSubtaskChanges(correctTaskId, subtasks) {
   console.log(checkBoxCheckedJson);
   for (index = 0; index < subtasks.length; index++) {
     if (checkBoxCheckedJson.hasOwnProperty(index)) {
@@ -408,63 +407,44 @@ function depositSubtaskChanges(subtasks) {
       // console.log(subtasks[index]["is-tasked-checked"]);
     }
   }
-  console.log(subtasks);
-  // subtaskArray = subtasks;
-  // console.log("ursprünglicher task:", tasks[correctTaskId]);
-  // console.log("nachträglicher task:", subtaskArray);
-  // await updateSubtaskInDataBase(correctTaskId);
-  // await saveTaskChanges(correctTaskId);
-  // insertSubtasksIntoContainer();
-}
-
-async function updateSubtaskInDataBase(correctTaskId) {
+  subtaskArray = subtasks;
+  console.log(subtaskArray);
   await saveChangedSubtaskToFirebase(correctTaskId);
 }
 
 async function saveChangedSubtaskToFirebase(correctTaskId) {
   let taskPath = `/testRealTasks/${correctTaskId}/subtask`;
   let response = await fetch(`${BASE_URL1}${taskPath}.json`, {
-    method: "PATCH",
+    method: "PUT",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(subtaskArray),
   });
   if (!response.ok) {
-    console.error("Fehler beim Speichern der Task in Firebase:", response.statusText);
+    console.error("Fehler beim Speichern der Task in Firebase:", response.status, response.statusText);
   } else {
     console.log("Task erfolgreich in Firebase gespeichert");
   }
-  // await loadRelevantData(`testRealTasks/${correctTaskId}/subtask`);
-};
+}
 
-// async function saveTaskToFirebase(task) {
-//   const taskPath = `/testRealTasks/${task.tasksIdentity}`;
-//   const response = await fetch(`${BASE_URL1}${taskPath}.json`, {
+
+// async function saveChangedSubtaskToFirebase(correctTaskId, subtasks) {
+//   let taskPath = `/testRealTasks/${correctTaskId}/subtask`;
+//   let response = await fetch(`${BASE_URL1}${taskPath}.json`, {
 //     method: "PATCH",
 //     headers: {
 //       "Content-Type": "application/json",
 //     },
-//     body: JSON.stringify(task),
+//     body: JSON.stringify(subtasks),
 //   });
-
 //   if (!response.ok) {
 //     console.error("Fehler beim Speichern der Task in Firebase:", response.statusText);
 //   } else {
 //     console.log("Task erfolgreich in Firebase gespeichert");
 //   }
-// }
+// };
 
-// async function depositSubtaskChanges(i, correctTaskId, checkBoxChecked) {
-//   let subtasks = await loadRelevantData(`/testRealTasks/${correctTaskId}/subtask`);
-//   if (subtasks[i]["is-tasked-checked"] == false && checkBoxChecked == true) {
-//     subtasks[i]["is-tasked-checked"] = true;
-//   } else if (subtasks[i]["is-tasked-checked"] == true && checkBoxChecked == false) {
-//     subtasks[i]["is-tasked-checked"] = false;
-//   }
-//   console.log(subtasks);
-//   console.log(checkBoxCheckedJson);
-// }
 
 // renderContact
 function renderTaskContact(taskJson) {
@@ -493,7 +473,10 @@ function renderEditTask(jsonTextElement, id) {
 }
 
 function renderAllBigPopUp(oldTitle, oldDescription, oldDate, oldPriority, taskJson, id) {
-  console.log(taskJson);
+  if (subtaskArray.length !== 0) {
+    taskJson["subtask"] = subtaskArray;
+  }
+  console.log("renderAllBigPopUp:", taskJson);
   returnBigTaskPopUpTitle(oldTitle);
   returnBigTaskPopUpDescription(oldDescription);
   document.getElementById("big-task-pop-up-due-date-container").classList.add("big-edit-task-pop-up-section-container");
@@ -833,10 +816,11 @@ function resetSubtaskInput() {
 function buildSubtaskArrayForUpload() {
   // document.getElementById("big-edit-task-subtask-container").innerHTML = "";
 
+  console.log("exists:", subtaskArray);
   let subtaskInput = document.getElementById("big-edit-task-subtask-input");
   let subtaskJson = createSubtaskJson(subtaskInput.value);
   subtaskArray.push(subtaskJson);
-
+  console.log("exists now:", subtaskArray);
   insertSubtasksIntoContainer();
   subtaskInput.innerHTML = "";
 }
