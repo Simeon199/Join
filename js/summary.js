@@ -3,7 +3,7 @@ let firstTime = "true";
 let allTasks;
 let tasks = [];
 
-const BASE_URL1 = "https://join-testing-42ce4-default-rtdb.europe-west1.firebasedatabase.app/";
+const BASE_URL = 'https://join-privat-default-rtdb.europe-west1.firebasedatabase.app/';
 
 async function init() {
   let responseJson = await loadTasksFromDatabase();
@@ -65,7 +65,7 @@ function numberOfUrgentSection() {
 
 // loadDataTwo
 async function loadDataTwo(path = "") {
-  let response = await fetch(BASE_URL1 + path + ".json");
+  let response = await fetch(BASE_URL + path + ".json");
   let responseAsJson = await response.json();
   return responseAsJson;
 }
@@ -146,7 +146,7 @@ async function loadTasksFromDatabase() {
 }
 
 async function loadRelevantData(path = "") {
-  let response = await fetch(BASE_URL1 + path + ".json");
+  let response = await fetch(BASE_URL + path + ".json");
   let responseAsJson = await response.json();
   return responseAsJson;
 }

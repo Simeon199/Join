@@ -1,4 +1,5 @@
-const BASE_URL1 = "https://join-testing-42ce4-default-rtdb.europe-west1.firebasedatabase.app/";
+// const BASE_URL1 = "https://join-testing-42ce4-default-rtdb.europe-west1.firebasedatabase.app/";
+// const BASE_URL = 'https://join-privat-default-rtdb.europe-west1.firebasedatabase.app/';
 
 let assignetTo = document.getElementById("assignetTo");
 let category = document.getElementById("category");
@@ -85,16 +86,17 @@ function changeImg(condition) {
   }
 }
 
-async function createTask() {
+async function createTask(side) {
   console.log("create...");
   await ensureAllTasksExists();
   await saveTask();
-  startAnimation();
-  // if(localStorage.getItem('tasks')){
-  //   console.log('test');
-  //   localStorage.removeItem('tasks');
-  // }
+  if (side == 'addTask') {
+    startAnimation();
+  }
   clearTask();
+  if (side != 'addTask') {
+    hideAddTaskPopUp()
+  }
 }
 
 function clearTask() {
@@ -139,14 +141,14 @@ function checkCategory() {
   }
 }
 
-function checkRequiredFields() {
+function checkRequiredFields(side) {
   let title = document.getElementById("inputTitle").value;
   let date = document.getElementById("date").value;
   console.log(title.length, date.length);
   if (title.length <= 1 || date.length <= 1 || checkCategory() == false) {
     showRequiredText();
   } else {
-    createTask();
+    createTask(side)
   }
 }
 
@@ -167,7 +169,7 @@ function hideRequiredText() {
 }
 
 async function upload(path = "", data) {
-  let response = await fetch(BASE_URL1 + path + ".json", {
+  let response = await fetch(BASE_URL + path + ".json", {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -279,7 +281,7 @@ function hideAllAddTaskPopups() {
   hideDropDownAssignedTo();
   hideDropDownCategory();
   changeToInputfield();
-  changeToInputfieldOnBoard();
+  // changeToInputfieldOnBoard();
 
   plus = document.getElementById("plusSymbole");
   subtask = document.getElementById("subtaskInputButtons");
@@ -289,7 +291,7 @@ function hideAllAddTaskPopups() {
 }
 
 async function loadRelevantData(path = "") {
-  let response = await fetch(BASE_URL1 + path + ".json");
+  let response = await fetch(BASE_URL + path + ".json");
   let responseAsJson = await response.json();
   return responseAsJson;
 }

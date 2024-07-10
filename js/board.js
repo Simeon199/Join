@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 });
 
 async function loadRelevantData(path = "") {
-  let response = await fetch(BASE_URL1 + path + ".json");
+  let response = await fetch(BASE_URL + path + ".json");
   let responseAsJson = await response.json();
   return responseAsJson;
 }
@@ -170,7 +170,7 @@ function saveTasksToLocalStorage() {
 
 async function saveTaskToFirebase(task) {
   const taskPath = `/testRealTasks/${task.tasksIdentity}`;
-  const response = await fetch(`${BASE_URL1}${taskPath}.json`, {
+  const response = await fetch(`${BASE_URL}${taskPath}.json`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -227,6 +227,7 @@ function hideAddTaskPopUp() {
   document.body.style.overflow = "unset";
   document.getElementById("add-task-pop-up-bg").classList.add("bg-op-0");
   document.getElementById("add-task-pop-up").classList.add("translate-100");
+  clearTask();
 }
 
 // showBigTaskPopUp
@@ -415,7 +416,7 @@ async function depositSubtaskChanges(correctTaskId, subtasks) {
 
 async function saveChangedSubtaskToFirebase(correctTaskId) {
   let taskPath = `/testRealTasks/${correctTaskId}/subtask`;
-  let response = await fetch(`${BASE_URL1}${taskPath}.json`, {
+  let response = await fetch(`${BASE_URL}${taskPath}.json`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -432,7 +433,7 @@ async function saveChangedSubtaskToFirebase(correctTaskId) {
 
 // async function saveChangedSubtaskToFirebase(correctTaskId, subtasks) {
 //   let taskPath = `/testRealTasks/${correctTaskId}/subtask`;
-//   let response = await fetch(`${BASE_URL1}${taskPath}.json`, {
+//   let response = await fetch(`${BASE_URL}${taskPath}.json`, {
 //     method: "PATCH",
 //     headers: {
 //       "Content-Type": "application/json",
@@ -1058,7 +1059,7 @@ async function updateTasksThroughEditing(taskId, objectForEditing) {
 
 // deleteData
 async function deleteData(path = "") {
-  let response = await fetch(BASE_URL1 + path + ".json", {
+  let response = await fetch(BASE_URL + path + ".json", {
     method: "DELETE",
   });
   return (responseToJson = await response.json());
