@@ -114,8 +114,8 @@ function editSubtask(i) {
 
 function editSubtaskInput(i) {
   container = document.getElementById(`yyy${i}`);
-  container.onmouseover = null;
-  container.onmouseout = null;
+  // container.onmouseover = null;
+  // container.onmouseout = null;
   container.innerHTML = /*html*/ `
       <input id="subtaskEdited" type="text" value="${subArray[i]["task-description"]}">
       <div class="inputButtons">

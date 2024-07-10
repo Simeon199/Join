@@ -868,13 +868,27 @@ body #big-task-pop-up-contact-all:has(.height-0) {
   border-radius: 100%;
 }
 
+#big-edit-task-subtask-container {
+  padding-left: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 8px;
+}
+
 .edit-popup-subtasks {
   display: flex;
   justify-content: space-between;
+  align-items: center;
 
   border-radius: 10px;
 
-  padding: 6px 16px;
+  padding: 6px 16px 6px 40px;
+
+  height: 32px;
+
+  position: relative;
 }
 
 .edit-popup-subtasks:hover {
@@ -882,13 +896,25 @@ body #big-task-pop-up-contact-all:has(.height-0) {
   align-items: center;
 }
 
-/* edit-popup-subtask-icon-container
-hover */
+.edit-popup-subtasks:hover .edit-popup-subtask-icon-container,
+.edit-popup-subtasks:has(#subtaskEditedPopUp) .edit-popup-subtask-icon-container {
+  opacity: 1;
+}
 
 .edit-popup-subtask-icon-container {
   display: flex;
 
-  gap: 4px;
+  align-items: center;
+
+  gap: 10px;
+
+  opacity: 0;
+
+  transition: 0.1s;
+  box-sizing: unset;
+
+  position: absolute;
+  right: 16px;
 }
 
 .edit-popup-subtasks-line {
@@ -897,8 +923,26 @@ hover */
   background-color: #a8a8a8;
 }
 
-.edit-popup-subtask-icon-container {
-  box-sizing: unset;
+#subtaskEditedPopUp {
+  /* width: 100%; */
+
+  padding: 4px 16px 4px 40px;
+
+  outline: none;
+  border: none;
+
+  background: #ffffff;
+  border-bottom: 1px solid #005dff;
+
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  font-family: "Inter";
+  font-size: 16px;
+  font-weight: 400;
 }
 
 .big-edit-task-subtask {
