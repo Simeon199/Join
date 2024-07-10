@@ -218,11 +218,12 @@ function returnAssignedContactHTML(contact) {
 // }
 
 function returnSubtaskHTML(correctTaskId, subtask, i) {
+  // console.log(subtask["is-tasked-checked"]);
   return /*html*/ `
   <div class="big-task-pop-up-subtasks" id="bigSubtaskNo${i}">
     <svg
       id="checkBoxIconUnchecked${i}"
-      onclick="addCheckedStatus(${i}, ${correctTaskId}, ${subtask["is-tasked-checked"]})"
+      onclick="addCheckedStatus(${i}, ${correctTaskId})"
       class="big-task-pop-up-subtask-checkbox-icon"
       width="18"
       height="18"
@@ -234,7 +235,7 @@ function returnSubtaskHTML(correctTaskId, subtask, i) {
     </svg>
     <svg 
       id="checkBoxIconChecked${i}"
-      onclick="addCheckedStatus(${i}, ${correctTaskId}, ${subtask["is-tasked-checked"]})"
+      onclick="addCheckedStatus(${i}, ${correctTaskId})"
       class="big-task-pop-up-subtask-checkbox-icon d-none"
       width="22" 
       height="22" 
@@ -284,8 +285,6 @@ function returnSubtaskHTMLWithBolean(correctTaskId, subtask, i) {
   </div>
 `;
 }
-
-
 
 function returnDeleteEditHTML(id, jsonTextElement) {
   return /*html*/ `

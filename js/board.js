@@ -376,9 +376,12 @@ function renderSubtask(taskJson) {
 // }
 
 async function addCheckedStatus(i, correctTaskId) {
+  let subtasks = tasks[correctTaskId]["subtask"];
+  console.log(subtasks);
   let checkBoxChecked = false;
   let checkBoxIconUnchecked = document.getElementById(`checkBoxIconUnchecked${i}`);
   let checkBoxIconChecked = document.getElementById(`checkBoxIconChecked${i}`);
+
 
   if (!checkBoxIconUnchecked.classList.contains("d-none") && checkBoxIconChecked.classList.contains("d-none")) {
     checkBoxChecked = true;
@@ -386,39 +389,30 @@ async function addCheckedStatus(i, correctTaskId) {
 
     checkBoxIconUnchecked.classList.add("d-none");
     checkBoxIconChecked.classList.remove("d-none");
-    // await depositSubtaskChanges(i, correctTaskId);
   } else if (!checkBoxIconChecked.classList.contains("d-none") && checkBoxIconUnchecked.classList.contains("d-none")) {
     checkBoxChecked = false;
     checkBoxCheckedJson[i] = checkBoxChecked;
     checkBoxIconUnchecked.classList.remove("d-none");
     checkBoxIconChecked.classList.add("d-none");
-    // await depositSubtaskChanges(i, correctTaskId);
   }
-  await depositSubtaskChanges(correctTaskId);
+  depositSubtaskChanges(subtasks);
   // console.log(subtaskArray);
   // console.log(checkBoxCheckedJson);
 }
 
-async function depositSubtaskChanges(correctTaskId) {
-  // let changedSubtaskArray = [];
-
-  let subtasks = tasks[correctTaskId].subtask;
-  // console.log(subtasks);
+function depositSubtaskChanges(subtasks) {
+  console.log(checkBoxCheckedJson);
   for (index = 0; index < subtasks.length; index++) {
-    if (checkBoxCheckedJson[index]) {
+    if (checkBoxCheckedJson.hasOwnProperty(index)) {
       subtasks[index]["is-tasked-checked"] = checkBoxCheckedJson[index];
-      // let jsonObject = { "is-tasked-checked": checkBoxCheckedJson[index], "task-description": subtasks[index]["task-description"] };
-      // changedSubtaskArray.push(jsonObject);
+      // console.log(subtasks[index]["is-tasked-checked"]);
     }
-    // } else {
-    //   let jsonObject = { "is-tasked-checked": false, "task-description": subtasks[index]["task-description"] };
-    //   changedSubtaskArray.push(jsonObject);
-    // }
   }
-  // subtasks[i]["is-tasked-checked"] = checkBoxCheckedJson[i];
-  subtaskArray = subtasks;
-  // console.log(subtaskArray);
-  await updateSubtaskInDataBase(correctTaskId);
+  console.log(subtasks);
+  // subtaskArray = subtasks;
+  // console.log("ursprünglicher task:", tasks[correctTaskId]);
+  // console.log("nachträglicher task:", subtaskArray);
+  // await updateSubtaskInDataBase(correctTaskId);
   // await saveTaskChanges(correctTaskId);
   // insertSubtasksIntoContainer();
 }
@@ -428,7 +422,6 @@ async function updateSubtaskInDataBase(correctTaskId) {
 }
 
 async function saveChangedSubtaskToFirebase(correctTaskId) {
-  console.log(subtaskArray);
   let taskPath = `/testRealTasks/${correctTaskId}/subtask`;
   let response = await fetch(`${BASE_URL1}${taskPath}.json`, {
     method: "PATCH",
