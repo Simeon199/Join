@@ -214,7 +214,7 @@ function showAddTaskPopUp(container = "to-do-container") {
   if (screenWidth <= 600) {
     window.location = "add_task.html";
   } else {
-    document.getElementById("bodyBoard").classList.add("hide-overflow");
+    document.body.style.overflow = "hidden";
     document.getElementById("add-task-pop-up-bg").classList.remove("bg-op-0");
     document.getElementById("add-task-pop-up").classList.remove("translate-100");
     standardContainer = container;
@@ -223,7 +223,7 @@ function showAddTaskPopUp(container = "to-do-container") {
 
 // hideAddTaskPopUp
 function hideAddTaskPopUp() {
-  document.getElementById("bodyBoard").classList.remove("hide-overflow");
+  document.body.style.overflow = "unset";
   document.getElementById("add-task-pop-up-bg").classList.add("bg-op-0");
   document.getElementById("add-task-pop-up").classList.add("translate-100");
 }
@@ -971,7 +971,7 @@ async function saveTaskChanges(id) {
     console.error("Fehler beim Speichern der Änderungen: ", error);
   }
   // assignedToContactsBigContainer = [];
-  subtaskArray = [];
+  subtaskArray = []; // --> Warum? 
   // checkBoxCheckedJson = {};
   updateHTML();
 }
