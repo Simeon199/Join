@@ -99,7 +99,7 @@ body .translate-100 {
   /* Dezente graue Farbe mit Transparenz */
   border-radius: 100px;
   /* Abgerundete Ecken des Scrollbar-Thumbs */
-  border: 2px solid rgba(255, 255, 255, 0);
+  border: px solid rgba(255, 255, 255, 0);
   /* Optional: Rand für besseren Kontrast */
 }
 
@@ -367,6 +367,8 @@ body .translate-100 {
   font-size: 16px;
   font-weight: 400;
   color: #a8a8a8;
+
+  padding: 10px;
 }
 
 /* wrap-container */
