@@ -42,18 +42,18 @@
   }
 
   .wrap-container::-webkit-scrollbar {
-    width: 16px;
-    height: 16px;
+    width: 8px;
+    height: 8px;
   }
 
   .wrap-container::-webkit-scrollbar-thumb {
     background: linear-gradient(90deg, #d3cece, #d3cece);
     border-radius: 10px;
-    border: 3px solid #918b8b;
+    border: 0px solid #918b8b;
   }
 
   .wrap-container::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(90deg, #252524, #2e2c2b);
+    background-color: rgba(99, 99, 99, 0.7); /* Dezente graue Farbe mit Transparenz */
   }
 
   .wrap-container::-webkit-scrollbar-corner {
@@ -61,7 +61,7 @@
   }
 
   .wrap-container::-webkit-scrollbar-button:hover {
-    background: #aaa;
+    background-color: rgba(99, 99, 99, 0.7); /* Dezente graue Farbe mit Transparenz */
   }
 
   .section-headline {
