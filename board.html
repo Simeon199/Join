@@ -18,13 +18,8 @@
     <link rel="stylesheet" href="css/add_task_responsive.css">
     <link rel="stylesheet" href="css/add_task_board_resp.css">
     <link rel="stylesheet" href="css/add_task_subtasks.css">
+    <link rel="stylesheet" href="css/board_responsive.css">
 
-    <!-- js -->
-    <!-- <script src="js/desktop-template.js"></script>
-    <script src="js/board.js"></script>
-    <script src="js/add_task.js"></script>
-    <script src="js/boardHtmlTemplate.js"></script>
-    <script src="script.js"></script> -->
   </head>
 
   <body onload="initSidebar(); updateHTML(); init(); closeDropDownMenu()">
@@ -71,7 +66,6 @@
 
         <div id="all-sections-container">
           <!-- section to do -->
-          <!-- <div class="content-task" id="todo-tasks" ondragover="allowDrop(event) ondrop="moveTo('todo-tasks')"></div> -->
           <section id="section-to-do" class="board-section">
             <div class="section-headline">
               <h2>To do</h2>
@@ -120,13 +114,6 @@
           <section id="section-done" class="board-section">
             <div class="section-headline">
               <h2>Done</h2>
-
-              <!-- <div class="plus-icon-container" onclick="showAddTaskPopUp('done-container')">
-                <svg width="10" height="11" viewBox="0 0 10 11" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M5 1.5V9.5" stroke="#2A3647" stroke-width="2" stroke-linecap="round" />
-                  <path d="M9 5.57544L1 5.57544" stroke="#2A3647" stroke-width="2" stroke-linecap="round" />
-                </svg>
-              </div> -->
             </div>
 
             <div id="done-container" class="wrap-container" ondragover="allowDrop(event)" ondrop="moveTo('done-container')"></div>
@@ -349,12 +336,6 @@
 
       <div id="sidebar"></div>
     </div>
-    <!-- original js -->
-    <!-- <script src="js/add_task.js"></script>
-    <script src="js/desktop-template.js"></script>
-    <script src="js/board.js"></script>
-    <script src="js/boardHtmlTemplate.js"></script>
-    <script src="script.js"></script> -->
 
     <!--New JS imported from addtask.html -->
     <script src="js/contacts.js"></script>
