@@ -225,7 +225,17 @@ function returnSubtaskHTML(correctTaskId, subtask, i) {
     >   
       <rect x="1" y="1" width="16" height="16" rx="3" stroke="#2A3647" stroke-width="2" />
     </svg>
+
     <svg 
+      id="checkBoxIconChecked${i}"
+      onclick="addCheckedStatus(${i}, ${correctTaskId})"
+      class="big-task-pop-up-subtask-checkbox-icon d-none" width="18" height="19" viewBox="0 0 18 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M17 8.96582V14.9658C17 16.6227 15.6569 17.9658 14 17.9658H4C2.34315 17.9658 1 16.6227 1 14.9658V4.96582C1 3.30897 2.34315 1.96582 4 1.96582H12" stroke="#2A3647" stroke-width="2" stroke-linecap="round"/>
+        <path d="M5 9.96582L9 13.9658L17 2.46582" stroke="#2A3647" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+
+
+    <!-- <svg 
       id="checkBoxIconChecked${i}"
       onclick="addCheckedStatus(${i}, ${correctTaskId})"
       class="big-task-pop-up-subtask-checkbox-icon d-none"
@@ -236,7 +246,7 @@ function returnSubtaskHTML(correctTaskId, subtask, i) {
       xmlns="http://www.w3.org/2000/svg">
        <path d="M20 11V17C20 18.6569 18.6569 20 17 20H7C5.34315 20 4 18.6569 4 17V7C4 5.34315 5.34315 4 7 4H15" stroke="#2A3647" stroke-width="2" stroke-linecap="round"/>
        <path d="M8 12L12 16L20 4.5" stroke="#2A3647" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>
+    </svg> -->
 
 
     <p>${subtask["task-description"]}</p>
@@ -259,18 +269,16 @@ function returnSubtaskHTMLWithBolean(correctTaskId, subtask, i) {
     >   
       <rect x="1" y="1" width="16" height="16" rx="3" stroke="#2A3647" stroke-width="2" />
     </svg>
+
     <svg 
       id="checkBoxIconChecked${i}"
       onclick="addCheckedStatus(${i}, ${correctTaskId})"
-      class="big-task-pop-up-subtask-checkbox-icon"
-      width="22" 
-      height="22" 
-      viewBox="0 0 22 22" 
-      fill="none" 
-      xmlns="http://www.w3.org/2000/svg">
-       <path d="M20 11V17C20 18.6569 18.6569 20 17 20H7C5.34315 20 4 18.6569 4 17V7C4 5.34315 5.34315 4 7 4H15" stroke="#2A3647" stroke-width="2" stroke-linecap="round"/>
-       <path d="M8 12L12 16L20 4.5" stroke="#2A3647" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      class="big-task-pop-up-subtask-checkbox-icon" width="18" height="19" viewBox="0 0 18 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M17 8.96582V14.9658C17 16.6227 15.6569 17.9658 14 17.9658H4C2.34315 17.9658 1 16.6227 1 14.9658V4.96582C1 3.30897 2.34315 1.96582 4 1.96582H12" stroke="#2A3647" stroke-width="2" stroke-linecap="round"/>
+        <path d="M5 9.96582L9 13.9658L17 2.46582" stroke="#2A3647" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>
+
+
 
 
     <p>${subtask["task-description"]}</p>
@@ -339,9 +347,9 @@ function returnBigTaskPopUpContactAll(id) {
       <div id='big-edit-task-assigned-to-top-container'>
         <p class='big-edit-task-section-headline'>Assigned to</p>
         
-        <div onclick='stopEvent(event); showEditTaskAssignedToPopUp()' id='big-edit-task-assigned-to-input-container'>
-          <input type='text' id='big-edit-task-assigned-to-input' onkeyup='editPopUpSearchContacts("${id}")' placeholder='Select contacts to assign'>
-            <svg id='big-edit-task-assigned-to-input-arrow' class='big-edit-task-assigned-to-input-arrow' width="8" height="5" viewBox="0 0 8 5" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <div onclick='stopEvent(event);' id='big-edit-task-assigned-to-input-container'>
+          <input  onclick=' showEditTaskAssignedToPopUp()' type='text' id='big-edit-task-assigned-to-input' onkeyup='editPopUpSearchContacts("${id}")' placeholder='Select contacts to assign'>
+            <svg onclick=' toggleEditTaskAssignedToPopUp()' id='big-edit-task-assigned-to-input-arrow' class='big-edit-task-assigned-to-input-arrow' width="8" height="5" viewBox="0 0 8 5" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M3.44451 4.3L0.844506 1.7C0.52784 1.38333 0.457006 1.02083 0.632006 0.6125C0.807006 0.204167 1.11951 0 1.56951 0H6.71951C7.16951 0 7.48201 0.204167 7.65701 0.6125C7.83201 1.02083 7.76117 1.38333 7.44451 1.7L4.84451 4.3C4.74451 4.4 4.63617 4.475 4.51951 4.525C4.40284 4.575 4.27784 4.6 4.14451 4.6C4.01117 4.6 3.88617 4.575 3.76951 4.525C3.65284 4.475 3.54451 4.4 3.44451 4.3Z" fill="#2A3647"/>
             </svg>
         </div>
@@ -350,7 +358,7 @@ function returnBigTaskPopUpContactAll(id) {
       <div id='big-edit-task-assigned-to-contact-container'></div>
 
       <div id='big-edit-task-assigned-to-pop-up-container' class='big-edit-task-assigned-to-pop-up-container height-0'>
-        <div id='big-edit-task-assigned-to-pop-up' class='big-edit-task-assigned-to-pop-up box-shadow-none'></div>
+        <div id='big-edit-task-assigned-to-pop-up' onclick='stopEvent(event);' class='big-edit-task-assigned-to-pop-up box-shadow-none'></div>
       </div>
   `;
 }
