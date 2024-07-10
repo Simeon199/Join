@@ -281,7 +281,7 @@ function returnSubtaskHTMLWithBolean(correctTaskId, subtask, i) {
     </svg>
 
 
-    <p>${subtask}</p>
+    <p>${subtask["task-description"]}</p>
   </div>
 `;
 }
