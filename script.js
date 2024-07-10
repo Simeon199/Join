@@ -32,13 +32,11 @@ function checkIfUserIsLoggedIn() {
   let LoggedInObject = createLoggedInStatusObject();
   if (LoggedInObject["guestLoginStatus"] == "true") {
     if (LoggedInObject["currentPath"] !== "summary.hmtl") {
-      console.log("Nutzer ist als Gast eingeloggt");
     }
   } else if (
     (LoggedInObject["status"] === "true" && LoggedInObject["currentUser"]) ||
     (LoggedInObject["sessionStatus"] === "true" && LoggedInObject["sessionUser"])
   ) {
-    console.log("Nutzer ist eingeloggt");
   } else {
     if (LoggedInObject["currentPath"] !== "register.html" && LoggedInObject["currentPath"] !== "login.html") {
       window.location.href = "login.html";

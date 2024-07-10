@@ -4,10 +4,8 @@
 let assignetTo = document.getElementById("assignetTo");
 let category = document.getElementById("category");
 let priority;
-// let tasks = [];
 let subArray = [];
 let assignedContacts = [];
-// let tasksId = 0;
 let standardContainer = "to-do-container";
 
 async function init() {
@@ -22,7 +20,6 @@ async function saveTaskIdToFirebase(taskId) {
 
 async function loadTaskIdFromFirebase() {
   let response = await loadRelevantData("taskId");
-  // let response = await loadData("taskId");
   if (response !== null && response !== undefined) {
     return response;
   }
@@ -87,7 +84,6 @@ function changeImg(condition) {
 }
 
 async function createTask(side) {
-  console.log("create...");
   await ensureAllTasksExists();
   await saveTask();
   if (side == 'addTask') {
@@ -144,7 +140,6 @@ function checkCategory() {
 function checkRequiredFields(side) {
   let title = document.getElementById("inputTitle").value;
   let date = document.getElementById("date").value;
-  console.log(title.length, date.length);
   if (title.length <= 1 || date.length <= 1 || checkCategory() == false) {
     showRequiredText();
   } else {
@@ -179,16 +174,8 @@ async function upload(path = "", data) {
   return (responseToJson = await response.json());
 }
 
-// async function ensureAllTasksExists() {
-//   let response = await loadData();
-//   if (!response || !response.hasOwnProperty("tasksList")) {
-//     await upload("tasksList", []);
-//   }
-// }
-
 async function ensureAllTasksExists() {
   let response = await loadRelevantData();
-  // let response = await loadData();
   if (!response || !response.hasOwnProperty("testRealTasks")) {
     await upload("testRealTasks", []);
   }
@@ -218,31 +205,7 @@ async function saveTask() {
   saveTasksToLocalStorage();
   updateCategories();
   updateHTML();
-  // await upload("tasks", {
-  //   title: inputTitle,
-  //   description: inputDescription,
-  //   assigned: assignedContacts,
-  //   date: date,
-  //   priority: priority,
-  //   category: category,
-  //   subtask: subArray,
-  // });
 }
-
-// async function uploadToAllTasks(task) {
-//   try {
-//     let response = await loadData();
-//     let allTasks = response["tasksList"];
-//     if (!Array.isArray(allTasks)) {
-//       allTasks = [];
-//     }
-//     allTasks.push(task);
-//     await upload("tasksList", allTasks);
-
-//   } catch (error) {
-//     console.error("Fehler in uploadToAllTasks:", error);
-//   }
-// }
 
 async function uploadToAllTasks(task) {
   try {
@@ -281,7 +244,6 @@ function hideAllAddTaskPopups() {
   hideDropDownAssignedTo();
   hideDropDownCategory();
   changeToInputfield();
-  // changeToInputfieldOnBoard();
 
   plus = document.getElementById("plusSymbole");
   subtask = document.getElementById("subtaskInputButtons");
@@ -295,25 +257,6 @@ async function loadRelevantData(path = "") {
   let responseAsJson = await response.json();
   return responseAsJson;
 }
-
-// async function loadData(path = "") {
-//   let response = await fetch(BASE_URL1 + path + ".json");
-//   let responseAsJson = await response.json();
-//   return responseAsJson;
-// }
-
-// async function deleteTask(taskId) {
-//   tasks = tasks.filter(task => task.tasksIdentity !== taskId);
-//   for (let i = taskId; i < tasks.length; i++) {
-//     tasks[i].tasksIdentity = i;
-//   }
-//   await upload("tasksList", tasks);
-//   saveTasksToLocalStorage();
-//   tasksId = tasks.length;
-//   await saveTaskIdToFirebase(tasksId);
-//   updateCategories();
-//   updateHTML();
-// }
 
 async function deleteTask(taskId) {
   showBoardLoadScreen();

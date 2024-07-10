@@ -134,12 +134,10 @@ function checkIfFirstTime() {
 
 async function loadTasksFromDatabase() {
   let response = await loadRelevantData();
-  // console.log(response.testRealTasks);
   if (response && response.testRealTasks) {
     for (index = 0; index < response.testRealTasks.length; index++) {
       tasks.push(response.testRealTasks[index]);
     }
-    console.log(tasks);
     return tasks;
   }
   return [];
@@ -157,7 +155,7 @@ function greetTime() {
 
   if (time <= 10) {
     return "Good morning"
-  } else if (time > 10 && time < 15) {
+  } else if (time > 12 && time < 18) {
     return "Good afternoon"
   } else {
     return "Good evening"
