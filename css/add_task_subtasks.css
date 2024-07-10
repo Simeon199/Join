@@ -7,15 +7,19 @@
   input:focus {
     border: unset;
   }
-  .inputButtons {
-    border: unset;
-    width: 70px;
-    justify-content: center;
-    gap: 10px;
-  }
   :hover {
     background-color: unset;
   }
+}
+
+.inputButtons {
+  border: unset;
+  /* width: 70px; */
+  /* justify-content: center; */
+  gap: 10px;
+
+  display: flex;
+  align-items: center;
 }
 
 #subtask:focus {

@@ -449,6 +449,14 @@ function showEditTaskAssignedToPopUp() {
   toggleFocusAssignedToInput();
 }
 
+function closeAllSmallPopUpPopUps() {
+  document.getElementById("big-edit-task-assigned-to-pop-up-container").classList.add("height-0");
+  document.getElementById("big-edit-task-assigned-to-pop-up").classList.add("box-shadow-none");
+  document.getElementById("big-edit-task-assigned-to-input-arrow").classList.remove("rotate-90");
+
+  insertSubtasksIntoContainer();
+}
+
 function toggleFocusAssignedToInput() {
   if (document.getElementById("big-edit-task-assigned-to-pop-up-container").classList.contains("height-0")) {
     document.getElementById("big-edit-task-assigned-to-input").blur();
@@ -742,17 +750,17 @@ function buildSubtaskArrayForUpload() {
 
 function insertSubtasksIntoContainer() {
   document.getElementById("big-edit-task-subtask-container").innerHTML = "";
-  let subtaskAllContainer = document.getElementById("big-task-pop-up-subtask-all");
-  subtaskAllContainer.innerHTML += `<div id="onlySubtasks"></div>`;
-  let onlySubtasks = document.getElementById("onlySubtasks");
-  onlySubtasks.innerHTML = "";
+  // let subtaskAllContainer = document.getElementById("big-task-pop-up-subtask-all");
+  // subtaskAllContainer.innerHTML += `<div id="onlySubtasks"></div>`;
+  // let onlySubtasks = document.getElementById("onlySubtasks");
+  document.getElementById("big-edit-task-subtask-container").innerHTML = "";
   if (subtaskArray.length >= 1) {
     for (let i = 0; i < subtaskArray.length; i++) {
       let subtask = subtaskArray[i];
-      onlySubtasks.innerHTML += renderSubtaskInPopUpContainer(i, subtask);
+      document.getElementById("big-edit-task-subtask-container").innerHTML += renderSubtaskInPopUpContainer(i, subtask);
     }
   } else {
-    onlySubtasks.classList.add("d-none");
+    // onlySubtasks.classList.add("d-none");
   }
 }
 
@@ -772,21 +780,23 @@ function insertSubtasksIntoContainer() {
 //   `;
 // }
 
-function sowSubaskEdditButtons(i) {
-  document.getElementById(`popUpSubBTN${i}`).classList.remove("d-none");
-}
+// function sowSubaskEdditButtons(i) {
+//   document.getElementById(`popUpSubBTN${i}`).classList.remove("d-none");
+// }
 
-function hideSubaskEdditButtons(i) {
-  document.getElementById(`popUpSubBTN${i}`).classList.add("d-none");
-}
+// function hideSubaskEdditButtons(i) {
+//   document.getElementById(`popUpSubBTN${i}`).classList.add("d-none");
+// }
 
 function editSubtaskPopUpInput(i) {
+  insertSubtasksIntoContainer();
+
   container = document.getElementById(`subtaskNumber${i}`);
   container.onmouseover = null;
   container.onmouseout = null;
   container.innerHTML = /*html*/ `
       <input id="subtaskEditedPopUp" type="text" value="${subtaskArray[i]["task-description"]}">
-      <div class="inputButtons">
+      <div class="edit-popup-subtask-icon-container">
         <img onclick="deleteSubtaskPopUp(${i}), stopEvent(event)" src="Assets/img/deletetrash.svg" alt="">
         <div class="subtaskBorder"></div>
         <img onclick="saveEditedSubtaskPopUp(${i}), stopEvent(event), closeSubtaskContainer()" src="Assets/img/checksubmit.svg" alt="">
@@ -819,8 +829,8 @@ function editPopUpSearchContacts(taskIndex) {
 }
 
 function closeSubtaskContainer() {
-  let bigSubtaskContainer = document.getElementById("big-edit-task-subtask-container");
-  bigSubtaskContainer.classList.add("d-none");
+  // let bigSubtaskContainer = document.getElementById("big-edit-task-subtask-container");
+  // bigSubtaskContainer.classList.add("d-none");
 }
 
 function saveEditedSubtaskPopUp(i) {
