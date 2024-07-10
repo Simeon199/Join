@@ -11,6 +11,7 @@ let assignedToContactsBigContainer = [];
 let isSaveIconClicked = false;
 let subtaskArray = [];
 let checkBoxCheckedJson = {};
+let emptyList = [];
 
 document.addEventListener("DOMContentLoaded", async function () {
   await getTasksFromDatabase();
@@ -316,7 +317,7 @@ function renderBigTask(jsonTextElement) {
 
   renderTaskContact(taskJson);
   // checkIfSubtasksAreChecked(taskJson);
-  renderSubtask(taskJson);
+  renderSubtask(taskJson)
   // console.log(taskJson);
 }
 
@@ -814,8 +815,9 @@ function resetSubtaskInput() {
 }
 
 function buildSubtaskArrayForUpload() {
-  // document.getElementById("big-edit-task-subtask-container").innerHTML = "";
-
+  if (!subtaskArray) {
+    subtaskArray = emptyList;
+  }
   console.log("exists:", subtaskArray);
   let subtaskInput = document.getElementById("big-edit-task-subtask-input");
   let subtaskJson = createSubtaskJson(subtaskInput.value);
@@ -956,7 +958,7 @@ async function saveTaskChanges(id) {
   }
   // assignedToContactsBigContainer = [];
   subtaskArray = []; // --> Warum? 
-  // checkBoxCheckedJson = {};
+  checkBoxCheckedJson = {};
   updateHTML();
 }
 
