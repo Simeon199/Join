@@ -44,13 +44,7 @@ function generateTaskHTMLForSearch(
     `;
 }
 
-function generateTaskHTML(
-  element,
-  contactsHTML,
-  oppositeCategory,
-  rightIcon,
-  jsonElement
-) {
+function generateTaskHTML(element, contactsHTML, oppositeCategory, rightIcon, jsonElement) {
   let jsonTextElement = encodeURIComponent(jsonElement);
   if (element["subtask"]) {
     // console.log(element["subtask"]);
@@ -126,8 +120,6 @@ function returnTaskHtmlWithSubtask(element, contactsHTML, oppositeCategory, righ
         <p>No tasks in ${element["container"]}</p>
       </div>`;
 }
-
-
 
 // onclick="showBigTaskPopUp()"
 function generateHTMLUrgencyLow() {

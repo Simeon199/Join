@@ -753,7 +753,7 @@ body .translate-100 {
 }
 
 #big-task-pop-up-contact-all:has(input) {
-  padding-bottom: 260px;
+  padding-bottom: 280px;
 
   transition: 0.2s ease-in-out;
 }
@@ -868,9 +868,37 @@ body #big-task-pop-up-contact-all:has(.height-0) {
   border-radius: 100%;
 }
 
-.subtasks {
+.edit-popup-subtasks {
   display: flex;
   justify-content: space-between;
+
+  border-radius: 10px;
+
+  padding: 6px 16px;
+}
+
+.edit-popup-subtasks:hover {
+  background-color: #eeeeee;
+  align-items: center;
+}
+
+/* edit-popup-subtask-icon-container
+hover */
+
+.edit-popup-subtask-icon-container {
+  display: flex;
+
+  gap: 4px;
+}
+
+.edit-popup-subtasks-line {
+  height: 24px;
+  width: 2px;
+  background-color: #a8a8a8;
+}
+
+.edit-popup-subtask-icon-container {
+  box-sizing: unset;
 }
 
 .big-edit-task-subtask {
