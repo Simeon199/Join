@@ -44,7 +44,7 @@ function changePriority(id) {
     low.classList.add("backgroundLow");
     priority = "low";
   }
-  changeImg(id);
+  // changeImg(id);
 }
 
 function removeBackground(id) {
@@ -86,12 +86,12 @@ function changeImg(condition) {
 async function createTask(side) {
   await ensureAllTasksExists();
   await saveTask();
-  if (side == 'addTask') {
+  if (side == "addTask") {
     startAnimation();
   }
   clearTask();
-  if (side != 'addTask') {
-    hideAddTaskPopUp()
+  if (side != "addTask") {
+    hideAddTaskPopUp();
   }
 }
 
@@ -143,7 +143,7 @@ function checkRequiredFields(side) {
   if (title.length <= 1 || date.length <= 1 || checkCategory() == false) {
     showRequiredText();
   } else {
-    createTask(side)
+    createTask(side);
   }
 }
 

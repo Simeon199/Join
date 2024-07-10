@@ -178,6 +178,9 @@ h1 {
     background-color: rgba(246, 247, 248, 1);
   }
   .prio div div {
+    box-sizing: border-box;
+    padding: 16px 10px;
+
     border-radius: 10px;
     background-color: rgba(255, 255, 255, 1);
     box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.1);
@@ -219,6 +222,12 @@ h1 {
 .center {
   align-items: center;
   justify-content: center;
+
+  transition: 0.2s;
+}
+
+.center path {
+  transition: 0.2s;
 }
 
 .backgroundUrgent {
@@ -226,14 +235,26 @@ h1 {
   color: rgba(255, 255, 255, 1);
 }
 
+.backgroundUrgent path {
+  fill: white;
+}
+
 .backgroundMedium {
   background-color: rgba(255, 168, 0, 1) !important;
   color: rgba(255, 255, 255, 1);
 }
 
+.backgroundMedium path {
+  fill: white;
+}
+
 .backgroundLow {
   background-color: rgba(122, 226, 41, 1) !important;
   color: rgba(255, 255, 255, 1);
+}
+
+.backgroundLow path {
+  fill: white;
 }
 
 #section99 {
