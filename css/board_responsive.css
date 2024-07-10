@@ -82,6 +82,9 @@
       min-width: 252px;
       height: 263px;
       margin-right: 5px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
   
     #wrap {
@@ -134,36 +137,26 @@
     }
 }
 
-/* @media (max-width: 700px) {
-  .headline-button {
-    display: flex;
-    justify-content: space-between;
-    width: 82%;
-  }
-
-  #main-headlien {
-    flex-direction: column;
-  }
-
-  #add-task-button-mobile {
-    display: flex;
-  }
-
-  #add-task-button {
-    display: none;
-  }
-
-  #search-container {
-    width: 100%;
-  }
-
-  #search-input-container {
-    width: 80%;
-  }
-} */
-
 @media (max-width: 600px) {
     .task {
         width: 252px;
+    }
+    .big-task-pop-up {
+        width: 90%;
+        height: 95vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+    }
+    #big-task-pop-up-description,
+    .big-task-pop-up-info-container,
+    .big-task-pop-up-label-text,
+    .big-task-pop-up-value-text,
+    .big-task-pop-up-profile-name,
+    #big-task-pop-up-contact-all,
+    #big-task-pop-up-edit-button,
+    #big-task-pop-up-delete-button,
+    #big-task-pop-up-subtask-all {
+        font-size: 16px;
     }
 }

@@ -1009,6 +1009,7 @@ body #big-task-pop-up-contact-all:has(.height-0) {
   padding: 10px;
 
   transition: 0.1s;
+  font-size: 20px;
 }
 
 #big-task-pop-up-edit-button path,
