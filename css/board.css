@@ -84,35 +84,6 @@ body .translate-100 {
   /* Optional: Rand für besseren Kontrast */
 }
 
-/* Styling für Webkit-basierte Browser (Chrome, Safari) */
-.wrap-container::-webkit-scrollbar {
-  width: 8px;
-  /* Breite der Scrollbar */
-}
-
-.wrap-container::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0);
-  /* Hintergrund des Scrollbar-Tracks */
-}
-
-.wrap-container::-webkit-scrollbar-thumb {
-  background-color: rgba(128, 128, 128, 0.4);
-  /* Dezente graue Farbe mit Transparenz */
-  border-radius: 100px;
-  /* Abgerundete Ecken des Scrollbar-Thumbs */
-  border: 2px solid rgba(255, 255, 255, 0);
-  /* Optional: Rand für besseren Kontrast */
-}
-
-.wrap-container:hover::-webkit-scrollbar-thumb {
-  background-color: rgba(128, 128, 128, 0.7);
-  /* Dezente graue Farbe mit Transparenz */
-  border-radius: 100px;
-  /* Abgerundete Ecken des Scrollbar-Thumbs */
-  border: 2px solid rgba(255, 255, 255, 0);
-  /* Optional: Rand für besseren Kontrast */
-}
-
 /* main headline */
 #main-headline {
   gap: 16px;
@@ -368,6 +339,8 @@ body .translate-100 {
   font-size: 16px;
   font-weight: 400;
   color: #a8a8a8;
+
+  padding: 10px;
 }
 
 /* wrap-container */
