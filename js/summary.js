@@ -3,7 +3,7 @@ let firstTime = "true";
 let allTasks;
 let tasks = [];
 
-const BASE_URL = 'https://join-privat-default-rtdb.europe-west1.firebasedatabase.app/';
+const BASE_URL = "https://join-privat-default-rtdb.europe-west1.firebasedatabase.app/";
 
 async function init() {
   let responseJson = await loadTasksFromDatabase();
@@ -35,7 +35,7 @@ function numberOfSection(section) {
   let sectionNumber = document.getElementById(section + "-number");
   let number = 0;
   if (section === "tasks-in-board") {
-    sectionNumber.innerHTML = allTasks.length;
+    sectionNumber.innerHTML = allTasks.length - 1;
     return;
   }
   for (const key in allTasks) {
@@ -151,13 +151,13 @@ async function loadRelevantData(path = "") {
 
 function greetTime() {
   const d = new Date();
-  const time = (d.getHours());
+  const time = d.getHours();
 
   if (time <= 10) {
-    return "Good morning"
+    return "Good morning";
   } else if (time > 12 && time < 18) {
-    return "Good afternoon"
+    return "Good afternoon";
   } else {
-    return "Good evening"
+    return "Good evening";
   }
 }

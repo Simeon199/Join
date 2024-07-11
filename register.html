@@ -1,81 +1,106 @@
 <!DOCTYPE html>
 <html lang="de">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>JOIN</title>
     <link rel="icon" href="Assets/img/Capa2logo_klein.svg" type="image/x-icon" />
-    <link rel="stylesheet" href="css/login.css">
-    <link rel="stylesheet" href="css/register.css">
+    <link rel="stylesheet" href="css/login.css" />
+    <link rel="stylesheet" href="css/register.css" />
     <script src="script.js"></script>
     <script src="js/login.js"></script>
     <script src="js/sow_contacts.js"></script>
-    <link rel="stylesheet" href="css/fonts.css">
-</head>
-<body>
-    
+    <link rel="stylesheet" href="css/fonts.css" />
+  </head>
+  <body>
     <div class="header">
-        <img id="logoKlein" src="Assets/img/Capa2logo_klein.svg" alt="">
+      <img id="logoKlein" src="Assets/img/Capa2logo_klein.svg" alt="" />
     </div>
 
     <section class="loginFrame">
-        <div class="overlay d-none" id="overlay"></div>
-        <div class="registerPopup d-none" id="registerPopup">
-            <p>Die Registrierung war erfolgreich!<p>
+      <div class="overlay d-none" id="overlay"></div>
+      <div class="registerPopup d-none" id="registerPopup">
+        <p>Die Registrierung war erfolgreich!</p>
+        <p></p>
+      </div>
+
+      <div class="login">
+        <div class="loginAndArrow">
+          <div class="arrowcontainer">
+            <img onclick="backToLogin()" class="arrowLeft" src="Assets/img/arrow-left-line.png" alt="" />
+          </div>
+          <div class="titlediv">
+            <h1 class="underline">Sign up</h1>
+          </div>
         </div>
-        <div class="login">
-            <div class="loginAndArrow">
-                <div class="arrowcontainer">
-                    <img onclick="backToLogin()" class="arrowLeft" src="Assets/img/arrow-left-line.png" alt="">
-                </div>
-                <div class="titlediv">
-                    <h1 class="underline">Sign up</h1>
-                </div>
+        <form id="signUpForm" onsubmit="return signUp(event)">
+          <div class="loginInput" id="signUpInput">
+            <div class="input">
+              <input id="name" class="loginInputStyle" type="text" placeholder="Name" required />
+              <img src="Assets/img/person.svg" alt="" />
             </div>
-            <form id="signUpForm" onsubmit="return signUp(event)">
-                <div class="loginInput" id="signUpInput">
-                    <div class="input">
-                        <input id="name" class="loginInputStyle" type="text" placeholder="Name" required>
-                        <img src="Assets/img/person.svg" alt="">
-                    </div>
-                    <div class="input">
-                        <input id="loginEmail" inputmode="email" class="loginInputStyle" type="email" placeholder="Email" required>
-                        <img src="Assets/img/mail.svg" alt="">
-                    </div>
-                    <div class="input" id="signUpPassword">
-                        <input id="loginPassword" minlength="6" maxlength="16" class="loginInputStyle" type="password" placeholder="Password" required>
-                        <img src="Assets/img/lock.svg" alt="" id="inputLock">
-                        <img src="Assets/img/visibility.svg" id="visibility" onclick="showPassword('loginPassword')" class="d-none" alt="">
-                        <img src="Assets/img/visibility_off.svg" id="visibilityInputImage" onclick="showPassword('loginPassword')" class="d-none" alt="">
-                    </div>
-                    <div class="input" id="signUpPasswordRepeat">
-                        <input id="loginPasswordRepeat" minlength="6" maxlength="16" class="loginInputStyle" type="password" placeholder="Confirm Password" required>
-                        <img src="Assets/img/lock.svg" alt="" id="inputLockRepeat">
-                        <img src="Assets/img/visibility.svg" id="visibilityRepeat" onclick="showPassword('loginPasswordRepeat')" class="d-none" alt="">
-                        <img src="Assets/img/visibility_off.svg" id="visibilityInputImageRepeat" onclick="showPassword('loginPasswordRepeat')" class="d-none" alt="">
-                    </div>
-                </div>
-                <div class="checkbox">
-                    <input id="privacyPolicity" type="checkbox" class="checkbox-input" onclick="addCheck()" required>
-                    <label for="privacyPolicity" class="checkbox-label">
-                        <svg id="checkbox-check" class="checkbox-check d-none" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M1 8.96582L5 12.9658L13 1.46582" stroke="#2A3647" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                        I accept the <a href="">Privacy policy</a>
-                    </label>
-                </div>
-                <div class="loginButtons">
-                    <button id="loginBtn" class="darkBtn" type="submit">Sign up</button>
-                </div>
-            </form>
-        </div>
+            <div class="input">
+              <input id="loginEmail" inputmode="email" class="loginInputStyle" type="email" placeholder="Email" required />
+              <img src="Assets/img/mail.svg" alt="" />
+            </div>
+            <div class="input" id="signUpPassword">
+              <input id="loginPassword" minlength="6" maxlength="16" class="loginInputStyle" type="password" placeholder="Password" required />
+              <img src="Assets/img/lock.svg" alt="" id="inputLock" />
+              <img src="Assets/img/visibility.svg" id="visibility" onclick="showPassword('loginPassword')" class="d-none" alt="" />
+              <img src="Assets/img/visibility_off.svg" id="visibilityInputImage" onclick="showPassword('loginPassword')" class="d-none" alt="" />
+            </div>
+            <div class="input" id="signUpPasswordRepeat">
+              <input
+                id="loginPasswordRepeat"
+                minlength="6"
+                maxlength="16"
+                class="loginInputStyle"
+                type="password"
+                placeholder="Confirm Password"
+                required
+              />
+              <img src="Assets/img/lock.svg" alt="" id="inputLockRepeat" />
+              <img src="Assets/img/visibility.svg" id="visibilityRepeat" onclick="showPassword('loginPasswordRepeat')" class="d-none" alt="" />
+              <img
+                src="Assets/img/visibility_off.svg"
+                id="visibilityInputImageRepeat"
+                onclick="showPassword('loginPasswordRepeat')"
+                class="d-none"
+                alt=""
+              />
+            </div>
+          </div>
+          <div class="checkbox">
+            <input id="privacyPolicity" type="checkbox" class="checkbox-input" onclick="addCheck()" required />
+            <label for="privacyPolicity" class="checkbox-label">
+              <svg
+                id="checkbox-check"
+                class="checkbox-check d-none"
+                width="14"
+                height="14"
+                viewBox="0 0 14 14"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path d="M1 8.96582L5 12.9658L13 1.46582" stroke="#2A3647" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+              I accept the <a href="">Privacy policy</a>
+            </label>
+          </div>
+          <div class="loginButtons">
+            <button id="loginBtn" class="darkBtn" type="submit">Sign up</button>
+          </div>
+        </form>
+      </div>
     </section>
 
     <footer>
-        <div>
-            <a href="">Privacy Policy</a>
-            <a href="">Legal notice</a>
+      <div>
+        <div id="login-privacy-legal-container">
+          <a onclick="guestLogin()" href="privacy_policy_en.html">Privacy Policy</a>
+          <a onclick="guestLogin()" href="legal_notice.html">Legal notice</a>
         </div>
+      </div>
     </footer>
-</body>
+  </body>
 </html>

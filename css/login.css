@@ -18,6 +18,14 @@ header {
   padding-top: 16px;
 }
 
+#login-privacy-legal-container {
+  width: 250px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 h1 {
   font-family: "Open Sans";
   margin: 0px;
@@ -241,9 +249,13 @@ h1.underline::after {
 
 .checkbox-check {
   position: absolute;
-  left: 10px;
+  left: 25px;
   top: 7px;
   cursor: pointer;
+}
+
+#loginForm .checkbox-check {
+  left: 10px;
 }
 
 .privacyPolicity label {

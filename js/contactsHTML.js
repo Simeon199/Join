@@ -226,6 +226,8 @@ function returnAddContactPopUpFormHTML() {
               class="pop-up-input"
               type="tel"
               placeholder="Phone"
+              pattern="[\+]{0,1}[0-9]{0,}"
+
             />
   
             <svg
@@ -408,7 +410,8 @@ function returnEditContactPopUpFormHTML(userID, i, userColor) {
               class="pop-up-input"
               type="tel"
               placeholder="Phone"
-            />
+              pattern="[\+]{0,1}[0-9]{0,}"
+              />
   
             <svg
               class="pop-up-input-svg"
