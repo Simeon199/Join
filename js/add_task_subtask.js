@@ -114,8 +114,9 @@ function editSubtask(i) {
 
 function editSubtaskInput(i) {
   container = document.getElementById(`yyy${i}`);
-  // container.onmouseover = null;
-  // container.onmouseout = null;
+  container.onmouseover = null;
+  container.onmouseout = null;
+  container.ondblclick = null;
   container.innerHTML = /*html*/ `
       <input id="subtaskEdited" type="text" value="${subArray[i]["task-description"]}">
       <div class="inputButtons">
@@ -125,7 +126,6 @@ function editSubtaskInput(i) {
       </div>
     `;
   edit = document.getElementById(`subtaskEdited`);
-  console.log(subtask);
   subtask[i] = edit.value;
 }
 
@@ -136,7 +136,6 @@ function hideOrShowEditButtons() {
 
   // window.addEventListener("click", function (e) {
   // if (cont.contains(e.target)) {
-  console.log("t");
   plus.classList.add("d-none");
   subtask.classList.remove("d-none");
   // } else {
@@ -159,8 +158,12 @@ function deleteSubtask(i) {
 
 function saveEditedSubtask(i) {
   let text = document.getElementById(`subtaskEdited`).value;
-  subArray[i]["task-description"] = text;
-  rendersubtask();
+  if (text.length > 0) {
+    subArray[i]["task-description"] = text;
+    rendersubtask();
+  } else {
+    alert("Feld darf nicht leer sein")
+  }
 }
 
 function toggleDNone(id) {

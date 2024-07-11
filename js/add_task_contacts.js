@@ -46,19 +46,31 @@ function renderAssignedToHTML(user, contact, i) {
 }
 
 function assignetToContects() {
-  document.getElementById("userCircles").innerHTML = ""
+  circleCont = document.getElementById("userCircles");
+  circleCont.innerHTML = "";
   for (let i = 0; i < assignedContacts.length; i++) {
-    renderAssignedToCircle(i, assignedContacts[i].name, assignedContacts[i].color)
+    // renderAssignedToCircle(i, assignedContacts[i].name, assignedContacts[i].color, circleCont)
+    if (assignedContacts.length > 6) {
+      circleCont += showplusSVG();
+    } else {
+      renderAssignedToCircle(i, assignedContacts[i].name, assignedContacts[i].color, circleCont)
+    }
   }
 }
 
-function renderAssignedToCircle(i, user, color) {
-  document.getElementById("userCircles").innerHTML += /*html*/`
+function renderAssignedToCircle(i, user, color, circleCont) {
+  circleCont.innerHTML += /*html*/`
     <div class="assignetToDiv circle" id="showCircle${i}"></div>
   `;
-   circle = document.getElementById(`showCircle${i}`).style;
-   circle.backgroundColor = color;
-   circle.border= "2px solid rgba(255, 255, 255, 1)";
+  circle = document.getElementById(`showCircle${i}`).style;
+  circle.backgroundColor = color;
+  circle.border= "2px solid rgba(255, 255, 255, 1)";
+  if(assignedContacts.length > 2) {
+    if (assignedContacts[0].name != user) {
+      circle.marginLeft = "-24px";
+      if (assignedContacts.length == 6) {showplusSVG()}
+    }
+  }
   sowUserLetters(`showCircle${i}` , user)
 }
 
@@ -68,18 +80,18 @@ function clearAssignedTo() {
   div.innerHTML = "";
 }
 
-function addUserToTask(u , isSelect) {
+function addUserToTask(u) {
     userCredicals = {
         name: u.name,
         color: u.color,
-        isSelected: isSelect,
+        isSelected: u.selected,
     }
     assignedContacts.push(userCredicals);
     assignetToContects()
 }
 
 function checkAssignedContacts(name, color, i) {
-  x = {name: name, color: color, selected: isSelect = false};
+  x = {name: name, color: color, selected: false};
   selUser = document.getElementById(`user${i}`);
   if (selUser.classList.contains("contactIsSelect") == true) {
     document.getElementById(`none_checked${i}`).classList.remove("d-none");
@@ -90,8 +102,8 @@ function checkAssignedContacts(name, color, i) {
     document.getElementById(`none_checked${i}`).classList.add("d-none");
     document.getElementById(`checked${i}`).classList.remove("d-none");
     selUser.classList.add('contactIsSelect');
-    y = x.isSelect = true;
-    addUserToTask(x, y)
+    x.selected = true;
+    addUserToTask(x)
   }
 }
 
@@ -173,4 +185,12 @@ function showDropDownAssignedToOnlyResult() {
     }
     contact.classList.remove("d-none");
     document.getElementById('arrowa').classList.add("rotate");
+}
+
+function showplusSVG() {
+    return /*html*/`
+    <svg width="15" height="14" viewBox="0 0 15 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M6.24854 8H1.24854C0.965202 8 0.727702 7.90417 0.536035 7.7125C0.344368 7.52083 0.248535 7.28333 0.248535 7C0.248535 6.71667 0.344368 6.47917 0.536035 6.2875C0.727702 6.09583 0.965202 6 1.24854 6H6.24854V1C6.24854 0.716667 6.34437 0.479167 6.53604 0.2875C6.7277 0.0958333 6.9652 0 7.24854 0C7.53187 0 7.76937 0.0958333 7.96104 0.2875C8.1527 0.479167 8.24854 0.716667 8.24854 1V6H13.2485C13.5319 6 13.7694 6.09583 13.961 6.2875C14.1527 6.47917 14.2485 6.71667 14.2485 7C14.2485 7.28333 14.1527 7.52083 13.961 7.7125C13.7694 7.90417 13.5319 8 13.2485 8H8.24854V13C8.24854 13.2833 8.1527 13.5208 7.96104 13.7125C7.76937 13.9042 7.53187 14 7.24854 14C6.9652 14 6.7277 13.9042 6.53604 13.7125C6.34437 13.5208 6.24854 13.2833 6.24854 13V8Z" fill="#2A3647"></path>
+    </svg>
+  `;
 }
