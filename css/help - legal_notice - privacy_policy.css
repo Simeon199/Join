@@ -149,8 +149,7 @@ li {
 }
 
 @media (max-width: 1000px) {
-  span,
-  h1 {
+  .break-word {
     word-break: break-all;
   }
 
