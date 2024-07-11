@@ -12,6 +12,7 @@ body {
 }
 
 main {
+  overflow-y: scroll;
   box-sizing: border-box;
 
   padding: 40px;

@@ -4,7 +4,7 @@ let searchResults = [];
 
 function showDropDownAssignedTo() {
   contact = document.getElementById("assignedToDropDown");
-    
+  contact.innerHTML = "";
     for (let i = 0; i < allUsers.length; i++) {
       user = allUsers[i];
       renderAssignedToHTML(user, contact, i)
@@ -165,6 +165,7 @@ function searchContacts() {
 
 function showDropDownAssignedToOnlyResult() {
   contact = document.getElementById("assignedToDropDown");
+  contact.innerHTML = "";
     
     for (let i = 0; i < searchResults.length; i++) {
       user = searchResults[i];
