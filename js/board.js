@@ -553,7 +553,6 @@ function insertSubtasksIntoContainer() {
 
 function editSubtaskPopUpInput(i) {
   insertSubtasksIntoContainer();
-
   container = document.getElementById(`subtaskNumber${i}`);
   container.onmouseover = null;
   container.onmouseout = null;
@@ -623,8 +622,23 @@ function closeSubtaskContainer() {
 
 function saveEditedSubtaskPopUp(i) {
   let text = document.getElementById(`subtaskEditedPopUp`).value;
-  subtaskArray[i]["task-description"] = text;
-  insertSubtasksIntoContainer();
+  if (text == "") {
+    markFalseEditSubtaskInput(`subtaskEditedPopUp`, i);
+  } else {
+    subtaskArray[i]["task-description"] = text;
+    insertSubtasksIntoContainer();
+  }
+}
+
+function markFalseEditSubtaskInput(inputString, i) {
+  // let inputField = document.getElementById(inputString);
+  // let rightSubtask = document.getElementById(`subtaskNumber${i}`);
+  let subtaskContainer = document.getElementById(`big-task-pop-up-subtask-all`);
+  // rightSubtask.style.borderColor = "red";
+  subtaskContainer.innerHTML += `<div class="messageFalseInputValue">
+                                  <p>Leerer Subtask kann nicht abgespeichert werden. Bitte geben Sie einen gültigen Inhalt ein!</p>
+                                <div>`;
+  // inputField.style.borderColor = "red";
 }
 
 function deleteSubtaskPopUp(i) {
