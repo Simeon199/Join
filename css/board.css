@@ -416,6 +416,11 @@ body .translate-100 {
   font-size: 16px;
 }
 
+/* .noSubtaskMessage {
+  text-align: center;
+  padding-top: 4px;
+} */
+
 .task-bar {
   width: 100%;
   flex: 1;
