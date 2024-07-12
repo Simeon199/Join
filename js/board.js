@@ -276,7 +276,8 @@ function renderCorrectAssignedNamesIntoBigTask(taskJson) {
 
 function renderSubtask(taskJson) {
   let correctTaskId = taskJson.tasksIdentity;
-  if (taskJson.subtask) {
+  if (taskJson.subtask && taskJson.subtask.length > 0) {
+    // let subtasks = taskJson.subtask;
     taskJson.subtask.forEach((subtask, index) => {
       if (subtask["is-tasked-checked"] == false) {
         document.getElementById("big-task-pop-up-subtasks-container").innerHTML += returnSubtaskHTML(correctTaskId, subtask, index);
@@ -284,6 +285,10 @@ function renderSubtask(taskJson) {
         document.getElementById("big-task-pop-up-subtasks-container").innerHTML += returnSubtaskHTMLWithBolean(correctTaskId, subtask, index);
       }
     });
+  } else if (taskJson.subtask && taskJson.subtask.length == 0) {
+    document.getElementById("big-task-pop-up-subtasks-container").innerHTML = /*html*/ `  
+    <p class='big-task-pop-up-value-text'>No Subtasks</p>
+    `;
   } else {
     document.getElementById("big-task-pop-up-subtasks-container").innerHTML = /*html*/ `  
     <p class='big-task-pop-up-value-text'>No Subtasks</p>
@@ -340,10 +345,14 @@ async function saveChangedSubtaskToFirebase(correctTaskId) {
 
 // renderContact
 function renderTaskContact(taskJson) {
-  if (taskJson.assigned) {
+  if (taskJson.assigned && taskJson.assigned.length > 0) {
     taskJson.assigned.forEach((contact) => {
       document.getElementById("big-task-pop-up-contact-container").innerHTML += returnAssignedContactHTML(contact);
     });
+  } else if (taskJson.assigned && taskJson.assigned.length == 0) {
+    document.getElementById("big-task-pop-up-contact-container").innerHTML = /*html*/ `  
+    <p class='big-task-pop-up-value-text'>No One Assigned</p>
+    `;
   } else {
     document.getElementById("big-task-pop-up-contact-container").innerHTML = /*html*/ `  
     <p class='big-task-pop-up-value-text'>No One Assigned</p>
