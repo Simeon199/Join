@@ -379,8 +379,7 @@ function renderAllBigPopUp(oldTitle, oldDescription, oldDate, oldPriority, taskJ
     taskJson["subtask"] = subtaskArray;
   } else if (taskJson["subtask"] && subtaskArray.length == 0) {
     taskJson["subtask"] = taskJson["subtask"];
-  }
-  else if (!subtaskArray && !tasks[id]["subtask"]) {
+  } else if (!subtaskArray && !tasks[id]["subtask"]) {
     // document.getElementById("big-edit-task-subtask-container").innerHTML += `<div class="noSubtaskMessage"><p>Aktuell sind keine Subtasks vorhanden.</p></div>`;
     document.getElementById("big-edit-task-subtask-container").innerHTML += "";
   }
@@ -480,6 +479,8 @@ function renderOnlySubtaskContainerPopUp(taskJson) {
 }
 
 function checkBigEditTaskContact(i, contactObject, taskIndex) {
+  assignedToContactsBigContainer = tasks[taskIndex].assigned;
+
   HTMLContactContainer = document.querySelectorAll(".big-edit-task-assigned-to-pop-up-contact-container")[i];
   HTMLContactContainer.classList.toggle("big-edit-task-assigned-to-pop-up-active-contact");
   if (HTMLContactContainer.classList.contains("big-edit-task-assigned-to-pop-up-active-contact")) {
@@ -504,6 +505,7 @@ function addContactToAssigned(contactObject, taskIndex) {
 // deleteContactToAssigned
 function deleteContactToAssigned(contactObject, taskIndex) {
   let taskJson = tasks[taskIndex];
+
   let contactObjectIndex = assignedToContactsBigContainer.findIndex((jsonObject) => jsonObject.name === contactObject.name);
   assignedToContactsBigContainer.splice(contactObjectIndex, 1);
   renderBigTaskAssignedContactContainer(taskJson);
@@ -553,12 +555,12 @@ function insertSubtasksIntoContainer() {
   // subtaskAllContainer.innerHTML += `<div id="onlySubtasks"></div>`;
   // let onlySubtasks = document.getElementById("onlySubtasks");
   document.getElementById("big-edit-task-subtask-container").innerHTML = "";
-  if ((subtaskArray) && (subtaskArray.length >= 1)) {
+  if (subtaskArray && subtaskArray.length >= 1) {
     for (let i = 0; i < subtaskArray.length; i++) {
       let subtask = subtaskArray[i];
       document.getElementById("big-edit-task-subtask-container").innerHTML += renderSubtaskInPopUpContainer(i, subtask);
     }
-  } else if ((subtaskArray) && (subtaskArray.length == 0) && (tasks[renderCurrentTaskId]["subtask"])) {
+  } else if (subtaskArray && subtaskArray.length == 0 && tasks[renderCurrentTaskId]["subtask"]) {
     let subtasks = tasks[renderCurrentTaskId]["subtask"];
     for (let i = 0; i < subtasks.length; i++) {
       let subtask = subtasks[i];
