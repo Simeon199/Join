@@ -1187,6 +1187,8 @@ body .big-edit-task-pop-up-section-container {
   overflow: hidden;
   overflow-y: scroll;
 
+  padding: 0 3px;
+
   transition: 0.2s ease-in-out;
 
   max-height: 320px;
