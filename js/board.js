@@ -11,6 +11,7 @@ let isSaveIconClicked = false;
 let subtaskArray = [];
 let checkBoxCheckedJson = {};
 let emptyList = [];
+let renderCurrentTaskId;
 
 document.addEventListener("DOMContentLoaded", async function () {
   await getTasksFromDatabase();
@@ -275,7 +276,8 @@ function renderCorrectAssignedNamesIntoBigTask(taskJson) {
 
 function renderSubtask(taskJson) {
   let correctTaskId = taskJson.tasksIdentity;
-  if (taskJson.subtask) {
+  if (taskJson.subtask && taskJson.subtask.length > 0) {
+    // let subtasks = taskJson.subtask;
     taskJson.subtask.forEach((subtask, index) => {
       if (subtask["is-tasked-checked"] == false) {
         document.getElementById("big-task-pop-up-subtasks-container").innerHTML += returnSubtaskHTML(correctTaskId, subtask, index);
@@ -283,6 +285,10 @@ function renderSubtask(taskJson) {
         document.getElementById("big-task-pop-up-subtasks-container").innerHTML += returnSubtaskHTMLWithBolean(correctTaskId, subtask, index);
       }
     });
+  } else if (taskJson.subtask && taskJson.subtask.length == 0) {
+    document.getElementById("big-task-pop-up-subtasks-container").innerHTML = /*html*/ `  
+    <p class='big-task-pop-up-value-text'>No Subtasks</p>
+    `;
   } else {
     document.getElementById("big-task-pop-up-subtasks-container").innerHTML = /*html*/ `  
     <p class='big-task-pop-up-value-text'>No Subtasks</p>
@@ -339,10 +345,14 @@ async function saveChangedSubtaskToFirebase(correctTaskId) {
 
 // renderContact
 function renderTaskContact(taskJson) {
-  if (taskJson.assigned) {
+  if (taskJson.assigned && taskJson.assigned.length > 0) {
     taskJson.assigned.forEach((contact) => {
       document.getElementById("big-task-pop-up-contact-container").innerHTML += returnAssignedContactHTML(contact);
     });
+  } else if (taskJson.assigned && taskJson.assigned.length == 0) {
+    document.getElementById("big-task-pop-up-contact-container").innerHTML = /*html*/ `  
+    <p class='big-task-pop-up-value-text'>No One Assigned</p>
+    `;
   } else {
     document.getElementById("big-task-pop-up-contact-container").innerHTML = /*html*/ `  
     <p class='big-task-pop-up-value-text'>No One Assigned</p>
@@ -359,12 +369,20 @@ function renderEditTask(jsonTextElement, id) {
   let oldDate = document.getElementById("big-task-pop-up-date").innerHTML;
   document.getElementById("big-task-pop-up-category").innerHTML = "";
   document.getElementById("big-task-pop-up-category").style = "background-color: white;";
+  renderCurrentTaskId = id;
   renderAllBigPopUp(oldTitle, oldDescription, oldDate, oldPriority, taskJson, id);
 }
 
 function renderAllBigPopUp(oldTitle, oldDescription, oldDate, oldPriority, taskJson, id) {
+  console.log(taskJson);
   if (subtaskArray.length !== 0) {
     taskJson["subtask"] = subtaskArray;
+  } else if (taskJson["subtask"] && subtaskArray.length == 0) {
+    taskJson["subtask"] = taskJson["subtask"];
+  }
+  else if (!subtaskArray && !tasks[id]["subtask"]) {
+    // document.getElementById("big-edit-task-subtask-container").innerHTML += `<div class="noSubtaskMessage"><p>Aktuell sind keine Subtasks vorhanden.</p></div>`;
+    document.getElementById("big-edit-task-subtask-container").innerHTML += "";
   }
   returnBigTaskPopUpTitle(oldTitle);
   returnBigTaskPopUpDescription(oldDescription);
@@ -528,18 +546,27 @@ function buildSubtaskArrayForUpload() {
 }
 
 function insertSubtasksIntoContainer() {
+  console.log(subtaskArray);
+  console.log(tasks[renderCurrentTaskId]);
   document.getElementById("big-edit-task-subtask-container").innerHTML = "";
   // let subtaskAllContainer = document.getElementById("big-task-pop-up-subtask-all");
   // subtaskAllContainer.innerHTML += `<div id="onlySubtasks"></div>`;
   // let onlySubtasks = document.getElementById("onlySubtasks");
   document.getElementById("big-edit-task-subtask-container").innerHTML = "";
-  if (subtaskArray.length >= 1) {
+  if ((subtaskArray) && (subtaskArray.length >= 1)) {
     for (let i = 0; i < subtaskArray.length; i++) {
       let subtask = subtaskArray[i];
       document.getElementById("big-edit-task-subtask-container").innerHTML += renderSubtaskInPopUpContainer(i, subtask);
     }
-  } else {
-    // onlySubtasks.classList.add("d-none");
+  } else if ((subtaskArray) && (subtaskArray.length == 0) && (tasks[renderCurrentTaskId]["subtask"])) {
+    let subtasks = tasks[renderCurrentTaskId]["subtask"];
+    for (let i = 0; i < subtasks.length; i++) {
+      let subtask = subtasks[i];
+      document.getElementById("big-edit-task-subtask-container").innerHTML += renderSubtaskInPopUpContainer(i, subtask);
+    }
+  } else if (!subtaskArray && !tasks[renderCurrentTaskId]["subtask"]) {
+    // document.getElementById("big-edit-task-subtask-container").innerHTML += `<div class="noSubtaskMessage" id="noSubtaskMessage"><p>Aktuell sind keine Subtasks vorhanden.</p></div>`;
+    document.getElementById("big-edit-task-subtask-container").innerHTML += "";
   }
 }
 
@@ -553,7 +580,6 @@ function insertSubtasksIntoContainer() {
 
 function editSubtaskPopUpInput(i) {
   insertSubtasksIntoContainer();
-
   container = document.getElementById(`subtaskNumber${i}`);
   container.onmouseover = null;
   container.onmouseout = null;
@@ -623,8 +649,23 @@ function closeSubtaskContainer() {
 
 function saveEditedSubtaskPopUp(i) {
   let text = document.getElementById(`subtaskEditedPopUp`).value;
-  subtaskArray[i]["task-description"] = text;
-  insertSubtasksIntoContainer();
+  if (text == "") {
+    markFalseEditSubtaskInput(`subtaskEditedPopUp`, i);
+  } else {
+    subtaskArray[i]["task-description"] = text;
+    insertSubtasksIntoContainer();
+  }
+}
+
+function markFalseEditSubtaskInput(inputString, i) {
+  // let inputField = document.getElementById(inputString);
+  // let rightSubtask = document.getElementById(`subtaskNumber${i}`);
+  let subtaskContainer = document.getElementById(`big-task-pop-up-subtask-all`);
+  // rightSubtask.style.borderColor = "red";
+  subtaskContainer.innerHTML += `<div class="messageFalseInputValue">
+                                  <p>Leerer Subtask kann nicht abgespeichert werden. Bitte geben Sie einen gültigen Inhalt ein!</p>
+                                <div>`;
+  // inputField.style.borderColor = "red";
 }
 
 function deleteSubtaskPopUp(i) {

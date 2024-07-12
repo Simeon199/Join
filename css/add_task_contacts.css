@@ -24,3 +24,72 @@
 .border-unset {
     border: unset !important;
 }
+
+#assignedTo {
+  background-color: rgba(255, 255, 255, 1);
+}
+
+#assignedToDropDown {
+  height: 200px;
+  overflow-y: scroll;
+  justify-content: start;
+  background-color: rgba(255, 255, 255, 1);
+}
+  
+.assignedDropDownField {
+  justify-content: space-around;
+  .circle {
+    border-radius: 100%;
+    border: 2px solid rgba(255, 255, 255, 1);
+    width: 42px;
+    height: 38px;
+    background-color: cadetblue;
+    justify-content: center;
+    align-items: center;
+    margin-left: 10px;
+  }
+  .circle span {
+    color: white;
+    padding: 0px;
+  }
+  :focus {
+    background: rgba(9, 25, 49, 1);
+  }
+}
+
+.assignedDropDownField div:hover {
+  background-color: unset;
+}
+#userCircles {
+  background-color: unset;
+  border: unset;
+  justify-content: start;
+  flex-wrap: wrap;
+  height: auto;
+}
+
+.assignetToDiv {
+  width: 42px !important;
+  height: 42px !important;
+  margin: 10px;
+  border-radius: 100%;
+  justify-content: center;
+}
+
+.assignetToDiv span {
+  color: rgba(255, 255, 255, 1) !important;
+  font-weight: 400 !important;
+  font-size: 12px !important;
+}
+
+.DropDownUser {
+  width: 100%;
+  justify-content: space-around;
+  span {
+    flex: 1;
+  }
+}
+
+.margin- {
+    margin-left: -20px;
+}

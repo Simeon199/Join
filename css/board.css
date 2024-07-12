@@ -12,6 +12,7 @@ body {
 }
 
 main {
+  overflow-y: scroll;
   box-sizing: border-box;
 
   padding: 40px;
@@ -405,6 +406,20 @@ body .translate-100 {
 
   border-radius: 10px;
 }
+
+.messageFalseInputValue {
+  color: red;
+  padding: 4px;
+}
+
+.messageFalseInputValue p {
+  font-size: 16px;
+}
+
+/* .noSubtaskMessage {
+  text-align: center;
+  padding-top: 4px;
+} */
 
 .task-bar {
   width: 100%;

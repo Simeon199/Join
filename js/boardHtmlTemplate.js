@@ -46,7 +46,7 @@ function generateTaskHTMLForSearch(
 
 function generateTaskHTML(element, contactsHTML, oppositeCategory, rightIcon, jsonElement) {
   let jsonTextElement = encodeURIComponent(jsonElement);
-  if (element["subtask"]) {
+  if (element["subtask"] && element["subtask"].length > 0) {
     // console.log(element["subtask"]);
     let numberOfTasksChecked = 0;
     for (index = 0; index < element["subtask"].length; index++) {
@@ -58,6 +58,8 @@ function generateTaskHTML(element, contactsHTML, oppositeCategory, rightIcon, js
     let taskbarWidth = Math.round((numberOfTasksChecked / element["subtask"].length) * 100);
     // console.log(taskbarWidth);
     return returnTaskHtmlWithSubtask(element, contactsHTML, oppositeCategory, rightIcon, jsonTextElement, taskbarWidth, numberOfTasksChecked);
+  } else if (element["subtask"] && element["subtask"].length == 0) {
+    return returnTaskHtmlWithoutSubtask(element, contactsHTML, oppositeCategory, rightIcon, jsonTextElement);
   } else {
     return returnTaskHtmlWithoutSubtask(element, contactsHTML, oppositeCategory, rightIcon, jsonTextElement);
   }
