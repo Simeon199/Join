@@ -122,7 +122,7 @@ async function checkSignInRequirements(name, email, password, passwordRepeat, pr
   if (!checkEmailAndPasswordWhenSignUp(email, password)) {
     return false;
   }
-  if ((await NicknameAlreadyExists(name)) == true) {
+  if ((await nicknameAlreadyExists(name, email)) == true) {
     return false;
   }
   if (password !== passwordRepeat) {
@@ -136,13 +136,16 @@ async function checkSignInRequirements(name, email, password, passwordRepeat, pr
   return true;
 }
 
-async function NicknameAlreadyExists(name) {
+async function nicknameAlreadyExists(name, email) {
+  console.log(name);
+  console.log(email);
   let response = await loadData((path = ""));
   for (let key in response) {
     let user = response[key];
     let availabelNickname = user["name"];
-    if (availabelNickname == name) {
-      alert("Dieser Nutzername ist schon vergeben!");
+    let availabelEmail = user["email"];
+    if (availabelNickname == name || availabelEmail == email) {
+      alert("Ein Konto mit diesem Nutzernamen und/oder dieser Email sind schon vergeben! Bitte registrieren Sie sich unter einem anderen Nutzernamen/Email");
       return true;
     }
   }
