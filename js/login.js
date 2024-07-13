@@ -84,13 +84,7 @@ async function signUp(event) {
   let password = document.getElementById("loginPassword").value;
   let passwordRepeat = document.getElementById("loginPasswordRepeat").value;
   let privacyPolicity = document.getElementById("privacyPolicity");
-  let signUpValid = await checkSignInRequirements(
-    name,
-    email,
-    password,
-    passwordRepeat,
-    privacyPolicity
-  );
+  let signUpValid = await checkSignInRequirements(name, email, password, passwordRepeat, privacyPolicity);
   if (!signUpValid) {
     return;
   }
@@ -222,13 +216,7 @@ function showPassword(variable) {
   let visibilityInputImageRepeat = document.getElementById("visibilityInputImageRepeat");
   let visibility = document.getElementById("visibility");
   let visibilityRepeat = document.getElementById("visibilityRepeat");
-  checkAllCasesForShowPassword(
-    variable,
-    visibilityInputImage,
-    visibilityInputImageRepeat,
-    visibility,
-    visibilityRepeat
-  );
+  checkAllCasesForShowPassword(variable, visibilityInputImage, visibilityInputImageRepeat, visibility, visibilityRepeat);
   checkPasswordContentType(passwordContent);
 }
 
@@ -265,23 +253,14 @@ function loginPasswordFunction(loginPassword, loginLock, visibilityInputImage, v
   });
 }
 
-function checkAllCasesForShowPassword(
-  variable,
-  visibilityInputImage,
-  visibilityInputImageRepeat,
-  visibility,
-  visibilityRepeat
-) {
+function checkAllCasesForShowPassword(variable, visibilityInputImage, visibilityInputImageRepeat, visibility, visibilityRepeat) {
   if (variable == "loginPassword" && visibilityInputImage.classList.contains("d-none")) {
     visibilityInputImage.classList.remove("d-none");
     visibility.classList.add("d-none");
   } else if (variable == "loginPassword" && inputLock.classList.contains("d-none")) {
     visibility.classList.remove("d-none");
     visibilityInputImage.classList.add("d-none");
-  } else if (
-    variable == "loginPasswordRepeat" &&
-    visibilityInputImageRepeat.classList.contains("d-none")
-  ) {
+  } else if (variable == "loginPasswordRepeat" && visibilityInputImageRepeat.classList.contains("d-none")) {
     visibilityInputImageRepeat.classList.remove("d-none");
     visibilityRepeat.classList.add("d-none");
   } else if (variable == "loginPasswordRepeat" && inputLockRepeat.classList.contains("d-none")) {

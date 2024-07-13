@@ -35,7 +35,7 @@ function numberOfSection(section) {
   let sectionNumber = document.getElementById(section + "-number");
   let number = 0;
   if (section === "tasks-in-board") {
-    sectionNumber.innerHTML = allTasks.length - 1;
+    sectionNumber.innerHTML = allTasks.length;
     return;
   }
   for (const key in allTasks) {
