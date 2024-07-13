@@ -1,10 +1,12 @@
 // import {logout, greetUser} from "../script.js";
 
 let username = getUserNickname();
+let currentSide;
 
 function initSidebar() {
   sidebarHTML();
   headerHTML();
+  isNotLoggedIn();
   sowUserLetters("userLetters", username);
 }
 
@@ -12,9 +14,9 @@ function sidebarHTML() {
   document.getElementById("sidebar").innerHTML += /*html*/ `
         <link rel="stylesheet" href="css/desktop_template.css">
 
-    <section class="sidebar" onload="">
+    <section class="sidebar">
         <img id='sidebar-logo' src="Assets/img/Capa 1.svg" alt="">
-        <div class="menuBarDesktop">
+        <div id="menuBar" class="menuBarDesktop">
             <a href="summary.html" class="linkTo" id="summary">
                 <img src="Assets/img/Vector1.svg" alt=""><p>Summary</p>
             </a>
@@ -31,7 +33,7 @@ function sidebarHTML() {
         <footer>
             <div>
                 <a href="privacy_policy_en.html" id="privatePolicy">Privacy Policy</a>
-                <a href="legal_notice.html" id = "legalNotice">Legal notice</a>
+                <a href="legal_notice.html" id ="legalNotice">Legal notice</a>
             </div>
         </footer>
     </section>
@@ -54,7 +56,7 @@ function headerHTML() {
 
 
   <h1>Kanban Project Management Tool</h1>
-  <div class="headerIcons">
+  <div id="headerIcons" class="headerIcons">
     <a href="help.html">
       <svg class='header-help-icon' alt="Help" width="20" height="21" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M9.95 16.9658C10.3 16.9658 10.5958 16.845 10.8375 16.6033C11.0792 16.3617 
@@ -89,7 +91,7 @@ function headerHTML() {
         7.91582 7.925 7.86582C8.175 7.81582 8.38333 7.67415 8.55 7.44082C8.73333 7.19082 8.9625 
         6.99915 9.2375 6.86582C9.5125 6.73249 9.8 6.66582 10.1 6.66582Z" fill="#A8A8A8"/>
       </svg>
-        </a>
+    </a>
     <div onclick="stopEvent(event);openDropDownMenu()" class="circlehead" id="userLetters"></div>
     <div id="dropDown" class='translate-100-header'></div>
   </div>
@@ -101,14 +103,14 @@ function openDropDownMenu() {
   dt = document.getElementById("dropDown");
   dt.innerHTML = /*html*/ `
       <div onclick="goToH()" id='dropDown-help-link'>Help</div>
-      <div onclick="goToLN()">Legal Notice</div>
-      <div onclick="goToPP()">Privacy Policy</div>
+      <div onclick="goToLN()" id ="dropDown-legal-notice">Legal Notice</div>
+      <div onclick="goToPP()" id ="dropDown-privacy-policy">Privacy Policy</div>
       <div onclick="logout()">Log out</div>  
     `;
-}
-
-function closeDropDownMenu() {
-  // document.getElementById("dropDown").classList.add("translate-100");
+  if (window.location.pathname.includes("privacy_policy_en.html") || window.location.pathname.includes("legal_notice.html")) {
+    hideCurrentPageFormDropdown()
+    document.getElementById("arrow-icon").classList.toggle("d-none")
+  }
 }
 
 function logout() {
@@ -163,4 +165,20 @@ function getUserNickname() {
     storage = "Guest";
   }
   return storage;
+}
+
+
+function isNotLoggedIn() {
+  if (sessionStorage.getItem("isLoggedIn") == false) {
+    document.getElementById("headerIcons").innerHTML = "";
+    document.getElementById("menuBar").innerHTML = "";
+  }
+}
+
+function hideCurrentPageFormDropdown() {
+  if (window.location.pathname.includes("privacy_policy_en.html")) {
+    document.getElementById("dropDown-privacy-policy").classList.add("d-none");
+  } else if (window.location.pathname.includes("legal_notice.html")) {
+    document.getElementById("dropDown-legal-notice").classList.add("d-none");
+  }
 }
