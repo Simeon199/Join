@@ -25,6 +25,7 @@ function createLoggedInStatusObject() {
     currentPath: window.location.pathname.split("/").pop(),
     guestLoginStatus: sessionStorage.getItem("guestLoginStatus"),
   };
+  console.log(obj);
   return obj;
 }
 
@@ -38,11 +39,11 @@ function checkIfUserIsLoggedIn() {
     (LoggedInObject["sessionStatus"] === "true" && LoggedInObject["sessionUser"])
   ) {
   } else {
-    if (LoggedInObject["currentPath"] !== "register.html" && LoggedInObject["currentPath"] !== "login.html") {
+    if ((LoggedInObject["currentPath"] !== "register.html" && LoggedInObject["currentPath"] !== "login.html") && (LoggedInObject["currentPath"] !== "legal_notice.html" && LoggedInObject["currentPath"] !== "privacy_policy_en.html")) {
       window.location.href = "login.html";
     }
   }
-  if (LoggedInObject["sessionStatus"] === "true" && !LoggedInObject["sessionUser"]) {
+  if (LoggedInObject["sessionStatus"] === "true" && !LoggedInObject["sessionUser"] && (LoggedInObject["currentPath"] !== "legal_notice.html" || LoggedInObject["currentPath"] !== "privacy_policy_en.html")) {
     setStorageAttributes();
   }
 }
@@ -58,6 +59,13 @@ function saveLoggedInStatus(name, email, remember) {
     sessionStorage.setItem("userNickname", name);
   }
   return;
+}
+
+function testLoginStatus() {
+  if (!localStorage.getItem("isLoggedIn") || !sessionStorage.getItem("isLoggedIn")) {
+    sessionStorage.setItem("isLoggedIn", "true");
+  }
+  isNotLoggedIn();
 }
 
 async function testLoginFunction(event) {
