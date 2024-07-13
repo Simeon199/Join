@@ -36,8 +36,10 @@ function updateCategories() {
 
 async function loadTasksFromDatabase() {
   let response = await loadRelevantData();
+  // console.log(response);
   if (response && response.testRealTasks) {
     for (index = 0; index < response.testRealTasks.length; index++) {
+      console.log(response.testRealTasks[index]);
       tasks.push(response.testRealTasks[index]);
     }
     return tasks;
