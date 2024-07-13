@@ -119,7 +119,7 @@ async function signUp(event) {
 }
 
 async function checkSignInRequirements(name, email, password, passwordRepeat, privacyPolicity) {
-  if (!checkEmailAndPasswordWhenSignUp(email, password)) {
+  if (!checkPasswordWhenSignUp(password)) {
     return false;
   }
   if ((await nicknameAlreadyExists(name, email)) == true) {
@@ -130,26 +130,53 @@ async function checkSignInRequirements(name, email, password, passwordRepeat, pr
     return false;
   }
   if (!privacyPolicity.checked) {
-    alert("Akzeptieren Sie die Privacy Policy um fortzufahren");
     return false;
   }
   return true;
 }
 
+// async function nicknameAlreadyExists(name, email) {
+//   let response = await loadData((path = ""));
+//   for (let key in response) {
+//     let user = response[key];
+//     let availabelNickname = user["name"];
+//     let availabelEmail = user["email"];
+//     if (availabelNickname == name || availabelEmail == email) {
+//       alert("Ein Konto mit diesem Nutzernamen und/oder dieser Email sind schon vergeben! Bitte registrieren Sie sich unter einem anderen Nutzernamen/Email");
+//       return true;
+//     }
+//   }
+//   return false;
+// }
+
 async function nicknameAlreadyExists(name, email) {
-  console.log(name);
-  console.log(email);
+  // console.log(name);
+  // console.log(email);
   let response = await loadData((path = ""));
   for (let key in response) {
     let user = response[key];
     let availabelNickname = user["name"];
     let availabelEmail = user["email"];
     if (availabelNickname == name || availabelEmail == email) {
-      alert("Ein Konto mit diesem Nutzernamen und/oder dieser Email sind schon vergeben! Bitte registrieren Sie sich unter einem anderen Nutzernamen/Email");
+      createReportDueToFailedRegistration();
       return true;
     }
   }
   return false;
+}
+
+function createReportDueToFailedRegistration() {
+  let inputName = document.getElementById('name');
+  let inputEmail = document.getElementById('loginEmail');
+  // let signUpContainer = document.getElementById('signUpInput');
+  let reportFailedSignUp = document.getElementById('reportFailedSignUp');
+  inputName.style.border = "1px solid red";
+  inputEmail.style.border = "1px solid red";
+  if (reportFailedSignUp.classList.contains("d-none")) {
+    reportFailedSignUp.classList.remove('d-none');
+  } else {
+    reportFailedSignUp.classList.add('d-none');
+  }
 }
 
 function throwSignUpError() {
@@ -171,12 +198,12 @@ function buildUserFunction(name, email, password) {
   return user;
 }
 
-function checkEmailAndPasswordWhenSignUp(email, password) {
-  let emailError = checkIfEmailValid(email);
-  if (emailError) {
-    alert(emailError);
-    return false;
-  }
+function checkPasswordWhenSignUp(password) {
+  // let emailError = checkIfEmailValid(email);
+  // if (emailError) {
+  //   alert(emailError);
+  //   return false;
+  // }
   let passwordError = checkIfPasswordIsValid(password);
   if (passwordError) {
     alert(passwordError);
@@ -222,22 +249,46 @@ function showRegisterPopup() {
   registerPopup.classList.remove("d-none");
 }
 
-function checkIfEmailValid(email) {
-  const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return regex.test(email) ? null : "Bitte geben Sie eine gültige E-Mail-Adresse ein.";
-}
+// function checkIfEmailValid(email) {
+//   const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+//   return regex.test(email) ? null : "Bitte geben Sie eine gültige E-Mail-Adresse ein.";
+// }
+
+// function checkIfPasswordIsValid(password) {
+//   let minLength = 6;
+//   let regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/;
+//   if (password.length < minLength) {
+//     return `Das Passwort muss mindestens ${minLength} Zeichen lang sein.`;
+//   }
+//   if (!regex.test(password)) {
+//     return "Das Passwort muss mindestens einen Großbuchstaben, einen Kleinbuchstaben, eine Zahl und ein Sonderzeichen enthalten.";
+//   }
+//   return null;
+// }
 
 function checkIfPasswordIsValid(password) {
   let minLength = 6;
-  let regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/;
+  let regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{6,}$/;
   if (password.length < minLength) {
     return `Das Passwort muss mindestens ${minLength} Zeichen lang sein.`;
   }
   if (!regex.test(password)) {
-    return "Das Passwort muss mindestens einen Großbuchstaben, einen Kleinbuchstaben, eine Zahl und ein Sonderzeichen enthalten.";
+    // throwSignUpErrorWhenWrongPasswordSyntax();
+    return "Das Passwort muss mindestens einen Großbuchstaben, einen Kleinbuchstaben, und eine Zahl enthalten.";
   }
   return null;
 }
+
+function throwSignUpErrorWhenWrongPasswordSyntax() {
+  let signUpInput = document.getElementById("signUpInput");
+  // let signUpPasswordRepeat = document.getElementById("signUpPasswordRepeat");
+  // signUpPasswordRepeat.style.border = "1px solid red";
+  let notificationError = document.createElement("div");
+  notificationError.classList.add("notification", "error");
+  notificationError.innerHTML = `<p>Das Passwort muss mindestens einen Großbuchstaben, einen Kleinbuchstaben, und eine Zahl enthalten.</p>`;
+  signUpInput.appendChild(notificationError);
+}
+
 
 function showPassword(variable) {
   let passwordContent = document.getElementById(variable);

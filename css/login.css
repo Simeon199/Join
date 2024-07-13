@@ -212,6 +212,16 @@ h1.underline::after {
   font-size: 12px;
 }
 
+/* .notificationError {
+  display: flex;
+  justify-content: center;
+}
+
+.notificationError p {
+  color: red;
+  font-size: 12px;
+} */
+
 .input img {
   cursor: pointer;
 }
