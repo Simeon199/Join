@@ -364,6 +364,7 @@ async function saveChangedSubtaskToFirebase(correctTaskId) {
 
 // renderContact
 function renderTaskContact(taskJson) {
+  assignedToContactsBigContainer = taskJson.assigned;
   if (taskJson.assigned && taskJson.assigned.length > 0) {
     taskJson.assigned.forEach((contact) => {
       document.getElementById("big-task-pop-up-contact-container").innerHTML += returnAssignedContactHTML(contact);
