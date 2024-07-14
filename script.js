@@ -322,6 +322,10 @@ function throwSignUpErrorWhenWrongPasswordSyntax() {
   notificationError.classList.add("notification", "error");
   notificationError.innerHTML = `<p>Das Passwort muss mindestens einen Großbuchstaben, einen Kleinbuchstaben, und eine Zahl enthalten.</p>`;
   signUpInput.appendChild(notificationError);
+  document.getElementById("checkbox-check").style.left = "119px";
+  // setTimeout(function () {
+  //   document.getElementById("checkbox-check").style.left = "119px";
+  // }, 100);
 }
 
 
