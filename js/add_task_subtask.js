@@ -13,7 +13,7 @@
 function addSubtask() {
   let text = document.getElementById(`subtask`);
   if (text.value.length <= 0) {
-    alert("Leeres Feld kann nicht gespeichert werden");
+    showsubtaskIsEmptyError();
   } else {
     let subtaskJson = createSubtaskJson(text.value);
     subArray.push(subtaskJson);
@@ -71,14 +71,6 @@ function renderSubtaskHTML(i, content) {
       </div>
     `;
 }
-
-// function sowSubaskEdditButtons(i) {
-//   document.getElementById(`subBTN${i}`).classList.remove("d-none");
-// }
-
-// function hideSubaskEdditButtons(i) {
-//   document.getElementById(`subBTN${i}`).classList.add("d-none");
-// }
 
 function clearSubtask() {
   let subtask = document.getElementById("sowSubtasks");
@@ -162,10 +154,17 @@ function saveEditedSubtask(i) {
     subArray[i]["task-description"] = text;
     rendersubtask();
   } else {
-    alert("Feld darf nicht leer sein")
+    showsubtaskIsEmptyError()
   }
 }
 
 function toggleDNone(id) {
   document.getElementById(`subBTN${id}`).classList.toggle("d-none");
+}
+
+function showsubtaskIsEmptyError() {
+  emptySub = document.getElementById("emptySubtask");
+  emptySub.classList.remove('d-none');
+  setTimeout(emptySub.classList.add('d-none'), 5000);
+  //setTimeout(console.clear(), 5000)
 }
