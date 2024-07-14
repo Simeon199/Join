@@ -238,7 +238,8 @@ function checkPasswordWhenSignUp(password) {
   // }
   let passwordError = checkIfPasswordIsValid(password);
   if (passwordError) {
-    alert(passwordError);
+    // throwSignUpErrorWhenWrongPasswordSyntax();
+    // alert(passwordError);
     return false;
   }
   return true;
@@ -272,7 +273,7 @@ async function createUserAndShowPopup(path, user) {
     }, 1000);
     return responseToJson;
   } catch (error) {
-    alert("Es gab ein Problem bei der Registrierung. Bitte versuchen Sie es später erneut");
+    console.error("Es gab ein Problem bei der Registrierung. Bitte versuchen Sie es später erneut");
   }
 }
 
@@ -298,6 +299,7 @@ function showRegisterPopup() {
 //   return null;
 // }
 
+
 function checkIfPasswordIsValid(password) {
   let minLength = 6;
   let regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{6,}$/;
@@ -305,8 +307,9 @@ function checkIfPasswordIsValid(password) {
     return `Das Passwort muss mindestens ${minLength} Zeichen lang sein.`;
   }
   if (!regex.test(password)) {
-    // throwSignUpErrorWhenWrongPasswordSyntax();
-    return "Das Passwort muss mindestens einen Großbuchstaben, einen Kleinbuchstaben, und eine Zahl enthalten.";
+    throwSignUpErrorWhenWrongPasswordSyntax();
+    return true;
+    // return "Das Passwort muss mindestens einen Großbuchstaben, einen Kleinbuchstaben, und eine Zahl enthalten.";
   }
   return null;
 }

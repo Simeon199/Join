@@ -179,19 +179,19 @@ function buildUserFunction(name, email, password) {
   return user;
 }
 
-function checkPasswordWhenSignUp(password) {
-  // let emailError = checkIfEmailValid(email);
-  // if (emailError) {
-  //   alert(emailError);
-  //   return false;
-  // }
-  let passwordError = checkIfPasswordIsValid(password);
-  if (passwordError) {
-    alert(passwordError);
-    return false;
-  }
-  return true;
-}
+// function checkPasswordWhenSignUp(password) {
+//   let emailError = checkIfEmailValid(email);
+//   if (emailError) {
+//     alert(emailError);
+//     return false;
+//   }
+//   let passwordError = checkIfPasswordIsValid(password);
+//   if (passwordError) {
+//     alert(passwordError);
+//     return false;
+//   }
+//   return true;
+// }
 
 async function postDataToDatabase(path, data) {
   try {
@@ -235,26 +235,25 @@ function showRegisterPopup() {
 //   return regex.test(email) ? null : "Bitte geben Sie eine gültige E-Mail-Adresse ein.";
 // }
 
-function checkIfPasswordIsValid(password) {
-  let minLength = 6;
-  let regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{6,}$/;
-  if (password.length < minLength) {
-    return `Das Passwort muss mindestens ${minLength} Zeichen lang sein.`;
-  }
-  if (!regex.test(password)) {
-    // throwSignUpErrorWhenWrongPasswordSyntax();
-    return "Das Passwort muss mindestens einen Großbuchstaben, einen Kleinbuchstaben, und eine Zahl enthalten.";
-  }
-  return null;
-}
+// function checkIfPasswordIsValid(password) {
+//   let minLength = 6;
+//   let regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{6,}$/;
+//   if (password.length < minLength) {
+//     return `Das Passwort muss mindestens ${minLength} Zeichen lang sein.`;
+//   }
+//   if (!regex.test(password)) {
+//     return "Das Passwort muss mindestens einen Großbuchstaben, einen Kleinbuchstaben, und eine Zahl enthalten.";
+//   }
+//   return null;
+// }
 
-function throwSignUpErrorWhenWrongPasswordSyntax() {
-  let signUpInput = document.getElementById("signUpInput");
-  let notificationError = document.createElement("div");
-  notificationError.classList.add("notification", "error");
-  notificationError.innerHTML = `<p>Das Passwort muss mindestens einen Großbuchstaben, einen Kleinbuchstaben, und eine Zahl enthalten.</p>`;
-  signUpInput.appendChild(notificationError);
-}
+// function throwSignUpErrorWhenWrongPasswordSyntax() {
+//   let signUpInput = document.getElementById("signUpInput");
+//   let notificationError = document.createElement("div");
+//   notificationError.classList.add("notification", "error");
+//   notificationError.innerHTML = `<p>Das Passwort muss mindestens einen Großbuchstaben, einen Kleinbuchstaben, und eine Zahl enthalten.</p>`;
+//   signUpInput.appendChild(notificationError);
+// }
 
 
 function showPassword(variable) {
