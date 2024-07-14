@@ -174,7 +174,7 @@ function isNotLoggedIn() {
       console.log(document.getElementById("menuBar").classList);
       document.getElementById("headerIcons").classList.add("d-none");
       document.getElementById("menuBar").classList.add("d-none");
-    }, 1000);
+    }, 50);
   } else {
     return false;
   }
