@@ -47,6 +47,18 @@ function checkIfUserIsLoggedIn() {
   if (LoggedInObject["sessionStatus"] === "true" && !LoggedInObject["sessionUser"] && (LoggedInObject["currentPath"] !== "legal_notice.html" || LoggedInObject["currentPath"] !== "privacy_policy_en.html")) {
     setStorageAttributes();
   }
+  if (proveIfEverythingIsNullExceptCurrentPath(LoggedInObject) == true && (LoggedInObject["currentPath"] == "legal_notice.html" || LoggedInObject["currentPath"] == "privacy_policy_en.html")) {
+    LoggedInObject["sessionStatus"] = "false";
+    sessionStorage.setItem("isLoggedIn", "false");
+  }
+}
+
+function proveIfEverythingIsNullExceptCurrentPath(obj) {
+  if (obj["currentPath"] && obj["currentUser"] == null && obj["guestLoginStatus"] == null && obj["sessionUser"] == null) {
+    return true;
+  } else {
+    return false;
+  }
 }
 
 function saveLoggedInStatus(name, email, remember) {
