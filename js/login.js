@@ -8,6 +8,7 @@ function addCheck() {
 }
 
 function guestLogin() {
+  // sessionStorage.setItem("isLoggedIn", "true");
   sessionStorage.setItem("guestLoginStatus", "true");
   window.location.href = "summary.html";
 

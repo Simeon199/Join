@@ -1,5 +1,6 @@
 checkWebsiteLocation();
 checkIfUserIsLoggedIn();
+// sessionStorage.setItem("isLoggedIn", "false");
 
 // stopEvent
 function stopEvent(event) {
@@ -65,7 +66,8 @@ function testLoginStatus() {
   if (!localStorage.getItem("isLoggedIn") || !sessionStorage.getItem("isLoggedIn")) {
     sessionStorage.setItem("isLoggedIn", "true");
   }
-  isNotLoggedIn();
+  console.log(sessionStorage.isLoggedIn);
+  //isNotLoggedIn();
 }
 
 async function testLoginFunction(event) {

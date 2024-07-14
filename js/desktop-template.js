@@ -6,8 +6,8 @@ let currentSide;
 function initSidebar() {
   sidebarHTML();
   headerHTML();
-  isNotLoggedIn();
   sowUserLetters("userLetters", username);
+  isNotLoggedIn();
 }
 
 function sidebarHTML() {
@@ -169,9 +169,11 @@ function getUserNickname() {
 
 
 function isNotLoggedIn() {
-  if (sessionStorage.getItem("isLoggedIn") == false) {
+  if (sessionStorage.getItem("isLoggedIn") === 'false') {
     document.getElementById("headerIcons").innerHTML = "";
     document.getElementById("menuBar").innerHTML = "";
+  } else {
+    return false
   }
 }
 
