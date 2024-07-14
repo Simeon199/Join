@@ -12,7 +12,6 @@ let subtaskArray = [];
 let checkBoxCheckedJson = {};
 let emptyList = [];
 let renderCurrentTaskId;
-
 document.addEventListener("DOMContentLoaded", async function () {
   await getTasksFromDatabase();
   updateHTML();
@@ -394,11 +393,22 @@ function renderEditTask(jsonTextElement, id) {
 }
 
 function renderAllBigPopUp(oldTitle, oldDescription, oldDate, oldPriority, taskJson, id) {
+  // ...
+  if (taskJson.subtask) {
+    subtaskArray = taskJson.subtask;
+  } else {
+    subtaskArray = [];
+  }
+
   console.log(taskJson);
   if (subtaskArray.length !== 0) {
     taskJson["subtask"] = subtaskArray;
   } else if (taskJson["subtask"] && subtaskArray.length == 0) {
     taskJson["subtask"] = taskJson["subtask"];
+
+    // ???
+    // subtaskArray = taskJson.subtask;
+    // ???
   } else if (!subtaskArray && !tasks[id]["subtask"]) {
     // document.getElementById("big-edit-task-subtask-container").innerHTML += `<div class="noSubtaskMessage"><p>Aktuell sind keine Subtasks vorhanden.</p></div>`;
     document.getElementById("big-edit-task-subtask-container").innerHTML += "";
@@ -564,7 +574,7 @@ function buildSubtaskArrayForUpload() {
   let subtaskJson = createSubtaskJson(subtaskInput.value);
   subtaskArray.push(subtaskJson);
   insertSubtasksIntoContainer();
-  subtaskInput.innerHTML = "";
+  subtaskInput.value = "";
 }
 
 function insertSubtasksIntoContainer() {
@@ -940,6 +950,16 @@ function renderSearchedTasks() {
     }
   }
 }
+
+// if (categoryContainer === "await-feedback-container") {
+//   document.getElementById(categoryContainer).innerHTML = returnHtmlNoFeedbackContainer();
+// } else if (categoryContainer === "in-progress-container") {
+//   document.getElementById(categoryContainer).innerHTML = returnHtmlNoProgressContainer();
+// } else if (categoryContainer === "to-do-container") {
+//   document.getElementById(categoryContainer).innerHTML = returnHtmlNoToDoContainer();
+// } else if (categoryContainer === "done-container") {
+//   document.getElementById(categoryContainer).innerHTML = returnHtmlNoDoneContainer();
+// }
 
 // taskMarker
 function taskMarker() {
