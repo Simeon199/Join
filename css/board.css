@@ -1393,3 +1393,7 @@ body .box-shadow-none {
 
   cursor: pointer;
 }
+
+.taskAssignedToNumberContainer {
+  padding-left: 8px;
+}

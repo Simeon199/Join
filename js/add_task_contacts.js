@@ -5,35 +5,35 @@ let searchResults = [];
 function showDropDownAssignedTo() {
   contact = document.getElementById("assignedToDropDown");
   contact.innerHTML = "";
-    for (let i = 0; i < allUsers.length; i++) {
-      user = allUsers[i];
-      renderAssignedToHTML(user, contact, i)
-      if (assignedContacts != 0 ) {
-        if (checkAssignedContactsStatus(user.name) === true) {
-          document.getElementById(`user${i}`).classList.add('contactIsSelect');
-          document.getElementById(`checked${i}`).classList.remove("d-none")
-        } else {
-          document.getElementById(`user${i}`).classList.remove('contactIsSelect');
-          document.getElementById(`checked${i}`).classList.add("d-none")
-        }
+  for (let i = 0; i < allUsers.length; i++) {
+    user = allUsers[i];
+    renderAssignedToHTML(user, contact, i);
+    if (assignedContacts != 0) {
+      if (checkAssignedContactsStatus(user.name) === true) {
+        document.getElementById(`user${i}`).classList.add("contactIsSelect");
+        document.getElementById(`checked${i}`).classList.remove("d-none");
+      } else {
+        document.getElementById(`user${i}`).classList.remove("contactIsSelect");
+        document.getElementById(`checked${i}`).classList.add("d-none");
       }
     }
-    contact.classList.remove("d-none");
-    document.getElementById('arrowa').classList.add("rotate");
+  }
+  contact.classList.remove("d-none");
+  document.getElementById("arrowa").classList.add("rotate");
 }
 
 function hideDropDownAssignedTo() {
-  document.getElementById('arrowa').classList.remove("rotate");
-  contact=document.getElementById("assignedToDropDown");
+  document.getElementById("arrowa").classList.remove("rotate");
+  contact = document.getElementById("assignedToDropDown");
   contact.classList.add("d-none");
   contact.innerHTML = "";
 }
 
 function renderAssignedToHTML(user, contact, i) {
-  contact.innerHTML += /*html*/`
+  contact.innerHTML += /*html*/ `
     <div id="user${i}" class=assignedDropDownField onclick="checkAssignedContacts('${user[`name`]}', '${user[`color`]}', ${i})">
       <div class="circle" id="assignetToLetters${i}"></div>
-      <div class="DropDownUser"><span>${user['name']}</span>
+      <div class="DropDownUser"><span>${user["name"]}</span>
         <div class="checkboxesSVG">
           <img id="none_checked${i}" src="Assets/img/Checkbox_black.svg" alt="">
           <img id="checked${i}" class="checked d-none" src="Assets/img/Checkbox_checked.svg" alt="">
@@ -41,8 +41,8 @@ function renderAssignedToHTML(user, contact, i) {
       </div>
     </div>
   `;
-  document.getElementById(`assignetToLetters${i}`).style.backgroundColor = user['color'];
-  sowUserLetters(`assignetToLetters${i}` , user['name']);
+  document.getElementById(`assignetToLetters${i}`).style.backgroundColor = user["color"];
+  sowUserLetters(`assignetToLetters${i}`, user["name"]);
 }
 
 function assignetToContects() {
@@ -55,19 +55,19 @@ function assignetToContects() {
 
 function renderAssignedToCircle(i, user, color, circleCont) {
   if (i <= 3) {
-    circleCont.innerHTML += /*html*/`
+    circleCont.innerHTML += /*html*/ `
       <div class="assignetToDiv circle" id="showCircle${i}"></div>
     `;
     circle = document.getElementById(`showCircle${i}`).style;
     circle.backgroundColor = color;
-    circle.border= "2px solid rgba(255, 255, 255, 1)";
-    if(assignedContacts.length >= 1) {
+    circle.border = "2px solid rgba(255, 255, 255, 1)";
+    if (assignedContacts.length >= 1) {
       if (assignedContacts[0].name != user) {
         circle.marginLeft = "-24px";
       }
     }
-    sowUserLetters(`showCircle${i}` , user)
-  } else if (i == 4){
+    sowUserLetters(`showCircle${i}`, user);
+  } else if (i == 4) {
     circleCont.innerHTML += showplusSVG();
   } else {
     showplusSVG();
@@ -76,34 +76,34 @@ function renderAssignedToCircle(i, user, color, circleCont) {
 
 function clearAssignedTo() {
   let div = document.getElementById("userCircles");
-  assignedContacts.splice(0)
+  assignedContacts.splice(0);
   div.innerHTML = "";
 }
 
 function addUserToTask(u) {
-    userCredicals = {
-        name: u.name,
-        color: u.color,
-        isSelected: u.selected,
-    }
-    assignedContacts.push(userCredicals);
-    assignetToContects()
+  userCredicals = {
+    name: u.name,
+    color: u.color,
+    isSelected: u.selected,
+  };
+  assignedContacts.push(userCredicals);
+  assignetToContects();
 }
 
 function checkAssignedContacts(name, color, i) {
-  x = {name: name, color: color, selected: false};
+  x = { name: name, color: color, selected: false };
   selUser = document.getElementById(`user${i}`);
   if (selUser.classList.contains("contactIsSelect") == true) {
     document.getElementById(`none_checked${i}`).classList.remove("d-none");
     document.getElementById(`checked${i}`).classList.add("d-none");
-    selUser.classList.remove('contactIsSelect');
-    removeAssignedToContects(x.name, i)
+    selUser.classList.remove("contactIsSelect");
+    removeAssignedToContects(x.name, i);
   } else {
     document.getElementById(`none_checked${i}`).classList.add("d-none");
     document.getElementById(`checked${i}`).classList.remove("d-none");
-    selUser.classList.add('contactIsSelect');
+    selUser.classList.add("contactIsSelect");
     x.selected = true;
-    addUserToTask(x)
+    addUserToTask(x);
   }
 }
 
@@ -112,12 +112,12 @@ function checkAssignedContactsStatus(un) {
     for (let i = 0; i < assignedContacts.length; i++) {
       if (assignedContacts[i].name == un) {
         if (assignedContacts[i].isSelected == true) {
-          return true
+          return true;
         }
       }
     }
   } else {
-    return false
+    return false;
   }
 }
 
@@ -126,11 +126,11 @@ function removeAssignedToContects(name, index) {
     indexOfName = assignedContacts[i].name.includes(name);
     if (indexOfName == true) {
       document.getElementById(`user${index}`).classList.remove("contactIsSelect");
-      assignedContacts.splice(i, 1)
+      assignedContacts.splice(i, 1);
     }
   }
-  
-  assignetToContects()
+
+  assignetToContects();
 }
 
 function changeToInputfield() {
@@ -139,28 +139,28 @@ function changeToInputfield() {
   input = document.getElementById("searchField");
   stV = document.getElementById("standartValue").classList;
 
-  window.addEventListener('click', function (e) {
+  window.addEventListener("click", function (e) {
     if (changecont.contains(e.target)) {
-        search.remove("d-none");
-        input.classList.remove("d-none");
-        stV.add("d-none");
-        input.focus();
-        showDropDownAssignedTo();
-      } else {
-        search.add("d-none");
-        input.classList.add("d-none");
-        stV.remove("d-none");
-        input.value = "";
-      }
-  })
+      search.remove("d-none");
+      input.classList.remove("d-none");
+      stV.add("d-none");
+      input.focus();
+      showDropDownAssignedTo();
+    } else {
+      search.add("d-none");
+      input.classList.add("d-none");
+      stV.remove("d-none");
+      input.value = "";
+    }
+  });
 }
 
 function searchContacts() {
-  document.getElementById("assignedToDropDown").innerHTML=""
+  document.getElementById("assignedToDropDown").innerHTML = "";
   search = document.getElementById("searchField");
   text = search.value.toLowerCase();
-  
-  if (text.length >=1) {
+
+  if (text.length >= 1) {
     searchResults = [];
     for (let i = 0; i < allUsers.length; i++) {
       aU = allUsers[i].name.toLowerCase();
@@ -168,29 +168,29 @@ function searchContacts() {
         searchResults.push(allUsers[i]);
       }
     }
-    showDropDownAssignedToOnlyResult()
+    showDropDownAssignedToOnlyResult();
   } else {
     searchResults = [];
-    showDropDownAssignedTo()
+    showDropDownAssignedTo();
   }
 }
 
 function showDropDownAssignedToOnlyResult() {
   contact = document.getElementById("assignedToDropDown");
   contact.innerHTML = "";
-    
-    for (let i = 0; i < searchResults.length; i++) {
-      user = searchResults[i];
-      renderAssignedToHTML(user,contact, i);
-    }
-    contact.classList.remove("d-none");
-    document.getElementById('arrowa').classList.add("rotate");
+
+  for (let i = 0; i < searchResults.length; i++) {
+    user = searchResults[i];
+    renderAssignedToHTML(user, contact, i);
+  }
+  contact.classList.remove("d-none");
+  document.getElementById("arrowa").classList.add("rotate");
 }
 
 function showplusSVG() {
-  let moreNumber =  assignedContacts.length - 4;
-    return /*html*/`
-    <img src="Assets/img/plus.svg" alt="">
-    <span class="contactsMoreNumber">${moreNumber}</span>
+  let moreNumber = assignedContacts.length - 4;
+  return /*html*/ `
+    <!-- <img src="Assets/img/plus.svg" alt=""> -->
+    <span class="contactsMoreNumber">+ ${moreNumber}</span>
   `;
 }

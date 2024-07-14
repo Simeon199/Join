@@ -129,15 +129,32 @@ function createToDoHTML(element) {
 
   let contactsHTML = "";
   if (element["assigned"] || typeof element["assigned"] == Array) {
+    let lengthOfAssignedTo = element["assigned"].length;
     for (let i = 0; i < element["assigned"].length; i++) {
-      let name = element["assigned"][i]["name"];
-      let initials = getInitials(name);
-      contactsHTML += /*html*/ `  
+      if (i < 3) {
+        let name = element["assigned"][i]["name"];
+        let initials = getInitials(name);
+        contactsHTML += /*html*/ `  
       <div class="task-contact" style='background-color: ${element["assigned"][i]["color"]}'>${initials}</div>`;
+      } else if (i === 3) {
+        contactsHTML += /*html*/ `
+          <div class='taskAssignedToNumberContainer'><span>+ ${lengthOfAssignedTo - 3}</span></div>
+        `;
+      } else if (i > 3) {
+        if (document.querySelectorAll("taskAssignedToNumberContainer")[element.tasksIdentity]) {
+          document.querySelectorAll("taskAssignedToNumberContainer")[element.tasksIdentity].innerHTML = showTaskContactPlusHTML(lengthOfAssignedTo);
+        }
+      }
     }
   }
   let jsonElement = JSON.stringify(element);
   return generateTaskHTML(element, contactsHTML, oppositeCategory, rightIcon, jsonElement);
+}
+
+function showTaskContactPlusHTML(lengthOfAssignedTo) {
+  return /*html*/ `
+    <span>+ ${lengthOfAssignedTo - 3}</span>
+  `;
 }
 
 function startDragging(elementId) {
@@ -895,14 +912,26 @@ function renderSearchedTasks() {
           let oppositeCategory = "no-" + task["container"];
           let contactsHTML = "";
           if (task["assigned"]) {
+            let lengthOfAssignedTo = task["assigned"].length;
             for (let index = 0; index < task["assigned"].length; index++) {
-              let name = task["assigned"][index]["name"];
-              let initials = getInitials(name);
-              contactsHTML += /*html*/ `
-                <div class="task-contact" style='background-color: ${task["assigned"][index]["color"]}'>${initials}</div>`;
+              if (index < 3) {
+                let name = task["assigned"][index]["name"];
+                let initials = getInitials(name);
+                contactsHTML += /*html*/ `  
+                  <div class="task-contact" style='background-color: ${task["assigned"][index]["color"]}'>${initials}</div>`;
+              } else if (index === 3) {
+                contactsHTML += /*html*/ `
+                <div class='taskAssignedToNumberContainer'><span>+ ${lengthOfAssignedTo - 3}</span></div>
+                  `;
+              } else if (index > 3) {
+                if (document.querySelectorAll("taskAssignedToNumberContainer")[task.tasksIdentity]) {
+                  document.querySelectorAll("taskAssignedToNumberContainer")[task.tasksIdentity].innerHTML =
+                    showTaskContactPlusHTML(lengthOfAssignedTo);
+                }
+              }
             }
+            document.getElementById(categoryContainer).innerHTML += generateTaskHTML(task, contactsHTML, oppositeCategory, rightIcon, jsonElement);
           }
-          document.getElementById(categoryContainer).innerHTML += generateTaskHTML(task, contactsHTML, oppositeCategory, rightIcon, jsonElement);
         }
       }
     } else {
