@@ -297,3 +297,12 @@ body.menuBarDesktop {
     display: flex;
   }
 }
+
+@media (max-height: 600px) {
+  .sidebar-logo {
+    padding-top: 10px;
+  }
+  .menuBar {
+    padding-bottom: unset;
+  }
+}

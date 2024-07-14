@@ -12,7 +12,7 @@ function initSidebar() {
 
 function sidebarHTML() {
   document.getElementById("sidebar").innerHTML += /*html*/ `
-        <link rel="stylesheet" href="css/desktop_template.css">
+    <link rel="stylesheet" href="css/desktop_template.css">
 
     <section class="sidebar">
         <img id='sidebar-logo' src="Assets/img/Capa 1.svg" alt="">

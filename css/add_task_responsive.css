@@ -109,3 +109,32 @@
       margin-bottom: 25px;
     }
   }
+
+@media (max-height: 900px) {
+  .max-w {
+    padding-bottom: 230px;
+  }
+  .main {
+    overflow-y: scroll;
+  }
+  .submitSection {
+    width: unset;
+    position: fixed;
+    margin-left: 233px;
+    padding: 1% 3%;
+  }
+  @media (max-width:1000px) {
+    .submitSection {
+      margin-left: unset;
+      margin-bottom: 85px;
+    }
+  }
+  @media (max-width:900px) {
+    .input2 {
+      padding-bottom: 100px;
+    }
+  }
+  #section99 {
+    padding-bottom: 100px;
+  }
+}
