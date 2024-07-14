@@ -170,8 +170,21 @@ function getUserNickname() {
 
 function isNotLoggedIn() {
   if (sessionStorage.getItem("isLoggedIn") === 'false') {
-    document.getElementById("headerIcons").innerHTML = "";
-    document.getElementById("menuBar").innerHTML = "";
+    console.log(document.getElementById("headerIcons").classList);
+    console.log(document.getElementById("menuBar").classList);
+    document.getElementById("headerIcons").classList.add("d-none");
+    document.getElementById("menuBar").classList.add("d-none");
+    // document.getElementById("headerIcons").innerHTML = "";
+    // document.getElementById("menuBar").innerHTML = "";
+  } else {
+    return false
+  }
+}
+
+function isLoggedIn() {
+  if ((sessionStorage.getItem("isLoggedIn") === 'true' || localStorage.getItem("isLoggedIn") === 'true') && (document.getElementById("headerIcons").classList.contains("d-none") && document.getElementById("menuBar").classList.contains("d-none"))) {
+    document.getElementById("headerIcons").classList.remove("d-none");
+    document.getElementById("menuBar").classList.remove("d-none");
   } else {
     return false
   }

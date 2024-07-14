@@ -32,6 +32,7 @@ function createLoggedInStatusObject() {
 
 function checkIfUserIsLoggedIn() {
   let LoggedInObject = createLoggedInStatusObject();
+  let bolean = proveIfEverythingIsNullExceptCurrentPath(LoggedInObject);
   if (LoggedInObject["guestLoginStatus"] == "true") {
     if (LoggedInObject["currentPath"] !== "summary.hmtl") {
     }
@@ -39,18 +40,33 @@ function checkIfUserIsLoggedIn() {
     (LoggedInObject["status"] === "true" && LoggedInObject["currentUser"]) ||
     (LoggedInObject["sessionStatus"] === "true" && LoggedInObject["sessionUser"])
   ) {
+    // console.log(LoggedInObject);
   } else {
-    if ((LoggedInObject["currentPath"] !== "register.html" && LoggedInObject["currentPath"] !== "login.html") && (LoggedInObject["currentPath"] !== "legal_notice.html" && LoggedInObject["currentPath"] !== "privacy_policy_en.html")) {
+    if ((LoggedInObject["currentPath"] !== "register.html" && LoggedInObject["currentPath"] !== "login.html") &&
+      (LoggedInObject["currentPath"] !== "legal_notice.html" && LoggedInObject["currentPath"] !== "privacy_policy_en.html") && bolean == true) {
       window.location.href = "login.html";
     }
   }
   if (LoggedInObject["sessionStatus"] === "true" && !LoggedInObject["sessionUser"] && (LoggedInObject["currentPath"] !== "legal_notice.html" || LoggedInObject["currentPath"] !== "privacy_policy_en.html")) {
     setStorageAttributes();
   }
-  if (proveIfEverythingIsNullExceptCurrentPath(LoggedInObject) == true && (LoggedInObject["currentPath"] == "legal_notice.html" || LoggedInObject["currentPath"] == "privacy_policy_en.html")) {
+  if (bolean == true && (LoggedInObject["currentPath"] == "legal_notice.html" || LoggedInObject["currentPath"] == "privacy_policy_en.html")) {
     LoggedInObject["sessionStatus"] = "false";
     sessionStorage.setItem("isLoggedIn", "false");
+    isNotLoggedIn();
   }
+  else {
+    console.log(sessionStorage.getItem("isLoggedIn"));
+    sessionStorage.removeItem("isLoggedIn");
+    console.log(sessionStorage.getItem("isLoggedIn"));
+  }
+}
+
+function setStorageAttributes() {
+  sessionStorage.removeItem("isLoggedIn");
+  sessionStorage.removeItem("currentUser");
+  sessionStorage.removeItem("guestLoginStatus");
+  console.log("Sitzung abgelaufen. Benutzerdaten entfernt.");
 }
 
 function proveIfEverythingIsNullExceptCurrentPath(obj) {
