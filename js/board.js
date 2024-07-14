@@ -591,11 +591,11 @@ function insertSubtasksIntoContainer() {
       document.getElementById("big-edit-task-subtask-container").innerHTML += renderSubtaskInPopUpContainer(i, subtask);
     }
   } else if (subtaskArray && subtaskArray.length == 0 && tasks[renderCurrentTaskId]["subtask"]) {
-    let subtasks = tasks[renderCurrentTaskId]["subtask"];
-    for (let i = 0; i < subtasks.length; i++) {
-      let subtask = subtasks[i];
-      document.getElementById("big-edit-task-subtask-container").innerHTML += renderSubtaskInPopUpContainer(i, subtask);
-    }
+    // let subtasks = tasks[renderCurrentTaskId]["subtask"];
+    // for (let i = 0; i < subtasks.length; i++) {
+    //   let subtask = subtasks[i];
+    //   document.getElementById("big-edit-task-subtask-container").innerHTML += renderSubtaskInPopUpContainer(i, subtask);
+    // }
   } else if (!subtaskArray && !tasks[renderCurrentTaskId]["subtask"]) {
     // document.getElementById("big-edit-task-subtask-container").innerHTML += `<div class="noSubtaskMessage" id="noSubtaskMessage"><p>Aktuell sind keine Subtasks vorhanden.</p></div>`;
     document.getElementById("big-edit-task-subtask-container").innerHTML += "";
