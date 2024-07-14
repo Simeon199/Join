@@ -149,6 +149,8 @@ async function signUp(event) {
 }
 
 async function checkSignInRequirements(name, email, password, passwordRepeat, privacyPolicity) {
+  // console.log(password);
+  // console.log(passwordRepeat);
   if (!checkPasswordWhenSignUp(password)) {
     return false;
   }

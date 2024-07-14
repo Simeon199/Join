@@ -85,7 +85,7 @@ async function signUp(event) {
   let password = document.getElementById("loginPassword").value;
   let passwordRepeat = document.getElementById("loginPasswordRepeat").value;
   let privacyPolicity = document.getElementById("privacyPolicity");
-  let signUpValid = await checkSignInRequirements(name, password, passwordRepeat, privacyPolicity);
+  let signUpValid = await checkSignInRequirements(name, email, password, passwordRepeat, privacyPolicity);
   if (!signUpValid) {
     return;
   }
@@ -111,8 +111,6 @@ async function checkSignInRequirements(name, email, password, passwordRepeat, pr
 }
 
 async function nicknameAlreadyExists(name, email) {
-  // console.log(name);
-  // console.log(email);
   let response = await loadData((path = ""));
   for (let key in response) {
     let user = response[key];
@@ -162,15 +160,15 @@ function removeReport(id) {
 //   return false;
 // }
 
-function throwSignUpError() {
-  let signUpInput = document.getElementById("signUpInput");
-  let signUpPasswordRepeat = document.getElementById("signUpPasswordRepeat");
-  signUpPasswordRepeat.style.border = "1px solid red";
-  let notification = document.createElement("div");
-  notification.classList.add("notification", "error");
-  notification.innerHTML = `<p>Ups! Your password dont match.</p>`;
-  signUpInput.appendChild(notification);
-}
+// function throwSignUpError() {
+//   let signUpInput = document.getElementById("signUpInput");
+//   let signUpPasswordRepeat = document.getElementById("signUpPasswordRepeat");
+//   signUpPasswordRepeat.style.border = "1px solid red";
+//   let notification = document.createElement("div");
+//   notification.classList.add("notification", "error");
+//   notification.innerHTML = `<p>Ups! Your password dont match.</p>`;
+//   signUpInput.appendChild(notification);
+// }
 
 function buildUserFunction(name, email, password) {
   let user = {

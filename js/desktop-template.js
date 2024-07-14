@@ -167,19 +167,32 @@ function getUserNickname() {
   return storage;
 }
 
-
 function isNotLoggedIn() {
   if (sessionStorage.getItem("isLoggedIn") === 'false') {
-    console.log(document.getElementById("headerIcons").classList);
-    console.log(document.getElementById("menuBar").classList);
-    document.getElementById("headerIcons").classList.add("d-none");
-    document.getElementById("menuBar").classList.add("d-none");
-    // document.getElementById("headerIcons").innerHTML = "";
-    // document.getElementById("menuBar").innerHTML = "";
+    setTimeout(function () {
+      console.log(document.getElementById("headerIcons").classList);
+      console.log(document.getElementById("menuBar").classList);
+      document.getElementById("headerIcons").classList.add("d-none");
+      document.getElementById("menuBar").classList.add("d-none");
+    }, 1000);
   } else {
-    return false
+    return false;
   }
 }
+
+
+// function isNotLoggedIn() {
+//   if (sessionStorage.getItem("isLoggedIn") === 'false') {
+//     console.log(document.getElementById("headerIcons").classList);
+//     console.log(document.getElementById("menuBar").classList);
+//     document.getElementById("headerIcons").classList.add("d-none");
+//     document.getElementById("menuBar").classList.add("d-none");
+//     document.getElementById("headerIcons").innerHTML = "";
+//     document.getElementById("menuBar").innerHTML = "";
+//   } else {
+//     return false
+//   }
+// }
 
 function isLoggedIn() {
   if ((sessionStorage.getItem("isLoggedIn") === 'true' || localStorage.getItem("isLoggedIn") === 'true') && (document.getElementById("headerIcons").classList.contains("d-none") && document.getElementById("menuBar").classList.contains("d-none"))) {
