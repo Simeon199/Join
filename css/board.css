@@ -647,7 +647,7 @@ body .translate-100 {
 
   border-radius: 30px;
 
-  padding: 45px 40px;
+  padding: 45px 40px 0 40px;
 
   position: absolute;
 
@@ -1004,7 +1004,15 @@ body #big-task-pop-up-contact-all:has(.height-0) {
 
   gap: 10px;
 
-  padding-top: 15px;
+  padding-top: 5px;
+  padding-bottom: 30px;
+
+  position: sticky;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background: white;
+  box-shadow: 0px 0px 0px 10px white;
 }
 
 .big-task-pop-up-stroke {
@@ -1382,8 +1390,12 @@ body .box-shadow-none {
 #big-edit-task-pop-up-save-button {
   background: #2a3647;
 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+
   padding: 16px;
-  gap: 4px;
   border-radius: 10px;
 
   font-size: 21px;
@@ -1392,6 +1404,15 @@ body .box-shadow-none {
   color: white;
 
   cursor: pointer;
+
+  transition: 0.2s;
+
+  border: none;
+}
+
+#big-edit-task-pop-up-save-button:hover {
+  box-shadow: 0px 4px 4px 0px #00000040;
+  background: #29abe2;
 }
 
 .taskAssignedToNumberContainer {
