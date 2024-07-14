@@ -1418,3 +1418,7 @@ body .box-shadow-none {
 .taskAssignedToNumberContainer {
   padding-left: 8px;
 }
+
+#big-task-pop-up-subtask-all {
+  padding-bottom: 10px;
+}
