@@ -61,11 +61,11 @@ function saveTasksToLocalStorage() {
 
 // showLoadScreen
 function showBoardLoadScreen() {
-  document.getElementById("board-load-screen").classList.remove("d-none");
+  document.getElementById("board-add_task-load-screen").classList.remove("d-none");
 }
 
 function hideBoardLoadScreen() {
-  document.getElementById("board-load-screen").classList.add("d-none");
+  document.getElementById("board-add_task-load-screen").classList.add("d-none");
 }
 
 function iterateThroughSubArray(taskArray, htmlElement) {
@@ -509,7 +509,11 @@ function renderOnlySubtaskContainerPopUp(taskJson) {
 }
 
 function checkBigEditTaskContact(i, contactObject, taskIndex) {
-  assignedToContactsBigContainer = tasks[taskIndex].assigned;
+  if (tasks[taskIndex].assigned) {
+    assignedToContactsBigContainer = tasks[taskIndex].assigned;
+  } else {
+    assignedToContactsBigContainer = [];
+  }
 
   HTMLContactContainer = document.querySelectorAll(".big-edit-task-assigned-to-pop-up-contact-container")[i];
   HTMLContactContainer.classList.toggle("big-edit-task-assigned-to-pop-up-active-contact");
@@ -716,6 +720,8 @@ async function getSubtaskFromDataBase(id) {
 }
 
 async function saveTaskChanges(id) {
+  showBoardLoadScreen();
+
   let newTitle = document.getElementById("big-edit-task-title-input").value;
   let newDescription = document.getElementById("big-edit-task-description-input").value;
   let newDate = document.getElementById("big-edit-task-due-date-input").value;
@@ -741,6 +747,8 @@ async function saveTaskChanges(id) {
   subtaskArray = [];
   checkBoxCheckedJson = {};
   updateHTML();
+
+  hideBoardLoadScreen();
 }
 
 async function saveSubtaskChanges(id) {
