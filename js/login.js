@@ -110,42 +110,42 @@ function throwLoginError() {
 //   return true;
 // }
 
-async function nicknameAlreadyExists(name, email) {
-  let response = await loadData((path = ""));
-  for (let key in response) {
-    let user = response[key];
-    let availabelNickname = user["name"];
-    let availabelEmail = user["email"];
-    if (availabelNickname == name || availabelEmail == email) {
-      createReportDueToFailedRegistration();
-      return true;
-    }
-  }
-  return false;
-}
+// async function nicknameAlreadyExists(name, email) {
+//   let response = await loadData((path = ""));
+//   for (let key in response) {
+//     let user = response[key];
+//     let availabelNickname = user["name"];
+//     let availabelEmail = user["email"];
+//     if (availabelNickname == name || availabelEmail == email) {
+//       createReportDueToFailedRegistration();
+//       return true;
+//     }
+//   }
+//   return false;
+// }
 
-function createReportDueToFailedRegistration() {
-  let inputName = document.getElementById('name');
-  let inputEmail = document.getElementById('loginEmail');
-  // let signUpContainer = document.getElementById('signUpInput');
-  let reportFailedSignUp = document.getElementById('reportFailedSignUp');
-  inputName.style.border = "1px solid red";
-  inputEmail.style.border = "1px solid red";
-  if (reportFailedSignUp.classList.contains("d-none")) {
-    reportFailedSignUp.classList.remove('d-none');
-  } else {
-    reportFailedSignUp.classList.add('d-none');
-  }
-}
+// function createReportDueToFailedRegistration() {
+//   let inputName = document.getElementById('name');
+//   let inputEmail = document.getElementById('loginEmail');
+//   // let signUpContainer = document.getElementById('signUpInput');
+//   let reportFailedSignUp = document.getElementById('reportFailedSignUp');
+//   inputName.style.border = "1px solid red";
+//   inputEmail.style.border = "1px solid red";
+//   if (reportFailedSignUp.classList.contains("d-none")) {
+//     reportFailedSignUp.classList.remove('d-none');
+//   } else {
+//     reportFailedSignUp.classList.add('d-none');
+//   }
+// }
 
-function removeReport(id) {
-  let inputName = document.getElementById('name');
-  let inputEmail = document.getElementById('loginEmail');
-  let report = document.getElementById(id);
-  report.classList.add('d-none');
-  inputName.style.border = "1px solid black";
-  inputEmail.style.border = "1px solid black";
-}
+// function removeReport(id) {
+//   let inputName = document.getElementById('name');
+//   let inputEmail = document.getElementById('loginEmail');
+//   let report = document.getElementById(id);
+//   report.classList.add('d-none');
+//   inputName.style.border = "1px solid black";
+//   inputEmail.style.border = "1px solid black";
+// }
 
 // async function nicknameAlreadyExists(name) {
 //   let response = await loadData((path = ""));

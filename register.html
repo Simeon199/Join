@@ -19,18 +19,25 @@
     <img id="logoKlein" src="Assets/img/Capa2logo_klein.svg" alt="" />
   </div>
 
-  <section class="loginFrame">
-    <div class="overlay d-none" id="overlay"></div>
-    <div class="registerPopup d-none" id="registerPopup">
-      <p>Die Registrierung war erfolgreich!</p>
-      <p></p>
-    </div>
-
+  <div class="allErrorMessages d-none" id="allErrorMessages">
     <div class="reportFailedSignUp d-none" id="reportFailedSignUp">
       <p>Ein Konto mit diesem Nutzernamen oder dieser Email existiert bereits. Bitte verwenden Sie andere
         Registrierungsdaten.
       </p>
       <button onclick="removeReport('reportFailedSignUp')">Ok</button>
+    </div>
+
+    <div class="reportFailedSignUp d-none" id="reportFailedSignUpWhenWeakPassword">
+      <p>Das Passwort muss mindestens einen Großbuchstaben, einen Kleinbuchstaben, und eine Zahl enthalten.</p>
+      <button onclick="removeReport('reportFailedSignUpWhenWeakPassword')">Ok</button>
+    </div>
+  </div>
+
+  <section class="loginFrame">
+    <div class="overlay d-none" id="overlay"></div>
+    <div class="registerPopup d-none" id="registerPopup">
+      <p>Die Registrierung war erfolgreich!</p>
+      <p></p>
     </div>
 
     <div class="login">

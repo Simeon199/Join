@@ -95,7 +95,6 @@ function testLoginStatus() {
     sessionStorage.setItem("isLoggedIn", "true");
   }
   console.log(sessionStorage.isLoggedIn);
-  //isNotLoggedIn();
 }
 
 async function testLoginFunction(event) {
@@ -135,7 +134,6 @@ function throwLoginError() {
 
 async function signUp(event) {
   event.preventDefault();
-  // proveIfErrorMessageAlreadyExists();
   let name = document.getElementById("name").value;
   let email = document.getElementById("loginEmail").value;
   let password = document.getElementById("loginPassword").value;
@@ -155,21 +153,7 @@ function proveIfErrorMessageAlreadyExists() {
   return messageExists;
 }
 
-
-// function proveIfErrorMessageAlreadyExists() {
-//   let childrenElements = Array.from(document.getElementById("signUpInput").children);
-//   let message = childrenElements.includes('div.notification.error');
-//   if (childrenElements.includes('div.notification.error')) {
-//     console.log('true');
-//   } else {
-//     console.log('false');
-//   }
-//   console.log(childrenElements);
-// }
-
 async function checkSignInRequirements(name, email, password, passwordRepeat, privacyPolicity) {
-  // console.log(password);
-  // console.log(passwordRepeat);
   if (!checkPasswordWhenSignUp(password)) {
     return false;
   }
@@ -186,23 +170,7 @@ async function checkSignInRequirements(name, email, password, passwordRepeat, pr
   return true;
 }
 
-// async function nicknameAlreadyExists(name, email) {
-//   let response = await loadData((path = ""));
-//   for (let key in response) {
-//     let user = response[key];
-//     let availabelNickname = user["name"];
-//     let availabelEmail = user["email"];
-//     if (availabelNickname == name || availabelEmail == email) {
-//       alert("Ein Konto mit diesem Nutzernamen und/oder dieser Email sind schon vergeben! Bitte registrieren Sie sich unter einem anderen Nutzernamen/Email");
-//       return true;
-//     }
-//   }
-//   return false;
-// }
-
 async function nicknameAlreadyExists(name, email) {
-  // console.log(name);
-  // console.log(email);
   let response = await loadData((path = ""));
   for (let key in response) {
     let user = response[key];
@@ -216,45 +184,48 @@ async function nicknameAlreadyExists(name, email) {
   return false;
 }
 
+function removeErrorMessageIfPresent() {
+  document.getElementById('signUpPasswordRepeat').style.border = "1px solid #d1d1d1";
+  let existingNotification = document.querySelector(".notification");
+  if (existingNotification) {
+    existingNotification.remove();
+  }
+}
+
 function createReportDueToFailedRegistration() {
-  let inputName = document.getElementById('name');
-  let inputEmail = document.getElementById('loginEmail');
-  // let signUpContainer = document.getElementById('signUpInput');
+  removeErrorMessageIfPresent();
+  let allErrorMessages = document.getElementById('allErrorMessages');
   let reportFailedSignUp = document.getElementById('reportFailedSignUp');
-  inputName.style.border = "1px solid red";
-  inputEmail.style.border = "1px solid red";
-  if (reportFailedSignUp.classList.contains("d-none")) {
+  if (reportFailedSignUp.classList.contains("d-none") && allErrorMessages.classList.contains("d-none")) {
+    console.log('true');
+    allErrorMessages.classList.remove("d-none");
+    allErrorMessages.classList.add("d-flex");
     reportFailedSignUp.classList.remove('d-none');
   } else {
+    console.log('false');
+    allErrorMessages.classList.remove("d-flex");
+    allErrorMessages.classList.add("d-none");
     reportFailedSignUp.classList.add('d-none');
   }
 }
 
+function removeReport(id) {
+  let report = document.getElementById(id);
+  let allErrorMessages = document.getElementById('allErrorMessages');
+  allErrorMessages.classList.remove('d-flex');
+  allErrorMessages.classList.add('d-none');
+  report.classList.add('d-none');
+}
+
 function throwSignUpError() {
+  removeErrorMessageIfPresent();
   let signUpInput = document.getElementById("signUpInput");
   let signUpPasswordRepeat = document.getElementById("signUpPasswordRepeat");
-  let existingNotification = document.querySelector(".notification.error");
-  if (existingNotification) {
-    existingNotification.remove();
-  }
   signUpPasswordRepeat.style.border = "1px solid red";
   let notification = document.createElement("div");
-  notification.classList.add("notfication", "error");
+  notification.classList.add("notification");
   notification.innerHTML = `<p>Ups! Your passwords don't match</p>`;
   signUpInput.appendChild(notification);
-  // if (proveIfErrorMessageAlreadyExists() == false) {
-  //   signUpPasswordRepeat.style.border = "1px solid red";
-  //   let notification = document.createElement("div");
-  //   notification.classList.add("notification", "error");
-  //   notification.innerHTML = `<p>Ups! Your password dont match.</p>`;
-  //   signUpInput.appendChild(notification);
-  // } else {
-  //   document.querySelectorAll("notification").innerHTML = "";
-  //   let notification = document.createElement("div");
-  //   notification.classList.add("notification", "error");
-  //   notification.innerHTML = `<p>Ups! Your password dont match.</p>`;
-  //   signUpInput.appendChild(notification);
-  // }
 }
 
 function buildUserFunction(name, email, password) {
@@ -311,24 +282,6 @@ function showRegisterPopup() {
   registerPopup.classList.remove("d-none");
 }
 
-// function checkIfEmailValid(email) {
-//   const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-//   return regex.test(email) ? null : "Bitte geben Sie eine gültige E-Mail-Adresse ein.";
-// }
-
-// function checkIfPasswordIsValid(password) {
-//   let minLength = 6;
-//   let regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/;
-//   if (password.length < minLength) {
-//     return `Das Passwort muss mindestens ${minLength} Zeichen lang sein.`;
-//   }
-//   if (!regex.test(password)) {
-//     return "Das Passwort muss mindestens einen Großbuchstaben, einen Kleinbuchstaben, eine Zahl und ein Sonderzeichen enthalten.";
-//   }
-//   return null;
-// }
-
-
 function checkIfPasswordIsValid(password) {
   let minLength = 6;
   let regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{6,}$/;
@@ -338,32 +291,25 @@ function checkIfPasswordIsValid(password) {
   if (!regex.test(password)) {
     throwSignUpErrorWhenWrongPasswordSyntax();
     return true;
-    // return "Das Passwort muss mindestens einen Großbuchstaben, einen Kleinbuchstaben, und eine Zahl enthalten.";
   }
   return null;
 }
 
 function throwSignUpErrorWhenWrongPasswordSyntax() {
-  let signUpInput = document.getElementById("signUpInput");
-  let notificationError = document.createElement("div");
-  notificationError.classList.add("notification", "error");
-  notificationError.innerHTML = `<p>Das Passwort muss mindestens einen Großbuchstaben, einen Kleinbuchstaben, und eine Zahl enthalten.</p>`;
-  signUpInput.appendChild(notificationError);
-  document.getElementById("checkbox-check").style.left = "119px";
-  // if (proveIfErrorMessageAlreadyExists() == false) {
-  //   let notificationError = document.createElement("div");
-  //   notificationError.classList.add("notification", "error");
-  //   notificationError.innerHTML = `<p>Das Passwort muss mindestens einen Großbuchstaben, einen Kleinbuchstaben, und eine Zahl enthalten.</p>`;
-  //   signUpInput.appendChild(notificationError);
-  //   document.getElementById("checkbox-check").style.left = "119px";
-  // } else {
-  //   document.querySelector("notification error").innerHTML = "";
-  //   let notificationError = document.createElement("div");
-  //   notificationError.classList.add("notification", "error");
-  //   notificationError.innerHTML = `<p>Das Passwort muss mindestens einen Großbuchstaben, einen Kleinbuchstaben, und eine Zahl enthalten.</p>`;
-  //   signUpInput.appendChild(notificationError);
-  //   document.getElementById("checkbox-check").style.left = "119px";
-  // }
+  removeErrorMessageIfPresent();
+  let allErrorMessages = document.getElementById('allErrorMessages');
+  let reportFailedSignUp = document.getElementById('reportFailedSignUpWhenWeakPassword');
+  if (reportFailedSignUp.classList.contains("d-none") && allErrorMessages.classList.contains("d-none")) {
+    console.log('true');
+    allErrorMessages.classList.remove("d-none");
+    allErrorMessages.classList.add("d-flex");
+    reportFailedSignUp.classList.remove('d-none');
+  } else {
+    console.log('false');
+    allErrorMessages.classList.remove("d-flex");
+    allErrorMessages.classList.add("d-none");
+    reportFailedSignUp.classList.add('d-none');
+  }
 }
 
 function showPassword(variable) {

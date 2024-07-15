@@ -21,6 +21,49 @@
 }
 
 .reportFailedSignUp {
+    opacity: 1;
+    text-align: center;
+    position: relative;
+    /* position: absolute; */
+    margin: 0 100px;
+    top: 5%;
+    width: 32%;
+    background-color: rgb(249, 250, 250);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 8px;
+    border: 1px solid red;
+    border-radius: 10px;
+    margin: 4px;
+    background-color: black;
+    opacity: 0.75;
+}
+
+.allErrorMessages {
+    /* display: none; */
+    flex-direction: column;
+    align-items: center;
+    position: absolute;
+    z-index: 9999;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+}
+
+.notification {
+    display: flex;
+    justify-content: center;
+}
+
+.notification p {
+    color: red;
+    font-size: 12px;
+}
+
+/* .reportFailedSignUp {
     position: absolute;
     top: 4%;
     width: 24%;
@@ -35,7 +78,7 @@
     margin: 4px;
     background-color: white;
     z-index: 10;
-}
+} */
 
 .reportFailedSignUp button {
     background-color: #7d97a9;
@@ -89,6 +132,10 @@ a {
 
 .checkbox a {
     padding: 0px;
+}
+
+.d-flex {
+    display: flex;
 }
 
 .d-none {
