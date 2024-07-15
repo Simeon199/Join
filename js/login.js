@@ -68,12 +68,12 @@ function throwLoginError() {
   let loginPassword = document.getElementById("loginPassword");
   loginPassword.value = "";
   loginPasswordInput.style.border = "1px solid red";
-  let existingNotification = document.querySelector(".notification.error");
+  let existingNotification = document.querySelector(".notification");
   if (existingNotification) {
     existingNotification.remove();
   }
   let notification = document.createElement("div");
-  notification.classList.add("notification", "error");
+  notification.classList.add("notification");
   notification.innerHTML = `<p>Ups! Wrong Password. Try again.</p>`;
   loginInput.appendChild(notification);
 }
