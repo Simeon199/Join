@@ -378,9 +378,9 @@ footer a:hover {
     font-size: 50px;
   }
 
-  .loginFrame {
+  /* .loginFrame {
     flex: unset;
-  }
+  } */
 
   .login {
     padding-right: 16px;
