@@ -39,7 +39,7 @@ body .translate-100 {
   transform: translate(80vh, -50%);
 }
 
-#board-load-screen {
+#board-add_task-load-screen {
   position: fixed;
   top: 0;
   left: 0;
@@ -48,7 +48,7 @@ body .translate-100 {
 
   background-color: rgba(0, 0, 0, 0.5);
 
-  z-index: 999;
+  z-index: 9999;
 }
 
 .headline-button {

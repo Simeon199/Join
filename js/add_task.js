@@ -137,13 +137,16 @@ function checkCategory() {
   }
 }
 
-function checkRequiredFields(side) {
+async function checkRequiredFields(side) {
   let title = document.getElementById("inputTitle").value;
   let date = document.getElementById("date").value;
   if (title.length <= 1 || date.length <= 1 || checkCategory() == false) {
     showRequiredText();
   } else {
-    createTask(side);
+    console.log("hi");
+    await showBoardLoadScreen();
+    await createTask(side);
+    hideBoardLoadScreen();
   }
 }
 

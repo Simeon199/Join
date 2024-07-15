@@ -449,3 +449,15 @@ h1 {
   border: 2px solid rgba(255, 255, 255, 0);
   /* Optional: Rand für besseren Kontrast */
 }
+
+#board-add_task-load-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  background-color: rgba(0, 0, 0, 0.5);
+
+  z-index: 9999;
+}
