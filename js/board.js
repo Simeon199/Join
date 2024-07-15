@@ -720,7 +720,7 @@ async function getSubtaskFromDataBase(id) {
 }
 
 async function saveTaskChanges(id) {
-  await showBoardLoadScreen();
+  showBoardLoadScreen();
 
   let newTitle = document.getElementById("big-edit-task-title-input").value;
   let newDescription = document.getElementById("big-edit-task-description-input").value;

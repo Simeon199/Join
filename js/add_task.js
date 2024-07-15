@@ -144,7 +144,7 @@ async function checkRequiredFields(side) {
     showRequiredText();
   } else {
     console.log("hi");
-    await showBoardLoadScreen();
+    showBoardLoadScreen();
     await createTask(side);
     hideBoardLoadScreen();
   }
