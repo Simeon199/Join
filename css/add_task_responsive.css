@@ -95,7 +95,6 @@
   @media (max-width: 350px) {
     .buttons {
       flex-direction: column;
-      padding-bottom: 90px;
       width: 80%;
     }
     .darkBTN {

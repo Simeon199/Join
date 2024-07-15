@@ -3,14 +3,14 @@
 let username = getUserNickname();
 let currentSide;
 
-function initSidebar() {
-  sidebarHTML();
-  headerHTML();
+async function initSidebar() {
+  await sidebarHTML();
+  await headerHTML();
   sowUserLetters("userLetters", username);
   isNotLoggedIn();
 }
 
-function sidebarHTML() {
+async function sidebarHTML() {
   document.getElementById("sidebar").innerHTML += /*html*/ `
     <link rel="stylesheet" href="css/desktop_template.css">
 
@@ -41,7 +41,7 @@ function sidebarHTML() {
   taskMarker();
 }
 
-function headerHTML() {
+async function headerHTML() {
   document.getElementById("headerForm").innerHTML += /*html*/ `
 
 <svg id='header-logo' width="101" height="122" viewBox="0 0 101 122" fill="none" xmlns="http://www.w3.org/2000/svg">

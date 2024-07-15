@@ -14,10 +14,11 @@ async function init() {
 
   renderNumberOfAllContainers();
 
-  initSidebar();
+  await initSidebar();
   checkIfUserIsLoggedIn();
 
   loadTasksFromDatabase();
+  getDateFormUrgetTask();
 }
 
 async function renderNumberOfAllContainers() {
@@ -160,4 +161,37 @@ function greetTime() {
   } else {
     return "Good evening";
   }
+}
+
+function getDateFormUrgetTask() {
+  dateCont = document.getElementById("upcommingDate");
+  findUrgetnTasks();
+  const earliestdate = returnDatefromAllUrgentTasks();
+  getEarliestDate(earliestdate);
+}
+
+function getEarliestDate(earliestDate) {
+  const options = {year: "numeric", month: "long", day: "numeric"};
+  document.getElementById("upcommingDate").innerHTML = 
+  earliestDate.toLocaleDateString("en-US", options);
+}
+
+function findUrgetnTasks() {
+  return tasks.filter((t)=> t.priority === 'urgent');
+}
+
+function returnDatefromAllUrgentTasks() {
+  const urgetTasks = findUrgetnTasks();
+  console.log(urgetTasks);
+  if (urgetTasks.length > 0) {
+    return earliestDate(urgetTasks)
+  }
+  return null;
+}
+
+function earliestDate(task) {
+  const date = task.map(t => new Date(t.date)).filter(d => !isNaN(d));
+  const earliestdate = new Date(Math.min(...date));
+  console.log(date);
+  return earliestdate;
 }

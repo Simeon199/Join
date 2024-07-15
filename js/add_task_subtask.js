@@ -165,6 +165,7 @@ function toggleDNone(id) {
 function showsubtaskIsEmptyError() {
   emptySub = document.getElementById("emptySubtask");
   emptySub.classList.remove('d-none');
-  setTimeout(emptySub.classList.add('d-none'), 5000);
-  //setTimeout(console.clear(), 5000)
+  setTimeout(function() {
+    document.getElementById("emptySubtask").classList.add('d-none');
+  }, 5000);
 }
