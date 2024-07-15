@@ -154,7 +154,7 @@ function greetTime() {
   const d = new Date();
   const time = d.getHours();
 
-  if (time <= 10) {
+  if (time >= 4 && time <= 10) {
     return "Good morning";
   } else if (time > 12 && time < 18) {
     return "Good afternoon";
@@ -182,7 +182,6 @@ function findUrgetnTasks() {
 
 function returnDatefromAllUrgentTasks() {
   const urgetTasks = findUrgetnTasks();
-  console.log(urgetTasks);
   if (urgetTasks.length > 0) {
     return earliestDate(urgetTasks)
   }
@@ -192,6 +191,5 @@ function returnDatefromAllUrgentTasks() {
 function earliestDate(task) {
   const date = task.map(t => new Date(t.date)).filter(d => !isNaN(d));
   const earliestdate = new Date(Math.min(...date));
-  console.log(date);
   return earliestdate;
 }

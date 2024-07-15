@@ -169,3 +169,8 @@ function showsubtaskIsEmptyError() {
     document.getElementById("emptySubtask").classList.add('d-none');
   }, 5000);
 }
+
+function focusInput() {
+  // document.getElementById("testForFunction").focus();
+  hideOrShowEditButtons();
+}

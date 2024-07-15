@@ -84,6 +84,7 @@ function changeImg(condition) {
 }
 
 async function createTask(side) {
+  // checkDate();
   await ensureAllTasksExists();
   await saveTask();
   if (side == "addTask") {
@@ -288,4 +289,16 @@ function startAnimation() {
 
 function goToBoard() {
   window.location.href = "board.html";
+}
+
+function checkDate() {
+   let dateInput = document.getElementById('date');
+   console.log("date",dateInput.value);
+   const addDate = new Date();
+   console.log(addDate);
+  if (dateInput.value < addDate) {
+   console.log("vergangene Zeit kann nicht eingegeben werden!!")
+  } else {
+    console.log("zeit ist größer als jetzt!");
+  }
 }
