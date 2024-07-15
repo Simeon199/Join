@@ -792,6 +792,10 @@ body #big-task-pop-up-contact-all:has(.height-0) {
   gap: 20px;
 }
 
+#big-task-pop-up-contact-container p {
+  font-family: 'Inter';
+}
+
 .big-task-pop-up-contact {
   display: flex;
   align-items: center;
