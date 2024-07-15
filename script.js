@@ -135,6 +135,7 @@ function throwLoginError() {
 
 async function signUp(event) {
   event.preventDefault();
+  // proveIfErrorMessageAlreadyExists();
   let name = document.getElementById("name").value;
   let email = document.getElementById("loginEmail").value;
   let password = document.getElementById("loginPassword").value;
@@ -147,6 +148,24 @@ async function signUp(event) {
   let user = buildUserFunction(name, email, password);
   await createUserAndShowPopup((path = ""), user);
 }
+
+function proveIfErrorMessageAlreadyExists() {
+  let childrenElements = Array.from(document.getElementById("signUpInput").children);
+  let messageExists = childrenElements.some(child => child.classList.contains('notification') && child.classList.contains('error'));
+  return messageExists;
+}
+
+
+// function proveIfErrorMessageAlreadyExists() {
+//   let childrenElements = Array.from(document.getElementById("signUpInput").children);
+//   let message = childrenElements.includes('div.notification.error');
+//   if (childrenElements.includes('div.notification.error')) {
+//     console.log('true');
+//   } else {
+//     console.log('false');
+//   }
+//   console.log(childrenElements);
+// }
 
 async function checkSignInRequirements(name, email, password, passwordRepeat, privacyPolicity) {
   // console.log(password);
@@ -214,11 +233,28 @@ function createReportDueToFailedRegistration() {
 function throwSignUpError() {
   let signUpInput = document.getElementById("signUpInput");
   let signUpPasswordRepeat = document.getElementById("signUpPasswordRepeat");
+  let existingNotification = document.querySelector(".notification.error");
+  if (existingNotification) {
+    existingNotification.remove();
+  }
   signUpPasswordRepeat.style.border = "1px solid red";
   let notification = document.createElement("div");
-  notification.classList.add("notification", "error");
-  notification.innerHTML = `<p>Ups! Your password dont match.</p>`;
+  notification.classList.add("notfication", "error");
+  notification.innerHTML = `<p>Ups! Your passwords don't match</p>`;
   signUpInput.appendChild(notification);
+  // if (proveIfErrorMessageAlreadyExists() == false) {
+  //   signUpPasswordRepeat.style.border = "1px solid red";
+  //   let notification = document.createElement("div");
+  //   notification.classList.add("notification", "error");
+  //   notification.innerHTML = `<p>Ups! Your password dont match.</p>`;
+  //   signUpInput.appendChild(notification);
+  // } else {
+  //   document.querySelectorAll("notification").innerHTML = "";
+  //   let notification = document.createElement("div");
+  //   notification.classList.add("notification", "error");
+  //   notification.innerHTML = `<p>Ups! Your password dont match.</p>`;
+  //   signUpInput.appendChild(notification);
+  // }
 }
 
 function buildUserFunction(name, email, password) {
@@ -231,15 +267,8 @@ function buildUserFunction(name, email, password) {
 }
 
 function checkPasswordWhenSignUp(password) {
-  // let emailError = checkIfEmailValid(email);
-  // if (emailError) {
-  //   alert(emailError);
-  //   return false;
-  // }
   let passwordError = checkIfPasswordIsValid(password);
   if (passwordError) {
-    // throwSignUpErrorWhenWrongPasswordSyntax();
-    // alert(passwordError);
     return false;
   }
   return true;
@@ -316,18 +345,26 @@ function checkIfPasswordIsValid(password) {
 
 function throwSignUpErrorWhenWrongPasswordSyntax() {
   let signUpInput = document.getElementById("signUpInput");
-  // let signUpPasswordRepeat = document.getElementById("signUpPasswordRepeat");
-  // signUpPasswordRepeat.style.border = "1px solid red";
   let notificationError = document.createElement("div");
   notificationError.classList.add("notification", "error");
   notificationError.innerHTML = `<p>Das Passwort muss mindestens einen Großbuchstaben, einen Kleinbuchstaben, und eine Zahl enthalten.</p>`;
   signUpInput.appendChild(notificationError);
   document.getElementById("checkbox-check").style.left = "119px";
-  // setTimeout(function () {
+  // if (proveIfErrorMessageAlreadyExists() == false) {
+  //   let notificationError = document.createElement("div");
+  //   notificationError.classList.add("notification", "error");
+  //   notificationError.innerHTML = `<p>Das Passwort muss mindestens einen Großbuchstaben, einen Kleinbuchstaben, und eine Zahl enthalten.</p>`;
+  //   signUpInput.appendChild(notificationError);
   //   document.getElementById("checkbox-check").style.left = "119px";
-  // }, 100);
+  // } else {
+  //   document.querySelector("notification error").innerHTML = "";
+  //   let notificationError = document.createElement("div");
+  //   notificationError.classList.add("notification", "error");
+  //   notificationError.innerHTML = `<p>Das Passwort muss mindestens einen Großbuchstaben, einen Kleinbuchstaben, und eine Zahl enthalten.</p>`;
+  //   signUpInput.appendChild(notificationError);
+  //   document.getElementById("checkbox-check").style.left = "119px";
+  // }
 }
-
 
 function showPassword(variable) {
   let passwordContent = document.getElementById(variable);

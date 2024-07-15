@@ -78,37 +78,37 @@ function throwLoginError() {
   loginInput.appendChild(notification);
 }
 
-async function signUp(event) {
-  event.preventDefault();
-  let name = document.getElementById("name").value;
-  let email = document.getElementById("loginEmail").value;
-  let password = document.getElementById("loginPassword").value;
-  let passwordRepeat = document.getElementById("loginPasswordRepeat").value;
-  let privacyPolicity = document.getElementById("privacyPolicity");
-  let signUpValid = await checkSignInRequirements(name, email, password, passwordRepeat, privacyPolicity);
-  if (!signUpValid) {
-    return;
-  }
-  let user = buildUserFunction(name, email, password);
-  await createUserAndShowPopup((path = ""), user);
-}
+// async function signUp(event) {
+//   event.preventDefault();
+//   let name = document.getElementById("name").value;
+//   let email = document.getElementById("loginEmail").value;
+//   let password = document.getElementById("loginPassword").value;
+//   let passwordRepeat = document.getElementById("loginPasswordRepeat").value;
+//   let privacyPolicity = document.getElementById("privacyPolicity");
+//   let signUpValid = await checkSignInRequirements(name, email, password, passwordRepeat, privacyPolicity);
+//   if (!signUpValid) {
+//     return;
+//   }
+//   let user = buildUserFunction(name, email, password);
+//   await createUserAndShowPopup((path = ""), user);
+// }
 
-async function checkSignInRequirements(name, email, password, passwordRepeat, privacyPolicity) {
-  if (!checkPasswordWhenSignUp(password)) {
-    return false;
-  }
-  if ((await nicknameAlreadyExists(name, email)) == true) {
-    return false;
-  }
-  if (password !== passwordRepeat) {
-    throwSignUpError();
-    return false;
-  }
-  if (!privacyPolicity.checked) {
-    return false;
-  }
-  return true;
-}
+// async function checkSignInRequirements(name, email, password, passwordRepeat, privacyPolicity) {
+//   if (!checkPasswordWhenSignUp(password)) {
+//     return false;
+//   }
+//   if ((await nicknameAlreadyExists(name, email)) == true) {
+//     return false;
+//   }
+//   if (password !== passwordRepeat) {
+//     throwSignUpError();
+//     return false;
+//   }
+//   if (!privacyPolicity.checked) {
+//     return false;
+//   }
+//   return true;
+// }
 
 async function nicknameAlreadyExists(name, email) {
   let response = await loadData((path = ""));
