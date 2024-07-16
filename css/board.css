@@ -51,6 +51,20 @@ body .translate-100 {
   z-index: 9999;
 }
 
+.task-category-and-dropdown {
+  display: flex;
+}
+
+.task-category-and-dropdown button {
+  display: none;
+}
+
+.mobileDropdown {
+  border-radius: 12px;
+  padding: 3px;
+  background-color: cyan;
+}
+
 .headline-button {
   display: flex;
   justify-content: center;

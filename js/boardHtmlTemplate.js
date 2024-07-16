@@ -74,8 +74,18 @@ function returnTaskHtmlWithoutSubtask(element, contactsHTML, oppositeCategory, r
       ondragover="allowDrop(event)"
       ondrop="moveTo('${element["container"]}')"
       onclick="showBigTaskPopUp('${jsonTextElement}')"
-  >
-    <div class='task-category' style='background-color: ${checkCategoryColor(element["category"])}'>${element["category"]}</div>
+  > <div class="task-category-and-dropdown">
+      <div class='task-category' style='background-color: ${checkCategoryColor(element["category"])}'>
+        ${element["category"]}
+      </div>
+      <button onclick="stopEvent(event); openMobileDropdown()">Dropdown</button>
+    </div>
+    <div id="mobileDropdown" class="mobileDropwdown d-none">
+      <a href="">To Do</a>
+      <a href="">In Progress</a>
+      <a href="">Await Feedback</a>
+      <a href="">Done</a>
+    </div>
     <h3 class="task-title">${element["title"]}</h3>
     <p class="task-description">${element["description"]}</p>
     <div class="task-contacts-container">
@@ -100,8 +110,18 @@ function returnTaskHtmlWithSubtask(element, contactsHTML, oppositeCategory, righ
           ondragover="allowDrop(event)"
           ondrop="moveTo('${element["container"]}')"
           onclick="showBigTaskPopUp('${jsonTextElement}')"
-      >
-        <div class='task-category' style='background-color: ${checkCategoryColor(element["category"])}'>${element["category"]}</div>
+      > <div class="task-category-and-dropdown">
+          <div class='task-category' style='background-color: ${checkCategoryColor(element["category"])}'>
+            ${element["category"]}
+          </div>
+          <button onclick="stopEvent(event); openMobileDropdown()">Dropdown</button>
+        </div>
+        <div id="mobileDropdown" class="mobileDropdown d-none">
+          <a href="">To Do</a>
+          <a href="">In Progress</a>
+          <a href="">Await Feedback</a>
+          <a href="">Done</a>
+        </div>
         <h3 class="task-title">${element["title"]}</h3>
         <p class="task-description">${element["description"]}</p>
         <div class="task-bar-container">

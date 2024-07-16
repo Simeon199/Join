@@ -52,9 +52,9 @@
     /* border: 3px solid #918b8b; */
   }
 
-  .wrap-container::-webkit-scrollbar-thumb:hover {
-    /* background: linear-gradient(90deg, #252524, #2e2c2b); */
-  }
+  /* .wrap-container::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(90deg, #252524, #2e2c2b);
+  } */
 
   .wrap-container::-webkit-scrollbar-corner {
     background: #838181;
@@ -144,6 +144,17 @@
   .task {
     width: 252px;
   }
+
+  .task-category-and-dropdown {
+    gap: 10%;
+  }
+
+  .task-category-and-dropdown button {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+
   .big-task-pop-up {
     width: 90%;
     height: 95vh;
@@ -151,6 +162,7 @@
     flex-direction: column;
     justify-content: space-around;
   }
+
   #big-task-pop-up-description,
   .big-task-pop-up-info-container,
   .big-task-pop-up-label-text,
