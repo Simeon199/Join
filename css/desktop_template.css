@@ -299,10 +299,13 @@ body.menuBarDesktop {
 }
 
 @media (max-height: 600px) {
-  .sidebar-logo {
+  #sidebar-logo {
     padding-top: 10px;
   }
-  .menuBar {
+  #menuBar {
     padding-bottom: unset;
+  }
+  footer {
+    padding-bottom: 25px;
   }
 }

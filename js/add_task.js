@@ -41,7 +41,6 @@ function changePriority(id) {
     low.classList.add("backgroundLow");
     priority = "low";
   }
-  // changeImg(id);
 }
 
 function removeBackground(id) {
@@ -81,7 +80,6 @@ function changeImg(condition) {
 }
 
 async function createTask(side) {
-  // checkDate();
   await ensureAllTasksExists();
   await saveTask();
   if (side == "addTask") {
@@ -138,11 +136,9 @@ function checkCategory() {
 async function checkRequiredFields(side) {
   let title = document.getElementById("inputTitle").value;
   let date = document.getElementById("date").value;
-  if (title.length <= 1 || date.length <= 1 || checkCategory() == false) {
-    //  || checkDate() === false
+  if (title.length <= 1 || date.length <= 1 || checkCategory() == false || checkDate() === false) {
     showRequiredText();
   } else {
-    console.log("hi");
     showBoardLoadScreen();
     await createTask(side);
     hideBoardLoadScreen();
@@ -212,7 +208,6 @@ async function saveTask() {
 async function uploadToAllTasks(task) {
   try {
     let response = await loadRelevantData();
-    // let response = await loadData();
     let allTasks = response["testRealTasks"];
     if (!Array.isArray(allTasks)) {
       allTasks = [];

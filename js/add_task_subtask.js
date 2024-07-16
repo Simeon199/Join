@@ -1,15 +1,3 @@
-// function addSubtask() {
-//   let text = document.getElementById(`subtask`);
-//   if (text.value.length <= 0) {
-//     alert("Leeres Feld kann nicht gespeichert werden");
-//   } else {
-//     subArray.push(text.value);
-//     text.value = "";
-//     rendersubtask();
-//     hideOrShowEditButtons();
-//   }
-// }
-
 function addSubtask() {
   let text = document.getElementById(`subtask`);
   if (text.value.length <= 0) {
@@ -41,20 +29,6 @@ function rendersubtask() {
     subtask.classList.add("d-none");
   }
 }
-
-// function rendersubtask() {
-//   subtask = document.getElementById("sowSubtasks");
-//   subtask.innerHTML = "";
-
-//   if (subArray.length >= 1) {
-//     for (let i = 0; i < subArray.length; i++) {
-//       let content = subArray[i];
-//       renderSubtaskHTML(i, content);
-//     }
-//   } else {
-//     subtask.classList.add("d-none");
-//   }
-// }
 
 function renderSubtaskHTML(i, content) {
   return /*html*/ `
@@ -88,22 +62,6 @@ function editSubtask(i) {
   editSubtaskInput(i);
 }
 
-// function editSubtaskInput(i) {
-//   container = document.getElementById(`yyy${i}`);
-//   container.onmouseover = null;
-//   container.onmouseout = null;
-//   container.innerHTML = /*html*/`
-//       <input id="subtaskEdited" type="text" value="${subArray[i]}">
-//       <div class="inputButtons">
-//         <img onclick="deleteSubtask(${i})" src="Assets/img/deletetrash.svg" alt="">
-//         <div class="subtaskBorder"></div>
-//         <img onclick="saveEditedSubtask(${i})" src="Assets/img/checksubmit.svg" alt="">
-//       </div>
-//     `;
-//   edit = document.getElementById(`subtaskEdited`);
-//   subtask[i] = edit.value;
-// }
-
 function editSubtaskInput(i) {
   container = document.getElementById(`yyy${i}`);
   container.onmouseover = null;
@@ -126,27 +84,14 @@ function hideOrShowEditButtons() {
   plus = document.getElementById("plusSymbole");
   subtask = document.getElementById("subtaskInputButtons");
 
-  // window.addEventListener("click", function (e) {
-  // if (cont.contains(e.target)) {
   plus.classList.add("d-none");
   subtask.classList.remove("d-none");
-  // } else {
-  //   plus.classList.remove("d-none");
-  //   subtask.classList.add("d-none");
-  // }
-  // });
 }
 
 function deleteSubtask(i) {
   subArray.splice(i, 1);
   rendersubtask();
 }
-
-// function saveEditedSubtask(i) {
-//   let text = document.getElementById(`subtaskEdited`).value
-//   subArray.splice(i, 1, text)
-//   rendersubtask()
-// }
 
 function saveEditedSubtask(i) {
   let text = document.getElementById(`subtaskEdited`).value;
@@ -171,7 +116,6 @@ function showsubtaskIsEmptyError() {
 }
 
 function focusInput() {
-  // document.getElementById("testForFunction").focus();
   hideOrShowEditButtons();
   let activSubtask = document.getElementById("subtask");
   activSubtask.focus();
