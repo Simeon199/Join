@@ -41,7 +41,6 @@ function changePriority(id) {
     low.classList.add("backgroundLow");
     priority = "low";
   }
-  // changeImg(id);
 }
 
 function removeBackground(id) {
@@ -209,7 +208,6 @@ async function saveTask() {
 async function uploadToAllTasks(task) {
   try {
     let response = await loadRelevantData();
-    // let response = await loadData();
     let allTasks = response["testRealTasks"];
     if (!Array.isArray(allTasks)) {
       allTasks = [];
