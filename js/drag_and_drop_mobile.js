@@ -11,3 +11,17 @@ function openMobileDropdown(taskIndex) {
   dropdown.classList.toggle('mobileDropdown-translate-100');
   // dropdown.classList.toggle('mobileDropdown-translate-0');
 }
+
+async function moveTasksToCategory(taskIndex, newCategory) {
+  let task = tasks.find((task) => task.tasksIdentity == taskIndex);
+  if (task) {
+    task.container = newCategory;
+    saveTasksToLocalStorage();
+    updateHTML();
+    try {
+      await saveTaskToFirebase(task);
+    } catch (error) {
+      console.error("Fehler beim Speichern der tasks in der Firebase-Datenbank:", error);
+    }
+  }
+}
