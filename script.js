@@ -29,42 +29,55 @@ function createLoggedInStatusObject() {
   return obj;
 }
 
+function redirectToLogin() {
+  window.location.href = "login.html";
+}
+
+function setSessionAttributes() {
+  sessionStorage.setItem("isLoggedIn", "false");
+  isNotLoggedIn();
+}
+
+function isGuestLoggedIn(obj) {
+  return obj["guestLoginStatus"] == "true" && obj["currentPath"] !== "summary.html";
+}
+
+function isUserLoggedIn(obj) {
+  return (obj["status"] === "true" && obj["currentUser"]) || (obj["sessionStatus"] === "true" && obj["sessionUser"]);
+}
+
+function shouldRedirect(obj, bolean) {
+  return (obj["currentPath"] !== "register.html" && obj["currentPath"] !== "login.html" &&
+    obj["currentPath"] !== "legal_notice.html" && obj["currentPath"] !== "privacy_policy_en.html") && bolean;
+}
+
 function checkIfUserIsLoggedIn() {
   let LoggedInObject = createLoggedInStatusObject();
   let bolean = proveIfEverythingIsNullExceptCurrentPath(LoggedInObject);
-  if (LoggedInObject["guestLoginStatus"] == "true") {
-    if (LoggedInObject["currentPath"] !== "summary.hmtl") {
-    }
-  } else if (
-    (LoggedInObject["status"] === "true" && LoggedInObject["currentUser"]) ||
-    (LoggedInObject["sessionStatus"] === "true" && LoggedInObject["sessionUser"])
-  ) {
-  } else {
-    if ((LoggedInObject["currentPath"] !== "register.html" && LoggedInObject["currentPath"] !== "login.html") &&
-      (LoggedInObject["currentPath"] !== "legal_notice.html" && LoggedInObject["currentPath"] !== "privacy_policy_en.html") && bolean == true) {
-      window.location.href = "login.html";
-    }
+
+  if (isGuestLoggedIn(LoggedInObject) || isUserLoggedIn(LoggedInObject)) return;
+
+  if (shouldRedirect(LoggedInObject, bolean)) {
+    redirectToLogin();
   }
-  if (LoggedInObject["sessionStatus"] === "true" && !LoggedInObject["sessionUser"] && (LoggedInObject["currentPath"] !== "legal_notice.html" || LoggedInObject["currentPath"] !== "privacy_policy_en.html")) {
+
+  if (LoggedInObject["sessionStatus"] === "true" && !LoggedInObject["sessionUser"] &&
+    (LoggedInObject["currentPath"] !== "legal_notice.html" || LoggedInObject["currentPath"] !== "privacy_policy_en.html")) {
     setStorageAttributes();
   }
-  if (bolean == true && (LoggedInObject["currentPath"] == "legal_notice.html" || LoggedInObject["currentPath"] == "privacy_policy_en.html")) {
-    LoggedInObject["sessionStatus"] = "false";
-    sessionStorage.setItem("isLoggedIn", "false");
-    isNotLoggedIn();
-  }
-  else {
-    console.log(sessionStorage.getItem("isLoggedIn"));
+
+  if (bolean && (LoggedInObject["currentPath"] == "legal_notice.html" || LoggedInObject["currentPath"] == "privacy_policy_en.html")) {
+    setSessionAttributes();
+  } else {
     sessionStorage.removeItem("isLoggedIn");
-    console.log(sessionStorage.getItem("isLoggedIn"));
   }
 }
+
 
 function setStorageAttributes() {
   sessionStorage.removeItem("isLoggedIn");
   sessionStorage.removeItem("currentUser");
   sessionStorage.removeItem("guestLoginStatus");
-  console.log("Sitzung abgelaufen. Benutzerdaten entfernt.");
 }
 
 function proveIfEverythingIsNullExceptCurrentPath(obj) {
@@ -92,7 +105,6 @@ function testLoginStatus() {
   if (!localStorage.getItem("isLoggedIn") || !sessionStorage.getItem("isLoggedIn")) {
     sessionStorage.setItem("isLoggedIn", "true");
   }
-  console.log(sessionStorage.isLoggedIn);
 }
 
 async function postDataToDatabase(path, data) {

@@ -1,5 +1,3 @@
-// ---- Hier kommen alle Funktionen, welche ich aus script.js nach login.js transferiere ---
-
 async function testLoginFunction(event) {
   event.preventDefault();
   let loginEmail = document.getElementById("loginEmail").value;
@@ -191,8 +189,6 @@ function throwSignUpErrorWhenWrongPasswordSyntax() {
   }
 }
 
-// ---- Hier enden alle Funktionen, welche ich aus script.js nach login.js transferiere ---
-
 function addCheck() {
   let checkboxCheck = document.getElementById("checkbox-check");
   if (!checkboxCheck.classList.contains("d-none")) {
@@ -221,7 +217,6 @@ function setStorageAttributes() {
   sessionStorage.removeItem("isLoggedIn");
   sessionStorage.removeItem("currentUser");
   sessionStorage.removeItem("guestLoginStatus");
-  console.log("Sitzung abgelaufen. Benutzerdaten entfernt.");
 }
 
 function saveLoggedInStatus(name, email, remember) {
