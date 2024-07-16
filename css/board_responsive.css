@@ -174,4 +174,8 @@
   #big-task-pop-up-subtask-all {
     font-size: 16px;
   }
+  
+  .animation-bg {
+    width: unset;
+  }
 }

@@ -19,6 +19,7 @@
   <link rel="stylesheet" href="css/add_task_responsive.css" />
   <link rel="stylesheet" href="css/add_task_board_resp.css" />
   <link rel="stylesheet" href="css/add_task_subtasks.css" />
+  <link rel="stylesheet" href="css/add_task_animation.css">
   <link rel="stylesheet" href="css/board_responsive.css" />
 
   <!-- js -->
@@ -198,6 +199,11 @@
                       </svg>
                     </div>
                     <span id="requiredDate" class="required-text d-none">This field is required</span>
+                    <div id="dateAnimation" class="d-none">
+                      <div class="animation-bg">
+                         <span>Future Date required</span>
+                      </div>
+                    </div>
                   </div>
                   <div class="prio">
                     <p>Prio</p>
@@ -356,7 +362,7 @@
   <script src="js/boardHtmlTemplate.js"></script>
   <script src="js/add_task_contacts.js"></script>
   <script src="js/add_task_subtask.js"></script>
-  <script src="js/add_task_board.js"></script>
+  <!-- <script src="js/add_task_board.js"></script> -->
   <script src="js/board.js"></script>
   <script src="js/drag_and_drop_mobile.js"></script>
 </body>

@@ -190,7 +190,6 @@ function showDropDownAssignedToOnlyResult() {
 function showplusSVG() {
   let moreNumber = assignedContacts.length - 4;
   return /*html*/ `
-    <!-- <img src="Assets/img/plus.svg" alt=""> -->
     <span class="contactsMoreNumber">+ ${moreNumber}</span>
   `;
 }
