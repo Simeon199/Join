@@ -12,6 +12,16 @@
     font-size: 47px !important;
   }
 
+  .task-category-and-dropdown button {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+
+  .mobileDropdown {
+    /* display: none; */
+  }
+
   .task-contacts-container {
     padding-top: 16px;
     padding-bottom: 16px;
@@ -88,6 +98,8 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+
+    overflow: hidden;
   }
 
   #wrap {
@@ -147,12 +159,6 @@
 
   .task-category-and-dropdown {
     gap: 10%;
-  }
-
-  .task-category-and-dropdown button {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
   }
 
   .big-task-pop-up {

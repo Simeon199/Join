@@ -53,6 +53,7 @@ body .translate-100 {
 
 .task-category-and-dropdown {
   display: flex;
+  justify-content: space-between;
 }
 
 .task-category-and-dropdown button {
@@ -60,9 +61,38 @@ body .translate-100 {
 }
 
 .mobileDropdown {
-  border-radius: 12px;
-  padding: 3px;
-  background-color: cyan;
+  position: absolute;
+  right: 10px;
+  top: 50px;
+
+  box-sizing: border-box;
+
+  background-color: rgb(42, 54, 71, 1);
+  box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.1);
+
+  display: flex;
+  flex-direction: column;
+
+  border-radius: 20px 0px 20px 20px;
+
+  transition: 0.2s ease-in-out;
+  padding: 10px;
+}
+
+.mobileDropdown a {
+  font-size: 16px;
+  font-weight: 400;
+  color: rgba(205, 205, 205, 1);
+}
+
+.mobileDropdown a:hover {
+  background-color: #2a3d59;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.mobileDropdown-translate-100 {
+  transform: translateX(150%);
 }
 
 .headline-button {
@@ -374,6 +404,8 @@ body .translate-100 {
   padding: 16px;
   background: #ffffff;
   box-shadow: 0px 0px 10px 3px #00000014;
+
+  position: relative;
 }
 
 .task-category {
@@ -807,7 +839,7 @@ body #big-task-pop-up-contact-all:has(.height-0) {
 }
 
 #big-task-pop-up-contact-container p {
-  font-family: 'Inter';
+  font-family: "Inter";
 }
 
 .big-task-pop-up-contact {
