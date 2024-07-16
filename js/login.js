@@ -1,3 +1,198 @@
+// ---- Hier kommen alle Funktionen, welche ich aus script.js nach login.js transferiere ---
+
+async function testLoginFunction(event) {
+  event.preventDefault();
+  let loginEmail = document.getElementById("loginEmail").value;
+  let loginPassword = document.getElementById("loginPassword").value;
+  let remember = document.getElementById("remember").checked;
+  let response = await loadData((path = ""));
+  for (let key in response) {
+    let user = response[key];
+    if (user["email"] && user["password"]) {
+      if (loginEmail == user["email"] && loginPassword == user["password"]) {
+        saveLoggedInStatus(user["name"], user["email"], remember);
+        window.location.href = "summary.html";
+        return;
+      }
+    }
+  }
+  throwLoginError();
+}
+
+function throwLoginError() {
+  let loginPasswordInput = document.getElementById("loginPasswordInputField");
+  let loginInput = document.getElementById("loginInput");
+  let loginPassword = document.getElementById("loginPassword");
+  loginPassword.value = "";
+  loginPasswordInput.style.border = "1px solid red";
+  let existingNotification = document.querySelector(".notification.error");
+  if (existingNotification) {
+    existingNotification.remove();
+  }
+  let notification = document.createElement("div");
+  notification.classList.add("notification", "error");
+  notification.innerHTML = `<p>Ups! Wrong Password. Try again.</p>`;
+  loginInput.appendChild(notification);
+}
+
+async function signUp(event) {
+  event.preventDefault();
+  let name = document.getElementById("name").value;
+  let email = document.getElementById("loginEmail").value;
+  let password = document.getElementById("loginPassword").value;
+  let passwordRepeat = document.getElementById("loginPasswordRepeat").value;
+  let privacyPolicity = document.getElementById("privacyPolicity");
+  let signUpValid = await checkSignInRequirements(name, email, password, passwordRepeat, privacyPolicity);
+  if (!signUpValid) {
+    return;
+  }
+  let user = buildUserFunction(name, email, password);
+  await createUserAndShowPopup((path = ""), user);
+}
+
+function proveIfErrorMessageAlreadyExists() {
+  let childrenElements = Array.from(document.getElementById("signUpInput").children);
+  let messageExists = childrenElements.some(child => child.classList.contains('notification') && child.classList.contains('error'));
+  return messageExists;
+}
+
+async function checkSignInRequirements(name, email, password, passwordRepeat, privacyPolicity) {
+  if (!checkPasswordWhenSignUp(password)) {
+    return false;
+  }
+  if ((await nicknameAlreadyExists(name, email)) == true) {
+    return false;
+  }
+  if (password !== passwordRepeat) {
+    throwSignUpError();
+    return false;
+  }
+  if (!privacyPolicity.checked) {
+    return false;
+  }
+  return true;
+}
+
+async function nicknameAlreadyExists(name, email) {
+  let response = await loadData((path = ""));
+  for (let key in response) {
+    let user = response[key];
+    let availabelNickname = user["name"];
+    let availabelEmail = user["email"];
+    if (availabelNickname == name || availabelEmail == email) {
+      createReportDueToFailedRegistration();
+      return true;
+    }
+  }
+  return false;
+}
+
+function removeErrorMessageIfPresent() {
+  document.getElementById('signUpPasswordRepeat').style.border = "1px solid #d1d1d1";
+  let existingNotification = document.querySelector(".notification");
+  if (existingNotification) {
+    existingNotification.remove();
+  }
+}
+
+function createReportDueToFailedRegistration() {
+  removeErrorMessageIfPresent();
+  let allErrorMessages = document.getElementById('allErrorMessages');
+  let reportFailedSignUp = document.getElementById('reportFailedSignUp');
+  if (reportFailedSignUp.classList.contains("d-none") && allErrorMessages.classList.contains("d-none")) {
+    console.log('true');
+    allErrorMessages.classList.remove("d-none");
+    allErrorMessages.classList.add("d-flex");
+    reportFailedSignUp.classList.remove('d-none');
+  } else {
+    console.log('false');
+    allErrorMessages.classList.remove("d-flex");
+    allErrorMessages.classList.add("d-none");
+    reportFailedSignUp.classList.add('d-none');
+  }
+}
+
+function removeReport(id) {
+  let report = document.getElementById(id);
+  let allErrorMessages = document.getElementById('allErrorMessages');
+  allErrorMessages.classList.remove('d-flex');
+  allErrorMessages.classList.add('d-none');
+  report.classList.add('d-none');
+}
+
+function throwSignUpError() {
+  removeErrorMessageIfPresent();
+  let signUpInput = document.getElementById("signUpInput");
+  let signUpPasswordRepeat = document.getElementById("signUpPasswordRepeat");
+  signUpPasswordRepeat.style.border = "1px solid red";
+  let notification = document.createElement("div");
+  notification.classList.add("notification");
+  notification.innerHTML = `<p>Ups! Your passwords don't match</p>`;
+  signUpInput.appendChild(notification);
+}
+
+function buildUserFunction(name, email, password) {
+  let user = {
+    name: name,
+    email: email,
+    password: password,
+  };
+  return user;
+}
+
+function checkPasswordWhenSignUp(password) {
+  let passwordError = checkIfPasswordIsValid(password);
+  if (passwordError) {
+    return false;
+  }
+  return true;
+}
+
+async function createUserAndShowPopup(path, user) {
+  try {
+    let responseToJson = await postDataToDatabase(path, user);
+    showRegisterPopup();
+    setTimeout(() => {
+      window.location.href = "login.html";
+    }, 1000);
+    return responseToJson;
+  } catch (error) {
+    console.error("Es gab ein Problem bei der Registrierung. Bitte versuchen Sie es später erneut");
+  }
+}
+
+function checkIfPasswordIsValid(password) {
+  let minLength = 6;
+  let regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{6,}$/;
+  if (password.length < minLength) {
+    return `Das Passwort muss mindestens ${minLength} Zeichen lang sein.`;
+  }
+  if (!regex.test(password)) {
+    throwSignUpErrorWhenWrongPasswordSyntax();
+    return true;
+  }
+  return null;
+}
+
+function throwSignUpErrorWhenWrongPasswordSyntax() {
+  removeErrorMessageIfPresent();
+  let allErrorMessages = document.getElementById('allErrorMessages');
+  let reportFailedSignUp = document.getElementById('reportFailedSignUpWhenWeakPassword');
+  if (reportFailedSignUp.classList.contains("d-none") && allErrorMessages.classList.contains("d-none")) {
+    console.log('true');
+    allErrorMessages.classList.remove("d-none");
+    allErrorMessages.classList.add("d-flex");
+    reportFailedSignUp.classList.remove('d-none');
+  } else {
+    console.log('false');
+    allErrorMessages.classList.remove("d-flex");
+    allErrorMessages.classList.add("d-none");
+    reportFailedSignUp.classList.add('d-none');
+  }
+}
+
+// ---- Hier enden alle Funktionen, welche ich aus script.js nach login.js transferiere ---
+
 function addCheck() {
   let checkboxCheck = document.getElementById("checkbox-check");
   if (!checkboxCheck.classList.contains("d-none")) {
@@ -8,7 +203,6 @@ function addCheck() {
 }
 
 function guestLogin() {
-  // sessionStorage.setItem("isLoggedIn", "true");
   sessionStorage.setItem("guestLoginStatus", "true");
   window.location.href = "summary.html";
 
@@ -78,98 +272,6 @@ function throwLoginError() {
   loginInput.appendChild(notification);
 }
 
-// async function signUp(event) {
-//   event.preventDefault();
-//   let name = document.getElementById("name").value;
-//   let email = document.getElementById("loginEmail").value;
-//   let password = document.getElementById("loginPassword").value;
-//   let passwordRepeat = document.getElementById("loginPasswordRepeat").value;
-//   let privacyPolicity = document.getElementById("privacyPolicity");
-//   let signUpValid = await checkSignInRequirements(name, email, password, passwordRepeat, privacyPolicity);
-//   if (!signUpValid) {
-//     return;
-//   }
-//   let user = buildUserFunction(name, email, password);
-//   await createUserAndShowPopup((path = ""), user);
-// }
-
-// async function checkSignInRequirements(name, email, password, passwordRepeat, privacyPolicity) {
-//   if (!checkPasswordWhenSignUp(password)) {
-//     return false;
-//   }
-//   if ((await nicknameAlreadyExists(name, email)) == true) {
-//     return false;
-//   }
-//   if (password !== passwordRepeat) {
-//     throwSignUpError();
-//     return false;
-//   }
-//   if (!privacyPolicity.checked) {
-//     return false;
-//   }
-//   return true;
-// }
-
-// async function nicknameAlreadyExists(name, email) {
-//   let response = await loadData((path = ""));
-//   for (let key in response) {
-//     let user = response[key];
-//     let availabelNickname = user["name"];
-//     let availabelEmail = user["email"];
-//     if (availabelNickname == name || availabelEmail == email) {
-//       createReportDueToFailedRegistration();
-//       return true;
-//     }
-//   }
-//   return false;
-// }
-
-// function createReportDueToFailedRegistration() {
-//   let inputName = document.getElementById('name');
-//   let inputEmail = document.getElementById('loginEmail');
-//   // let signUpContainer = document.getElementById('signUpInput');
-//   let reportFailedSignUp = document.getElementById('reportFailedSignUp');
-//   inputName.style.border = "1px solid red";
-//   inputEmail.style.border = "1px solid red";
-//   if (reportFailedSignUp.classList.contains("d-none")) {
-//     reportFailedSignUp.classList.remove('d-none');
-//   } else {
-//     reportFailedSignUp.classList.add('d-none');
-//   }
-// }
-
-// function removeReport(id) {
-//   let inputName = document.getElementById('name');
-//   let inputEmail = document.getElementById('loginEmail');
-//   let report = document.getElementById(id);
-//   report.classList.add('d-none');
-//   inputName.style.border = "1px solid black";
-//   inputEmail.style.border = "1px solid black";
-// }
-
-// async function nicknameAlreadyExists(name) {
-//   let response = await loadData((path = ""));
-//   for (let key in response) {
-//     let user = response[key];
-//     let availabelNickname = user["name"];
-//     if (availabelNickname == name) {
-//       alert("Dieser Nutzername ist schon vergeben!");
-//       return true;
-//     }
-//   }
-//   return false;
-// }
-
-// function throwSignUpError() {
-//   let signUpInput = document.getElementById("signUpInput");
-//   let signUpPasswordRepeat = document.getElementById("signUpPasswordRepeat");
-//   signUpPasswordRepeat.style.border = "1px solid red";
-//   let notification = document.createElement("div");
-//   notification.classList.add("notification", "error");
-//   notification.innerHTML = `<p>Ups! Your password dont match.</p>`;
-//   signUpInput.appendChild(notification);
-// }
-
 function buildUserFunction(name, email, password) {
   let user = {
     name: name,
@@ -178,20 +280,6 @@ function buildUserFunction(name, email, password) {
   };
   return user;
 }
-
-// function checkPasswordWhenSignUp(password) {
-//   let emailError = checkIfEmailValid(email);
-//   if (emailError) {
-//     alert(emailError);
-//     return false;
-//   }
-//   let passwordError = checkIfPasswordIsValid(password);
-//   if (passwordError) {
-//     alert(passwordError);
-//     return false;
-//   }
-//   return true;
-// }
 
 async function postDataToDatabase(path, data) {
   try {
@@ -229,32 +317,6 @@ function showRegisterPopup() {
   let registerPopup = document.getElementById("registerPopup");
   registerPopup.classList.remove("d-none");
 }
-
-// function checkIfEmailValid(email) {
-//   const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-//   return regex.test(email) ? null : "Bitte geben Sie eine gültige E-Mail-Adresse ein.";
-// }
-
-// function checkIfPasswordIsValid(password) {
-//   let minLength = 6;
-//   let regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{6,}$/;
-//   if (password.length < minLength) {
-//     return `Das Passwort muss mindestens ${minLength} Zeichen lang sein.`;
-//   }
-//   if (!regex.test(password)) {
-//     return "Das Passwort muss mindestens einen Großbuchstaben, einen Kleinbuchstaben, und eine Zahl enthalten.";
-//   }
-//   return null;
-// }
-
-// function throwSignUpErrorWhenWrongPasswordSyntax() {
-//   let signUpInput = document.getElementById("signUpInput");
-//   let notificationError = document.createElement("div");
-//   notificationError.classList.add("notification", "error");
-//   notificationError.innerHTML = `<p>Das Passwort muss mindestens einen Großbuchstaben, einen Kleinbuchstaben, und eine Zahl enthalten.</p>`;
-//   signUpInput.appendChild(notificationError);
-// }
-
 
 function showPassword(variable) {
   let passwordContent = document.getElementById(variable);

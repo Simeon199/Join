@@ -1,6 +1,5 @@
 checkWebsiteLocation();
 checkIfUserIsLoggedIn();
-// sessionStorage.setItem("isLoggedIn", "false");
 
 // stopEvent
 function stopEvent(event) {
@@ -40,7 +39,6 @@ function checkIfUserIsLoggedIn() {
     (LoggedInObject["status"] === "true" && LoggedInObject["currentUser"]) ||
     (LoggedInObject["sessionStatus"] === "true" && LoggedInObject["sessionUser"])
   ) {
-    // console.log(LoggedInObject);
   } else {
     if ((LoggedInObject["currentPath"] !== "register.html" && LoggedInObject["currentPath"] !== "login.html") &&
       (LoggedInObject["currentPath"] !== "legal_notice.html" && LoggedInObject["currentPath"] !== "privacy_policy_en.html") && bolean == true) {
@@ -97,154 +95,6 @@ function testLoginStatus() {
   console.log(sessionStorage.isLoggedIn);
 }
 
-async function testLoginFunction(event) {
-  event.preventDefault();
-  let loginEmail = document.getElementById("loginEmail").value;
-  let loginPassword = document.getElementById("loginPassword").value;
-  let remember = document.getElementById("remember").checked;
-  let response = await loadData((path = ""));
-  for (let key in response) {
-    let user = response[key];
-    if (user["email"] && user["password"]) {
-      if (loginEmail == user["email"] && loginPassword == user["password"]) {
-        saveLoggedInStatus(user["name"], user["email"], remember);
-        window.location.href = "summary.html";
-        return;
-      }
-    }
-  }
-  throwLoginError();
-}
-
-function throwLoginError() {
-  let loginPasswordInput = document.getElementById("loginPasswordInputField");
-  let loginInput = document.getElementById("loginInput");
-  let loginPassword = document.getElementById("loginPassword");
-  loginPassword.value = "";
-  loginPasswordInput.style.border = "1px solid red";
-  let existingNotification = document.querySelector(".notification.error");
-  if (existingNotification) {
-    existingNotification.remove();
-  }
-  let notification = document.createElement("div");
-  notification.classList.add("notification", "error");
-  notification.innerHTML = `<p>Ups! Wrong Password. Try again.</p>`;
-  loginInput.appendChild(notification);
-}
-
-async function signUp(event) {
-  event.preventDefault();
-  let name = document.getElementById("name").value;
-  let email = document.getElementById("loginEmail").value;
-  let password = document.getElementById("loginPassword").value;
-  let passwordRepeat = document.getElementById("loginPasswordRepeat").value;
-  let privacyPolicity = document.getElementById("privacyPolicity");
-  let signUpValid = await checkSignInRequirements(name, email, password, passwordRepeat, privacyPolicity);
-  if (!signUpValid) {
-    return;
-  }
-  let user = buildUserFunction(name, email, password);
-  await createUserAndShowPopup((path = ""), user);
-}
-
-function proveIfErrorMessageAlreadyExists() {
-  let childrenElements = Array.from(document.getElementById("signUpInput").children);
-  let messageExists = childrenElements.some(child => child.classList.contains('notification') && child.classList.contains('error'));
-  return messageExists;
-}
-
-async function checkSignInRequirements(name, email, password, passwordRepeat, privacyPolicity) {
-  if (!checkPasswordWhenSignUp(password)) {
-    return false;
-  }
-  if ((await nicknameAlreadyExists(name, email)) == true) {
-    return false;
-  }
-  if (password !== passwordRepeat) {
-    throwSignUpError();
-    return false;
-  }
-  if (!privacyPolicity.checked) {
-    return false;
-  }
-  return true;
-}
-
-async function nicknameAlreadyExists(name, email) {
-  let response = await loadData((path = ""));
-  for (let key in response) {
-    let user = response[key];
-    let availabelNickname = user["name"];
-    let availabelEmail = user["email"];
-    if (availabelNickname == name || availabelEmail == email) {
-      createReportDueToFailedRegistration();
-      return true;
-    }
-  }
-  return false;
-}
-
-function removeErrorMessageIfPresent() {
-  document.getElementById('signUpPasswordRepeat').style.border = "1px solid #d1d1d1";
-  let existingNotification = document.querySelector(".notification");
-  if (existingNotification) {
-    existingNotification.remove();
-  }
-}
-
-function createReportDueToFailedRegistration() {
-  removeErrorMessageIfPresent();
-  let allErrorMessages = document.getElementById('allErrorMessages');
-  let reportFailedSignUp = document.getElementById('reportFailedSignUp');
-  if (reportFailedSignUp.classList.contains("d-none") && allErrorMessages.classList.contains("d-none")) {
-    console.log('true');
-    allErrorMessages.classList.remove("d-none");
-    allErrorMessages.classList.add("d-flex");
-    reportFailedSignUp.classList.remove('d-none');
-  } else {
-    console.log('false');
-    allErrorMessages.classList.remove("d-flex");
-    allErrorMessages.classList.add("d-none");
-    reportFailedSignUp.classList.add('d-none');
-  }
-}
-
-function removeReport(id) {
-  let report = document.getElementById(id);
-  let allErrorMessages = document.getElementById('allErrorMessages');
-  allErrorMessages.classList.remove('d-flex');
-  allErrorMessages.classList.add('d-none');
-  report.classList.add('d-none');
-}
-
-function throwSignUpError() {
-  removeErrorMessageIfPresent();
-  let signUpInput = document.getElementById("signUpInput");
-  let signUpPasswordRepeat = document.getElementById("signUpPasswordRepeat");
-  signUpPasswordRepeat.style.border = "1px solid red";
-  let notification = document.createElement("div");
-  notification.classList.add("notification");
-  notification.innerHTML = `<p>Ups! Your passwords don't match</p>`;
-  signUpInput.appendChild(notification);
-}
-
-function buildUserFunction(name, email, password) {
-  let user = {
-    name: name,
-    email: email,
-    password: password,
-  };
-  return user;
-}
-
-function checkPasswordWhenSignUp(password) {
-  let passwordError = checkIfPasswordIsValid(password);
-  if (passwordError) {
-    return false;
-  }
-  return true;
-}
-
 async function postDataToDatabase(path, data) {
   try {
     let response = await fetch(BASE_URL + path + ".json", {
@@ -264,52 +114,9 @@ async function postDataToDatabase(path, data) {
   }
 }
 
-async function createUserAndShowPopup(path, user) {
-  try {
-    let responseToJson = await postDataToDatabase(path, user);
-    showRegisterPopup();
-    setTimeout(() => {
-      window.location.href = "login.html";
-    }, 1000);
-    return responseToJson;
-  } catch (error) {
-    console.error("Es gab ein Problem bei der Registrierung. Bitte versuchen Sie es später erneut");
-  }
-}
-
 function showRegisterPopup() {
   let registerPopup = document.getElementById("registerPopup");
   registerPopup.classList.remove("d-none");
-}
-
-function checkIfPasswordIsValid(password) {
-  let minLength = 6;
-  let regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{6,}$/;
-  if (password.length < minLength) {
-    return `Das Passwort muss mindestens ${minLength} Zeichen lang sein.`;
-  }
-  if (!regex.test(password)) {
-    throwSignUpErrorWhenWrongPasswordSyntax();
-    return true;
-  }
-  return null;
-}
-
-function throwSignUpErrorWhenWrongPasswordSyntax() {
-  removeErrorMessageIfPresent();
-  let allErrorMessages = document.getElementById('allErrorMessages');
-  let reportFailedSignUp = document.getElementById('reportFailedSignUpWhenWeakPassword');
-  if (reportFailedSignUp.classList.contains("d-none") && allErrorMessages.classList.contains("d-none")) {
-    console.log('true');
-    allErrorMessages.classList.remove("d-none");
-    allErrorMessages.classList.add("d-flex");
-    reportFailedSignUp.classList.remove('d-none');
-  } else {
-    console.log('false');
-    allErrorMessages.classList.remove("d-flex");
-    allErrorMessages.classList.add("d-none");
-    reportFailedSignUp.classList.add('d-none');
-  }
 }
 
 function showPassword(variable) {
