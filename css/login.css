@@ -246,6 +246,8 @@ h1.underline::after {
   align-items: center;
   justify-content: left;
   gap: 20px;
+
+  width: 314px;
 }
 
 .checkbox input {
