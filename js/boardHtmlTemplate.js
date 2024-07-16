@@ -66,6 +66,8 @@ function generateTaskHTML(element, contactsHTML, oppositeCategory, rightIcon, js
 }
 
 function returnTaskHtmlWithoutSubtask(element, contactsHTML, oppositeCategory, rightIcon, jsonTextElement) {
+  let taskIndex = element.tasksIdentity;
+
   return `
   <div class="task"
       draggable="true"
@@ -78,13 +80,13 @@ function returnTaskHtmlWithoutSubtask(element, contactsHTML, oppositeCategory, r
       <div class='task-category' style='background-color: ${checkCategoryColor(element["category"])}'>
         ${element["category"]}
       </div>
-      <button onclick="stopEvent(event); openMobileDropdown()">Dropdown</button>
+      <button onclick="stopEvent(event); openMobileDropdown(${taskIndex})">Dropdown</button>
     </div>
     <div id="mobileDropdown" class="mobileDropwdown mobileDropdown-translate-100">
-      <a href="">To Do</a>
-      <a href="">In Progress</a>
-      <a href="">Await Feedback</a>
-      <a href="">Done</a>
+      <a onclick="stopEvent(event);">To Do</a>
+      <a onclick="stopEvent(event);">In Progress</a>
+      <a onclick="stopEvent(event);">Await Feedback</a>
+      <a onclick="stopEvent(event);">Done</a>
     </div>
     <h3 class="task-title">${element["title"]}</h3>
     <p class="task-description">${element["description"]}</p>
@@ -102,6 +104,8 @@ function returnTaskHtmlWithoutSubtask(element, contactsHTML, oppositeCategory, r
 }
 
 function returnTaskHtmlWithSubtask(element, contactsHTML, oppositeCategory, rightIcon, jsonTextElement, taskbarWidth, numberOfTasksChecked) {
+  let taskIndex = element.tasksIdentity;
+
   return `
       <div class="task" 
           draggable="true" 
@@ -114,7 +118,7 @@ function returnTaskHtmlWithSubtask(element, contactsHTML, oppositeCategory, righ
           <div class='task-category' style='background-color: ${checkCategoryColor(element["category"])}'>
             ${element["category"]}
           </div>
-          <button onclick="stopEvent(event); openMobileDropdown()">Dropdown</button>
+          <button onclick="stopEvent(event); openMobileDropdown(${taskIndex})">Dropdown</button>
         </div>
         <div id="mobileDropdown" class="mobileDropdown mobileDropdown-translate-100">
           <a onclick="stopEvent(event);">To Do</a>
