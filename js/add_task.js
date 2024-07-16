@@ -1,6 +1,3 @@
-// const BASE_URL1 = "https://join-testing-42ce4-default-rtdb.europe-west1.firebasedatabase.app/";
-// const BASE_URL = 'https://join-privat-default-rtdb.europe-west1.firebasedatabase.app/';
-
 let assignetTo = document.getElementById("assignetTo");
 let category = document.getElementById("category");
 let priority;
@@ -142,6 +139,7 @@ async function checkRequiredFields(side) {
   let title = document.getElementById("inputTitle").value;
   let date = document.getElementById("date").value;
   if (title.length <= 1 || date.length <= 1 || checkCategory() == false) {
+    //  || checkDate() === false
     showRequiredText();
   } else {
     console.log("hi");
@@ -292,13 +290,22 @@ function goToBoard() {
 }
 
 function checkDate() {
-   let dateInput = document.getElementById('date');
-   console.log("date",dateInput.value);
-   const addDate = new Date();
-   console.log(addDate);
-  if (dateInput.value < addDate) {
-   console.log("vergangene Zeit kann nicht eingegeben werden!!")
+  animation = document.getElementById("dateAnimation");
+  let dateInput = document.getElementById('date');
+  const dateString = dateInput.value;
+  const dateObject = new Date(dateString);
+  const millisecondsSinceEpoch = dateObject.getTime();
+  const addDate = new Date();
+  if (dateString.length >= 9) {
+    if (millisecondsSinceEpoch < addDate) {
+      animation.classList.remove("d-none");
+      setTimeout(() => animation.classList.add("d-none"), 3000)
+      dateInput.value = "";
+      return false;
+     } else {
+      return true;
+     }
   } else {
-    console.log("zeit ist größer als jetzt!");
+    return null
   }
 }

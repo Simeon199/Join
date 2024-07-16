@@ -173,4 +173,6 @@ function showsubtaskIsEmptyError() {
 function focusInput() {
   // document.getElementById("testForFunction").focus();
   hideOrShowEditButtons();
+  let activSubtask = document.getElementById("subtask");
+  activSubtask.focus();
 }

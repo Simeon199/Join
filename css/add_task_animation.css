@@ -40,3 +40,15 @@
 .overflow-hidden {
   overflow: hidden;
 }
+
+#dateAnimation {
+  position: absolute;
+  height: 100vh;
+  top: 0;
+  left: 232px;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 99999;
+}
