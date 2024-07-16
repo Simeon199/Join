@@ -19,7 +19,38 @@
   }
 
   .mobileDropdown {
-    /* display: none; */
+    position: absolute;
+    right: 10px;
+    top: 50px;
+
+    box-sizing: border-box;
+
+    background-color: rgb(42, 54, 71, 1);
+    box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.1);
+
+    display: flex;
+    flex-direction: column;
+
+    border-radius: 20px 0px 20px 20px;
+
+    transition: 0.2s ease-in-out;
+    padding: 10px;
+  }
+
+  .mobileDropdown a {
+    font-size: 16px;
+    font-weight: 400;
+    color: rgba(205, 205, 205, 1);
+  }
+
+  .mobileDropdown a:hover {
+    background-color: #2a3d59;
+    cursor: pointer;
+    text-decoration: none;
+  }
+
+  .mobileDropdown-translate-100 {
+    transform: translateX(150%);
   }
 
   .task-contacts-container {

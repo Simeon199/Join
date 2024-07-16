@@ -1,4 +1,4 @@
-function openMobileDropdown() {
+function openMobileDropdown(taskIndex) {
   //   let mobileDropdown = document.getElementById("mobileDropdown");
   // if (mobileDropdown.classList.contains("d-none")) {
   //     mobileDropdown.classList.remove("d-none");
@@ -6,5 +6,5 @@ function openMobileDropdown() {
   //     mobileDropdown.classList.add("d-none");
   // }
 
-  document.getElementById("mobileDropdown").classList.toggle("mobileDropdown-translate-100");
+  document.querySelectorAll(".mobileDropdown")[taskIndex].classList.toggle("mobileDropdown-translate-100");
 }
