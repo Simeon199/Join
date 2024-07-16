@@ -6,5 +6,8 @@ function openMobileDropdown(taskIndex) {
   //     mobileDropdown.classList.add("d-none");
   // }
 
-  document.querySelectorAll(".mobileDropdown")[taskIndex].classList.toggle("mobileDropdown-translate-100");
+  // document.querySelectorAll(".mobileDropdown")[taskIndex].classList.toggle("mobileDropdown-translate-100");
+  let dropdown = document.getElementById(`mobileDropdown${taskIndex}`);
+  dropdown.classList.toggle('mobileDropdown-translate-100');
+  // dropdown.classList.toggle('mobileDropdown-translate-0');
 }

@@ -82,7 +82,7 @@ function returnTaskHtmlWithoutSubtask(element, contactsHTML, oppositeCategory, r
       </div>
       <button onclick="stopEvent(event); openMobileDropdown(${taskIndex})">Dropdown</button>
     </div>
-    <div id="mobileDropdown" class="mobileDropdown mobileDropdown-translate-100">
+    <div id="mobileDropdown${taskIndex}" class="mobileDropdown mobileDropdown-translate-100">
       <a onclick="stopEvent(event);">To Do</a>
       <a onclick="stopEvent(event);">In Progress</a>
       <a onclick="stopEvent(event);">Await Feedback</a>
@@ -120,7 +120,7 @@ function returnTaskHtmlWithSubtask(element, contactsHTML, oppositeCategory, righ
           </div>
           <button onclick="stopEvent(event); openMobileDropdown(${taskIndex})">Dropdown</button>
         </div>
-        <div id="mobileDropdown" class="mobileDropdown mobileDropdown-translate-100">
+        <div id="mobileDropdown${taskIndex}" class="mobileDropdown mobileDropdown-translate-100">
           <a onclick="stopEvent(event);">To Do</a>
           <a onclick="stopEvent(event);">In Progress</a>
           <a onclick="stopEvent(event);">Await Feedback</a>
