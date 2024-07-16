@@ -12,7 +12,8 @@ function openMobileDropdown(taskIndex) {
   // dropdown.classList.toggle('mobileDropdown-translate-0');
 }
 
-async function moveTasksToCategory(taskIndex, newCategory) {
+async function moveTasksToCategory(taskIndex, newCategory, currentContainer) {
+  proveCurrentContainer(newCategory, currentContainer);
   let task = tasks.find((task) => task.tasksIdentity == taskIndex);
   if (task) {
     task.container = newCategory;
@@ -23,5 +24,11 @@ async function moveTasksToCategory(taskIndex, newCategory) {
     } catch (error) {
       console.error("Fehler beim Speichern der tasks in der Firebase-Datenbank:", error);
     }
+  }
+}
+
+function proveCurrentContainer(newCategory, currentContainer) {
+  if (newCategory == currentContainer) {
+    document.getElementById(newCategory).classList.add("d-none");
   }
 }
