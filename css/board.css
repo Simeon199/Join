@@ -730,6 +730,15 @@ body .translate-100 {
   margin-top: 0;
 }
 
+.big-task-pop-up-input-error #big-edit-task-due-date-input,
+.big-task-pop-up-input-error #big-edit-task-title-input {
+  border: 1px solid rgb(255, 127, 127);
+}
+
+.big-task-pop-up-input-error p {
+  color: rgb(255, 127, 127);
+}
+
 #big-task-pop-up-description {
   font-size: 20px;
   font-weight: 400;

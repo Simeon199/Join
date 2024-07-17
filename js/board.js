@@ -171,6 +171,10 @@ function showBigTaskPopUp(jsonTextElement) {
 // hideBigTaskPopUp
 function hideBigTaskPopUp() {
   isBigTaskPopUpOpen = false;
+
+  document.getElementById("big-task-pop-up-title").classList.remove("big-task-pop-up-input-error");
+  document.getElementById("big-task-pop-up-due-date-container").classList.remove("big-task-pop-up-input-error");
+
   document.getElementById("big-task-pop-up-bg").classList.add("bg-op-0");
   document.getElementById("big-task-pop-up").classList.add("translate-100");
   document.body.style.overflow = "unset";

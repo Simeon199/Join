@@ -104,35 +104,49 @@ async function getSubtaskFromDataBase(id) {
 }
 
 async function saveTaskChanges(id) {
-  showBoardLoadScreen();
-
   let newTitle = document.getElementById("big-edit-task-title-input").value;
   let newDescription = document.getElementById("big-edit-task-description-input").value;
   let newDate = document.getElementById("big-edit-task-due-date-input").value;
-  let newPriority = priorityValue;
-  let newAssignedTo = assignedToContactsBigContainer;
-  let newSubtaskArray = subtaskArray;
-  let taskForEditing = {
-    newTitle: newTitle,
-    newDescription: newDescription,
-    newDate: newDate,
-    newPriority: newPriority,
-    newAssignedTo: newAssignedTo,
-    newSubtaskArray: newSubtaskArray,
-  };
-  try {
-    let newTaskReady = await updateTasksThroughEditing(id, taskForEditing);
-    let newJsonElement = JSON.stringify(newTaskReady);
-    let newJsontextElement = encodeURIComponent(newJsonElement);
-    renderBigTask(newJsontextElement);
-  } catch (error) {
-    console.error("Fehler beim Speichern der Änderungen: ", error);
-  }
-  subtaskArray = [];
-  checkBoxCheckedJson = {};
-  updateHTML();
+  if (newTitle === "" && newDate === "") {
+    document.getElementById("big-task-pop-up-title").classList.add("big-task-pop-up-input-error");
+    document.getElementById("big-task-pop-up-due-date-container").classList.add("big-task-pop-up-input-error");
+  } else if (newTitle === "") {
+    document.getElementById("big-task-pop-up-title").classList.add("big-task-pop-up-input-error");
+    document.getElementById("big-task-pop-up-due-date-container").classList.remove("big-task-pop-up-input-error");
+  } else if (newDate === "") {
+    document.getElementById("big-task-pop-up-due-date-container").classList.add("big-task-pop-up-input-error");
+    document.getElementById("big-task-pop-up-title").classList.remove("big-task-pop-up-input-error");
+  } else {
+    showBoardLoadScreen();
 
-  hideBoardLoadScreen();
+    document.getElementById("big-task-pop-up-title").classList.remove("big-task-pop-up-input-error");
+    document.getElementById("big-task-pop-up-due-date-container").classList.remove("big-task-pop-up-input-error");
+
+    let newPriority = priorityValue;
+    let newAssignedTo = assignedToContactsBigContainer;
+    let newSubtaskArray = subtaskArray;
+    let taskForEditing = {
+      newTitle: newTitle,
+      newDescription: newDescription,
+      newDate: newDate,
+      newPriority: newPriority,
+      newAssignedTo: newAssignedTo,
+      newSubtaskArray: newSubtaskArray,
+    };
+    try {
+      let newTaskReady = await updateTasksThroughEditing(id, taskForEditing);
+      let newJsonElement = JSON.stringify(newTaskReady);
+      let newJsontextElement = encodeURIComponent(newJsonElement);
+      renderBigTask(newJsontextElement);
+    } catch (error) {
+      console.error("Fehler beim Speichern der Änderungen: ", error);
+    }
+    subtaskArray = [];
+    checkBoxCheckedJson = {};
+    updateHTML();
+
+    hideBoardLoadScreen();
+  }
 }
 
 async function saveSubtaskChanges(id) {
