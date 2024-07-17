@@ -1,3 +1,6 @@
+let currentOpenDropdown = null;
+
+
 function iterateThroughSubArray(taskArray, htmlElement) {
   for (i = 0; i < taskArray.length; i++) {
     let task = taskArray[i];
@@ -84,6 +87,15 @@ function openMobileDropdown(taskIndex) {
   let task = tasks.find((task) => task.tasksIdentity == taskIndex);
   let currentCategory = task.container;
   let dropdownItems = dropdown.querySelectorAll('a');
+
+  if (!dropdown.classList.contains('mobileDropdown-translate-100')) {
+    currentOpenDropdown = dropdown;
+  } else {
+    currentOpenDropdown = null;
+  }
+
+  console.log(currentOpenDropdown);
+
   for (i = 0; i < dropdownItems.length; i++) {
     let category = replaceSpacesWithDashes(dropdownItems[i].textContent.trim().toLowerCase() + '-container');
     if (category === currentCategory.toLowerCase()) {
@@ -92,13 +104,15 @@ function openMobileDropdown(taskIndex) {
       dropdownItems[i].style.display = "block";
     }
   };
-  document.addEventListener('click', function handleClickOutside(event) {
-    if (!dropdown.contains(event.target)) {
-      dropdown.classList.remove('mobileDropdown-translate-100');
-      document.removeEventListener('click', handleClickOutside);
-    }
-  });
 }
+
+document.addEventListener('click', function (event) {
+  console.log(currentOpenDropdown);
+  if (currentOpenDropdown && !currentOpenDropdown.classList.contains(event.target)) {
+    currentOpenDropdown.classList.remove('mobileDropdown-translate-100');
+    currentOpenDropdown = null;
+  }
+});
 
 async function moveTasksToCategory(taskIndex, newCategory) {
   let task = tasks.find((task) => task.tasksIdentity == taskIndex);
@@ -113,5 +127,3 @@ async function moveTasksToCategory(taskIndex, newCategory) {
     }
   }
 }
-
-
