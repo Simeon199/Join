@@ -25,7 +25,6 @@ function createLoggedInStatusObject() {
     currentPath: window.location.pathname.split("/").pop(),
     guestLoginStatus: sessionStorage.getItem("guestLoginStatus"),
   };
-  console.log(obj);
   return obj;
 }
 
