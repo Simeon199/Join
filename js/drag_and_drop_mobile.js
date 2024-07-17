@@ -81,11 +81,9 @@ function replaceSpacesWithDashes(str) {
 function openMobileDropdown(taskIndex) {
   let dropdown = document.getElementById(`mobileDropdown${taskIndex}`);
   dropdown.classList.toggle('mobileDropdown-translate-100');
-
   let task = tasks.find((task) => task.tasksIdentity == taskIndex);
   let currentCategory = task.container;
   let dropdownItems = dropdown.querySelectorAll('a');
-  console.log(dropdownItems);
   for (i = 0; i < dropdownItems.length; i++) {
     let category = replaceSpacesWithDashes(dropdownItems[i].textContent.trim().toLowerCase() + '-container');
     if (category === currentCategory.toLowerCase()) {
@@ -94,6 +92,12 @@ function openMobileDropdown(taskIndex) {
       dropdownItems[i].style.display = "block";
     }
   };
+  document.addEventListener('click', function handleClickOutside(event) {
+    if (!dropdown.contains(event.target)) {
+      dropdown.classList.remove('mobileDropdown-translate-100');
+      document.removeEventListener('click', handleClickOutside);
+    }
+  });
 }
 
 async function moveTasksToCategory(taskIndex, newCategory) {
@@ -109,3 +113,5 @@ async function moveTasksToCategory(taskIndex, newCategory) {
     }
   }
 }
+
+
