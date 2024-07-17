@@ -74,13 +74,29 @@ function allowDrop(event) {
   event.preventDefault();
 }
 
+function replaceSpacesWithDashes(str) {
+  return str.replace(/ /g, '-');
+}
+
 function openMobileDropdown(taskIndex) {
   let dropdown = document.getElementById(`mobileDropdown${taskIndex}`);
   dropdown.classList.toggle('mobileDropdown-translate-100');
+
+  let task = tasks.find((task) => task.tasksIdentity == taskIndex);
+  let currentCategory = task.container;
+  let dropdownItems = dropdown.querySelectorAll('a');
+  console.log(dropdownItems);
+  for (i = 0; i < dropdownItems.length; i++) {
+    let category = replaceSpacesWithDashes(dropdownItems[i].textContent.trim().toLowerCase() + '-container');
+    if (category === currentCategory.toLowerCase()) {
+      dropdownItems[i].style.display = 'none';
+    } else {
+      dropdownItems[i].style.display = "block";
+    }
+  };
 }
 
-async function moveTasksToCategory(taskIndex, newCategory, currentContainer) {
-  proveCurrentContainer(newCategory, currentContainer);
+async function moveTasksToCategory(taskIndex, newCategory) {
   let task = tasks.find((task) => task.tasksIdentity == taskIndex);
   if (task) {
     task.container = newCategory;
@@ -91,11 +107,5 @@ async function moveTasksToCategory(taskIndex, newCategory, currentContainer) {
     } catch (error) {
       console.error("Fehler beim Speichern der tasks in der Firebase-Datenbank:", error);
     }
-  }
-}
-
-function proveCurrentContainer(newCategory, currentContainer) {
-  if (newCategory == currentContainer) {
-    document.getElementById(newCategory).classList.add("d-none");
   }
 }

@@ -87,10 +87,10 @@ function returnTaskHtmlWithoutSubtask(element, contactsHTML, oppositeCategory, r
       </div>
     </div>
     <div id="mobileDropdown${taskIndex}" class="mobileDropdown mobileDropdown-translate-100">
-      <a onclick="stopEvent(event); moveTasksToCategory(${taskIndex},'to-do-container', '${element["container"]}')">To Do</a>
-      <a onclick="stopEvent(event); moveTasksToCategory(${taskIndex},'in-progress-container', '${element["container"]}')">In Progress</a>
-      <a onclick="stopEvent(event); moveTasksToCategory(${taskIndex},'await-feedback-container', '${element["container"]}')">Await Feedback</a>
-      <a onclick="stopEvent(event); moveTasksToCategory(${taskIndex},'done-container', '${element["container"]}')">Done</a>
+      <a onclick="stopEvent(event); moveTasksToCategory(${taskIndex},'to-do-container')">To Do</a>
+      <a onclick="stopEvent(event); moveTasksToCategory(${taskIndex},'in-progress-container')">In Progress</a>
+      <a onclick="stopEvent(event); moveTasksToCategory(${taskIndex},'await-feedback-container')">Await Feedback</a>
+      <a onclick="stopEvent(event); moveTasksToCategory(${taskIndex},'done-container')">Done</a>
     </div>
     <h3 class="task-title">${element["title"]}</h3>
     <p class="task-description">${element["description"]}</p>
@@ -129,10 +129,10 @@ function returnTaskHtmlWithSubtask(element, contactsHTML, oppositeCategory, righ
           </div>
         </div>
         <div id="mobileDropdown${taskIndex}" class="mobileDropdown mobileDropdown-translate-100">
-          <a onclick="stopEvent(event); moveTasksToCategory(${taskIndex},'to-do-container', '${element["container"]}')">To Do</a>
-          <a onclick="stopEvent(event); moveTasksToCategory(${taskIndex},'in-progress-container', '${element["container"]}')">In Progress</a>
-          <a onclick="stopEvent(event); moveTasksToCategory(${taskIndex},'await-feedback-container', '${element["container"]}')">Await Feedback</a>
-          <a onclick="stopEvent(event); moveTasksToCategory(${taskIndex},'done-container', '${element["container"]}')">Done</a>
+          <a onclick="stopEvent(event); moveTasksToCategory(${taskIndex},'to-do-container')">To Do</a>
+          <a onclick="stopEvent(event); moveTasksToCategory(${taskIndex},'in-progress-container')">In Progress</a>
+          <a onclick="stopEvent(event); moveTasksToCategory(${taskIndex},'await-feedback-container')">Await Feedback</a>
+          <a onclick="stopEvent(event); moveTasksToCategory(${taskIndex},'done-container')">Done</a>
         </div>
         <h3 class="task-title">${element["title"]}</h3>
         <p class="task-description">${element["description"]}</p>
