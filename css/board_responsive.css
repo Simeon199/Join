@@ -202,21 +202,6 @@
     transition: 0.2s;
   }
 
-  .mobile-dropdown-icon {
-    box-sizing: unset;
-    padding: 10px;
-    border-radius: 100%;
-
-    transition: 0.2s;
-
-    transform: rotate(0);
-
-    width: 8px;
-    height: 8px;
-  }
-
-  /*  */
-
   .dropdownSVG:hover {
     background-color: rgb(155, 155, 155);
   }
