@@ -12,10 +12,16 @@ let subtaskArray = [];
 let checkBoxCheckedJson = {};
 let emptyList = [];
 let renderCurrentTaskId;
-document.addEventListener("DOMContentLoaded", async function () {
+
+async function init_task() {
   await getTasksFromDatabase();
   updateHTML();
-});
+}
+
+// document.addEventListener("DOMContentLoaded", async function () {
+//   await getTasksFromDatabase();
+//   updateHTML();
+// });
 
 async function loadRelevantData(path = "") {
   let response = await fetch(BASE_URL + path + ".json");
@@ -138,6 +144,10 @@ async function saveTaskToFirebase(task) {
   }
 }
 
+function rotateFunction(id) {
+  document.getElementById(`task${id}`).style.transform = rotate(3(deg));
+}
+
 // showAddTaskPopUp
 function showAddTaskPopUp(container = "to-do-container") {
   const screenWidth = window.screen.width;
@@ -202,9 +212,10 @@ function renderBigTask(jsonTextElement) {
   renderCorrectAssignedNamesIntoBigTask(taskJson);
   returnHTMLBigTaskPopUpSubtaskAll();
   renderTaskContact(taskJson);
+  renderSubtask(taskJson);
 }
 
-renderSubtask(taskJson);
+
 function renderAllBigPopUp(oldTitle, oldDescription, oldDate, oldPriority, taskJson, id) {
   // ...
   if (taskJson.subtask) {

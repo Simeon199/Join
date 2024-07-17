@@ -10,7 +10,7 @@ function renderCorrectAssignedNamesIntoBigTask(taskJson) {
   }
   returnHTMLBigTaskPopUpContactAll(contactsHTML);
 }
-  
+
 function renderSubtask(taskJson) {
   let correctTaskId = taskJson.tasksIdentity;
   if (taskJson.subtask && taskJson.subtask.length > 0) {
@@ -53,7 +53,7 @@ async function addCheckedStatus(i, correctTaskId) {
   }
   depositSubtaskChanges(correctTaskId, subtasks);
 }
-  
+
 async function depositSubtaskChanges(correctTaskId, subtasks) {
   for (index = 0; index < subtasks.length; index++) {
     if (checkBoxCheckedJson.hasOwnProperty(index)) {
@@ -63,7 +63,7 @@ async function depositSubtaskChanges(correctTaskId, subtasks) {
   subtaskArray = subtasks;
   await saveChangedSubtaskToFirebase(correctTaskId);
 }
-  
+
 async function saveChangedSubtaskToFirebase(correctTaskId) {
   let taskPath = `/testRealTasks/${correctTaskId}/subtask`;
   let response = await fetch(`${BASE_URL}${taskPath}.json`, {
@@ -79,7 +79,7 @@ async function saveChangedSubtaskToFirebase(correctTaskId) {
     console.log("Task erfolgreich in Firebase gespeichert");
   }
 }
-  
+
 // renderContact
 function renderTaskContact(taskJson) {
   assignedToContactsBigContainer = taskJson.assigned;
@@ -97,7 +97,7 @@ function renderTaskContact(taskJson) {
     `;
   }
 }
-  
+
 // renderEditTask
 function renderEditTask(jsonTextElement, id) {
   let taskJson = JSON.parse(decodeURIComponent(jsonTextElement));
@@ -110,14 +110,14 @@ function renderEditTask(jsonTextElement, id) {
   renderCurrentTaskId = id;
   renderAllBigPopUp(oldTitle, oldDescription, oldDate, oldPriority, taskJson, id);
 }
-  
+
 function toggleEditTaskAssignedToPopUp() {
   document.getElementById("big-edit-task-assigned-to-pop-up-container").classList.toggle("height-0");
   document.getElementById("big-edit-task-assigned-to-pop-up").classList.toggle("box-shadow-none");
   document.getElementById("big-edit-task-assigned-to-input-arrow").classList.toggle("rotate-90");
   toggleFocusAssignedToInput();
 }
-  
+
 function closeAllSmallPopUpPopUps() {
   if (document.getElementById("big-edit-task-title-input")) {
     document.getElementById("big-edit-task-assigned-to-pop-up-container").classList.add("height-0");
@@ -127,7 +127,7 @@ function closeAllSmallPopUpPopUps() {
     insertSubtasksIntoContainer();
   }
 }
-  
+
 function toggleFocusAssignedToInput() {
   if (document.getElementById("big-edit-task-assigned-to-pop-up-container").classList.contains("height-0")) {
     document.getElementById("big-edit-task-assigned-to-input").blur();
@@ -135,7 +135,7 @@ function toggleFocusAssignedToInput() {
     document.getElementById("big-edit-task-assigned-to-input").focus();
   }
 }
-  
+
 function renderBigTaskAssignedContactContainer(taskJson) {
   document.getElementById("big-edit-task-assigned-to-contact-container").innerHTML = "";
   if (taskJson.assigned) {
@@ -148,7 +148,7 @@ function renderBigTaskAssignedContactContainer(taskJson) {
     returnNoOneIsAssignedHTML();
   }
 }
-  
+
 function renderBigEditTaskAssignedToPopUp(taskJson) {
   for (let i = 0; i < allUsers.length; i++) {
     let taskIndex = taskJson.tasksIdentity;
@@ -170,7 +170,7 @@ function renderBigEditTaskAssignedToPopUp(taskJson) {
     renderOnlySubtaskContainerPopUp(taskJson);
   }
 }
-  
+
 function renderOnlySubtaskContainerPopUp(taskJson) {
   document.getElementById("big-edit-task-subtask-container").innerHTML = "";
   subtaskArray = taskJson.subtask;
@@ -181,7 +181,7 @@ function renderOnlySubtaskContainerPopUp(taskJson) {
     }
   }
 }
-  
+
 function checkBigEditTaskContact(i, contactObject, taskIndex) {
   if (tasks[taskIndex].assigned) {
     assignedToContactsBigContainer = tasks[taskIndex].assigned;
@@ -201,7 +201,7 @@ function checkBigEditTaskContact(i, contactObject, taskIndex) {
     returnBigEditTaskAssignedToPopUpContactCheckboxSecondIconHTML(i);
   }
 }
-  
+
 // addContactToAssigned
 function addContactToAssigned(contactObject, taskIndex) {
   let taskJson = tasks[taskIndex];
@@ -209,7 +209,7 @@ function addContactToAssigned(contactObject, taskIndex) {
   taskJson.assigned = assignedToContactsBigContainer;
   renderBigTaskAssignedContactContainer(taskJson);
 }
-  
+
 // deleteContactToAssigned
 function deleteContactToAssigned(contactObject, taskIndex) {
   let taskJson = tasks[taskIndex];
@@ -218,11 +218,11 @@ function deleteContactToAssigned(contactObject, taskIndex) {
   assignedToContactsBigContainer.splice(contactObjectIndex, 1);
   renderBigTaskAssignedContactContainer(taskJson);
 }
-  
+
 function focusSubtaskInput() {
   document.getElementById("big-edit-task-subtask-input").focus();
 }
-  
+
 function changeSubtaskInputIcons() {
   let subtaskInputIconContainer = document.getElementById("big-edit-task-subtask-input-icon-container");
   let subtaskInputValue = document.getElementById("big-edit-task-subtask-input");
@@ -232,18 +232,18 @@ function changeSubtaskInputIcons() {
     subtaskInputIconContainer.innerHTML = returnSubtaskInputHTMLCloseIcon();
   }
 }
-  
+
 function changeSaveIconClickedOnStatus() {
   if (isSaveIconClicked == false) {
     isSaveIconClicked = true;
   }
 }
-  
+
 function resetSubtaskInput() {
   document.getElementById("big-edit-task-subtask-input").value = "";
   changeSubtaskInputIcons();
 }
-  
+
 function buildSubtaskArrayForUpload() {
   if (!subtaskArray) {
     subtaskArray = emptyList;
@@ -254,7 +254,7 @@ function buildSubtaskArrayForUpload() {
   insertSubtasksIntoContainer();
   subtaskInput.value = "";
 }
-  
+
 function insertSubtasksIntoContainer() {
   console.log(subtaskArray);
   console.log(tasks[renderCurrentTaskId]);

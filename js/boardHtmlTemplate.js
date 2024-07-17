@@ -69,7 +69,9 @@ function returnTaskHtmlWithoutSubtask(element, contactsHTML, oppositeCategory, r
   let taskIndex = element.tasksIdentity;
 
   return `
-  <div class="task"
+  <div class="task" 
+      on-hold="rotateFunction(task${taskIndex})"
+      id=task${taskIndex}
       draggable="true"
       ondragstart="startDragging(${element["tasksIdentity"]})"
       ondragend="checkIfEmpty('${element["container"]}', '${oppositeCategory}')"
@@ -111,7 +113,8 @@ function returnTaskHtmlWithSubtask(element, contactsHTML, oppositeCategory, righ
   let taskIndex = element.tasksIdentity;
 
   return `
-      <div class="task" 
+      <div class="task" id=task${taskIndex}
+          on-hold="rotateFunction(task${taskIndex})"
           draggable="true" 
           ondragstart="startDragging(${element["tasksIdentity"]})" 
           ondragend="checkIfEmpty('${element["container"]}', '${oppositeCategory}')" 
