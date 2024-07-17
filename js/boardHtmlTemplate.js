@@ -80,17 +80,17 @@ function returnTaskHtmlWithoutSubtask(element, contactsHTML, oppositeCategory, r
       <div class='task-category' style='background-color: ${checkCategoryColor(element["category"])}'>
         ${element["category"]}
       </div>
-
-      <svg class='mobile-dropdown-icon' onclick="stopEvent(event); openMobileDropdown(${taskIndex})" width="8" height="6" viewBox="0 0 8 6" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M4.69954 1.26592L7.29954 3.86592C7.6162 4.18258 7.68704 4.54508 7.51204 4.95342C7.33704 5.36175 7.02454 5.56592 6.57454 5.56592L1.42454 5.56592C0.974536 5.56592 0.662037 5.36175 0.487037 4.95342C0.312037 4.54508 0.38287 4.18258 0.699537 3.86592L3.29954 1.26592C3.39954 1.16592 3.50787 1.09092 3.62454 1.04092C3.7412 0.990918 3.8662 0.965918 3.99954 0.965918C4.13287 0.965918 4.25787 0.990918 4.37454 1.04092C4.4912 1.09092 4.59954 1.16592 4.69954 1.26592Z" fill="#2A3647"/>
-      </svg>
-
+      <div class="dropdownSVG" onclick="stopEvent(event); openMobileDropdown(${taskIndex})">
+        <svg width="8" height="5" viewBox="0 0 8 5" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M3.29998 4.3L0.699975 1.7C0.383309 1.38333 0.312475 1.02083 0.487475 0.6125C0.662475 0.204167 0.974975 0 1.42498 0H6.57498C7.02498 0 7.33747 0.204167 7.51248 0.6125C7.68748 1.02083 7.61664 1.38333 7.29997 1.7L4.69998 4.3C4.59998 4.4 4.49164 4.475 4.37498 4.525C4.25831 4.575 4.13331 4.6 3.99998 4.6C3.86664 4.6 3.74164 4.575 3.62498 4.525C3.50831 4.475 3.39998 4.4 3.29998 4.3Z" fill="#2A3647"/>
+        </svg>
+      </div>
     </div>
     <div id="mobileDropdown${taskIndex}" class="mobileDropdown mobileDropdown-translate-100">
-      <a onclick="stopEvent(event);">To Do</a>
-      <a onclick="stopEvent(event);">In Progress</a>
-      <a onclick="stopEvent(event);">Await Feedback</a>
-      <a onclick="stopEvent(event);">Done</a>
+      <a onclick="stopEvent(event); moveTasksToCategory(${taskIndex},'to-do-container')">To Do</a>
+      <a onclick="stopEvent(event); moveTasksToCategory(${taskIndex},'in-progress-container')">In Progress</a>
+      <a onclick="stopEvent(event); moveTasksToCategory(${taskIndex},'await-feedback-container')">Await Feedback</a>
+      <a onclick="stopEvent(event); moveTasksToCategory(${taskIndex},'done-container')">Done</a>
     </div>
     <h3 class="task-title">${element["title"]}</h3>
     <p class="task-description">${element["description"]}</p>
@@ -122,17 +122,17 @@ function returnTaskHtmlWithSubtask(element, contactsHTML, oppositeCategory, righ
           <div class='task-category' style='background-color: ${checkCategoryColor(element["category"])}'>
             ${element["category"]}
           </div>
-
-          <svg class='mobile-dropdown-icon' onclick="stopEvent(event); openMobileDropdown(${taskIndex})" width="8" height="6" viewBox="0 0 8 6" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M4.69954 1.26592L7.29954 3.86592C7.6162 4.18258 7.68704 4.54508 7.51204 4.95342C7.33704 5.36175 7.02454 5.56592 6.57454 5.56592L1.42454 5.56592C0.974536 5.56592 0.662037 5.36175 0.487037 4.95342C0.312037 4.54508 0.38287 4.18258 0.699537 3.86592L3.29954 1.26592C3.39954 1.16592 3.50787 1.09092 3.62454 1.04092C3.7412 0.990918 3.8662 0.965918 3.99954 0.965918C4.13287 0.965918 4.25787 0.990918 4.37454 1.04092C4.4912 1.09092 4.59954 1.16592 4.69954 1.26592Z" fill="#2A3647"/>
-          </svg>
-
+          <div class="dropdownSVG" onclick="stopEvent(event); openMobileDropdown(${taskIndex})">
+            <svg width="8" height="5" viewBox="0 0 8 5" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M3.29998 4.3L0.699975 1.7C0.383309 1.38333 0.312475 1.02083 0.487475 0.6125C0.662475 0.204167 0.974975 0 1.42498 0H6.57498C7.02498 0 7.33747 0.204167 7.51248 0.6125C7.68748 1.02083 7.61664 1.38333 7.29997 1.7L4.69998 4.3C4.59998 4.4 4.49164 4.475 4.37498 4.525C4.25831 4.575 4.13331 4.6 3.99998 4.6C3.86664 4.6 3.74164 4.575 3.62498 4.525C3.50831 4.475 3.39998 4.4 3.29998 4.3Z" fill="#2A3647"/>
+            </svg>
+          </div>
         </div>
         <div id="mobileDropdown${taskIndex}" class="mobileDropdown mobileDropdown-translate-100">
-          <a onclick="stopEvent(event);">To Do</a>
-          <a onclick="stopEvent(event);">In Progress</a>
-          <a onclick="stopEvent(event);">Await Feedback</a>
-          <a onclick="stopEvent(event);">Done</a>
+          <a onclick="stopEvent(event); moveTasksToCategory(${taskIndex},'to-do-container')">To Do</a>
+          <a onclick="stopEvent(event); moveTasksToCategory(${taskIndex},'in-progress-container')">In Progress</a>
+          <a onclick="stopEvent(event); moveTasksToCategory(${taskIndex},'await-feedback-container')">Await Feedback</a>
+          <a onclick="stopEvent(event); moveTasksToCategory(${taskIndex},'done-container')">Done</a>
         </div>
         <h3 class="task-title">${element["title"]}</h3>
         <p class="task-description">${element["description"]}</p>
@@ -382,7 +382,7 @@ function returnBigTaskPopUpContactAll(id) {
         <p class='big-edit-task-section-headline'>Assigned to</p>
         
         <div onclick='stopEvent(event);' id='big-edit-task-assigned-to-input-container'>
-          <input  onclick=' showEditTaskAssignedToPopUp()' type='text' id='big-edit-task-assigned-to-input' onkeyup='editPopUpSearchContacts("${id}")' placeholder='Select contacts to assign'>
+          <input  onclick=' toggleEditTaskAssignedToPopUp()' type='text' id='big-edit-task-assigned-to-input' onkeyup='editPopUpSearchContacts("${id}")' placeholder='Select contacts to assign'>
             <svg onclick=' toggleEditTaskAssignedToPopUp()' id='big-edit-task-assigned-to-input-arrow' class='big-edit-task-assigned-to-input-arrow' width="8" height="5" viewBox="0 0 8 5" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M3.44451 4.3L0.844506 1.7C0.52784 1.38333 0.457006 1.02083 0.632006 0.6125C0.807006 0.204167 1.11951 0 1.56951 0H6.71951C7.16951 0 7.48201 0.204167 7.65701 0.6125C7.83201 1.02083 7.76117 1.38333 7.44451 1.7L4.84451 4.3C4.74451 4.4 4.63617 4.475 4.51951 4.525C4.40284 4.575 4.27784 4.6 4.14451 4.6C4.01117 4.6 3.88617 4.575 3.76951 4.525C3.65284 4.475 3.54451 4.4 3.44451 4.3Z" fill="#2A3647"/>
             </svg>
