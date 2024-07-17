@@ -145,7 +145,8 @@ async function saveTaskToFirebase(task) {
 }
 
 function rotateFunction(id) {
-  document.getElementById(`task${id}`).style.transform = rotate(3(deg));
+  console.log(id);
+  document.getElementById(`task${id}`).style.transform = "rotate(3deg)";
 }
 
 // showAddTaskPopUp
