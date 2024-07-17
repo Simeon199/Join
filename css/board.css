@@ -1445,3 +1445,7 @@ body .box-shadow-none {
 #big-task-pop-up-subtask-all {
   padding-bottom: 10px;
 }
+
+.dropdownSVG {
+  display: none;
+}

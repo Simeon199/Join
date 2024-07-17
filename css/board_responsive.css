@@ -12,11 +12,11 @@
     font-size: 47px !important;
   }
 
-  .task-category-and-dropdown button {
+  /* .task-category-and-dropdown button {
     display: flex;
     align-items: center;
     cursor: pointer;
-  }
+  } */
 
   .mobileDropdown {
     position: absolute;
@@ -180,6 +180,20 @@
 
   .section-headline h2 {
     font-size: 27px;
+  }
+
+  .task-category-and-dropdown {
+    align-items: center;
+  }
+
+  .dropdownSVG {
+    display: flex;
+    height: 32px;
+    width: 32px;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(205, 205, 205, 1);
+    border-radius: 8px;
   }
 }
 
