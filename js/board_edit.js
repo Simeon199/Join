@@ -19,7 +19,7 @@ function editSubtaskPopUpInput(i) {
       </div>
     `;
 }
-  
+
 function editPopUpSearchContacts(taskIndex) {
   let searchValue = document.getElementById("big-edit-task-assigned-to-input").value.trim().toLowerCase();
   searchedUsers = [];
@@ -61,20 +61,20 @@ function editPopUpSearchContacts(taskIndex) {
     // }
   }
 }
-  
+
 function closeSubtaskContainer() {
   // let bigSubtaskContainer = document.getElementById("big-edit-task-subtask-container");
   // bigSubtaskContainer.classList.add("d-none");
 }
 
 function saveEditedSubtaskPopUp(i) {
-    let text = document.getElementById(`subtaskEditedPopUp`).value;
-    if (text == "") {
-      markFalseEditSubtaskInput(`subtaskEditedPopUp`, i);
-    } else {
-      subtaskArray[i]["task-description"] = text;
-      insertSubtasksIntoContainer();
-    }
+  let text = document.getElementById(`subtaskEditedPopUp`).value;
+  if (text == "") {
+    markFalseEditSubtaskInput(`subtaskEditedPopUp`, i);
+  } else {
+    subtaskArray[i]["task-description"] = text;
+    insertSubtasksIntoContainer();
+  }
 }
 
 function markFalseEditSubtaskInput(inputString, i) {
@@ -87,12 +87,12 @@ function markFalseEditSubtaskInput(inputString, i) {
                                 <div>`;
   // inputField.style.borderColor = "red";
 }
-  
+
 function deleteSubtaskPopUp(i) {
   subtaskArray.splice(i, 1);
   insertSubtasksIntoContainer();
 }
-  
+
 async function getSubtaskFromDataBase(id) {
   let oldTaskAll = await loadRelevantData(`/testRealTasks/${id}`);
   if (oldTaskAll.subtask) {
@@ -102,7 +102,7 @@ async function getSubtaskFromDataBase(id) {
     return subtaskArray;
   }
 }
-  
+
 async function saveTaskChanges(id) {
   showBoardLoadScreen();
 
@@ -134,7 +134,7 @@ async function saveTaskChanges(id) {
 
   hideBoardLoadScreen();
 }
-  
+
 async function saveSubtaskChanges(id) {
   let task = tasks[id];
   let newTitle = task.title;
@@ -176,7 +176,7 @@ async function saveSubtaskChanges(id) {
   checkBoxCheckedJson = {};
   updateHTML();
 }
-  
+
 function checkBigEditTaskPriority(priority) {
   if (priority == "urgent") {
     document.getElementById("big-edit-task-urgent-priority").classList.add("big-edit-task-urgent-priority-aktiv");
@@ -193,12 +193,12 @@ function checkBigEditTaskPriority(priority) {
   }
   return savePriorityValue(priority);
 }
-  
+
 function savePriorityValue(priority) {
   priorityValue = priority;
   return priorityValue;
 }
-  
+
 function saveChangesSingleTaskWithSubtask(taskId, objectForEditing, container, category) {
   tasks[taskId] = {
     assigned: objectForEditing["newAssignedTo"],
@@ -215,7 +215,7 @@ function saveChangesSingleTaskWithSubtask(taskId, objectForEditing, container, c
   assignedToContactsBigContainer = [];
   return newTask;
 }
-  
+
 function saveChangesSingleTaskWithoutSubtask(taskId, objectForEditing, container, category) {
   tasks[taskId] = {
     assigned: objectForEditing["newAssignedTo"],
@@ -231,7 +231,7 @@ function saveChangesSingleTaskWithoutSubtask(taskId, objectForEditing, container
   assignedToContactsBigContainer = [];
   return newTask;
 }
-  
+
 async function updateTasksThroughEditing(taskId, objectForEditing) {
   for (let index = 0; index < tasks.length; index++) {
     if (index == taskId) {
@@ -254,7 +254,7 @@ async function updateTasksThroughEditing(taskId, objectForEditing) {
   }
   checkBoxCheckedJson = {};
 }
-  
+
 // deleteData
 async function deleteData(path = "") {
   let response = await fetch(BASE_URL + path + ".json", {
@@ -262,7 +262,7 @@ async function deleteData(path = "") {
   });
   return (responseToJson = await response.json());
 }
-  
+
 // checkCategoryColor
 function checkCategoryColor(category) {
   if (category === "User Story") {
@@ -273,7 +273,7 @@ function checkCategoryColor(category) {
     return "#42526e";
   }
 }
-  
+
 // checkPriorityIcon
 function checkPriorityIcon(priorityText) {
   if (priorityText === "urgent") {
@@ -284,7 +284,7 @@ function checkPriorityIcon(priorityText) {
     return generateHTMLUrgencyLow();
   }
 }
-  
+
 // checkIfTitleContainsSearchedInput
 function searchForTasks() {
   let searchValue = document.getElementById("search-input").value.trim().toLowerCase();
@@ -298,12 +298,22 @@ function searchForTasks() {
   }
   renderSearchedTasks();
 }
-  
+
 // renderSearchedTasks
 function renderSearchedTasks() {
   for (let i = 0; i < allCategories.length; i++) {
     const categoryContainer = allCategories[i];
     document.getElementById(categoryContainer).innerHTML = "";
+
+    let tasksInCategory = searchedTasks.filter((task) => task.container === categoryContainer);
+
+    if (tasksInCategory.length === 0) {
+      let oppositeElementName = "no-" + categoryContainer;
+      let oppositeElement = getRightOppositeElement(oppositeElementName);
+
+      document.getElementById(categoryContainer).innerHTML = oppositeElement;
+      continue;
+    }
     if (searchedTasks.length < tasks.length) {
       for (let j = 0; j < searchedTasks.length; j++) {
         const task = searchedTasks[j];
@@ -342,22 +352,22 @@ function renderSearchedTasks() {
     }
   }
 }
-  
-  // if (categoryContainer === "await-feedback-container") {
-  //   document.getElementById(categoryContainer).innerHTML = returnHtmlNoFeedbackContainer();
-  // } else if (categoryContainer === "in-progress-container") {
-  //   document.getElementById(categoryContainer).innerHTML = returnHtmlNoProgressContainer();
-  // } else if (categoryContainer === "to-do-container") {
-  //   document.getElementById(categoryContainer).innerHTML = returnHtmlNoToDoContainer();
-  // } else if (categoryContainer === "done-container") {
-  //   document.getElementById(categoryContainer).innerHTML = returnHtmlNoDoneContainer();
-  // }
-  
-  // taskMarker
+
+// if (categoryContainer === "await-feedback-container") {
+//   document.getElementById(categoryContainer).innerHTML = returnHtmlNoFeedbackContainer();
+// } else if (categoryContainer === "in-progress-container") {
+//   document.getElementById(categoryContainer).innerHTML = returnHtmlNoProgressContainer();
+// } else if (categoryContainer === "to-do-container") {
+//   document.getElementById(categoryContainer).innerHTML = returnHtmlNoToDoContainer();
+// } else if (categoryContainer === "done-container") {
+//   document.getElementById(categoryContainer).innerHTML = returnHtmlNoDoneContainer();
+// }
+
+// taskMarker
 function taskMarker() {
   document.getElementById("board").classList.add("currentSection");
 }
-  
+
 function getInitials(name) {
   let nameArray = name.trim().split(" ");
   let initials = nameArray.map((word) => word.charAt(0).toUpperCase()).join("");
