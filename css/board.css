@@ -65,27 +65,6 @@ body .translate-100 {
   display: none;
 }
 
-.mobile-dropdown-icon {
-  box-sizing: unset;
-  padding: 10px;
-  border-radius: 100%;
-
-  transition: 0.2s;
-
-  transform: rotate(0);
-
-  width: 8px;
-  height: 8px;
-}
-
-.mobile-dropdown-icon:hover {
-  background-color: rgb(196, 196, 196);
-}
-
-.task:has(.mobileDropdown-translate-100) .mobile-dropdown-icon {
-  transform: rotate(180deg);
-}
-
 .headline-button {
   display: flex;
   justify-content: center;

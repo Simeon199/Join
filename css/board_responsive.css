@@ -187,13 +187,47 @@
   }
 
   .dropdownSVG {
+    box-sizing: unset;
+
     display: flex;
-    height: 32px;
-    width: 32px;
     align-items: center;
     justify-content: center;
+
+    height: 32px;
+    width: 32px;
+
     background-color: rgba(205, 205, 205, 1);
     border-radius: 8px;
+
+    transition: 0.2s;
+  }
+
+  .mobile-dropdown-icon {
+    box-sizing: unset;
+    padding: 10px;
+    border-radius: 100%;
+
+    transition: 0.2s;
+
+    transform: rotate(0);
+
+    width: 8px;
+    height: 8px;
+  }
+
+  /*  */
+
+  .dropdownSVG:hover {
+    background-color: rgb(155, 155, 155);
+  }
+
+  .dropdownSVG svg {
+    transition: 0.2s;
+    transform: rotate(-180deg);
+  }
+
+  .task:has(.mobileDropdown-translate-100) .dropdownSVG svg {
+    transform: rotate(0);
   }
 }
 
