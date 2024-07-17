@@ -6,5 +6,5 @@ function openMobileDropdown(taskIndex) {
   //     mobileDropdown.classList.add("d-none");
   // }
 
-  document.querySelectorAll(".mobileDropdown")[taskIndex].classList.toggle("mobileDropdown-translate-100");
+  document.getElementById(`mobileDropdown${taskIndex}`).classList.toggle("mobileDropdown-translate-100");
 }
