@@ -90,21 +90,24 @@ form div div div {
 }
 .arrow {
   display: flex;
-  padding: 0px 20px 0px 0px;
-  width: 24px;
+  padding: 10px;
+  margin-right: 10px;
+
+  width: unset;
+  border-radius: 100%;
+
+  transition: 0.2s;
 }
 
 .arrow:hover {
-  border-radius: 100%;
   background-color: #d9d9d9;
-  padding: 10px !important;
-  margin-right: 20px;
-  width: unset;
+  /* padding: 10px !important;
+  margin-right: 10px; */
 }
 
 .rotate {
   transform: rotate(180deg);
-  padding: 0px 0px 0px 20px !important;
+  /* padding: 0px 0px 0px 20px !important; */
 }
 
 #calender {
