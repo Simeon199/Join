@@ -105,13 +105,13 @@ function openMobileDropdown(taskIndex) {
   }
 }
 
-document.addEventListener("click", function (event) {
-  console.log(currentOpenDropdown);
-  if (currentOpenDropdown && !currentOpenDropdown.classList.contains(event.target)) {
-    currentOpenDropdown.classList.remove("mobileDropdown-translate-100");
-    currentOpenDropdown = null;
-  }
-});
+// document.addEventListener("click", function (event) {
+// console.log(currentOpenDropdown);
+// if (currentOpenDropdown && !currentOpenDropdown.classList.contains(event.target)) {
+//   currentOpenDropdown.classList.remove("mobileDropdown-translate-100");
+//   currentOpenDropdown = null;
+// }
+// });
 
 async function moveTasksToCategory(taskIndex, newCategory) {
   let task = tasks.find((task) => task.tasksIdentity == taskIndex);

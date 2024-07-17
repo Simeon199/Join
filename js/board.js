@@ -202,9 +202,9 @@ function renderBigTask(jsonTextElement) {
   renderCorrectAssignedNamesIntoBigTask(taskJson);
   returnHTMLBigTaskPopUpSubtaskAll();
   renderTaskContact(taskJson);
-  renderSubtask(taskJson);
 }
 
+renderSubtask(taskJson);
 function renderAllBigPopUp(oldTitle, oldDescription, oldDate, oldPriority, taskJson, id) {
   // ...
   if (taskJson.subtask) {
@@ -241,4 +241,12 @@ function renderAllBigPopUp(oldTitle, oldDescription, oldDate, oldPriority, taskJ
   renderBigTaskAssignedContactContainer(taskJson);
   renderBigEditTaskAssignedToPopUp(taskJson);
   returnBigPopUpEditButtons(id);
+}
+
+function closeAllDropDownPopUps() {
+  let AllMobileDropdownPopUps = document.querySelectorAll(".mobileDropdown");
+  for (let i = 0; i < AllMobileDropdownPopUps.length; i++) {
+    let dropdown = document.getElementById(`mobileDropdown${i}`);
+    dropdown.classList.add("mobileDropdown-translate-100");
+  }
 }
