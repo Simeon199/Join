@@ -12,6 +12,7 @@ let subtaskArray = [];
 let checkBoxCheckedJson = {};
 let emptyList = [];
 let renderCurrentTaskId;
+let touchTime;
 
 async function init_task() {
   await getTasksFromDatabase();
@@ -138,6 +139,11 @@ async function saveTaskToFirebase(task) {
     console.log("Task erfolgreich in Firebase gespeichert");
   }
 }
+
+document.addEventListener("touchstart", () => {touchTime = setTimeout(rotateFunction(TouchEvent.changedTouches[0].target.id), 2000)});
+document.addEventListener("touchend", () => clearTimeout(touchTime));
+// document.addEventListener(,rotateFunction());
+// TouchEvent.changedTouches[0].target.id
 
 function rotateFunction(id) {
   console.log(id);
