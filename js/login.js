@@ -45,7 +45,7 @@ async function signUp(event) {
     return;
   }
   let user = buildUserFunction(name, email, password);
-  await createUserAndShowPopup((path = ""), user);
+  await createUserAndShowPopup((path = "/users"), user);
 }
 
 function proveIfErrorMessageAlreadyExists() {

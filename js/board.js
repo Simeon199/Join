@@ -18,11 +18,6 @@ async function init_task() {
   updateHTML();
 }
 
-// document.addEventListener("DOMContentLoaded", async function () {
-//   await getTasksFromDatabase();
-//   updateHTML();
-// });
-
 async function loadRelevantData(path = "") {
   let response = await fetch(BASE_URL + path + ".json");
   let responseAsJson = await response.json();
