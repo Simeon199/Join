@@ -85,13 +85,10 @@ async function createTask(side) {
   if (side == "addTask") {
     startAnimation();
   }
-  // clearTask();
   if (side != "addTask") {
     hideAddTaskPopUp();
     updateHTML();
-    // clearTask();
   }
-  // init_task();
   clearTask();
 }
 
@@ -139,13 +136,14 @@ function checkCategory() {
 }
 
 async function checkRequiredFields(side) {
-  console.log("first check:", assignedContacts);
+  console.log("Test1", assignedContacts);
   let title = document.getElementById("inputTitle").value;
   let date = document.getElementById("date").value;
   if (title.length <= 1 || date.length <= 1 || checkCategory() == false || checkDate() === false) {
     showRequiredText();
   } else {
     showBoardLoadScreen();
+    console.log("Test2", assignedContacts);
     await createTask(side);
     hideBoardLoadScreen();
   }

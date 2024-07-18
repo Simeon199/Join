@@ -176,7 +176,7 @@ function hideAddTaskPopUp() {
   document.body.style.overflow = "unset";
   document.getElementById("add-task-pop-up-bg").classList.add("bg-op-0");
   document.getElementById("add-task-pop-up").classList.add("translate-100");
-  clearTask();
+  // clearTask();
 }
 
 // showBigTaskPopUp
