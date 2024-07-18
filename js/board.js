@@ -161,7 +161,7 @@ document.addEventListener("touchend", () => clearTimeout(touchTime));
 
 function rotateFunction(id) {
   console.log(id);
-  document.getElementById(`task${id}`).style.transform = "rotate(3deg)";
+  document.getElementById(`task${id}`).style.transform = "rotate(5deg)";
 }
 
 // showAddTaskPopUp
