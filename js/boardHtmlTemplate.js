@@ -12,7 +12,6 @@ function generateTaskHTMLForSearch(
 ) {
   let jsonTextElement = encodeURIComponent(jsonElement);
 
-  console.log(taskDescription);
   if (taskDescription.length > 40) {
     taskDescription = taskDescription.substring(0, 40) + "...";
   }
@@ -72,7 +71,6 @@ function returnTaskHtmlWithoutSubtask(element, contactsHTML, oppositeCategory, r
 
   let taskDescription = element["description"];
 
-  console.log(taskDescription);
   if (taskDescription.length > 40) {
     taskDescription = element["description"].substring(0, 40) + "...";
   }
@@ -122,7 +120,6 @@ function returnTaskHtmlWithSubtask(element, contactsHTML, oppositeCategory, righ
 
   let taskDescription = element["description"];
 
-  console.log(taskDescription);
   if (taskDescription.length > 40) {
     taskDescription = taskDescription.substring(0, 40) + "...";
     console.log(taskDescription);
