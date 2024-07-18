@@ -12,6 +12,11 @@ function generateTaskHTMLForSearch(
 ) {
   let jsonTextElement = encodeURIComponent(jsonElement);
 
+  console.log(taskDescription);
+  if (taskDescription.length > 40) {
+    taskDescription = taskDescription.substring(0, 40) + "...";
+  }
+
   return /*html*/ `
       <div class="task" 
           draggable="true" 
@@ -64,14 +69,22 @@ function generateTaskHTML(element, contactsHTML, oppositeCategory, rightIcon, js
 
 function returnTaskHtmlWithoutSubtask(element, contactsHTML, oppositeCategory, rightIcon, jsonTextElement) {
   let taskIndex = element.tasksIdentity;
-  return /*html*/`
+
+  let taskDescription = element["description"];
+
+  console.log(taskDescription);
+  if (taskDescription.length > 40) {
+    taskDescription = element["description"].substring(0, 40) + "...";
+  }
+
+  return /*html*/ `
   <div class="task" 
       id=task${taskIndex}
       draggable="true"
-      ondragstart="startDragging(${element['tasksIdentity']})"
-      ondragend="checkIfEmpty('${element['container']}', '${oppositeCategory}')"
+      ondragstart="startDragging(${element["tasksIdentity"]})"
+      ondragend="checkIfEmpty('${element["container"]}', '${oppositeCategory}')"
       ondragover="allowDrop(event)"
-      ondrop="moveTo('${element['container']}')"
+      ondrop="moveTo('${element["container"]}')"
       onclick="showBigTaskPopUp('${jsonTextElement}')"
   > <div class="task-category-and-dropdown">
       <div class='task-category' style='background-color: ${checkCategoryColor(element["category"])}'>
@@ -90,7 +103,7 @@ function returnTaskHtmlWithoutSubtask(element, contactsHTML, oppositeCategory, r
       <a onclick="stopEvent(event); moveTasksToCategory(${taskIndex},'done-container')">Done</a>
     </div>
     <h3 class="task-title">${element["title"]}</h3>
-    <p class="task-description">${element["description"]}</p>
+    <p class="task-description">${taskDescription}</p>
     <div class="task-contacts-container">
       <div class="task-contacts">
         ${contactsHTML}
@@ -104,17 +117,24 @@ function returnTaskHtmlWithoutSubtask(element, contactsHTML, oppositeCategory, r
 `;
 }
 
-
 function returnTaskHtmlWithSubtask(element, contactsHTML, oppositeCategory, rightIcon, jsonTextElement, taskbarWidth, numberOfTasksChecked) {
   let taskIndex = element.tasksIdentity;
 
-  return /*html*/`
+  let taskDescription = element["description"];
+
+  console.log(taskDescription);
+  if (taskDescription.length > 40) {
+    taskDescription = taskDescription.substring(0, 40) + "...";
+    console.log(taskDescription);
+  }
+
+  return `
       <div class="task" id=task${taskIndex}
           draggable="true" 
-          ondragstart="startDragging(${element['tasksIdentity']})" 
-          ondragend="checkIfEmpty('${element['container']}', '${oppositeCategory}')" 
+          ondragstart="startDragging(${element["tasksIdentity"]})" 
+          ondragend="checkIfEmpty('${element["container"]}', '${oppositeCategory}')" 
           ondragover="allowDrop(event)"
-          ondrop="moveTo('${element['container']}')"
+          ondrop="moveTo('${element["container"]}')"
           onclick="showBigTaskPopUp('${jsonTextElement}')"
       > <div class="task-category-and-dropdown">
           <div class='task-category' style='background-color: ${checkCategoryColor(element["category"])}'>
@@ -133,7 +153,7 @@ function returnTaskHtmlWithSubtask(element, contactsHTML, oppositeCategory, righ
           <a onclick="stopEvent(event); moveTasksToCategory(${taskIndex},'done-container')">Done</a>
         </div>
         <h3 class="task-title">${element["title"]}</h3>
-        <p class="task-description">${element["description"]}</p>
+        <p class="task-description">${taskDescription}</p>
         <div class="task-bar-container">
           <div class="task-bar">
             <div class="task-bar-content" style="width: ${taskbarWidth}%"></div>
