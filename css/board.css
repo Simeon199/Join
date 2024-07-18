@@ -564,6 +564,7 @@ body .translate-100 {
 
 .main {
   padding: 0;
+  margin-bottom: 50px;
 }
 
 .add-task-pop-up h1 {
@@ -625,14 +626,28 @@ body .translate-100 {
 }
 
 .submitSection {
-  position: unset;
-  left: unset;
-  bottom: unset;
+  /* position: unset; */
+  /* left: unset; */
+  bottom: -25px;
 
   width: 100%;
 
   display: flex;
   justify-content: space-between;
+  background-color: rgb(255, 255, 255);
+}
+
+@media (max-height: 900px) {
+  .submitSection {
+    width: 100%;
+    position: fixed;
+
+    bottom: 0;
+
+    margin-left: 0;
+    background-color: rgb(255, 255, 255);
+    border-radius: 0 0 30px 30px;
+  }
 }
 
 .buttons {
