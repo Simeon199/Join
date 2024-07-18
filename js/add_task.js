@@ -244,10 +244,8 @@ function hideAllAddTaskPopups() {
   hideDropDownAssignedTo();
   hideDropDownCategory();
   changeToInputfield();
-
   plus = document.getElementById("plusSymbole");
   subtask = document.getElementById("subtaskInputButtons");
-
   plus.classList.remove("d-none");
   subtask.classList.add("d-none");
 }
@@ -260,7 +258,6 @@ async function loadRelevantData(path = "") {
 
 async function deleteTask(taskId) {
   showBoardLoadScreen();
-
   tasks = tasks.filter((task) => task.tasksIdentity !== taskId);
   for (let i = taskId; i < tasks.length; i++) {
     tasks[i].tasksIdentity = i;
@@ -271,7 +268,6 @@ async function deleteTask(taskId) {
   await saveTaskIdToFirebase(tasksId);
   updateCategories();
   updateHTML();
-
   hideBoardLoadScreen();
 }
 

@@ -37,11 +37,9 @@ async function addCheckedStatus(i, correctTaskId) {
   let checkBoxChecked = false;
   let checkBoxIconUnchecked = document.getElementById(`checkBoxIconUnchecked${i}`);
   let checkBoxIconChecked = document.getElementById(`checkBoxIconChecked${i}`);
-
   if (!checkBoxIconUnchecked.classList.contains("d-none") && checkBoxIconChecked.classList.contains("d-none")) {
     checkBoxChecked = true;
     checkBoxCheckedJson[i] = checkBoxChecked;
-
     checkBoxIconUnchecked.classList.add("d-none");
     checkBoxIconChecked.classList.remove("d-none");
   } else if (!checkBoxIconChecked.classList.contains("d-none") && checkBoxIconUnchecked.classList.contains("d-none")) {
@@ -122,7 +120,6 @@ function closeAllSmallPopUpPopUps() {
     document.getElementById("big-edit-task-assigned-to-pop-up-container").classList.add("height-0");
     document.getElementById("big-edit-task-assigned-to-pop-up").classList.add("box-shadow-none");
     document.getElementById("big-edit-task-assigned-to-input-arrow").classList.remove("rotate-90");
-
     insertSubtasksIntoContainer();
   }
 }

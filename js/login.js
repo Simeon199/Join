@@ -232,50 +232,6 @@ function saveLoggedInStatus(name, email, remember) {
   return;
 }
 
-// async function testLoginFunction(event) {
-//   event.preventDefault();
-//   let loginEmail = document.getElementById("loginEmail").value;
-//   let loginPassword = document.getElementById("loginPassword").value;
-//   let remember = document.getElementById("remember").checked;
-//   let response = await loadData((path = ""));
-//   for (let key in response) {
-//     let user = response[key];
-//     if (user["email"] && user["password"]) {
-//       if (loginEmail == user["email"] && loginPassword == user["password"]) {
-//         saveLoggedInStatus(user["name"], user["email"], remember);
-//         window.location.href = "summary.html";
-//         return;
-//       }
-//     }
-//   }
-//   throwLoginError();
-// }
-
-// function throwLoginError() {
-//   let loginPasswordInput = document.getElementById("loginPasswordInputField");
-//   let loginInput = document.getElementById("loginInput");
-//   let loginPassword = document.getElementById("loginPassword");
-//   loginPassword.value = "";
-//   loginPasswordInput.style.border = "1px solid red";
-//   let existingNotification = document.querySelector(".notification");
-//   if (existingNotification) {
-//     existingNotification.remove();
-//   }
-//   let notification = document.createElement("div");
-//   notification.classList.add("notification");
-//   notification.innerHTML = `<p>Ups! Wrong Password. Try again.</p>`;
-//   loginInput.appendChild(notification);
-// }
-
-// function buildUserFunction(name, email, password) {
-//   let user = {
-//     name: name,
-//     email: email,
-//     password: password,
-//   };
-//   return user;
-// }
-
 async function postDataToDatabase(path, data) {
   try {
     let response = await fetch(BASE_URL + path + ".json", {
@@ -294,19 +250,6 @@ async function postDataToDatabase(path, data) {
     throw error;
   }
 }
-
-// async function createUserAndShowPopup(path, user) {
-//   try {
-//     let responseToJson = await postDataToDatabase(path, user);
-//     showRegisterPopup();
-//     setTimeout(() => {
-//       window.location.href = "login.html";
-//     }, 1000);
-//     return responseToJson;
-//   } catch (error) {
-//     console.error("Es gab ein Problem bei der Registrierung. Bitte versuchen Sie es später erneut");
-//   }
-// }
 
 function showRegisterPopup() {
   let registerPopup = document.getElementById("registerPopup");
