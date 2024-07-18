@@ -230,11 +230,12 @@ function renderAllBigPopUp(oldTitle, oldDescription, oldDate, oldPriority, taskJ
 
 function setupSubtaskArray(taskJson, id) {
   subtaskArray = taskJson.subtask || [];
-  if (!subtaskArray.length && !tasks[id].subtask) {
-    document.getElementById("big-edit-task-subtask-container").innerHTML = "";
-  } else {
-    taskJson.subtask = subtaskArray;
-  }
+  // if (!subtaskArray.length && !tasks[id].subtask) {
+  //   // document.getElementById("big-edit-task-subtask-container").innerHTML = "";
+  // } else {
+  //   taskJson.subtask = subtaskArray;
+  // }
+  taskJson.subtask = subtaskArray;
 }
 
 function renderPopUpElements(oldTitle, oldDescription, oldDate, oldPriority, id) {

@@ -10,11 +10,11 @@
     font-size: 47px !important;
   }
 
-  /* .task-category-and-dropdown button {
+  .task-category-and-dropdown button {
     display: flex;
     align-items: center;
     cursor: pointer;
-  } */
+  }
 
   .mobileDropdown {
     position: absolute;
