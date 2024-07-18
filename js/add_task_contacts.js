@@ -98,13 +98,11 @@ function checkAssignedContacts(name, color, i) {
     document.getElementById(`checked${i}`).classList.add("d-none");
     selUser.classList.remove("contactIsSelect");
     removeAssignedToContects(x.name, i);
-    console.log("hallo");
   } else {
     document.getElementById(`none_checked${i}`).classList.add("d-none");
     document.getElementById(`checked${i}`).classList.remove("d-none");
     selUser.classList.add("contactIsSelect");
     x.selected = true;
-    console.log(x);
     addUserToTask(x);
   }
 }
