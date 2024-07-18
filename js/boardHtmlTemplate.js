@@ -48,24 +48,6 @@ function generateTaskHTMLForSearch(
     `;
 }
 
-function generateTaskHTML(element, contactsHTML, oppositeCategory, rightIcon, jsonElement) {
-  let jsonTextElement = encodeURIComponent(jsonElement);
-  if (element["subtask"] && element["subtask"].length > 0) {
-    let numberOfTasksChecked = 0;
-    for (index = 0; index < element["subtask"].length; index++) {
-      if (element["subtask"][index]["is-tasked-checked"] == true) {
-        numberOfTasksChecked += 1;
-      }
-    }
-    let taskbarWidth = Math.round((numberOfTasksChecked / element["subtask"].length) * 100);
-    return returnTaskHtmlWithSubtask(element, contactsHTML, oppositeCategory, rightIcon, jsonTextElement, taskbarWidth, numberOfTasksChecked);
-  } else if (element["subtask"] && element["subtask"].length == 0) {
-    return returnTaskHtmlWithoutSubtask(element, contactsHTML, oppositeCategory, rightIcon, jsonTextElement);
-  } else {
-    return returnTaskHtmlWithoutSubtask(element, contactsHTML, oppositeCategory, rightIcon, jsonTextElement);
-  }
-}
-
 function returnTaskHtmlWithoutSubtask(element, contactsHTML, oppositeCategory, rightIcon, jsonTextElement) {
   let taskIndex = element.tasksIdentity;
 
