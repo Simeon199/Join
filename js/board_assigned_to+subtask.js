@@ -14,7 +14,6 @@ function renderCorrectAssignedNamesIntoBigTask(taskJson) {
 function renderSubtask(taskJson) {
   let correctTaskId = taskJson.tasksIdentity;
   if (taskJson.subtask && taskJson.subtask.length > 0) {
-    // let subtasks = taskJson.subtask;
     taskJson.subtask.forEach((subtask, index) => {
       if (subtask["is-tasked-checked"] == false) {
         document.getElementById("big-task-pop-up-subtasks-container").innerHTML += returnSubtaskHTML(correctTaskId, subtask, index);
@@ -76,7 +75,7 @@ async function saveChangedSubtaskToFirebase(correctTaskId) {
   if (!response.ok) {
     console.error("Fehler beim Speichern der Task in Firebase:", response.status, response.statusText);
   } else {
-    console.log("Task erfolgreich in Firebase gespeichert");
+    // console.log("Task erfolgreich in Firebase gespeichert");
   }
 }
 
@@ -256,12 +255,7 @@ function buildSubtaskArrayForUpload() {
 }
 
 function insertSubtasksIntoContainer() {
-  console.log(subtaskArray);
-  console.log(tasks[renderCurrentTaskId]);
   document.getElementById("big-edit-task-subtask-container").innerHTML = "";
-  // let subtaskAllContainer = document.getElementById("big-task-pop-up-subtask-all");
-  // subtaskAllContainer.innerHTML += `<div id="onlySubtasks"></div>`;
-  // let onlySubtasks = document.getElementById("onlySubtasks");
   document.getElementById("big-edit-task-subtask-container").innerHTML = "";
   if (subtaskArray && subtaskArray.length >= 1) {
     for (let i = 0; i < subtaskArray.length; i++) {
@@ -269,13 +263,7 @@ function insertSubtasksIntoContainer() {
       document.getElementById("big-edit-task-subtask-container").innerHTML += renderSubtaskInPopUpContainer(i, subtask);
     }
   } else if (subtaskArray && subtaskArray.length == 0 && tasks[renderCurrentTaskId]["subtask"]) {
-    // let subtasks = tasks[renderCurrentTaskId]["subtask"];
-    // for (let i = 0; i < subtasks.length; i++) {
-    //   let subtask = subtasks[i];
-    //   document.getElementById("big-edit-task-subtask-container").innerHTML += renderSubtaskInPopUpContainer(i, subtask);
-    // }
   } else if (!subtaskArray && !tasks[renderCurrentTaskId]["subtask"]) {
-    // document.getElementById("big-edit-task-subtask-container").innerHTML += `<div class="noSubtaskMessage" id="noSubtaskMessage"><p>Aktuell sind keine Subtasks vorhanden.</p></div>`;
     document.getElementById("big-edit-task-subtask-container").innerHTML += "";
   }
 }
