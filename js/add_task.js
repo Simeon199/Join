@@ -111,7 +111,7 @@ function showDropDownCategory() {
   document.getElementById("categoryDropDown").innerHTML = /*html*/ `
             <div onclick="hideDropDownCategory(); changeCategory('Technical Task')"><span>Technical Task</span></div>
             <div onclick="hideDropDownCategory(); changeCategory('User Story')"><span>User Story</span></div>
-    `;
+  `;
 }
 
 function hideDropDownCategory() {
@@ -180,30 +180,36 @@ async function ensureAllTasksExists() {
 }
 
 async function saveTask() {
-  let inputTitle = document.getElementById("inputTitle").value;
-  let inputDescription = document.getElementById("inputDescription").value;
-  let date = document.getElementById("date").value;
-  let category = document.getElementById("categoryText").textContent;
-
-  let newTask = {
-    title: inputTitle,
-    description: inputDescription,
-    assigned: assignedContacts,
-    date: date,
-    priority: priority,
-    category: category,
-    subtask: subArray,
-    container: standardContainer,
-    tasksIdentity: tasksId,
-  };
+  let newTask = createNewTask();
   tasksId++;
-  await saveTaskIdToFirebase(tasksId); // Speichern der aktuellen tasksId in Firebase
+  await saveTaskIdToFirebase(tasksId);
   await uploadToAllTasks(newTask);
   tasks.push(newTask);
   saveTasksToLocalStorage();
   updateCategories();
+  updateBoardHTMLIfOnBoardPage();
+}
+
+function createNewTask() {
+  return {
+    title: getInputValue("inputTitle"),
+    description: getInputValue("inputDescription"),
+    assigned: assignedContacts,
+    date: getInputValue("date"),
+    priority: priority,
+    category: document.getElementById("categoryText").textContent,
+    subtask: subArray,
+    container: standardContainer,
+    tasksIdentity: tasksId,
+  };
+}
+
+function getInputValue(elementId) {
+  return document.getElementById(elementId).value;
+}
+
+function updateBoardHTMLIfOnBoardPage() {
   if (window.location.pathname === "/board.html") {
-    console.log("board");
     updateHTML();
   }
 }

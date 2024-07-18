@@ -30,6 +30,7 @@ function hideDropDownAssignedTo() {
 }
 
 function renderAssignedToHTML(user, contact, i) {
+  // contact.innerHTML += returnContactInnerHTML(user, i);
   contact.innerHTML += /*html*/ `
     <div id="user${i}" class=assignedDropDownField onclick="checkAssignedContacts('${user[`name`]}', '${user[`color`]}', ${i})">
       <div class="circle" id="assignetToLetters${i}"></div>
@@ -44,6 +45,20 @@ function renderAssignedToHTML(user, contact, i) {
   document.getElementById(`assignetToLetters${i}`).style.backgroundColor = user["color"];
   sowUserLetters(`assignetToLetters${i}`, user["name"]);
 }
+
+// function returnContactInnerHTML(user, i) {
+//   return `
+//     <div id="user${i}" class=assignedDropDownField onclick="checkAssignedContacts('${user[`name`]}', '${user[`color`]}', ${i})">
+//       <div class="circle" id="assignetToLetters${i}"></div>
+//       <div class="DropDownUser"><span>${user["name"]}</span>
+//         <div class="checkboxesSVG">
+//           <img id="none_checked${i}" src="Assets/img/Checkbox_black.svg" alt="">
+//           <img id="checked${i}" class="checked d-none" src="Assets/img/Checkbox_checked.svg" alt="">
+//         </div>
+//       </div>
+//     </div>
+//   `;
+// }
 
 function assignetToContects() {
   circleCont = document.getElementById("userCircles");

@@ -86,15 +86,11 @@ function openMobileDropdown(taskIndex) {
   let task = tasks.find((task) => task.tasksIdentity == taskIndex);
   let currentCategory = task.container;
   let dropdownItems = dropdown.querySelectorAll("a");
-
   if (!dropdown.classList.contains("mobileDropdown-translate-100")) {
     currentOpenDropdown = dropdown;
   } else {
     currentOpenDropdown = null;
   }
-
-  console.log(currentOpenDropdown);
-
   for (i = 0; i < dropdownItems.length; i++) {
     let category = replaceSpacesWithDashes(dropdownItems[i].textContent.trim().toLowerCase() + "-container");
     if (category === currentCategory.toLowerCase()) {
