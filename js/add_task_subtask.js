@@ -67,16 +67,19 @@ function editSubtaskInput(i) {
   container.onmouseover = null;
   container.onmouseout = null;
   container.ondblclick = null;
-  container.innerHTML = /*html*/ `
-      <input id="subtaskEdited" type="text" value="${subArray[i]["task-description"]}">
-      <div class="inputButtons">
-        <img onclick="deleteSubtask(${i}), stopEvent(event)" src="Assets/img/deletetrash.svg" alt="">
-        <div class="subtaskBorder"></div>
-        <img onclick="saveEditedSubtask(${i}), stopEvent(event)" src="Assets/img/checksubmit.svg" alt="">
-      </div>
-    `;
+  container.innerHTML = returnEditSubtaskInputHTML(i);
   edit = document.getElementById(`subtaskEdited`);
   subtask[i] = edit.value;
+}
+
+function returnEditSubtaskInputHTML(i) {
+  return `<input id="subtaskEdited" type="text" value="${subArray[i]["task-description"]}">
+  <div class="inputButtons">
+    <img onclick="deleteSubtask(${i}), stopEvent(event)" src="Assets/img/deletetrash.svg" alt="">
+    <div class="subtaskBorder"></div>
+    <img onclick="saveEditedSubtask(${i}), stopEvent(event)" src="Assets/img/checksubmit.svg" alt="">
+  </div>
+`;
 }
 
 function hideOrShowEditButtons() {
@@ -110,7 +113,7 @@ function toggleDNone(id) {
 function showsubtaskIsEmptyError() {
   emptySub = document.getElementById("emptySubtask");
   emptySub.classList.remove('d-none');
-  setTimeout(function() {
+  setTimeout(function () {
     document.getElementById("emptySubtask").classList.add('d-none');
   }, 5000);
 }

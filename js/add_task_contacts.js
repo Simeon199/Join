@@ -129,7 +129,6 @@ function removeAssignedToContects(name, index) {
       assignedContacts.splice(i, 1);
     }
   }
-
   assignetToContects();
 }
 
@@ -158,7 +157,6 @@ function searchContacts() {
   document.getElementById("assignedToDropDown").innerHTML = "";
   search = document.getElementById("searchField");
   text = search.value.toLowerCase();
-
   if (text.length >= 1) {
     searchResults = [];
     for (let i = 0; i < allUsers.length; i++) {
@@ -177,7 +175,6 @@ function searchContacts() {
 function showDropDownAssignedToOnlyResult() {
   contact = document.getElementById("assignedToDropDown");
   contact.innerHTML = "";
-
   for (let i = 0; i < searchResults.length; i++) {
     user = searchResults[i];
     renderAssignedToHTML(user, contact, i);
