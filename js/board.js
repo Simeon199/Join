@@ -155,7 +155,6 @@ async function saveTaskToFirebase(task) {
 }
 
 function rotateFunction(id) {
-  console.log(id);
   document.getElementById(`task${id}`).style.transform = "rotate(3deg)";
 }
 
