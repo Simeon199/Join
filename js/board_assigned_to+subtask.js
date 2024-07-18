@@ -13,42 +13,52 @@ function renderCorrectAssignedNamesIntoBigTask(taskJson) {
 
 function renderSubtask(taskJson) {
   let correctTaskId = taskJson.tasksIdentity;
+  let container = document.getElementById("big-task-pop-up-subtasks-container");
+
   if (taskJson.subtask && taskJson.subtask.length > 0) {
-    taskJson.subtask.forEach((subtask, index) => {
-      if (subtask["is-tasked-checked"] == false) {
-        document.getElementById("big-task-pop-up-subtasks-container").innerHTML += returnSubtaskHTML(correctTaskId, subtask, index);
-      } else if (subtask["is-tasked-checked"] == true) {
-        document.getElementById("big-task-pop-up-subtasks-container").innerHTML += returnSubtaskHTMLWithBolean(correctTaskId, subtask, index);
-      }
-    });
-  } else if (taskJson.subtask && taskJson.subtask.length == 0) {
-    document.getElementById("big-task-pop-up-subtasks-container").innerHTML = /*html*/ `  
-    <p class='big-task-pop-up-value-text'>No Subtasks</p>
-    `;
+    renderSubtasks(taskJson.subtask, correctTaskId, container);
   } else {
-    document.getElementById("big-task-pop-up-subtasks-container").innerHTML = /*html*/ `  
-    <p class='big-task-pop-up-value-text'>No Subtasks</p>
-    `;
+    renderNoSubtasksMessage(container);
   }
+}
+
+function renderSubtasks(subtasks, taskId, container) {
+  subtasks.forEach((subtask, index) => {
+    container.innerHTML += subtask["is-tasked-checked"]
+      ? returnSubtaskHTMLWithBolean(taskId, subtask, index)
+      : returnSubtaskHTML(taskId, subtask, index);
+  });
+}
+
+function renderNoSubtasksMessage(container) {
+  container.innerHTML = /*html*/ `
+    <p class='big-task-pop-up-value-text'>No Subtasks</p>
+  `;
 }
 
 async function addCheckedStatus(i, correctTaskId) {
   let subtasks = tasks[correctTaskId]["subtask"];
-  let checkBoxChecked = false;
+  let checkBoxChecked = toggleCheckboxIcons(i);
+  updateCheckboxStatus(i, checkBoxChecked);
+  depositSubtaskChanges(correctTaskId, subtasks);
+}
+
+function toggleCheckboxIcons(i) {
   let checkBoxIconUnchecked = document.getElementById(`checkBoxIconUnchecked${i}`);
   let checkBoxIconChecked = document.getElementById(`checkBoxIconChecked${i}`);
   if (!checkBoxIconUnchecked.classList.contains("d-none") && checkBoxIconChecked.classList.contains("d-none")) {
-    checkBoxChecked = true;
-    checkBoxCheckedJson[i] = checkBoxChecked;
     checkBoxIconUnchecked.classList.add("d-none");
     checkBoxIconChecked.classList.remove("d-none");
+    return true;
   } else if (!checkBoxIconChecked.classList.contains("d-none") && checkBoxIconUnchecked.classList.contains("d-none")) {
-    checkBoxChecked = false;
-    checkBoxCheckedJson[i] = checkBoxChecked;
     checkBoxIconUnchecked.classList.remove("d-none");
     checkBoxIconChecked.classList.add("d-none");
+    return false;
   }
-  depositSubtaskChanges(correctTaskId, subtasks);
+}
+
+function updateCheckboxStatus(i, checkBoxChecked) {
+  checkBoxCheckedJson[i] = checkBoxChecked;
 }
 
 async function depositSubtaskChanges(correctTaskId, subtasks) {
@@ -184,7 +194,6 @@ function checkBigEditTaskContact(i, contactObject, taskIndex) {
   } else {
     assignedToContactsBigContainer = [];
   }
-
   HTMLContactContainer = document.querySelectorAll(".big-edit-task-assigned-to-pop-up-contact-container")[i];
   HTMLContactContainer.classList.toggle("big-edit-task-assigned-to-pop-up-active-contact");
   if (HTMLContactContainer.classList.contains("big-edit-task-assigned-to-pop-up-active-contact")) {

@@ -92,30 +92,44 @@ function insertCorrectUrgencyIcon(element) {
 
 function createToDoHTML(element) {
   let rightIcon = insertCorrectUrgencyIcon(element);
-  let oppositeCategory = "no-" + element["container"];
+  let oppositeCategory = "no-" + element.container;
+  let contactsHTML = generateContactsHTML(element);
+  let jsonElement = JSON.stringify(element);
+
+  return generateTaskHTML(element, contactsHTML, oppositeCategory, rightIcon, jsonElement);
+}
+
+function generateContactsHTML(element) {
+  if (!element.assigned || !Array.isArray(element.assigned)) return "";
 
   let contactsHTML = "";
-  if (element["assigned"] || typeof element["assigned"] == Array) {
-    let lengthOfAssignedTo = element["assigned"].length;
-    for (let i = 0; i < element["assigned"].length; i++) {
-      if (i < 3) {
-        let name = element["assigned"][i]["name"];
-        let initials = getInitials(name);
-        contactsHTML += /*html*/ `  
-      <div class="task-contact" style='background-color: ${element["assigned"][i]["color"]}'>${initials}</div>`;
-      } else if (i === 3) {
-        contactsHTML += /*html*/ `
-          <div class='taskAssignedToNumberContainer'><span>+ ${lengthOfAssignedTo - 3}</span></div>
-        `;
-      } else if (i > 3) {
-        if (document.querySelectorAll("taskAssignedToNumberContainer")[element.tasksIdentity]) {
-          document.querySelectorAll("taskAssignedToNumberContainer")[element.tasksIdentity].innerHTML = showTaskContactPlusHTML(lengthOfAssignedTo);
-        }
-      }
-    }
+  let lengthOfAssignedTo = element.assigned.length;
+
+  for (let i = 0; i < lengthOfAssignedTo; i++) {
+    contactsHTML += generateContactHTML(element, i, lengthOfAssignedTo);
   }
-  let jsonElement = JSON.stringify(element);
-  return generateTaskHTML(element, contactsHTML, oppositeCategory, rightIcon, jsonElement);
+
+  return contactsHTML;
+}
+
+function generateContactHTML(element, index, lengthOfAssignedTo) {
+  if (index < 3) {
+    let name = element.assigned[index].name;
+    let initials = getInitials(name);
+    return /*html*/ `<div class="task-contact" style='background-color: ${element.assigned[index].color}'>${initials}</div>`;
+  } else if (index === 3) {
+    return /*html*/ `<div class='taskAssignedToNumberContainer'><span>+ ${lengthOfAssignedTo - 3}</span></div>`;
+  } else {
+    updateTaskContactPlusHTML(element, lengthOfAssignedTo);
+    return "";
+  }
+}
+
+function updateTaskContactPlusHTML(element, lengthOfAssignedTo) {
+  let container = document.querySelectorAll("taskAssignedToNumberContainer")[element.tasksIdentity];
+  if (container) {
+    container.innerHTML = showTaskContactPlusHTML(lengthOfAssignedTo);
+  }
 }
 
 function showTaskContactPlusHTML(lengthOfAssignedTo) {
@@ -209,38 +223,38 @@ function renderBigTask(jsonTextElement) {
   renderSubtask(taskJson);
 }
 
-
 function renderAllBigPopUp(oldTitle, oldDescription, oldDate, oldPriority, taskJson, id) {
-  // ...
-  if (taskJson.subtask) {
-    subtaskArray = taskJson.subtask;
+  setupSubtaskArray(taskJson, id);
+  renderPopUpElements(oldTitle, oldDescription, oldDate, oldPriority, id);
+  renderBigTaskDetails(taskJson, oldPriority, id);
+}
+
+function setupSubtaskArray(taskJson, id) {
+  subtaskArray = taskJson.subtask || [];
+  if (!subtaskArray.length && !tasks[id].subtask) {
+    document.getElementById("big-edit-task-subtask-container").innerHTML = "";
   } else {
-    subtaskArray = [];
+    taskJson.subtask = subtaskArray;
   }
+}
 
-  console.log(taskJson);
-  if (subtaskArray.length !== 0) {
-    taskJson["subtask"] = subtaskArray;
-  } else if (taskJson["subtask"] && subtaskArray.length == 0) {
-    taskJson["subtask"] = taskJson["subtask"];
-
-    // ???
-    // subtaskArray = taskJson.subtask;
-    // ???
-  } else if (!subtaskArray && !tasks[id]["subtask"]) {
-    // document.getElementById("big-edit-task-subtask-container").innerHTML += `<div class="noSubtaskMessage"><p>Aktuell sind keine Subtasks vorhanden.</p></div>`;
-    document.getElementById("big-edit-task-subtask-container").innerHTML += "";
-  }
+function renderPopUpElements(oldTitle, oldDescription, oldDate, oldPriority, id) {
   returnBigTaskPopUpTitle(oldTitle);
   returnBigTaskPopUpDescription(oldDescription);
-  document.getElementById("big-task-pop-up-due-date-container").classList.add("big-edit-task-pop-up-section-container");
-  returnBigTaskPopUpDueDateContainer(oldDate);
-  document.getElementById("big-task-pop-up-priority-container").classList.add("big-edit-task-pop-up-section-container");
-  returnBigTaskPopUpPriorityContainer();
+  renderBigTaskPopUpSection("big-task-pop-up-due-date-container", oldDate, returnBigTaskPopUpDueDateContainer);
+  renderBigTaskPopUpSection("big-task-pop-up-priority-container", oldPriority, returnBigTaskPopUpPriorityContainer);
+  priorityValue = oldPriority;
   document
     .getElementById("big-edit-task-" + oldPriority.toLowerCase() + "-priority")
     .classList.add("big-edit-task-" + oldPriority.toLowerCase() + "-priority-aktiv");
-  priorityValue = oldPriority;
+}
+
+function renderBigTaskPopUpSection(containerId, value, renderFunction) {
+  document.getElementById(containerId).classList.add("big-edit-task-pop-up-section-container");
+  renderFunction(value);
+}
+
+function renderBigTaskDetails(taskJson, oldPriority, id) {
   returnBigTaskPopUpContactAll(id);
   returnBigTaskPopUpSubtasksAll();
   renderBigTaskAssignedContactContainer(taskJson);
@@ -253,5 +267,23 @@ function closeAllDropDownPopUps() {
   for (let i = 0; i < AllMobileDropdownPopUps.length; i++) {
     let dropdown = document.getElementById(`mobileDropdown${i}`);
     dropdown.classList.add("mobileDropdown-translate-100");
+  }
+}
+
+function generateTaskHTML(element, contactsHTML, oppositeCategory, rightIcon, jsonElement) {
+  let jsonTextElement = encodeURIComponent(jsonElement);
+  if (element["subtask"] && element["subtask"].length > 0) {
+    let numberOfTasksChecked = 0;
+    for (index = 0; index < element["subtask"].length; index++) {
+      if (element["subtask"][index]["is-tasked-checked"] == true) {
+        numberOfTasksChecked += 1;
+      }
+    }
+    let taskbarWidth = Math.round((numberOfTasksChecked / element["subtask"].length) * 100);
+    return returnTaskHtmlWithSubtask(element, contactsHTML, oppositeCategory, rightIcon, jsonTextElement, taskbarWidth, numberOfTasksChecked);
+  } else if (element["subtask"] && element["subtask"].length == 0) {
+    return returnTaskHtmlWithoutSubtask(element, contactsHTML, oppositeCategory, rightIcon, jsonTextElement);
+  } else {
+    return returnTaskHtmlWithoutSubtask(element, contactsHTML, oppositeCategory, rightIcon, jsonTextElement);
   }
 }
