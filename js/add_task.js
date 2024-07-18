@@ -136,22 +136,14 @@ function checkCategory() {
 }
 
 async function checkRequiredFields(side) {
-<<<<<<< HEAD
   console.log("Test1", assignedContacts);
-=======
-  console.log("first check:", assignedContacts)
->>>>>>> 4bc25facf4ec9c12d9a46ec9f6e97abff1564a6e
   let title = document.getElementById("inputTitle").value;
   let date = document.getElementById("date").value;
   if (title.length <= 1 || date.length <= 1 || checkCategory() == false || checkDate() === false) {
     showRequiredText();
   } else {
     showBoardLoadScreen();
-<<<<<<< HEAD
     console.log("Test2", assignedContacts);
-=======
-    console.log("second check:", assignedContacts);
->>>>>>> 4bc25facf4ec9c12d9a46ec9f6e97abff1564a6e
     await createTask(side);
     hideBoardLoadScreen();
   }
