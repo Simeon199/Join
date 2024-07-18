@@ -123,3 +123,15 @@ function focusInput() {
   let activSubtask = document.getElementById("subtask");
   activSubtask.focus();
 }
+
+function addSubtaskByEnterClick() {
+  let text = document.getElementById(`testForFunction`);
+  suby = document.getElementById("subtask");
+  text.addEventListener("keyup", (e) => {
+    if (e.key === "Enter" && document.hasFocus()) {
+      e.preventDefault()
+      e.stopPropagation();
+      document.getElementById("enterClick").click();
+    }
+  })
+}

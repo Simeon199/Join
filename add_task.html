@@ -37,7 +37,8 @@
         </div>
 
         <section id="section99" class="addTaskBody">
-          <form onsubmit="checkRequiredFields('addTask'); return false;">
+          <!-- onsubmit="checkRequiredFields('addTask'); return false;" -->
+          <form>
             <div class="input1">
               <div>
                 <p>Title<b>*</b></p>
@@ -163,11 +164,11 @@
               <div>
                 <p>Subtasks</p>
                 <div id="testForFunction" class="onFocus">
-                  <input onclick="  stopEvent(event);hideOrShowEditButtons()" id="subtask" type="text" placeholder="Add new subtask" />
+                  <input onkeyup="addSubtaskByEnterClick()" onclick="stopEvent(event); hideOrShowEditButtons()" id="subtask" type="text" placeholder="Add new subtask" />
                   <div id="subtaskInputButtons" class="subtaskIcons d-none">
                     <img onclick="clearSubtaskInput()" src="Assets/img/close.svg" alt="" />
                     <div class="subtaskBorder"></div>
-                    <img onclick="addSubtask()" src="Assets/img/checksubmit.svg" alt="" />
+                    <img id="enterClick" onclick="addSubtask()" src="Assets/img/checksubmit.svg" alt="" />
                   </div>
                   <svg
                     onclick="stopEvent(event); focusInput()"
@@ -208,7 +209,7 @@
                     />
                   </svg>
                 </div>
-                <button id="subButton" type="submit" class="darkBTN">
+                <button id="subButton" type="button" onclick="checkRequiredFields('addTask'); return false;" class="darkBTN">
                   <span>Create Task</span>
                   <svg width="16" height="12" viewBox="0 0 16 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
