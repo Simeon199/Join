@@ -98,6 +98,7 @@ function clearTask() {
   inputTitle.value = "";
   inputDescription.value = "";
   clearAssignedTo();
+  console.log("Again further check:", assignedContacts);
   date.value = "";
   category = changeCategory("Select task category");
   clearSubtask();
@@ -134,12 +135,14 @@ function checkCategory() {
 }
 
 async function checkRequiredFields(side) {
+  console.log("first check:", assignedContacts)
   let title = document.getElementById("inputTitle").value;
   let date = document.getElementById("date").value;
   if (title.length <= 1 || date.length <= 1 || checkCategory() == false || checkDate() === false) {
     showRequiredText();
   } else {
     showBoardLoadScreen();
+    console.log("second check:", assignedContacts);
     await createTask(side);
     hideBoardLoadScreen();
   }
@@ -181,6 +184,7 @@ async function ensureAllTasksExists() {
 
 async function saveTask() {
   let newTask = createNewTask();
+  console.log("third check:", newTask);
   tasksId++;
   await saveTaskIdToFirebase(tasksId);
   await uploadToAllTasks(newTask);
