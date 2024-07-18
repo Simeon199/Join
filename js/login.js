@@ -72,7 +72,7 @@ async function checkSignInRequirements(name, email, password, passwordRepeat, pr
 }
 
 async function nicknameAlreadyExists(name, email) {
-  let response = await loadData((path = ""));
+  let response = await loadData((path = "/users"));
   for (let key in response) {
     let user = response[key];
     let availabelNickname = user["name"];
@@ -177,12 +177,10 @@ function throwSignUpErrorWhenWrongPasswordSyntax() {
   let allErrorMessages = document.getElementById('allErrorMessages');
   let reportFailedSignUp = document.getElementById('reportFailedSignUpWhenWeakPassword');
   if (reportFailedSignUp.classList.contains("d-none") && allErrorMessages.classList.contains("d-none")) {
-    console.log('true');
     allErrorMessages.classList.remove("d-none");
     allErrorMessages.classList.add("d-flex");
     reportFailedSignUp.classList.remove('d-none');
   } else {
-    console.log('false');
     allErrorMessages.classList.remove("d-flex");
     allErrorMessages.classList.add("d-none");
     reportFailedSignUp.classList.add('d-none');
