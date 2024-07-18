@@ -262,13 +262,13 @@ function renderBigTaskDetails(taskJson, oldPriority, id) {
   returnBigPopUpEditButtons(id);
 }
 
-function closeAllDropDownPopUps() {
-  let AllMobileDropdownPopUps = document.querySelectorAll(".mobileDropdown");
-  for (let i = 0; i < AllMobileDropdownPopUps.length; i++) {
-    let dropdown = document.getElementById(`mobileDropdown${i}`);
-    dropdown.classList.add("mobileDropdown-translate-100");
-  }
-}
+// function closeAllDropDownPopUps() {
+//   let AllMobileDropdownPopUps = document.querySelectorAll(".mobileDropdown");
+//   for (let i = 0; i < AllMobileDropdownPopUps.length; i++) {
+//     let dropdown = document.getElementById(`mobileDropdown${i}`);
+//     dropdown.classList.add("mobileDropdown-translate-100");
+//   }
+// }
 
 function generateTaskHTML(element, contactsHTML, oppositeCategory, rightIcon, jsonElement) {
   let jsonTextElement = encodeURIComponent(jsonElement);

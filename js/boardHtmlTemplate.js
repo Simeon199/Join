@@ -107,7 +107,7 @@ function returnTaskHtmlWithSubtask(element, contactsHTML, oppositeCategory, righ
     console.log(taskDescription);
   }
 
-  return `
+  return /*html*/`
       <div class="task" id=task${taskIndex}
           draggable="true" 
           ondragstart="startDragging(${element['tasksIdentity']}); rotateFunction(${taskIndex})" 
