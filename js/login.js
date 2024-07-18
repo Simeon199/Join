@@ -98,12 +98,10 @@ function createReportDueToFailedRegistration() {
   let allErrorMessages = document.getElementById('allErrorMessages');
   let reportFailedSignUp = document.getElementById('reportFailedSignUp');
   if (reportFailedSignUp.classList.contains("d-none") && allErrorMessages.classList.contains("d-none")) {
-    console.log('true');
     allErrorMessages.classList.remove("d-none");
     allErrorMessages.classList.add("d-flex");
     reportFailedSignUp.classList.remove('d-none');
   } else {
-    console.log('false');
     allErrorMessages.classList.remove("d-flex");
     allErrorMessages.classList.add("d-none");
     reportFailedSignUp.classList.add('d-none');
