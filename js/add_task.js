@@ -202,7 +202,10 @@ async function saveTask() {
   tasks.push(newTask);
   saveTasksToLocalStorage();
   updateCategories();
-  updateHTML();
+  if (window.location.pathname === "/board.html") {
+    console.log("board");
+    updateHTML();
+  }
 }
 
 async function uploadToAllTasks(task) {
@@ -286,7 +289,7 @@ function goToBoard() {
 
 function checkDate() {
   animation = document.getElementById("dateAnimation");
-  let dateInput = document.getElementById('date');
+  let dateInput = document.getElementById("date");
   const dateString = dateInput.value;
   const dateObject = new Date(dateString);
   const millisecondsSinceEpoch = dateObject.getTime();
@@ -294,13 +297,13 @@ function checkDate() {
   if (dateString.length >= 9) {
     if (millisecondsSinceEpoch < addDate) {
       animation.classList.remove("d-none");
-      setTimeout(() => animation.classList.add("d-none"), 3000)
+      setTimeout(() => animation.classList.add("d-none"), 3000);
       dateInput.value = "";
       return false;
-     } else {
+    } else {
       return true;
-     }
+    }
   } else {
-    return null
+    return null;
   }
 }

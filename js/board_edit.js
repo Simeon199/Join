@@ -184,7 +184,7 @@ async function saveSubtaskChanges(id) {
     let newJsontextElement = encodeURIComponent(newJsonElement);
     renderBigTask(newJsontextElement);
   } catch (error) {
-    console.error("Fehler beim Speichern der Änderungen: ", error);
+    // console.error("Fehler beim Speichern der Änderungen: ", error);
   }
   subtaskArray = [];
   checkBoxCheckedJson = {};
