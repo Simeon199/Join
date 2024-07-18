@@ -24,40 +24,51 @@ function returnSubtaskEditedPopUpHTMLContainer(i) {
 }
 
 function editPopUpSearchContacts(taskIndex) {
-  let searchValue = document.getElementById("big-edit-task-assigned-to-input").value.trim().toLowerCase();
-  searchedUsers = [];
-  for (i = 0; i < allUsers.length; i++) {
-    let user = allUsers[i];
-    if (user.name.toLowerCase().startsWith(searchValue)) {
-      searchedUsers.push(user);
-    }
-  }
+  let searchValue = getSearchValue();
+  let searchedUsers = filterUsersByName(searchValue);
+  clearPopUp();
+
+  searchedUsers.forEach(contact => {
+    let contactIndex = findUserIndex(contact);
+    let isAssigned = checkIfAssigned(contact, taskIndex);
+
+    renderContact(contact, contactIndex, taskIndex, isAssigned);
+  });
+}
+
+function getSearchValue() {
+  return document.getElementById("big-edit-task-assigned-to-input").value.trim().toLowerCase();
+}
+
+function filterUsersByName(searchValue) {
+  return allUsers.filter(user => user.name.toLowerCase().startsWith(searchValue));
+}
+
+function clearPopUp() {
   document.getElementById("big-edit-task-assigned-to-pop-up").innerHTML = "";
-  for (let i = 0; i < searchedUsers.length; i++) {
-    const contact = searchedUsers[i];
-    let contactIndex = allUsers.findIndex((user) => user.name === contact.name);
+}
 
-    let allNames = [];
+function findUserIndex(contact) {
+  return allUsers.findIndex(user => user.name === contact.name);
+}
 
-    for (let j = 0; j < tasks[taskIndex].assigned.length; j++) {
-      const assignedContact = tasks[taskIndex].assigned[j];
-      if (contact.name === tasks[taskIndex].assigned[j].name) {
-        let contactObject = JSON.stringify({ name: contact.name, color: contact.color, isSelected: true });
-        renderOnlyActiveAssignedToPopUp(contact, contactObject, contactIndex, taskIndex);
-        allNames.push(contact.name);
-      }
-    }
-    if (!allNames.includes(contact.name)) {
-      let contactObject = JSON.stringify({ name: contact.name, color: contact.color, isSelected: false });
-      renderOnlyAssignedToPopUp(contact, contactObject, contactIndex, taskIndex);
-      allNames.push(contact.name);
-    }
+function checkIfAssigned(contact, taskIndex) {
+  return tasks[taskIndex].assigned.some(assignedContact => assignedContact.name === contact.name);
+}
+
+function renderContact(contact, contactIndex, taskIndex, isAssigned) {
+  let contactObject = JSON.stringify({ name: contact.name, color: contact.color, isSelected: isAssigned });
+  if (isAssigned) {
+    renderOnlyActiveAssignedToPopUp(contact, contactObject, contactIndex, taskIndex);
+  } else {
+    renderOnlyAssignedToPopUp(contact, contactObject, contactIndex, taskIndex);
   }
 }
 
+
 function closeSubtaskContainer() {
-  let bigSubtaskContainer = document.getElementById("big-edit-task-subtask-container");
-  bigSubtaskContainer.classList.add("d-none");
+  // let bigSubtaskContainer = document.getElementById("big-edit-task-subtask-container");
+  // bigSubtaskContainer.classList.add("d-none");
 }
 
 function saveEditedSubtaskPopUp(i) {
@@ -97,50 +108,85 @@ async function getSubtaskFromDataBase(id) {
 }
 
 async function saveTaskChanges(id) {
-  let newTitle = document.getElementById("big-edit-task-title-input").value;
-  let newDescription = document.getElementById("big-edit-task-description-input").value;
-  let newDate = document.getElementById("big-edit-task-due-date-input").value;
-  if (newTitle === "" && newDate === "") {
-    document.getElementById("big-task-pop-up-title").classList.add("big-task-pop-up-input-error");
-    document.getElementById("big-task-pop-up-due-date-container").classList.add("big-task-pop-up-input-error");
-  } else if (newTitle === "") {
-    document.getElementById("big-task-pop-up-title").classList.add("big-task-pop-up-input-error");
-    document.getElementById("big-task-pop-up-due-date-container").classList.remove("big-task-pop-up-input-error");
-  } else if (newDate === "") {
-    document.getElementById("big-task-pop-up-due-date-container").classList.add("big-task-pop-up-input-error");
-    document.getElementById("big-task-pop-up-title").classList.remove("big-task-pop-up-input-error");
-  } else {
+  let newTitle = getInputValue("big-edit-task-title-input");
+  let newDescription = getInputValue("big-edit-task-description-input");
+  let newDate = getInputValue("big-edit-task-due-date-input");
+
+  if (validateInputs(newTitle, newDate)) {
     showBoardLoadScreen();
+    removeInputErrors();
 
-    document.getElementById("big-task-pop-up-title").classList.remove("big-task-pop-up-input-error");
-    document.getElementById("big-task-pop-up-due-date-container").classList.remove("big-task-pop-up-input-error");
+    let taskForEditing = createTaskObject(newTitle, newDescription, newDate);
 
-    let newPriority = priorityValue;
-    let newAssignedTo = assignedToContactsBigContainer;
-    let newSubtaskArray = subtaskArray;
-    let taskForEditing = {
-      newTitle: newTitle,
-      newDescription: newDescription,
-      newDate: newDate,
-      newPriority: newPriority,
-      newAssignedTo: newAssignedTo,
-      newSubtaskArray: newSubtaskArray,
-    };
     try {
-      let newTaskReady = await updateTasksThroughEditing(id, taskForEditing);
-      let newJsonElement = JSON.stringify(newTaskReady);
-      let newJsontextElement = encodeURIComponent(newJsonElement);
-      renderBigTask(newJsontextElement);
+      await processTaskEditing(id, taskForEditing);
     } catch (error) {
       console.error("Fehler beim Speichern der Änderungen: ", error);
     }
-    subtaskArray = [];
-    checkBoxCheckedJson = {};
-    updateHTML();
 
+    resetSubtasks();
+    updateHTML();
     hideBoardLoadScreen();
   }
 }
+
+function getInputValue(elementId) {
+  return document.getElementById(elementId).value;
+}
+
+function validateInputs(title, date) {
+  if (title === "" && date === "") {
+    addInputError("big-task-pop-up-title");
+    addInputError("big-task-pop-up-due-date-container");
+    return false;
+  } else if (title === "") {
+    addInputError("big-task-pop-up-title");
+    removeInputError("big-task-pop-up-due-date-container");
+    return false;
+  } else if (date === "") {
+    addInputError("big-task-pop-up-due-date-container");
+    removeInputError("big-task-pop-up-title");
+    return false;
+  }
+  return true;
+}
+
+function addInputError(elementId) {
+  document.getElementById(elementId).classList.add("big-task-pop-up-input-error");
+}
+
+function removeInputError(elementId) {
+  document.getElementById(elementId).classList.remove("big-task-pop-up-input-error");
+}
+
+function removeInputErrors() {
+  removeInputError("big-task-pop-up-title");
+  removeInputError("big-task-pop-up-due-date-container");
+}
+
+function createTaskObject(title, description, date) {
+  return {
+    newTitle: title,
+    newDescription: description,
+    newDate: date,
+    newPriority: priorityValue,
+    newAssignedTo: assignedToContactsBigContainer,
+    newSubtaskArray: subtaskArray
+  };
+}
+
+async function processTaskEditing(id, task) {
+  let newTaskReady = await updateTasksThroughEditing(id, task);
+  let newJsonElement = JSON.stringify(newTaskReady);
+  let newJsontextElement = encodeURIComponent(newJsonElement);
+  renderBigTask(newJsontextElement);
+}
+
+function resetSubtasks() {
+  subtaskArray = [];
+  checkBoxCheckedJson = {};
+}
+
 
 async function saveSubtaskChanges(id) {
   let task = tasks[id];
