@@ -140,7 +140,7 @@ async function saveTaskToFirebase(task) {
   }
 }
 
-document.addEventListener("touchstart", () => {touchTime = setTimeout(rotateFunction(TouchEvent.changedTouches[0].target.id), 2000)});
+document.addEventListener("touchstart", () => { touchTime = setTimeout(rotateFunction(TouchEvent.changedTouches[0].target.id), 2000) });
 document.addEventListener("touchend", () => clearTimeout(touchTime));
 // document.addEventListener(,rotateFunction());
 // TouchEvent.changedTouches[0].target.id
@@ -183,14 +183,11 @@ function showBigTaskPopUp(jsonTextElement) {
 // hideBigTaskPopUp
 function hideBigTaskPopUp() {
   isBigTaskPopUpOpen = false;
-
   document.getElementById("big-task-pop-up-title").classList.remove("big-task-pop-up-input-error");
   document.getElementById("big-task-pop-up-due-date-container").classList.remove("big-task-pop-up-input-error");
-
   document.getElementById("big-task-pop-up-bg").classList.add("bg-op-0");
   document.getElementById("big-task-pop-up").classList.add("translate-100");
   document.body.style.overflow = "unset";
-
   if (document.getElementById("big-task-pop-up-title-text")) {
     let title = document.getElementById("big-task-pop-up-title-text").innerHTML;
     let id = tasks.findIndex((task) => task.title === title);

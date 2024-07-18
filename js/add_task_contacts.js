@@ -138,7 +138,6 @@ function changeToInputfield() {
   search = document.getElementById("searchArea").classList;
   input = document.getElementById("searchField");
   stV = document.getElementById("standartValue").classList;
-
   window.addEventListener("click", function (e) {
     if (changecont.contains(e.target)) {
       search.remove("d-none");
