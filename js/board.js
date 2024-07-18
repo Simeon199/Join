@@ -140,11 +140,6 @@ async function saveTaskToFirebase(task) {
   }
 }
 
-document.addEventListener("touchstart", () => {touchTime = setTimeout(rotateFunction(TouchEvent.changedTouches[0].target.id), 2000)});
-document.addEventListener("touchend", () => clearTimeout(touchTime));
-// document.addEventListener(,rotateFunction());
-// TouchEvent.changedTouches[0].target.id
-
 function rotateFunction(id) {
   console.log(id);
   document.getElementById(`task${id}`).style.transform = "rotate(3deg)";
