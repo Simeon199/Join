@@ -99,7 +99,6 @@ function clearTask() {
   inputTitle.value = "";
   inputDescription.value = "";
   clearAssignedTo();
-  console.log("Again further check:", assignedContacts);
   date.value = "";
   category = changeCategory("Select task category");
   clearSubtask();
@@ -136,14 +135,12 @@ function checkCategory() {
 }
 
 async function checkRequiredFields(side) {
-  console.log("Test1", assignedContacts);
   let title = document.getElementById("inputTitle").value;
   let date = document.getElementById("date").value;
   if (title.length <= 1 || date.length <= 1 || checkCategory() == false || checkDate() === false) {
     showRequiredText();
   } else {
     showBoardLoadScreen();
-    console.log("Test2", assignedContacts);
     await createTask(side);
     hideBoardLoadScreen();
   }
@@ -185,14 +182,13 @@ async function ensureAllTasksExists() {
 
 async function saveTask() {
   let newTask = createNewTask();
-  console.log("third check:", newTask);
   tasksId++;
   await saveTaskIdToFirebase(tasksId);
   await uploadToAllTasks(newTask);
   tasks.push(newTask);
   saveTasksToLocalStorage();
   updateCategories();
-  updateBoardHTMLIfOnBoardPage();
+  // updateBoardHTMLIfOnBoardPage();
 }
 
 function createNewTask() {
@@ -213,11 +209,11 @@ function getInputValue(elementId) {
   return document.getElementById(elementId).value;
 }
 
-function updateBoardHTMLIfOnBoardPage() {
-  if (window.location.pathname === "/board.html") {
-    updateHTML();
-  }
-}
+// function updateBoardHTMLIfOnBoardPage() {
+//   if (window.location.pathname === "/board.html") {
+//     updateHTML();
+//   }
+// }
 
 async function uploadToAllTasks(task) {
   try {

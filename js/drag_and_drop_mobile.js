@@ -1,4 +1,5 @@
 let currentOpenDropdown = null;
+// let currentTaskassignet;
 
 function iterateThroughSubArray(taskArray, htmlElement) {
   for (i = 0; i < taskArray.length; i++) {
@@ -34,6 +35,7 @@ function updateHTML() {
 
 function startDragging(elementId) {
   elementDraggedOver = elementId;
+  tasks[elementDraggedOver].assigned = getfromLocalStorage(elementDraggedOver);
 }
 
 async function moveTo(container) {
@@ -113,4 +115,10 @@ async function moveTasksToCategory(taskIndex, newCategory) {
       console.error("Fehler beim Speichern der tasks in der Firebase-Datenbank:", error);
     }
   }
+}
+
+function getfromLocalStorage(x) {
+  assign = localStorage.getItem("tasks");
+  newAssign = JSON.parse(assign)
+  return newAssign[x].assigned;
 }
