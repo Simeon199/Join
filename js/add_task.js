@@ -143,6 +143,11 @@ async function checkRequiredFields(side) {
     showBoardLoadScreen();
     await createTask(side);
     hideBoardLoadScreen();
+    if (side === "board") {
+      setTimeout(() => {
+        location.reload();
+      }, 800);
+    }
   }
 }
 
