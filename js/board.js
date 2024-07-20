@@ -229,13 +229,8 @@ function renderAllBigPopUp(oldTitle, oldDescription, oldDate, oldPriority, taskJ
   renderBigTaskDetails(taskJson, oldPriority, id);
 }
 
-function setupSubtaskArray(taskJson, id) {
+function setupSubtaskArray(taskJson) {
   subtaskArray = taskJson.subtask || [];
-  // if (!subtaskArray.length && !tasks[id].subtask) {
-  //   // document.getElementById("big-edit-task-subtask-container").innerHTML = "";
-  // } else {
-  //   taskJson.subtask = subtaskArray;
-  // }
   taskJson.subtask = subtaskArray;
 }
 
