@@ -174,7 +174,8 @@ async function saveSubtaskChanges(id) {
 }
 
 function createTaskForEditing(task) {
-  let { title, description, date, priority, subtask, assigned } = task;
+  console.log(task);
+  // let { title, description, date, priority, subtask, assigned } = task;
   let taskForEditing = {
     newTitle: title,
     newDescription: description,
