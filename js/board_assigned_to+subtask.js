@@ -255,10 +255,13 @@ function buildSubtaskArrayForUpload() {
     subtaskArray = emptyList;
   }
   let subtaskInput = document.getElementById("big-edit-task-subtask-input");
-  let subtaskJson = createSubtaskJson(subtaskInput.value);
-  subtaskArray.push(subtaskJson);
-  insertSubtasksIntoContainer();
-  subtaskInput.value = "";
+  if (subtaskInput.value.trim().length > 0) {
+    let subtaskJson = createSubtaskJson(subtaskInput.value);
+
+    subtaskArray.push(subtaskJson);
+    insertSubtasksIntoContainer();
+    subtaskInput.value = "";
+  }
 }
 
 function insertSubtasksIntoContainer() {

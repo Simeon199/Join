@@ -290,3 +290,9 @@ function generateTaskHTML(element, contactsHTML, oppositeCategory, rightIcon, js
     return returnTaskHtmlWithoutSubtask(element, contactsHTML, oppositeCategory, rightIcon, jsonTextElement);
   }
 }
+
+function bigEditTaskSubtaskInputCheckEnter(event) {
+  if (event.key === "Enter") {
+    buildSubtaskArrayForUpload();
+  }
+}

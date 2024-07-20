@@ -383,7 +383,7 @@ function returnBigTaskPopUpSubtasksAll() {
     <p class='big-edit-task-section-headline'>Subtasks</p>
 
     <div id='big-edit-task-subtask-input-container' onkeyup='changeSubtaskInputIcons()' onclick='focusSubtaskInput()'>
-      <input type="text" id='big-edit-task-subtask-input' placeholder='Add new Subtask'>
+      <input onkeyup='bigEditTaskSubtaskInputCheckEnter(event)' type="text" id='big-edit-task-subtask-input' placeholder='Add new Subtask'>
       
       <div id='big-edit-task-subtask-input-icon-container'>
         <svg id='big-edit-task-subtask-input-plus-icon' width="15" height="14" viewBox="0 0 15 14" fill="none" xmlns="http://www.w3.org/2000/svg">
