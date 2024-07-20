@@ -1,207 +1,219 @@
 .header {
-    display: flex;
-    justify-content: flex-start;
+  display: flex;
+  justify-content: flex-start;
 }
 
 .header img {
-    padding-top: 16px;
-    padding-left: 16px;
+  padding-top: 16px;
+  padding-left: 16px;
+}
+
+#board-add_task-load-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  background-color: rgba(0, 0, 0, 0.5);
+
+  z-index: 9999;
 }
 
 .loginAndArrow {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
 }
 
 #signUpForm {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .reportFailedSignUp {
-    opacity: 1;
-    text-align: center;
-    position: fixed;
-    margin: 0 100px;
-    top: 5%;
-    width: 32%;
-    background-color: #1a1a1a;
-    color: white;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 8px;
-    border: 1px solid black;
-    border-radius: 10px;
-    margin: 4px;
+  opacity: 1;
+  text-align: center;
+  position: fixed;
+  margin: 0 100px;
+  top: 5%;
+  width: 32%;
+  background-color: #1a1a1a;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8px;
+  border: 1px solid black;
+  border-radius: 10px;
+  margin: 4px;
 }
 
 .allErrorMessages {
-    flex-direction: column;
-    align-items: center;
-    position: absolute;
-    z-index: 9999;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    left: 0;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  z-index: 9999;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
 }
 
 .notification {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 }
 
 .notification p {
-    color: red;
-    font-size: 12px;
+  color: red;
+  font-size: 12px;
 }
 
 .reportFailedSignUp button {
-    background-color: #7d97a9;
-    color: white;
-    border: none;
-    padding: 15px 30px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 10px 2px;
-    cursor: pointer;
-    border-radius: 12px;
-    transition-duration: 0.4s;
+  background-color: #7d97a9;
+  color: white;
+  border: none;
+  padding: 15px 30px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 10px 2px;
+  cursor: pointer;
+  border-radius: 12px;
+  transition-duration: 0.4s;
 }
 
 .loginInput {
-    flex: 1;
+  flex: 1;
 }
 
 .checkbox {
-    justify-content: center;
+  justify-content: center;
 }
 
 .checkbox label {
-    width: 231px;
+  width: 231px;
 }
 
 .darkBtn {
-    width: 126px;
-    height: 55px;
-    padding: 15px 24px 15px 24px;
+  width: 126px;
+  height: 55px;
+  padding: 15px 24px 15px 24px;
 }
 
 .arrowLeft {
-    width: 32px;
-    height: 32px;
+  width: 32px;
+  height: 32px;
 }
 
 .arrowLeft:hover {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 a {
-    /* font-family: 'Open Sans'; */
-    font-size: 16px;
-    font-weight: 400;
-    line-height: 19.2px;
-    text-align: left;
+  /* font-family: 'Open Sans'; */
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 19.2px;
+  text-align: left;
 }
 
 .checkbox a {
-    padding: 0px;
+  padding: 0px;
 }
 
 .d-flex {
-    display: flex;
+  display: flex;
 }
 
 .d-none {
-    display: none;
+  display: none;
 }
 
 .arrowcontainer {
-    flex-grow: 0.425;
+  flex-grow: 0.425;
 }
 
 .registerPopup {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #2A3647;
-    z-index: 1001;
-    padding: 24px;
-    border-radius: 16px;
-    text-align: center;
-    animation: fadeIn 0.5s ease-in-out;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #2a3647;
+  z-index: 1001;
+  padding: 24px;
+  border-radius: 16px;
+  text-align: center;
+  animation: fadeIn 0.5s ease-in-out;
 }
 
 .registerPopup p {
-    color: white;
-    font-size: 16px;
+  color: white;
+  font-size: 16px;
 }
 
 .overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 1000;
-    animation: fadeIn 0.3s ease-in-out;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  animation: fadeIn 0.3s ease-in-out;
 }
 
 @keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
+  from {
+    opacity: 0;
+  }
 
-    to {
-        opacity: 1;
-    }
+  to {
+    opacity: 1;
+  }
 }
 
-@media(max-width: 800px) {
-    .image-container {
-        align-self: unset;
-    }
+@media (max-width: 800px) {
+  .image-container {
+    align-self: unset;
+  }
 
-    .loginFrame {
-        gap: 32px;
-    }
+  .loginFrame {
+    gap: 32px;
+  }
 
-    .reportFailedSignUp {
-        width: 40%;
-        font-size: 14px;
-    }
+  .reportFailedSignUp {
+    width: 40%;
+    font-size: 14px;
+  }
 
-    .reportFailedSignUp button {
-        padding: 10px 20px;
-        font-size: 14px;
-    }
+  .reportFailedSignUp button {
+    padding: 10px 20px;
+    font-size: 14px;
+  }
 }
 
-@media(max-width: 700px) {
-    .header {
-        justify-content: flex-start;
-    }
+@media (max-width: 700px) {
+  .header {
+    justify-content: flex-start;
+  }
 }
 
-@media(max-width: 500px) {
-    .reportFailedSignUp {
-        width: 75%;
-        top: 50%;
-        transform: translate(-50%, -50%);
-        left: 50%;
-        font-size: 12px;
-        position: fixed;
-    }
+@media (max-width: 500px) {
+  .reportFailedSignUp {
+    width: 75%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    left: 50%;
+    font-size: 12px;
+    position: fixed;
+  }
 
-    .reportFailedSignUp button {
-        font-size: 12px;
-        margin: 0;
-    }
+  .reportFailedSignUp button {
+    font-size: 12px;
+    margin: 0;
+  }
 }

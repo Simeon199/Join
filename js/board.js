@@ -132,6 +132,13 @@ function updateTaskContactPlusHTML(element, lengthOfAssignedTo) {
   }
 }
 
+function updateBigTaskContactsContainerPlus(taskJson, lengthOfAssignedTo) {
+  let container = document.querySelectorAll("bigTaskAssignedToNumberContainer")[taskJson.tasksIdentity];
+  if (container) {
+    container.innerHTML = showTaskContactPlusHTML(lengthOfAssignedTo);
+  }
+}
+
 function showTaskContactPlusHTML(lengthOfAssignedTo) {
   return /*html*/ `
     <span>+ ${lengthOfAssignedTo - 3}</span>

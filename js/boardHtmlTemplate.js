@@ -62,8 +62,8 @@ function returnTaskHtmlWithoutSubtask(element, contactsHTML, oppositeCategory, r
   <div class="task" 
       id=task${taskIndex}
       draggable="true"
-      ondragstart="startDragging(${element['tasksIdentity']}); rotateFunction(${taskIndex})"
-      ondragend="checkIfEmpty('${element['container']}', '${oppositeCategory}')"
+      ondragstart="startDragging(${element["tasksIdentity"]}); rotateFunction(${taskIndex})"
+      ondragend="checkIfEmpty('${element["container"]}', '${oppositeCategory}')"
       ondragover="allowDrop(event)"
       ondrop="moveTo('${element["container"]}')"
       onclick="showBigTaskPopUp('${jsonTextElement}')"
@@ -108,11 +108,11 @@ function returnTaskHtmlWithSubtask(element, contactsHTML, oppositeCategory, righ
     console.log(taskDescription);
   }
 
-  return /*html*/`
+  return /*html*/ `
       <div class="task" id=task${taskIndex}
           draggable="true" 
-          ondragstart="startDragging(${element['tasksIdentity']}); rotateFunction(${taskIndex})" 
-          ondragend="checkIfEmpty('${element['container']}', '${oppositeCategory}')" 
+          ondragstart="startDragging(${element["tasksIdentity"]}); rotateFunction(${taskIndex})" 
+          ondragend="checkIfEmpty('${element["container"]}', '${oppositeCategory}')" 
           ondragover="allowDrop(event)"
           ondrop="moveTo('${element["container"]}')"
           onclick="showBigTaskPopUp('${jsonTextElement}')"
@@ -549,12 +549,27 @@ function returnEditSubtaskPopUpInputHTML(i) {
 `;
 }
 
-function returnColorAndAssignedToContacts(contact) {
-  document.getElementById("big-edit-task-assigned-to-contact-container").innerHTML += /*html*/ `
-    <div class='big-edit-task-assigned-to-contact' style='background-color:${contact.color}'>
-      ${firstLetterFirstTwoWords(contact.name)}
-    </div>
-  `;
+function returnColorAndAssignedToContacts(contact, index, lengthOfAssignedTo, taskJson) {
+  // document.getElementById("big-edit-task-assigned-to-contact-container").innerHTML += /*html*/ `
+  //   <div class='big-edit-task-assigned-to-contact' style='background-color:${contact.color}'>
+  //     ${firstLetterFirstTwoWords(contact.name)}
+  //   </div>
+  // `;
+
+  if (index < 3) {
+    document.getElementById("big-edit-task-assigned-to-contact-container").innerHTML += /*html*/ `
+  <div class='big-edit-task-assigned-to-contact' style='background-color:${contact.color}'>
+    ${firstLetterFirstTwoWords(contact.name)}
+  </div>
+`;
+  } else if (index === 3) {
+    document.getElementById(
+      "big-edit-task-assigned-to-contact-container"
+    ).innerHTML += /*html*/ `<div class='bigTaskAssignedToNumberContainer'><span>+ ${lengthOfAssignedTo - 3}</span></div>`;
+  } else {
+    updateBigTaskContactsContainerPlus(taskJson, lengthOfAssignedTo);
+    return "";
+  }
 }
 
 function returnNoOneIsAssignedHTML() {

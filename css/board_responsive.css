@@ -223,12 +223,17 @@
     gap: 10%;
   }
 
-  .big-task-pop-up {
-    width: 90%;
-    height: 95vh;
+  body .big-task-pop-up {
+    width: 100%;
+    height: 100vh;
+    max-height: unset;
+    border-radius: 0;
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+  }
+
+  #big-edit-task-priority-container {
+    flex-direction: column;
   }
 
   #big-task-pop-up-description,

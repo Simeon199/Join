@@ -143,11 +143,12 @@ function toggleFocusAssignedToInput() {
 }
 
 function renderBigTaskAssignedContactContainer(taskJson) {
+  let lengthOfAssignedTo = taskJson.assigned.length;
   document.getElementById("big-edit-task-assigned-to-contact-container").innerHTML = "";
   if (taskJson.assigned) {
     for (let i = 0; i < taskJson.assigned.length; i++) {
       const contact = taskJson.assigned[i];
-      returnColorAndAssignedToContacts(contact);
+      returnColorAndAssignedToContacts(contact, i, lengthOfAssignedTo, taskJson);
     }
   } else {
     taskJson.assigned = [];
