@@ -18,8 +18,9 @@ function generateTaskHTMLForSearch(
 
   return /*html*/ `
       <div class="task" 
+          id="task${index}"
           draggable="true" 
-          ondragstart="startDragging(${id})" 
+          ondragstart="startDragging(${id}); rotateFunction(${taskIndex})" 
           ondragend="checkIfEmpty('${category}', '${oppositeCategory}')" 
           ondragover="allowDrop(event)"
           ondrop="moveTo('${category}')"

@@ -152,6 +152,7 @@ async function saveTaskToFirebase(task) {
   } else {
     console.log("Task erfolgreich in Firebase gespeichert");
   }
+  console.log(response);
 }
 
 function rotateFunction(id) {

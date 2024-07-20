@@ -136,7 +136,7 @@ function checkCategory() {
 }
 
 async function checkRequiredFields(side) {
-  console.log("Test1", assignedContacts);
+  console.log("firstTasksTest", tasks);
   let title = document.getElementById("inputTitle").value;
   let date = document.getElementById("date").value;
   if (title.length <= 1 || date.length <= 1 || checkCategory() == false || checkDate() === false) {
@@ -193,6 +193,7 @@ async function saveTask() {
   saveTasksToLocalStorage();
   updateCategories();
   updateBoardHTMLIfOnBoardPage();
+  // await loadRelevantData("testRealTasks");
 }
 
 function createNewTask() {

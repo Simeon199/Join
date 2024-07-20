@@ -32,7 +32,8 @@ function updateHTML() {
   });
 }
 
-function startDragging(elementId) {
+async function startDragging(elementId) {
+  console.log("tasks", tasks);
   elementDraggedOver = elementId;
 }
 
