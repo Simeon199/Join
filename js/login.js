@@ -4,26 +4,6 @@ async function testLoginFunction(event) {
   let loginPassword = document.getElementById("loginPassword").value;
   let remember = document.getElementById("remember").checked;
   let response = await loadData((path = "/users"));
-  console.log(response);
-  // for (key in response) {
-  //   if (containsElement(response[key], loginEmail) == true) {
-  //     for (let key in response) {
-  //       let user = response[key];
-  //       if (user["email"] && user["password"]) {
-  //         if (loginEmail == user["email"] && loginPassword == user["password"]) {
-  //           saveLoggedInStatus(user["name"], user["email"], remember);
-  //           window.location.href = "summary.html";
-  //           return;
-  //         }
-  //       } else {
-  //         removeReportLogin('reportFailedLogin', 'allErrorMessagesLogin');
-  //       }
-  //     }
-  //     throwLoginError();
-  //   } else {
-  //     removeReportLogin('reportFailedSignUpLogin', 'allErrorMessagesLogin');
-  //   }
-  // }
   for (let key in response) {
     let user = response[key];
     if (user["email"] && user["password"]) {
