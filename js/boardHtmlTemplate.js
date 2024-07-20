@@ -105,7 +105,6 @@ function returnTaskHtmlWithSubtask(element, contactsHTML, oppositeCategory, righ
 
   if (taskDescription.length > 40) {
     taskDescription = taskDescription.substring(0, 40) + "...";
-    console.log(taskDescription);
   }
 
   return /*html*/ `

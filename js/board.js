@@ -156,10 +156,7 @@ async function saveTaskToFirebase(task) {
   });
   if (!response.ok) {
     console.error("Fehler beim Speichern der Task in Firebase:", response.statusText);
-  } else {
-    console.log("Task erfolgreich in Firebase gespeichert");
   }
-  console.log(response);
 }
 
 function rotateFunction(id) {

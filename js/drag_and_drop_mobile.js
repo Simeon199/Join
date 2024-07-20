@@ -106,10 +106,14 @@ function openMobileDropdown(taskIndex) {
 
 async function moveTasksToCategory(taskIndex, newCategory) {
   let task = tasks.find((task) => task.tasksIdentity == taskIndex);
+
   if (task) {
     task.container = newCategory;
-    // saveTasksToLocalStorage();
     updateHTML();
+
+    let taskElement = document.getElementById("task" + taskIndex);
+    taskElement.scrollIntoView({ behavior: "smooth", block: "center" });
+
     try {
       await saveTaskToFirebase(task);
     } catch (error) {
@@ -117,9 +121,3 @@ async function moveTasksToCategory(taskIndex, newCategory) {
     }
   }
 }
-
-// function getfromLocalStorage(x) {
-//   assign = localStorage.getItem("tasks");
-//   newAssign = JSON.parse(assign)
-//   return newAssign[x].assigned;
-// }
