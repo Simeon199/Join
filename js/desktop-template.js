@@ -108,8 +108,8 @@ function openDropDownMenu() {
       <div onclick="logout()">Log out</div>  
     `;
   if (window.location.pathname.includes("privacy_policy_en.html") || window.location.pathname.includes("legal_notice.html")) {
-    hideCurrentPageFormDropdown()
-    document.getElementById("arrow-icon").classList.toggle("d-none")
+    hideCurrentPageFormDropdown();
+    document.getElementById("arrow-icon").classList.toggle("d-none");
   }
 }
 
@@ -168,7 +168,7 @@ function getUserNickname() {
 }
 
 function isNotLoggedIn() {
-  if (sessionStorage.getItem("isLoggedIn") === 'false') {
+  if (sessionStorage.getItem("isLoggedIn") === "false") {
     setTimeout(function () {
       console.log(document.getElementById("headerIcons").classList);
       console.log(document.getElementById("menuBar").classList);
@@ -181,11 +181,15 @@ function isNotLoggedIn() {
 }
 
 function isLoggedIn() {
-  if ((sessionStorage.getItem("isLoggedIn") === 'true' || localStorage.getItem("isLoggedIn") === 'true') && (document.getElementById("headerIcons").classList.contains("d-none") && document.getElementById("menuBar").classList.contains("d-none"))) {
+  if (
+    (sessionStorage.getItem("isLoggedIn") === "true" || localStorage.getItem("isLoggedIn") === "true") &&
+    document.getElementById("headerIcons").classList.contains("d-none") &&
+    document.getElementById("menuBar").classList.contains("d-none")
+  ) {
     document.getElementById("headerIcons").classList.remove("d-none");
     document.getElementById("menuBar").classList.remove("d-none");
   } else {
-    return false
+    return false;
   }
 }
 

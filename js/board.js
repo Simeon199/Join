@@ -46,18 +46,18 @@ async function loadTasksFromDatabase() {
   return [];
 }
 
-function loadTasksFromLocalStorage() {
-  let storagedTasks = localStorage.getItem("tasks");
-  if (storagedTasks) {
-    return JSON.parse(storagedTasks);
-  } else {
-    return null;
-  }
-}
+// function loadTasksFromLocalStorage() {
+//   let storagedTasks = localStorage.getItem("tasks");
+//   if (storagedTasks) {
+//     return JSON.parse(storagedTasks);
+//   } else {
+//     return null;
+//   }
+// }
 
-function saveTasksToLocalStorage() {
-  localStorage.setItem("tasks", JSON.stringify(tasks));
-}
+// function saveTasksToLocalStorage() {
+//   localStorage.setItem("tasks", JSON.stringify(tasks));
+// }
 
 // showLoadScreen
 function showBoardLoadScreen() {

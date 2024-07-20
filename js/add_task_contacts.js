@@ -76,7 +76,7 @@ function renderAssignedToCircle(i, user, color, circleCont) {
 
 function clearAssignedTo() {
   let div = document.getElementById("userCircles");
-  assignedContacts.splice(0);
+  assignedContacts = [];
   div.innerHTML = "";
 }
 

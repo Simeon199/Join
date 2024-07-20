@@ -48,6 +48,7 @@ function renderSubtaskHTML(i, content) {
 
 function clearSubtask() {
   let subtask = document.getElementById("sowSubtasks");
+  subArray = [];
   subtask.innerHTML = "";
   i = 0;
   subtask.classList.add("d-none");
@@ -102,7 +103,7 @@ function saveEditedSubtask(i) {
     subArray[i]["task-description"] = text;
     rendersubtask();
   } else {
-    showsubtaskIsEmptyError()
+    showsubtaskIsEmptyError();
   }
 }
 
@@ -112,9 +113,9 @@ function toggleDNone(id) {
 
 function showsubtaskIsEmptyError() {
   emptySub = document.getElementById("emptySubtask");
-  emptySub.classList.remove('d-none');
+  emptySub.classList.remove("d-none");
   setTimeout(function () {
-    document.getElementById("emptySubtask").classList.add('d-none');
+    document.getElementById("emptySubtask").classList.add("d-none");
   }, 5000);
 }
 
@@ -129,9 +130,9 @@ function addSubtaskByEnterClick() {
   suby = document.getElementById("subtask");
   text.addEventListener("keyup", (e) => {
     if (e.key === "Enter" && document.hasFocus()) {
-      e.preventDefault()
+      e.preventDefault();
       e.stopPropagation();
       document.getElementById("enterClick").click();
     }
-  })
+  });
 }
