@@ -36,7 +36,7 @@ function updateHTML() {
 async function startDragging(elementId) {
   console.log("tasks", tasks);
   elementDraggedOver = elementId;
-  tasks[elementDraggedOver].assigned = getfromLocalStorage(elementDraggedOver);
+  // tasks[elementDraggedOver].assigned = getfromLocalStorage(elementDraggedOver);
 }
 
 async function moveTo(container) {
@@ -44,7 +44,7 @@ async function moveTo(container) {
   let task = tasks.find((task) => task.tasksIdentity == elementDraggedOver);
   if (task) {
     task.container = container;
-    saveTasksToLocalStorage();
+    // saveTasksToLocalStorage();
     updateHTML();
     removeEmptyMessage(container, oppositeContainer);
   }
@@ -108,7 +108,7 @@ async function moveTasksToCategory(taskIndex, newCategory) {
   let task = tasks.find((task) => task.tasksIdentity == taskIndex);
   if (task) {
     task.container = newCategory;
-    saveTasksToLocalStorage();
+    // saveTasksToLocalStorage();
     updateHTML();
     try {
       await saveTaskToFirebase(task);
@@ -118,8 +118,8 @@ async function moveTasksToCategory(taskIndex, newCategory) {
   }
 }
 
-function getfromLocalStorage(x) {
-  assign = localStorage.getItem("tasks");
-  newAssign = JSON.parse(assign)
-  return newAssign[x].assigned;
-}
+// function getfromLocalStorage(x) {
+//   assign = localStorage.getItem("tasks");
+//   newAssign = JSON.parse(assign)
+//   return newAssign[x].assigned;
+// }

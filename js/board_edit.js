@@ -11,7 +11,7 @@ function editPopUpSearchContacts(taskIndex) {
   let searchedUsers = filterUsersByName(searchValue);
   clearPopUp();
 
-  searchedUsers.forEach(contact => {
+  searchedUsers.forEach((contact) => {
     let contactIndex = findUserIndex(contact);
     let isAssigned = checkIfAssigned(contact, taskIndex);
 
@@ -24,7 +24,7 @@ function getSearchValue() {
 }
 
 function filterUsersByName(searchValue) {
-  return allUsers.filter(user => user.name.toLowerCase().startsWith(searchValue));
+  return allUsers.filter((user) => user.name.toLowerCase().startsWith(searchValue));
 }
 
 function clearPopUp() {
@@ -32,11 +32,11 @@ function clearPopUp() {
 }
 
 function findUserIndex(contact) {
-  return allUsers.findIndex(user => user.name === contact.name);
+  return allUsers.findIndex((user) => user.name === contact.name);
 }
 
 function checkIfAssigned(contact, taskIndex) {
-  return tasks[taskIndex].assigned.some(assignedContact => assignedContact.name === contact.name);
+  return tasks[taskIndex].assigned.some((assignedContact) => assignedContact.name === contact.name);
 }
 
 function renderContact(contact, contactIndex, taskIndex, isAssigned) {
@@ -143,7 +143,7 @@ function createTaskObject(title, description, date) {
     newDate: date,
     newPriority: priorityValue,
     newAssignedTo: assignedToContactsBigContainer,
-    newSubtaskArray: subtaskArray
+    newSubtaskArray: subtaskArray,
   };
 }
 
@@ -269,9 +269,10 @@ async function updateTask(task, taskId, objectForEditing) {
   let container = task.container;
   let category = task.category;
 
-  tasks[taskId] = task.subtask || subtaskArray != null
-    ? saveChangesWithSubtask(taskId, objectForEditing, container, category)
-    : saveChangesWithoutSubtask(taskId, objectForEditing, container, category);
+  tasks[taskId] =
+    task.subtask || subtaskArray != null
+      ? saveChangesWithSubtask(taskId, objectForEditing, container, category)
+      : saveChangesWithoutSubtask(taskId, objectForEditing, container, category);
 
   await saveTaskWithCatch(tasks[taskId]);
 
@@ -338,7 +339,7 @@ function searchForTasks() {
 }
 
 function renderSearchedTasks() {
-  allCategories.forEach(categoryContainer => {
+  allCategories.forEach((categoryContainer) => {
     clearCategoryContainer(categoryContainer);
     let tasksInCategory = filterTasksByCategory(categoryContainer, searchedTasks);
     if (tasksInCategory.length === 0) {
@@ -356,7 +357,7 @@ function clearCategoryContainer(categoryContainer) {
 }
 
 function filterTasksByCategory(categoryContainer, tasks) {
-  return tasks.filter(task => task.container === categoryContainer);
+  return tasks.filter((task) => task.container === categoryContainer);
 }
 
 function handleNoTasksInCategory(categoryContainer) {
@@ -366,7 +367,7 @@ function handleNoTasksInCategory(categoryContainer) {
 }
 
 function renderTasksInCategory(tasks, categoryContainer) {
-  tasks.forEach(task => {
+  tasks.forEach((task) => {
     if (categoryContainer === task.container) {
       let jsonElement = JSON.stringify(task);
       let rightIcon = insertCorrectUrgencyIcon(task);

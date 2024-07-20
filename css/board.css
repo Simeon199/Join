@@ -739,6 +739,8 @@ body .translate-100 {
   padding: 0;
 
   margin: 0;
+
+  overflow: scroll;
 }
 
 #big-task-pop-up-title #big-edit-task-section-headline {
