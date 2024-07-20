@@ -4,6 +4,26 @@ async function testLoginFunction(event) {
   let loginPassword = document.getElementById("loginPassword").value;
   let remember = document.getElementById("remember").checked;
   let response = await loadData((path = "/users"));
+  console.log(response);
+  // for (key in response) {
+  //   if (containsElement(response[key], loginEmail) == true) {
+  //     for (let key in response) {
+  //       let user = response[key];
+  //       if (user["email"] && user["password"]) {
+  //         if (loginEmail == user["email"] && loginPassword == user["password"]) {
+  //           saveLoggedInStatus(user["name"], user["email"], remember);
+  //           window.location.href = "summary.html";
+  //           return;
+  //         }
+  //       } else {
+  //         removeReportLogin('reportFailedLogin', 'allErrorMessagesLogin');
+  //       }
+  //     }
+  //     throwLoginError();
+  //   } else {
+  //     removeReportLogin('reportFailedSignUpLogin', 'allErrorMessagesLogin');
+  //   }
+  // }
   for (let key in response) {
     let user = response[key];
     if (user["email"] && user["password"]) {
@@ -15,6 +35,16 @@ async function testLoginFunction(event) {
     }
   }
   throwLoginError();
+}
+
+
+function containsElement(jsonObject, value) {
+  for (let key in jsonObject) {
+    if (jsonObject[key] === value) {
+      return true;
+    }
+  }
+  return false;
 }
 
 function throwLoginError() {
@@ -90,6 +120,19 @@ function removeErrorMessageIfPresent() {
   let existingNotification = document.querySelector(".notification");
   if (existingNotification) {
     existingNotification.remove();
+  }
+}
+
+function removeReportLogin(reportFailedLogin, allErrorMessagesLogin) {
+  // removeErrorMessageIfPresent();
+  if (document.getElementById(allErrorMessagesLogin).classList.contains('d-none') && document.getElementById(reportFailedLogin).classList.contains('d-none')) {
+    document.getElementById(allErrorMessagesLogin).classList.remove('d-none');
+    document.getElementById(allErrorMessagesLogin).classList.add("d-flex");
+    document.getElementById(reportFailedLogin).classList.remove('d-none');
+  } else {
+    document.getElementById(allErrorMessagesLogin).classList.remove("d-flex");
+    document.getElementById(allErrorMessagesLogin).classList.add('d-none');
+    document.getElementById(reportFailedLogin).classList.add('d-none');
   }
 }
 
