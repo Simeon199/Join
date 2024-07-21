@@ -202,6 +202,7 @@ a {
   }
 }
 
+
 @media (max-width: 500px) {
   .reportFailedSignUp {
     width: 75%;
@@ -215,5 +216,21 @@ a {
   .reportFailedSignUp button {
     font-size: 12px;
     margin: 0;
+  }
+}
+
+@media (max-width: 400px) {
+  #loginFrameSignUp {
+    flex: 1;
+  }
+
+  #signUpForm {
+    align-items: center;
+    width: 96%;
+  }
+
+  .checkbox {
+    left: 14px;
+    gap: 8px;
   }
 }

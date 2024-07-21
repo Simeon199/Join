@@ -72,7 +72,7 @@ h1.underline::after {
   flex-direction: column;
   border-radius: 30px;
   padding: 24px;
-  margin: 24px;
+  /* margin: 24px; */
   gap: 32px;
   background-color: rgba(255, 255, 255, 1);
   box-shadow: 0px 0px 14px 3px rgba(0, 0, 0, 0.04);
@@ -247,7 +247,7 @@ h1.underline::after {
   justify-content: left;
   gap: 20px;
 
-  width: 314px;
+  /* width: 314px; */
 }
 
 .checkbox input {
@@ -420,11 +420,19 @@ footer a:hover {
     display: none;
   }
 
+  .loginFrame {
+    flex: 0.5;
+  }
+
   .signUpDown {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     padding-right: 32px;
     padding-left: 32px;
+  }
+
+  .input {
+    font-size: 16px;
   }
 }
