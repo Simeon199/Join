@@ -416,6 +416,10 @@ footer a:hover {
 }
 
 @media (max-width: 400px) {
+  .checkbox-check {
+    left: 10px;
+  }
+
   .signUp {
     display: none;
   }
