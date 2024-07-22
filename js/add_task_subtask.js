@@ -1,3 +1,6 @@
+/**
+ * add subtask to task
+ */
 function addSubtask() {
   let text = document.getElementById(`subtask`);
   if (text.value.length <= 0) {
@@ -11,10 +14,19 @@ function addSubtask() {
   }
 }
 
+/**
+ * generate subtaks json for board popup
+ * 
+ * @param {string} value 
+ * @returns 
+ */
 function createSubtaskJson(value) {
   return { "task-description": value, "is-tasked-checked": false };
 }
 
+/**
+ * go through the subArray and render the subtasks
+ */
 function rendersubtask() {
   subtask = document.getElementById("sowSubtasks");
   subtask.innerHTML = "";
@@ -30,6 +42,13 @@ function rendersubtask() {
   }
 }
 
+/**
+ * return the HTML code for the subtasks
+ * 
+ * @param {number} i 
+ * @param {string} content 
+ * @returns 
+ */
 function renderSubtaskHTML(i, content) {
   return /*html*/ `
       <div onmouseover="toggleDNone(${i})" onmouseout="toggleDNone(${i})" ondblclick="editSubtask(${i})" id="yyy${i}" class="subtasks">
@@ -46,6 +65,9 @@ function renderSubtaskHTML(i, content) {
     `;
 }
 
+/**
+ * clearing subArray
+ */
 function clearSubtask() {
   let subtask = document.getElementById("sowSubtasks");
   subArray = [];
@@ -55,14 +77,27 @@ function clearSubtask() {
   hideOrShowEditButtons();
 }
 
+/**
+ * clear the subtask Inputfield
+ */
 function clearSubtaskInput() {
   document.getElementById("subtask").value = "";
 }
 
+/**
+ * eddeding the Subtask
+ * 
+ * @param {number} i 
+ */
 function editSubtask(i) {
   editSubtaskInput(i);
 }
 
+/**
+ * call the edit function
+ * 
+ * @param {number} i 
+ */
 function editSubtaskInput(i) {
   container = document.getElementById(`yyy${i}`);
   container.onmouseover = null;
@@ -72,7 +107,12 @@ function editSubtaskInput(i) {
   edit = document.getElementById(`subtaskEdited`);
   subtask[i] = edit.value;
 }
-
+ /**
+  * render the Inputfield
+  * 
+  * @param {number} i 
+  * @returns 
+  */
 function returnEditSubtaskInputHTML(i) {
   return `<input id="subtaskEdited" type="text" value="${subArray[i]["task-description"]}">
   <div class="inputButtons">
@@ -83,6 +123,9 @@ function returnEditSubtaskInputHTML(i) {
 `;
 }
 
+/**
+ * hide edit Buttons
+ */
 function hideOrShowEditButtons() {
   cont = document.getElementById("testForFunction");
   plus = document.getElementById("plusSymbole");
@@ -92,11 +135,20 @@ function hideOrShowEditButtons() {
   subtask.classList.remove("d-none");
 }
 
+/**
+ * delete Subtask from array subArray
+ * 
+ * @param {number} i 
+ */
 function deleteSubtask(i) {
   subArray.splice(i, 1);
   rendersubtask();
 }
 
+/**
+ * override curret subtask value
+ * @param {number} i 
+ */
 function saveEditedSubtask(i) {
   let text = document.getElementById(`subtaskEdited`).value;
   if (text.length > 0) {
@@ -107,10 +159,18 @@ function saveEditedSubtask(i) {
   }
 }
 
+/**
+ * hide or show buttons
+ * 
+ * @param {string} id 
+ */
 function toggleDNone(id) {
   document.getElementById(`subBTN${id}`).classList.toggle("d-none");
 }
 
+/**
+ * show error massage
+ */
 function showsubtaskIsEmptyError() {
   emptySub = document.getElementById("emptySubtask");
   emptySub.classList.remove("d-none");
@@ -119,12 +179,18 @@ function showsubtaskIsEmptyError() {
   }, 5000);
 }
 
+/**
+ * set focus on inputfield
+ */
 function focusInput() {
   hideOrShowEditButtons();
   let activSubtask = document.getElementById("subtask");
   activSubtask.focus();
 }
 
+/**
+ * add subtask with push on Enter
+ */
 function addSubtaskByEnterClick() {
   let text = document.getElementById(`testForFunction`);
   suby = document.getElementById("subtask");

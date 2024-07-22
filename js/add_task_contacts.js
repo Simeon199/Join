@@ -2,6 +2,9 @@ let userCredicals;
 let isSelect;
 let searchResults = [];
 
+/**
+ * show Dropdown from AssignetTo field
+ */
 function showDropDownAssignedTo() {
   contact = document.getElementById("assignedToDropDown");
   contact.innerHTML = "";
@@ -22,6 +25,9 @@ function showDropDownAssignedTo() {
   document.getElementById("arrowa").classList.add("rotate");
 }
 
+/**
+ * hide Drop down
+ */
 function hideDropDownAssignedTo() {
   document.getElementById("arrowa").classList.remove("rotate");
   contact = document.getElementById("assignedToDropDown");
@@ -29,6 +35,13 @@ function hideDropDownAssignedTo() {
   contact.innerHTML = "";
 }
 
+/**
+ * render contacts HTML
+ * 
+ * @param {json} user 
+ * @param {string} contact 
+ * @param {number} i 
+ */
 function renderAssignedToHTML(user, contact, i) {
   contact.innerHTML += /*html*/ `
     <div id="user${i}" class=assignedDropDownField onclick="checkAssignedContacts('${user[`name`]}', '${user[`color`]}', ${i})">
@@ -45,6 +58,9 @@ function renderAssignedToHTML(user, contact, i) {
   sowUserLetters(`assignetToLetters${i}`, user["name"]);
 }
 
+/**
+ * show circles on Screen
+ */
 function assignetToContects() {
   circleCont = document.getElementById("userCircles");
   circleCont.innerHTML = "";
@@ -53,6 +69,14 @@ function assignetToContects() {
   }
 }
 
+/**
+ * render HTML code
+ * 
+ * @param {number} i 
+ * @param {string} user 
+ * @param {string} color 
+ * @param {number} circleCont 
+ */
 function renderAssignedToCircle(i, user, color, circleCont) {
   if (i <= 3) {
     circleCont.innerHTML += /*html*/ `
@@ -74,12 +98,19 @@ function renderAssignedToCircle(i, user, color, circleCont) {
   }
 }
 
+/**
+ * set to empty Array
+ */
 function clearAssignedTo() {
   let div = document.getElementById("userCircles");
   assignedContacts = [];
   div.innerHTML = "";
 }
 
+/**
+ * added User to Task
+ * @param {json} u 
+ */
 function addUserToTask(u) {
   userCredicals = {
     name: u.name,
@@ -90,6 +121,13 @@ function addUserToTask(u) {
   assignetToContects();
 }
 
+/**
+ * check if a User is selected or not
+ * 
+ * @param {*} name 
+ * @param {*} color 
+ * @param {*} i 
+ */
 function checkAssignedContacts(name, color, i) {
   x = { name: name, color: color, selected: false };
   selUser = document.getElementById(`user${i}`);
@@ -107,6 +145,12 @@ function checkAssignedContacts(name, color, i) {
   }
 }
 
+/**
+ * check if contacts are selected if the popup is opening
+ * 
+ * @param {*} un 
+ * @returns 
+ */
 function checkAssignedContactsStatus(un) {
   if (!assignedContacts == 0) {
     for (let i = 0; i < assignedContacts.length; i++) {
@@ -121,6 +165,12 @@ function checkAssignedContactsStatus(un) {
   }
 }
 
+/**
+ * remove added contact
+ * 
+ * @param {string} name 
+ * @param {number} index 
+ */
 function removeAssignedToContects(name, index) {
   for (let i = 0; i < assignedContacts.length; i++) {
     indexOfName = assignedContacts[i].name.includes(name);
@@ -132,6 +182,9 @@ function removeAssignedToContects(name, index) {
   assignetToContects();
 }
 
+/**
+ * chage field to inputfield
+ */
 function changeToInputfield() {
   changecont = document.getElementById("changeTo");
   search = document.getElementById("searchArea").classList;
@@ -153,6 +206,9 @@ function changeToInputfield() {
   });
 }
 
+/**
+ * show if the Letter macth with letters in user.names
+ */
 function searchContacts() {
   document.getElementById("assignedToDropDown").innerHTML = "";
   search = document.getElementById("searchField");
@@ -172,6 +228,9 @@ function searchContacts() {
   }
 }
 
+/**
+ * show only contacts with the Letter(s) in the inputfield
+ */
 function showDropDownAssignedToOnlyResult() {
   contact = document.getElementById("assignedToDropDown");
   contact.innerHTML = "";
@@ -183,6 +242,10 @@ function showDropDownAssignedToOnlyResult() {
   document.getElementById("arrowa").classList.add("rotate");
 }
 
+/**
+ *  show + symbole and nuber off added contacts
+ * @returns 
+ */
 function showplusSVG() {
   let moreNumber = assignedContacts.length - 4;
   return /*html*/ `

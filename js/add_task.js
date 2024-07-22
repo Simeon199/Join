@@ -24,6 +24,7 @@ async function saveTaskIdToFirebase(taskId) {
 }
 
 /**
+ * Load the Task id from firebase 
  * 
  * @returns 
  */
@@ -251,7 +252,7 @@ async function ensureAllTasksExists() {
 }
 
 /**
- * 
+ * save Task to Database and Localstorage
  */
 async function saveTask() {
   let newTask = createNewTask();
@@ -264,6 +265,11 @@ async function saveTask() {
   updateCategories();
 }
 
+/**
+ * retuns the task json
+ * 
+ * @returns json
+ */
 function createNewTask() {
   return {
     title: getInputValue("inputTitle"),
@@ -278,10 +284,21 @@ function createNewTask() {
   };
 }
 
+/**
+ * get the elements value
+ * 
+ * @param {string} elementId 
+ * @returns 
+ */
 function getInputValue(elementId) {
   return document.getElementById(elementId).value;
 }
 
+/**
+ * push task to array all tasks
+ * 
+ * @param {json} task 
+ */
 async function uploadToAllTasks(task) {
   try {
     let response = await loadRelevantData();
@@ -299,7 +316,7 @@ async function uploadToAllTasks(task) {
 /**
  * check if the FropDown is open or closed
  * 
- * @param {*} id 
+ * @param {string} id 
  */
 function checkDropDown(id) {
   rot = document.getElementById(id);
@@ -320,7 +337,7 @@ function checkDropDown(id) {
 
 
 /**
- * 
+ * hide all popups on screen
  */
 function hideAllAddTaskPopups() {
   hideDropDownAssignedTo();
@@ -332,12 +349,23 @@ function hideAllAddTaskPopups() {
   subtask.classList.add("d-none");
 }
 
+/**
+ * fetch all data from firebase
+ * 
+ * @param {string} path 
+ * @returns 
+ */
 async function loadRelevantData(path = "") {
   let response = await fetch(BASE_URL + path + ".json");
   let responseAsJson = await response.json();
   return responseAsJson;
 }
 
+/**
+ * delete task from firebase
+ * 
+ * @param {number} taskId 
+ */
 async function deleteTask(taskId) {
   showBoardLoadScreen();
   tasks = tasks.filter((task) => task.tasksIdentity !== taskId);
@@ -353,6 +381,9 @@ async function deleteTask(taskId) {
   hideBoardLoadScreen();
 }
 
+/**
+ * Start "got to board" animation
+ */
 function startAnimation() {
   scrollTo(0, 0);
   document.getElementById("addedAnimation").classList.remove("d-none");
@@ -361,10 +392,17 @@ function startAnimation() {
   setTimeout(goToBoard, 1500);
 }
 
+/**
+ * go to the board side
+ */
 function goToBoard() {
   window.location.href = "board.html";
 }
 
+/**
+ * check if the Date in the inputfield is not in the past
+ * @returns 
+ */
 function checkDate() {
   animation = document.getElementById("dateAnimation");
   let dateInput = document.getElementById("date");
