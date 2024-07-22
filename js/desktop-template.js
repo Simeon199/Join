@@ -172,6 +172,7 @@ function isNotLoggedIn() {
     setTimeout(function () {
       document.getElementById("headerIcons").classList.add("d-none");
       document.getElementById("menuBar").classList.add("d-none");
+      document.getElementById("sidebar").classList.add("sidebarEmpty");
     }, 50);
   } else {
     return false;
@@ -186,6 +187,7 @@ function isLoggedIn() {
   ) {
     document.getElementById("headerIcons").classList.remove("d-none");
     document.getElementById("menuBar").classList.remove("d-none");
+    document.getElementById("sidebar").classList.remove("d-none");
   } else {
     return false;
   }

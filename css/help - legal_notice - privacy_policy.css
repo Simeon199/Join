@@ -168,6 +168,9 @@ li {
   #arrow-icon {
     top: 150px;
   }
+  .sidebarEmpty {
+    display: none;
+  }
 }
 
 @media (max-width: 400px) {

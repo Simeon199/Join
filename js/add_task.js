@@ -5,12 +5,20 @@ let subArray = [];
 let assignedContacts = [];
 let standardContainer = "to-do-container";
 
+/**
+ * Initializes add-task variables and functions when the website loads.
+ */
 async function init() {
   changePriority(medium);
   getAllContacts();
   tasksId = await loadTaskIdFromFirebase();
 }
 
+
+/**
+ * 
+ * @param {*} taskId 
+ */
 async function saveTaskIdToFirebase(taskId) {
   await upload("taskId", taskId);
 }
