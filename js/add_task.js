@@ -20,7 +20,7 @@ async function loadTaskIdFromFirebase() {
   if (response !== null && response !== undefined) {
     return response;
   }
-  return 0; // Fallback-Wert, falls keine taskId gefunden wurde
+  return 0;
 }
 
 function taskMarker() {
@@ -143,11 +143,6 @@ async function checkRequiredFields(side) {
     showBoardLoadScreen();
     await createTask(side);
     hideBoardLoadScreen();
-    // if (side === "board") {
-    //   setTimeout(() => {
-    //     location.reload();
-    //   }, 800);
-    // }
   }
 }
 
@@ -193,9 +188,7 @@ async function saveTask() {
   console.log(newTask);
   await saveTaskIdToFirebase(tasksId);
   await uploadToAllTasks(newTask);
-  // saveTasksToLocalStorage();
   updateCategories();
-  // updateBoardHTMLIfOnBoardPage();
 }
 
 function createNewTask() {
@@ -216,12 +209,6 @@ function getInputValue(elementId) {
   return document.getElementById(elementId).value;
 }
 
-// function updateBoardHTMLIfOnBoardPage() {
-//   if (window.location.pathname === "/board.html") {
-//     updateHTML();
-//   }
-// }
-
 async function uploadToAllTasks(task) {
   try {
     let response = await loadRelevantData();
@@ -236,7 +223,6 @@ async function uploadToAllTasks(task) {
   }
 }
 
-// function um festzustellen ob DropDown offen oder geschlossen ist
 function checkDropDown(id) {
   rot = document.getElementById(id);
   if (rot.classList.contains("rotate")) {
