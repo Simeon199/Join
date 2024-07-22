@@ -192,7 +192,7 @@ async function checkRequiredFields(side) {
 
   if (checkDate() === false) {
     document.getElementById("requiredDate").classList.remove("d-none");
-    document.getElementById("requiredDate").innerHTML = "Lorem I";
+    document.getElementById("requiredDate").innerHTML = "Date must be in the future";
   } else {
     document.getElementById("requiredDate").classList.add("d-none");
   }
