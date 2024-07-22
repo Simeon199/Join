@@ -170,7 +170,7 @@ function getUserNickname() {
 function isNotLoggedIn() {
   if (sessionStorage.getItem("isLoggedIn") === "false") {
     setTimeout(function () {
-      document.getElementById("headerIcons").classList.add("d-none");
+      // document.getElementById("headerIcons").classList.add("d-none");
       document.getElementById("menuBar").classList.add("d-none");
       document.getElementById("sidebar").classList.add("sidebarEmpty");
     }, 50);

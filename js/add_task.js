@@ -16,13 +16,18 @@ async function init() {
 
 
 /**
+ * Upload TasksID to Database
  * 
- * @param {*} taskId 
+ * @param {number} taskId 
  */
 async function saveTaskIdToFirebase(taskId) {
   await upload("taskId", taskId);
 }
 
+/**
+ * 
+ * @returns 
+ */
 async function loadTaskIdFromFirebase() {
   let response = await loadRelevantData("taskId");
   if (response !== null && response !== undefined) {
@@ -31,10 +36,18 @@ async function loadTaskIdFromFirebase() {
   return 0;
 }
 
+/**
+ * Marks the current Position in the Sidebar
+ */
 function taskMarker() {
   document.getElementById("addTask").classList.add("currentSection");
 }
 
+/**
+ * add backroundcolor of the priority Buttons
+ * 
+ * @param {string} id 
+ */
 function changePriority(id) {
   removeBackground(id);
   if (id == urgent) {
@@ -51,6 +64,11 @@ function changePriority(id) {
   }
 }
 
+/**
+ * add backroundcolor of the current id and remove it from all others
+ * 
+ * @param {string} id 
+ */
 function removeBackground(id) {
   if (id == urgent) {
     medium.classList.remove("backgroundMedium");
@@ -66,27 +84,11 @@ function removeBackground(id) {
   }
 }
 
-function changeImg(condition) {
-  let urgentImg = document.getElementById("imgUrgent");
-  let mediumImg = document.getElementById("imgMedium");
-  let lowImg = document.getElementById("imgLow");
-  if (condition == urgent) {
-    urgentImg.setAttribute("src", "Assets/img/Prio altaurgent_white.svg");
-  } else {
-    urgentImg.setAttribute("src", "Assets/img/Prio altaUrgent_symbole.svg");
-  }
-  if (condition == medium) {
-    mediumImg.setAttribute("src", "Assets/img/Prio mediameduim_white.svg");
-  } else {
-    mediumImg.setAttribute("src", "Assets/img/Capa 1medium_color.svg");
-  }
-  if (condition == low) {
-    lowImg.setAttribute("src", "Assets/img/Prio bajalow_white.svg");
-  } else {
-    lowImg.setAttribute("src", "Assets/img/Prio bajaLow_symbole.svg");
-  }
-}
-
+/**
+ * initializes functions to create and save Task
+ * 
+ * @param {string} side is used to initializes some funktion for special sides
+ */
 async function createTask(side) {
   await ensureAllTasksExists();
   await saveTask();
@@ -100,6 +102,9 @@ async function createTask(side) {
   clearTask();
 }
 
+/**
+ * clear the add Task page and set the standart values
+ */
 function clearTask() {
   let inputTitle = document.getElementById("inputTitle");
   let inputDescription = document.getElementById("inputDescription");
@@ -114,6 +119,9 @@ function clearTask() {
   hideRequiredText();
 }
 
+/**
+ * show the DropDown for the category field
+ */
 function showDropDownCategory() {
   document.getElementById("categoryDropDown").classList.remove("d-none");
   document.getElementById("arrowb").classList.add("rotate");
@@ -123,15 +131,28 @@ function showDropDownCategory() {
   `;
 }
 
+/**
+ * hide the DropDown
+ */
 function hideDropDownCategory() {
   document.getElementById("categoryDropDown").classList.add("d-none");
   document.getElementById("arrowb").classList.remove("rotate");
 }
 
+/**
+ * change the text in Category
+ * 
+ * @param {string} text 
+ */
 function changeCategory(text) {
   document.getElementById("categoryText").innerHTML = `${text}`;
 }
 
+/**
+ * check if the catetgory is not the default value
+ * 
+ * @returns ture or false
+ */
 function checkCategory() {
   let select = document.getElementById("categoryText").textContent;
   let standart = "Select task category";
@@ -142,6 +163,11 @@ function checkCategory() {
   }
 }
 
+/**
+ * check if the required Fields are filled
+ * 
+ * @param {string} side 
+ */
 async function checkRequiredFields(side) {
   let title = document.getElementById("inputTitle").value;
   let date = document.getElementById("date").value;
@@ -154,6 +180,9 @@ async function checkRequiredFields(side) {
   }
 }
 
+/**
+ * show the container with the text message
+ */
 function showRequiredText() {
   let ids = ["requiredTitle", "requiredDate", "requiredCatergory"];
   ids.forEach(function (id) {
@@ -162,6 +191,9 @@ function showRequiredText() {
   });
 }
 
+/**
+ * hide the container with the text message
+ */
 function hideRequiredText() {
   let ids = ["requiredTitle", "requiredDate", "requiredCatergory"];
   ids.forEach(function (id) {
@@ -170,6 +202,13 @@ function hideRequiredText() {
   });
 }
 
+/**
+ * Uploading to the Database
+ * 
+ * @param {string} path 
+ * @param {json} data 
+ * @returns
+ */
 async function upload(path = "", data) {
   let response = await fetch(BASE_URL + path + ".json", {
     method: "PUT",
@@ -181,6 +220,9 @@ async function upload(path = "", data) {
   return (responseToJson = await response.json());
 }
 
+/**
+ * check if the folder exists if not it would be added
+ */
 async function ensureAllTasksExists() {
   let response = await loadRelevantData();
   if (!response || !response.hasOwnProperty("testRealTasks")) {
@@ -188,6 +230,9 @@ async function ensureAllTasksExists() {
   }
 }
 
+/**
+ * 
+ */
 async function saveTask() {
   let newTask = createNewTask();
   tasksId++;
@@ -231,6 +276,11 @@ async function uploadToAllTasks(task) {
   }
 }
 
+/**
+ * check if the FropDown is open or closed
+ * 
+ * @param {*} id 
+ */
 function checkDropDown(id) {
   rot = document.getElementById(id);
   if (rot.classList.contains("rotate")) {
@@ -248,6 +298,10 @@ function checkDropDown(id) {
   }
 }
 
+
+/**
+ * 
+ */
 function hideAllAddTaskPopups() {
   hideDropDownAssignedTo();
   hideDropDownCategory();
