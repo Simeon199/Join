@@ -1,4 +1,11 @@
-async function testLoginFunction(event) {
+/**
+ * Manages the login process. Validates the user's email and password.
+ * 
+ * @param {Event} event - The event object from the form submission.
+ * @returns {Promise<void>} - Redirects to the summary page if login is successful, otherwise throws an error.
+ */
+
+async function loginFunction(event) {
   event.preventDefault();
   let loginEmail = document.getElementById("loginEmail").value;
   let loginPassword = document.getElementById("loginPassword").value;
@@ -17,14 +24,12 @@ async function testLoginFunction(event) {
   throwLoginError();
 }
 
-function containsElement(jsonObject, value) {
-  for (let key in jsonObject) {
-    if (jsonObject[key] === value) {
-      return true;
-    }
-  }
-  return false;
-}
+/**
+ * This function clears the input fields, highlights them in red and throws an error message. This function is executed in the case of a failed login attempt.
+ * 
+ * no function parameters are passed
+ * @returns {void} no value is returned.
+ */
 
 function throwLoginError() {
   let loginPasswordInput = document.getElementById("loginPasswordInputField");
@@ -41,6 +46,13 @@ function throwLoginError() {
   notification.innerHTML = `<p>Ups! Wrong Password or Email. Try again.</p>`;
   loginInput.appendChild(notification);
 }
+
+/**
+ * Manages the sign-up process through validating user input, creating a user object, and sending it to the server in the case of a successfull validation.
+ *
+ * @param {Event} event - The event object from the form submission.
+ * @returns {Promise<void>} - validates the input, creates a user, and sends the user data to the server. Further execution of the code is stopped in the case of a failed resgitration.
+ */
 
 async function signUp(event) {
   showBoardLoadScreen();
@@ -60,11 +72,29 @@ async function signUp(event) {
   hideBoardLoadScreen();
 }
 
+/**
+ * Checks if an error message notification already exists in the sign-up input section. 
+ *
+ * no function parameters are passed
+ * @returns {boolean} True if an error message notification exists, otherwise false.
+ */
+
 function proveIfErrorMessageAlreadyExists() {
   let childrenElements = Array.from(document.getElementById("signUpInput").children);
   let messageExists = childrenElements.some((child) => child.classList.contains("notification") && child.classList.contains("error"));
   return messageExists;
 }
+
+/**
+ * Checks all the the sign-up requirements including password strength, uniqueness of the nickname, password match, and acceptance of privacy policy.
+ *
+ * @param {string} name - The user's name.
+ * @param {string} email - The user's email.
+ * @param {string} password - The user's password.
+ * @param {string} passwordRepeat - The repeated password for confirmation.
+ * @param {HTMLInputElement} privacyPolicity - The checkbox element for the privacy policy agreement.
+ * @returns {Promise<boolean>} - Is true if all sign-up requirements are met, otherwise false.
+ */
 
 async function checkSignInRequirements(name, email, password, passwordRepeat, privacyPolicity) {
   if (!checkPasswordWhenSignUp(password)) {
@@ -82,6 +112,14 @@ async function checkSignInRequirements(name, email, password, passwordRepeat, pr
   }
   return true;
 }
+
+/**
+ * This function takes the user data from the server checks if the given nickname or email is already in use. If a match is found, a failed registration attempt is thrown as an error message.
+ *
+ * @param {string} name - The user's name to check.
+ * @param {string} email - The user's email to check.
+ * @returns {Promise<boolean>} - Is true if the nickname or email already exists, otherwise false.
+ */
 
 async function nicknameAlreadyExists(name, email) {
   let response = await loadData((path = "/users"));
@@ -106,7 +144,6 @@ function removeErrorMessageIfPresent() {
 }
 
 function removeReportLogin(reportFailedLogin, allErrorMessagesLogin) {
-  // removeErrorMessageIfPresent();
   if (
     document.getElementById(allErrorMessagesLogin).classList.contains("d-none") &&
     document.getElementById(reportFailedLogin).classList.contains("d-none")
