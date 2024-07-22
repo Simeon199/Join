@@ -44,7 +44,7 @@ function taskMarker() {
 }
 
 /**
- * add backroundcolor of the priority Buttons
+ * add backgroundcolor of the priority Buttons
  * 
  * @param {string} id 
  */
@@ -65,7 +65,7 @@ function changePriority(id) {
 }
 
 /**
- * add backroundcolor of the current id and remove it from all others
+ * remove backgroundcolor of all containers without the id
  * 
  * @param {string} id 
  */
