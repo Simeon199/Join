@@ -144,9 +144,33 @@ function checkCategory() {
 async function checkRequiredFields(side) {
   let title = document.getElementById("inputTitle").value;
   let date = document.getElementById("date").value;
-  if (title.length <= 1 || date.length <= 1 || checkCategory() == false || checkDate() === false) {
-    showRequiredText();
+
+  if (title.length <= 1) {
+    document.getElementById("requiredTitle").classList.remove("d-none");
   } else {
+    document.getElementById("requiredTitle").classList.add("d-none");
+  }
+
+  if (date.length <= 1) {
+    document.getElementById("requiredDate").classList.remove("d-none");
+  } else {
+    document.getElementById("requiredDate").classList.add("d-none");
+  }
+
+  if (checkCategory() == false) {
+    document.getElementById("requiredCatergory").classList.remove("d-none");
+  } else {
+    document.getElementById("requiredDate").classList.add("d-none");
+  }
+
+  if (checkDate() === false) {
+    document.getElementById("requiredDate").classList.remove("d-none");
+    document.getElementById("requiredDate").innerHTML = "Lorem I";
+  } else {
+    document.getElementById("requiredDate").classList.add("d-none");
+  }
+
+  if (title.length > 1 && date.length > 1 && checkCategory() == true && checkDate() === true) {
     showBoardLoadScreen();
     await createTask(side);
     hideBoardLoadScreen();
