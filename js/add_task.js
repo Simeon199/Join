@@ -14,7 +14,6 @@ async function init() {
   tasksId = await loadTaskIdFromFirebase();
 }
 
-
 /**
  * Upload TasksID to Database
  * 
@@ -171,10 +170,31 @@ function checkCategory() {
 async function checkRequiredFields(side) {
   let title = document.getElementById("inputTitle").value;
   let date = document.getElementById("date").value;
+
+  if (title.length <= 1) {
+    document.getElementById("requiredTitle").classList.remove("d-none");
+  }
+
+  if (date.length <= 1) {
+    document.getElementById("requiredDate").classList.remove("d-none");
+  }
+
+  if (checkCategory() == false) {
+    document.getElementById("requiredCatergory").classList.remove("d-none");
+  }
+
+  if (checkDate() === false) {
+    document.getElementById("requiredDate").classList.remove("d-none");
+    document.getElementById("requiredDate").innerHTML = "Lorem I";
+  }
+
   if (title.length <= 1 || date.length <= 1 || checkCategory() == false || checkDate() === false) {
-    showRequiredText();
+    // showRequiredText();
   } else {
     showBoardLoadScreen();
+    document.getElementById("requiredDate").classList.add("d-none");
+    document.getElementById("requiredTitle").classList.add("d-none");
+    document.getElementById("requiredCatergory").classList.add("d-none");
     await createTask(side);
     hideBoardLoadScreen();
   }
