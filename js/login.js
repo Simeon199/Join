@@ -2,7 +2,6 @@
  * Manages the login process. Validates the user's email and password.
  * 
  * @param {Event} event - The event object from the form submission.
- * @returns {Promise<void>} - Redirects to the summary page if login is successful, otherwise throws an error.
  */
 
 async function loginFunction(event) {
@@ -27,8 +26,6 @@ async function loginFunction(event) {
 /**
  * This function clears the input fields, highlights them in red and throws an error message. This function is executed in the case of a failed login attempt.
  * 
- * no function parameters are passed
- * @returns {void} no value is returned.
  */
 
 function throwLoginError() {
@@ -51,7 +48,6 @@ function throwLoginError() {
  * Manages the sign-up process through validating user input, creating a user object, and sending it to the server in the case of a successfull validation.
  *
  * @param {Event} event - The event object from the form submission.
- * @returns {Promise<void>} - validates the input, creates a user, and sends the user data to the server. Further execution of the code is stopped in the case of a failed resgitration.
  */
 
 async function signUp(event) {
@@ -75,8 +71,6 @@ async function signUp(event) {
 /**
  * Checks if an error message notification already exists in the sign-up input section. 
  *
- * no function parameters are passed
- * @returns {boolean} True if an error message notification exists, otherwise false.
  */
 
 function proveIfErrorMessageAlreadyExists() {
@@ -93,7 +87,6 @@ function proveIfErrorMessageAlreadyExists() {
  * @param {string} password - The user's password.
  * @param {string} passwordRepeat - The repeated password for confirmation.
  * @param {HTMLInputElement} privacyPolicity - The checkbox element for the privacy policy agreement.
- * @returns {Promise<boolean>} - Is true if all sign-up requirements are met, otherwise false.
  */
 
 async function checkSignInRequirements(name, email, password, passwordRepeat, privacyPolicity) {
@@ -118,7 +111,6 @@ async function checkSignInRequirements(name, email, password, passwordRepeat, pr
  *
  * @param {string} name - The user's name to check.
  * @param {string} email - The user's email to check.
- * @returns {Promise<boolean>} - Is true if the nickname or email already exists, otherwise false.
  */
 
 async function nicknameAlreadyExists(name, email) {
@@ -135,6 +127,12 @@ async function nicknameAlreadyExists(name, email) {
   return false;
 }
 
+/**
+* Removes an existing error message and resets the border of the password repeat input field.
+* 
+*/
+
+
 function removeErrorMessageIfPresent() {
   document.getElementById("signUpPasswordRepeat").style.border = "1px solid #d1d1d1";
   let existingNotification = document.querySelector(".notification");
@@ -142,6 +140,13 @@ function removeErrorMessageIfPresent() {
     existingNotification.remove();
   }
 }
+
+/**
+* This function toggles the visibility of the login error.
+* 
+* @param {string} reportFailedLogin - The ID of the element that resports the failed login.
+* @param {string} allErrorMessagesLogin - The ID of the element that contains all the login error messages. 
+*/
 
 function removeReportLogin(reportFailedLogin, allErrorMessagesLogin) {
   if (
@@ -158,6 +163,11 @@ function removeReportLogin(reportFailedLogin, allErrorMessagesLogin) {
   }
 }
 
+/**
+ * This function toggles the visibility of the error messages in the case of a failed registration.
+ * 
+ */
+
 function createReportDueToFailedRegistration() {
   removeErrorMessageIfPresent();
   let allErrorMessages = document.getElementById("allErrorMessages");
@@ -173,6 +183,12 @@ function createReportDueToFailedRegistration() {
   }
 }
 
+/**
+ * This function finds the element with the specified ID and the element for all error messages. It removes the d-flex class and adds the d-none class to both elements to hide them.
+ * 
+ * @param {string} id - The ID of the element that should be hided.
+ */
+
 function removeReport(id) {
   let report = document.getElementById(id);
   let allErrorMessages = document.getElementById("allErrorMessages");
@@ -180,6 +196,11 @@ function removeReport(id) {
   allErrorMessages.classList.add("d-none");
   report.classList.add("d-none");
 }
+
+/**
+ * This function displays a registration error message if the passwords don't match. It removes the existing error messages, highlights the password repeat input in red and shows a notification.
+ * 
+ */
 
 function throwSignUpError() {
   removeErrorMessageIfPresent();
@@ -192,6 +213,14 @@ function throwSignUpError() {
   signUpInput.appendChild(notification);
 }
 
+/**
+ * This function takes the username, the email address and a password and creates a user object with this information.
+ * 
+ * @param {string} name - The name of the user.
+ * @param {string} email - The email of the user.
+ * @param {string} password - the password of the user.
+ */
+
 function buildUserFunction(name, email, password) {
   let user = {
     name: name,
@@ -200,6 +229,13 @@ function buildUserFunction(name, email, password) {
   };
   return user;
 }
+
+/** 
+ * This function checks whether the password meets the necessary criteria, by calling the function `checkIfPasswordIsValid`.
+ * If the password is invalid, registration is marked as failed.
+ * 
+ * @param {string} password - The password to check.
+ */
 
 function checkPasswordWhenSignUp(password) {
   let passwordError = checkIfPasswordIsValid(password);
