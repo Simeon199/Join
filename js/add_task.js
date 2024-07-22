@@ -170,9 +170,7 @@ async function checkRequiredFields(side) {
     document.getElementById("requiredDate").classList.add("d-none");
   }
 
-  if (title.length <= 1 || date.length <= 1 || checkCategory() == false || checkDate() === false) {
-    // showRequiredText();
-  } else {
+  if (title.length > 1 && date.length > 1 && checkCategory() == true && checkDate() === true) {
     showBoardLoadScreen();
     document.getElementById("requiredDate").classList.add("d-none");
     document.getElementById("requiredTitle").classList.add("d-none");
