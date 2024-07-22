@@ -133,7 +133,6 @@ async function nicknameAlreadyExists(name, email) {
 * 
 */
 
-
 function removeErrorMessageIfPresent() {
   document.getElementById("signUpPasswordRepeat").style.border = "1px solid #d1d1d1";
   let existingNotification = document.querySelector(".notification");
@@ -360,7 +359,6 @@ function backToLogin() {
  * This function removes the login information (the attributes "isLoggedIn", "currentUser" and "guestLoginStatus") from the sessionstorage.
  * 
  */
-
 
 function setStorageAttributes() {
   sessionStorage.removeItem("isLoggedIn");
