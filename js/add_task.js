@@ -174,28 +174,31 @@ async function checkRequiredFields(side) {
 
   if (title.length <= 1) {
     document.getElementById("requiredTitle").classList.remove("d-none");
+  } else {
+    document.getElementById("requiredTitle").classList.add("d-none");
   }
 
   if (date.length <= 1) {
     document.getElementById("requiredDate").classList.remove("d-none");
+  } else {
+    document.getElementById("requiredDate").classList.add("d-none");
   }
 
   if (checkCategory() == false) {
     document.getElementById("requiredCatergory").classList.remove("d-none");
+  } else {
+    document.getElementById("requiredDate").classList.add("d-none");
   }
 
   if (checkDate() === false) {
     document.getElementById("requiredDate").classList.remove("d-none");
     document.getElementById("requiredDate").innerHTML = "Lorem I";
+  } else {
+    document.getElementById("requiredDate").classList.add("d-none");
   }
 
-  if (title.length <= 1 || date.length <= 1 || checkCategory() == false || checkDate() === false) {
-    // showRequiredText();
-  } else {
+  if (title.length > 1 && date.length > 1 && checkCategory() == true && checkDate() === true) {
     showBoardLoadScreen();
-    document.getElementById("requiredDate").classList.add("d-none");
-    document.getElementById("requiredTitle").classList.add("d-none");
-    document.getElementById("requiredCatergory").classList.add("d-none");
     await createTask(side);
     hideBoardLoadScreen();
   }
