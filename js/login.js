@@ -107,7 +107,8 @@ async function checkSignInRequirements(name, email, password, passwordRepeat, pr
 }
 
 /**
- * This function takes the user data from the server checks if the given nickname or email is already in use. If a match is found, a failed registration attempt is thrown as an error message.
+ * This function takes the user data from the server checks if the given nickname or email is already in use. 
+ * If a match is found, a failed registration attempt is thrown as an error message.
  *
  * @param {string} name - The user's name to check.
  * @param {string} email - The user's email to check.
@@ -245,6 +246,14 @@ function checkPasswordWhenSignUp(password) {
   return true;
 }
 
+/**
+ * This async function sends the user data a specified path, shows a registration popup in the case of success,
+ * and redirects to the login page after a short delay. If an error occurs, it logs an error message to the console.
+ * 
+ * @param {string} path - The path to which the user data should be posted.
+ * @param {Object} user - The user data to be sent to the database.
+ */
+
 async function createUserAndShowPopup(path, user) {
   try {
     let responseToJson = await postDataToDatabase(path, user);
@@ -258,6 +267,14 @@ async function createUserAndShowPopup(path, user) {
   }
 }
 
+/**
+ * This function chekcks a password to ensure it meets the necessary password criteria (minimum length, at least one uppercase, one lowercase and one digit) 
+ * If the password is too short, it returns an error message. If the password does not meet
+ * the required pattern, it triggers a signup error function. If the password is valid, null is returned.
+ * 
+ * @param {string} password - The password to be validated.
+ */
+
 function checkIfPasswordIsValid(password) {
   let minLength = 6;
   let regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{6,}$/;
@@ -270,6 +287,13 @@ function checkIfPasswordIsValid(password) {
   }
   return null;
 }
+
+/**
+ * This function displays an error message when the password syntax is incorrect during sign-up.
+ * This function removes existing error messages and toggles the visibility of the error messages
+ * related to weak passwords. It furthermore updates the CSS classes to show or hide the error messages.
+ * 
+ */
 
 function throwSignUpErrorWhenWrongPasswordSyntax() {
   removeErrorMessageIfPresent();
@@ -286,6 +310,12 @@ function throwSignUpErrorWhenWrongPasswordSyntax() {
   }
 }
 
+/**
+ * This function checks the visibility of the checkbox element with the ID "checkbox-check".
+ * If the checkbox is currently visible, it hides it and if the checkbox is currently hidden, it shows it.
+ * 
+ */
+
 function addCheck() {
   let checkboxCheck = document.getElementById("checkbox-check");
   if (!checkboxCheck.classList.contains("d-none")) {
@@ -295,6 +325,12 @@ function addCheck() {
   }
 }
 
+/**
+ * This function sets the guest login status in the session storage and redirects the user to the summary page.
+ * It also marks the first-time login status in the local storage.
+ * 
+ */
+
 function guestLogin() {
   sessionStorage.setItem("guestLoginStatus", "true");
   window.location.href = "summary.html";
@@ -302,19 +338,45 @@ function guestLogin() {
   localStorage.setItem("firstTime", "true");
 }
 
+/**
+ * This function redirects the user directly to the sign up site.
+ * 
+ */
+
 function goToSignUp() {
   window.location.href = "register.html";
 }
 
+/**
+ * This function redirects the user directly to the login site.
+ * 
+ */
+
 function backToLogin() {
   window.location.href = "login.html";
 }
+
+/**
+ * This function removes the login information (the attributes "isLoggedIn", "currentUser" and "guestLoginStatus") from the sessionstorage.
+ * 
+ */
+
 
 function setStorageAttributes() {
   sessionStorage.removeItem("isLoggedIn");
   sessionStorage.removeItem("currentUser");
   sessionStorage.removeItem("guestLoginStatus");
 }
+
+/**
+ * This function stores the logged-in status, current user's email, and user's nickname.
+ * If the user chooses to be remembered, the information is saved in the local storage.
+ * Otherwise, it's saved in the session storage.
+ * 
+ * @param {string} name - The nickname of the user.
+ * @param {string} email - The email address of the user.
+ * @param {boolean} remember - A flag indicating whether to remember the user across sessions.
+ */
 
 function saveLoggedInStatus(name, email, remember) {
   if (remember) {
@@ -328,6 +390,14 @@ function saveLoggedInStatus(name, email, remember) {
   }
   return;
 }
+
+/**
+ * This async function sends a POST request to the specified path with the provided data.
+ * It handles the response and checks for errors. If the response is not ok, it an error is thrown.
+ * 
+ * @param {string} path - The path in the database where the data should be posted.
+ * @param {Object} data - The data to be sent to the database.
+ */
 
 async function postDataToDatabase(path, data) {
   try {
@@ -348,10 +418,23 @@ async function postDataToDatabase(path, data) {
   }
 }
 
+/**
+ * This function removes the "d-none" class from the element with the ID "registerPopup"
+ * to make the registration popup visible.
+ * 
+ */
+
 function showRegisterPopup() {
   let registerPopup = document.getElementById("registerPopup");
   registerPopup.classList.remove("d-none");
 }
+
+/**
+ * This function changes the visibility of the password field identified by the provided variable.
+ * It updates the associated visibility icons and checks the content type of the password field.
+ * 
+ * @param {string} variable - The ID of the password field to be toggled.
+ */
 
 function showPassword(variable) {
   let passwordContent = document.getElementById(variable);
@@ -362,6 +445,13 @@ function showPassword(variable) {
   checkAllCasesForShowPassword(variable, visibilityInputImage, visibilityInputImageRepeat, visibility, visibilityRepeat);
   checkPasswordContentType(passwordContent);
 }
+
+/**
+ * This function updates the visibility of the password field identified by the provided variable.
+ * It also manages the display of the visibility and lock icons based on the current state.
+ * 
+ * @param {string} variable - The ID of the password field whose visibility is being toggled.
+ */
 
 function showLoginPassword(variable) {
   let passwordContent = document.getElementById(variable);
@@ -378,6 +468,16 @@ function showLoginPassword(variable) {
   }
   checkPasswordContentType(passwordContent);
 }
+
+/**
+ * This function adds an event listener to the password input field. Depending on the input field's
+ * value and type, it shows or hides the visibility icons and the login lock icon.
+ * 
+ * @param {HTMLElement} loginPassword - The password input field element.
+ * @param {HTMLElement} loginLock - The element representing the login lock icon.
+ * @param {HTMLElement} visibilityInputImage - The element representing the visibility input image.
+ * @param {HTMLElement} visibility - The element representing the visibility control.
+ */
 
 function loginPasswordFunction(loginPassword, loginLock, visibilityInputImage, visibility) {
   loginPassword.addEventListener("input", function () {
@@ -396,6 +496,18 @@ function loginPasswordFunction(loginPassword, loginLock, visibilityInputImage, v
   });
 }
 
+/**
+ * This function adjusts the visibility of icons for showing or hiding passwords based on the specified
+ * password input fields and its associated icons. It handles cases for both the login password and
+ * the repeat password fields.
+ * 
+ * @param {string} variable - A string indicating which password field to process ("loginPassword" or "loginPasswordRepeat").
+ * @param {HTMLElement} visibilityInputImage - The element representing the visibility input image for the login password.
+ * @param {HTMLElement} visibilityInputImageRepeat - The element representing the visibility input image for the repeat password.
+ * @param {HTMLElement} visibility - The element representing the visibility control for the login password.
+ * @param {HTMLElement} visibilityRepeat - The element representing the visibility control for the repeat password.
+ */
+
 function checkAllCasesForShowPassword(variable, visibilityInputImage, visibilityInputImageRepeat, visibility, visibilityRepeat) {
   if (variable == "loginPassword" && visibilityInputImage.classList.contains("d-none")) {
     visibilityInputImage.classList.remove("d-none");
@@ -412,6 +524,14 @@ function checkAllCasesForShowPassword(variable, visibilityInputImage, visibility
   }
 }
 
+/**
+ * This function changes the type of the given password input field to either "text" or "password".
+ * If the current type is "password", it sets the type to "text" to show the password. If the current
+ * type is "text", it sets the type back to "password" to hide the password.
+ * 
+ * @param {HTMLInputElement} passwordContent - The password input field element whose type will be toggled.
+ */
+
 function checkPasswordContentType(passwordContent) {
   if (passwordContent.type == "password") {
     passwordContent.type = "text";
@@ -420,11 +540,20 @@ function checkPasswordContentType(passwordContent) {
   }
 }
 
-// showLoadScreen
+/**
+ * This function makes the board load screen visible by removing the "d-none" class 
+ * from the element with the ID "board-add_task-load-screen".
+ * 
+ */
+
 function showBoardLoadScreen() {
-  console.log("h");
   document.getElementById("board-add_task-load-screen").classList.remove("d-none");
 }
+
+/**
+ * This function hides the board load screen by adding the "d-none" class to the element with the ID "board-add_task-load-screen".
+ * 
+ */
 
 function hideBoardLoadScreen() {
   document.getElementById("board-add_task-load-screen").classList.add("d-none");
