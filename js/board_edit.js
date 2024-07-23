@@ -258,6 +258,7 @@ function saveChangesSingleTaskWithoutSubtask(taskId, objectForEditing, container
 }
 
 async function updateTasksThroughEditing(taskId, objectForEditing) {
+  console.log(taskId);
   let task = tasks[taskId];
   let updatedTask = await updateTask(task, taskId, objectForEditing);
   checkBoxCheckedJson = {};

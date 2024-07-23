@@ -505,10 +505,11 @@ function renderBigTaskPopUpSection(containerId, value, renderFunction) {
  * - Rendering the edit buttons for the "Big Task" pop-up using the task ID.
  * 
  * @param {Object} taskJson - The JSON object containing the task details.
+ * @param {oldPriority} - The former priority of the task.
  * @param {string} id - The unique identifier of the task.
  */
 
-function renderBigTaskDetails(taskJson, id) {
+function renderBigTaskDetails(taskJson, oldPriority, id) {
   returnBigTaskPopUpContactAll(id);
   returnBigTaskPopUpSubtasksAll();
   renderBigTaskAssignedContactContainer(taskJson);
