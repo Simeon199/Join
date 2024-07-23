@@ -5,6 +5,10 @@ let tasks = [];
 
 const BASE_URL = "https://join-privat-default-rtdb.europe-west1.firebasedatabase.app/";
 
+/**
+ * Initializes the application, loads tasks, and sets up the UI.
+ *
+ */
 async function init() {
   let responseJson = await loadTasksFromDatabase();
   allTasks = responseJson;
@@ -21,6 +25,10 @@ async function init() {
   getDateFormUrgetTask();
 }
 
+/**
+ * Renders the number of all container sections.
+ *
+ */
 async function renderNumberOfAllContainers() {
   numberOfSection("to-do");
   numberOfSection("done");
@@ -31,7 +39,11 @@ async function renderNumberOfAllContainers() {
   numberOfUrgentSection();
 }
 
-// numberOfSection
+/**
+ * Updates the number of tasks in a specified section.
+ *
+ * @param {string} section - The ID of the section to update.
+ */
 function numberOfSection(section) {
   let sectionNumber = document.getElementById(section + "-number");
   let number = 0;
@@ -50,7 +62,10 @@ function numberOfSection(section) {
   } catch (error) {}
 }
 
-// numberOfUrgentSection
+/**
+ * Updates the number of urgent tasks in the section.
+ *
+ */
 function numberOfUrgentSection() {
   let sectionNumber = document.getElementById("urgent-number");
   let number = 0;
@@ -64,13 +79,32 @@ function numberOfUrgentSection() {
   sectionNumber.innerHTML = number;
 }
 
-// loadDataTwo
+/**
+ * Fetches and returns JSON data from a specified path.
+ *
+ * @param {string} path - The path to the JSON file.
+ */
 async function loadDataTwo(path = "") {
   let response = await fetch(BASE_URL + path + ".json");
   let responseAsJson = await response.json();
   return responseAsJson;
 }
 
+/**
+ * Fetches and returns JSON data from a specified path.
+ *
+ * @param {string} path - The path to the JSON file.
+ */
+async function loadRelevantData(path = "") {
+  let response = await fetch(BASE_URL + path + ".json");
+  let responseAsJson = await response.json();
+  return responseAsJson;
+}
+
+/**
+ * Updates the greeting message based on the user's name.
+ *
+ */
 function greet() {
   cont = document.getElementById("greetingCont");
   if (userName === "Guest") {
@@ -84,14 +118,26 @@ function greet() {
   }
 }
 
+/**
+ * Navigates to the board page.
+ *
+ */
 function goToBoard() {
   window.location.href = "board.html";
 }
 
+/**
+ * Marks the "summary" element as the current section.
+ *
+ */
 function taskMarker() {
   document.getElementById("summary").classList.add("currentSection");
 }
 
+/**
+ * Handles the greeting animation for first-time users.
+ *
+ */
 function greetAnimation() {
   checkIfFirstTime();
 
@@ -126,6 +172,10 @@ function greetAnimation() {
   }
 }
 
+/**
+ * Checks if it is the user's first time and updates the variable accordingly.
+ *
+ */
 function checkIfFirstTime() {
   let trueOrFalse = localStorage.getItem("firstTime");
   if (trueOrFalse) {
@@ -133,6 +183,10 @@ function checkIfFirstTime() {
   }
 }
 
+/**
+ * Loads tasks from the database and returns them.
+ *
+ */
 async function loadTasksFromDatabase() {
   let response = await loadRelevantData();
   if (response && response.testRealTasks) {
@@ -144,12 +198,10 @@ async function loadTasksFromDatabase() {
   return [];
 }
 
-async function loadRelevantData(path = "") {
-  let response = await fetch(BASE_URL + path + ".json");
-  let responseAsJson = await response.json();
-  return responseAsJson;
-}
-
+/**
+ * Returns a greeting based on the current time of day.
+ *
+ */
 function greetTime() {
   const d = new Date();
   const time = d.getHours();
@@ -163,6 +215,10 @@ function greetTime() {
   }
 }
 
+/**
+ * Gets the date for urgent tasks and updates the display.
+ *
+ */
 function getDateFormUrgetTask() {
   dateCont = document.getElementById("upcommingDate");
   findUrgetnTasks();
@@ -170,26 +226,43 @@ function getDateFormUrgetTask() {
   getEarliestDate(earliestdate);
 }
 
+/**
+ * Displays the earliest date in a formatted string.
+ *
+ * @param {Date} earliestDate - The date to format and display.
+ */
 function getEarliestDate(earliestDate) {
-  const options = {year: "numeric", month: "long", day: "numeric"};
-  document.getElementById("upcommingDate").innerHTML = 
-  earliestDate.toLocaleDateString("en-US", options);
+  const options = { year: "numeric", month: "long", day: "numeric" };
+  document.getElementById("upcommingDate").innerHTML = earliestDate.toLocaleDateString("en-US", options);
 }
 
+/**
+ * Filters tasks to return only those with 'urgent' priority.
+ *
+ */
 function findUrgetnTasks() {
-  return tasks.filter((t)=> t.priority === 'urgent');
+  return tasks.filter((t) => t.priority === "urgent");
 }
 
+/**
+ * Returns the earliest date from all urgent tasks.
+ *
+ */
 function returnDatefromAllUrgentTasks() {
   const urgetTasks = findUrgetnTasks();
   if (urgetTasks.length > 0) {
-    return earliestDate(urgetTasks)
+    return earliestDate(urgetTasks);
   }
   return null;
 }
 
+/**
+ * Finds the earliest date from an array of tasks.
+ *
+ * @param {Array} task - Array of tasks with date properties.
+ */
 function earliestDate(task) {
-  const date = task.map(t => new Date(t.date)).filter(d => !isNaN(d));
+  const date = task.map((t) => new Date(t.date)).filter((d) => !isNaN(d));
   const earliestdate = new Date(Math.min(...date));
   return earliestdate;
 }
