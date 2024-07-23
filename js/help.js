@@ -1,6 +1,12 @@
-// taskMarker
+/**
+ * Clears the task marker.
+ *
+ */
 function taskMarker() {}
 
+/**
+ * Updates the header section with SVG logo and header content.
+ */
 function headerHTML() {
   document.getElementById("headerForm").innerHTML += /*html*/ `
 
@@ -25,6 +31,10 @@ function headerHTML() {
   `;
 }
 
+/**
+ * Navigates to the previous page in the browser history.
+ *
+ */
 function previousPage() {
   window.history.back();
 }

@@ -1,4 +1,8 @@
-// returnContactLetterContainerHTML
+/**
+ * Returns the HTML for a contact letter container.
+ *
+ * @param {string} letter - The letter to be displayed.
+ */
 function returnContactLetterContainerHTML(letter) {
   return /*html*/ `
     <div class="contact-container">
@@ -11,7 +15,12 @@ function returnContactLetterContainerHTML(letter) {
   `;
 }
 
-// returnContactHTML
+/**
+ * Generates HTML for a contact card with user details.
+ *
+ * @param {number} j - Index of the contact.
+ * @param {Object} user - The user object containing details.
+ */
 function returnContactHTML(j, user) {
   let userName = user["name"];
   let userEmail = user["email"];
@@ -34,7 +43,16 @@ function returnContactHTML(j, user) {
       `;
 }
 
-// returnBigContactIconContainerHTML
+/**
+ * Generates HTML for big contact icon containers.
+ *
+ * @param {string} userName - The name of the user.
+ * @param {string} userEmail - The email of the user.
+ * @param {string} userNumber - The contact number of the user.
+ * @param {string} userID - The unique ID of the user.
+ * @param {number} i - An index or identifier for the user.
+ * @param {string} userColor - The color associated with the user.
+ */
 function returnBigContactIconContainerHTML(userName, userEmail, userNumber, userID, i, userColor) {
   return /*html*/ `
       <div id="edit-contact" onclick='showPopUp(),renderEditContactPopUp("${userID}","${userName}","${userEmail}","${userNumber}","${i}","${userColor}")'>
@@ -91,7 +109,10 @@ function returnBigContactIconContainerHTML(userName, userEmail, userNumber, user
     `;
 }
 
-// returnAddContactPopUpHeadlineHTML
+/**
+ * Returns HTML for the add contact popup headline.
+ *
+ */
 function returnAddContactPopUpHeadlineHTML() {
   return /*html*/ `
         <h1 id="pop-up-headline">Add contact</h1>
@@ -99,7 +120,10 @@ function returnAddContactPopUpHeadlineHTML() {
     `;
 }
 
-// returnAddContactPopUpContactLogoHTML
+/**
+ * Returns HTML string for an SVG logo in the contact popup.
+ *
+ */
 function returnAddContactPopUpContactLogoHTML() {
   return /*html*/ `
           <svg
@@ -139,7 +163,10 @@ function returnAddContactPopUpContactLogoHTML() {
     `;
 }
 
-// returnAddContactPopUpFormHTML
+/**
+ * Generates HTML for a contact addition pop-up form.
+ *
+ */
 function returnAddContactPopUpFormHTML() {
   return /*html*/ `
         <form onsubmit='addNewContact("${randomColor()}", "created"); return false;'>
@@ -311,21 +338,34 @@ function returnAddContactPopUpFormHTML() {
     `;
 }
 
-// returnEditContactPopUpHeadlineHTML
+/**
+ * Returns the HTML for the edit contact pop-up headline.
+ *
+ */
 function returnEditContactPopUpHeadlineHTML() {
   return /*html*/ `
     <h1 id="pop-up-headline">Edit contact</h1>
   `;
 }
 
-// returnEditContactPopUpLogoHTML
+/**
+ * Returns HTML string for contact popup logo with user's initials.
+ *
+ * @param {string} userName - The name of the user.
+ */
 function returnEditContactPopUpLogoHTML(userName) {
   return /*html*/ `
   ${firstLetterFirstTwoWords(userName)}
     `;
 }
 
-// returnEditContactPopUpFormHTML
+/**
+ * Returns the HTML form for editing a contact.
+ *
+ * @param {string} userID - The unique identifier of the user.
+ * @param {number} i - Index of the contact in the list.
+ * @param {string} userColor - The color associated with the user.
+ */
 function returnEditContactPopUpFormHTML(userID, i, userColor) {
   return /*html*/ `
         <form onsubmit='editContact("${userID}","${i}","${userColor}"); return false;'>
