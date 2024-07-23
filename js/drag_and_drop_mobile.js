@@ -145,6 +145,7 @@ function allowDrop(event) {
  * This function takes a string as input and returns a new string where all spaces (' ') are replaced with dashes ('-').
  * 
  * @param {string} str - The input string in which spaces will be replaced with dashes.
+ * @returns {string} - The modified string with spaces replaced by dashes.
  */
 
 function replaceSpacesWithDashes(str) {

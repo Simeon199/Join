@@ -70,7 +70,8 @@ async function signUp(event) {
 
 /**
  * Checks if an error message notification already exists in the sign-up input section. 
- *
+ * 
+ * @returns {boolean} - Returns true if an error message is found, otherwise false.
  */
 
 function proveIfErrorMessageAlreadyExists() {
@@ -87,6 +88,7 @@ function proveIfErrorMessageAlreadyExists() {
  * @param {string} password - The user's password.
  * @param {string} passwordRepeat - The repeated password for confirmation.
  * @param {HTMLInputElement} privacyPolicity - The checkbox element for the privacy policy agreement.
+ * @returns {Promise<boolean>} - Returns a promise that resolves to true if all sign-up requirements are met, otherwise false.
  */
 
 async function checkSignInRequirements(name, email, password, passwordRepeat, privacyPolicity) {
@@ -112,6 +114,7 @@ async function checkSignInRequirements(name, email, password, passwordRepeat, pr
  *
  * @param {string} name - The user's name to check.
  * @param {string} email - The user's email to check.
+ * @returns {Promise<boolean>} - Returns a promise that resolves to true if the nickname or email already exists, otherwise false.
  */
 
 async function nicknameAlreadyExists(name, email) {
@@ -219,6 +222,7 @@ function throwSignUpError() {
  * @param {string} name - The name of the user.
  * @param {string} email - The email of the user.
  * @param {string} password - the password of the user.
+ * @returns {Object} - The user object containing the name, email, and password.
  */
 
 function buildUserFunction(name, email, password) {
@@ -235,6 +239,7 @@ function buildUserFunction(name, email, password) {
  * If the password is invalid, registration is marked as failed.
  * 
  * @param {string} password - The password to check.
+ * @returns {boolean} - Returns true if the password is valid, otherwise false.
  */
 
 function checkPasswordWhenSignUp(password) {
@@ -251,6 +256,7 @@ function checkPasswordWhenSignUp(password) {
  * 
  * @param {string} path - The path to which the user data should be posted.
  * @param {Object} user - The user data to be sent to the database.
+ * @returns {Promise<Object>} - Returns a promise that resolves to the server's response in JSON format.
  */
 
 async function createUserAndShowPopup(path, user) {
@@ -272,6 +278,7 @@ async function createUserAndShowPopup(path, user) {
  * the required pattern, it triggers a signup error function. If the password is valid, null is returned.
  * 
  * @param {string} password - The password to be validated.
+ * @returns {string|null} - Returns an error message if the password is invalid, otherwise returns null.
  */
 
 function checkIfPasswordIsValid(password) {
@@ -374,6 +381,7 @@ function setStorageAttributes() {
  * @param {string} name - The nickname of the user.
  * @param {string} email - The email address of the user.
  * @param {boolean} remember - A flag indicating whether to remember the user across sessions.
+ * @returns
  */
 
 function saveLoggedInStatus(name, email, remember) {
