@@ -14,6 +14,7 @@ function stopEvent(event) {
 /**
  * Creates an object representing the current logged-in status and user information.
  * 
+ * @returns {Object} The object containing the user's login status and information.
  */
 
 function createLoggedInStatusObject() {
@@ -54,6 +55,7 @@ function setSessionAttributes() {
  * object to determine if the user is currently logged in as a guest and is not on the "summary.html" page.
  * 
  * @param {Object} obj - An object containing user and login information.
+ * @returns {boolean} `true` if the guest is logged in and the current path is not "summary.html", otherwise `false`.
  */
 
 function isGuestLoggedIn(obj) {
@@ -65,6 +67,7 @@ function isGuestLoggedIn(obj) {
  * sessionStorage status and user details.
  * 
  * @param {Object} obj - An object containing login status and user information.
+ * @returns {boolean} `true` if the user is logged in based on the provided status and user information, otherwise `false`.
  */
 
 function isUserLoggedIn(obj) {
@@ -78,6 +81,7 @@ function isUserLoggedIn(obj) {
  * 
  * @param {Object} obj - An object containing the current path information.
  * @param {boolean} boolean - A flag indicating whether the redirect condition is met.
+ * @returns {boolean} `true` if redirection should occur based on the path and boolean value, otherwise `false`.
  */
 
 function shouldRedirect(obj, bolean) {
@@ -126,6 +130,7 @@ function setStorageAttributes() {
  * Checks if all properties of the given object are null except for `currentPath`.
  *
  * @param {Object} obj - The object to be checked.
+ * @returns {boolean} `true` if `currentPath` is defined and all other properties are null, otherwise `false`.
  */
 
 function proveIfEverythingIsNullExceptCurrentPath(obj) {
@@ -142,6 +147,7 @@ function proveIfEverythingIsNullExceptCurrentPath(obj) {
  * @param {string} name - The nickname of the user.
  * @param {string} email - The email of the user.
  * @param {boolean} remember - A flag indicating whether to remember the user across sessions (true) or only for the current session (false).
+ * @returns
  */
 
 function saveLoggedInStatus(name, email, remember) {
@@ -337,6 +343,7 @@ function checkWebsiteLocation() {
  * The returned object includes references to elements related to visibility controls and input fields
  * for login and registration purposes.
  * 
+ * @returns {Object} An object containing references to the DOM elements.
  */
 
 function createObjectforEventListener() {
