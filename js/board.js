@@ -33,6 +33,7 @@ async function init_task() {
  * - Returns the parsed JSON data.
  * 
  * @param {string} [path=""] - The path to append to `BASE_URL` for the data request. Defaults to an empty string.
+ * @returns {Promise<Object>} A promise that resolves to the parsed JSON data from the response.
  */
 
 async function loadRelevantData(path = "") {
@@ -73,6 +74,7 @@ function updateCategories() {
  * - If `testRealTasks` is present, iterates over its items and adds them to the `tasks` array.
  * - Returns the updated `tasks` array if tasks are found. Otherwise, returns an empty array.
  * 
+ * @returns {Promise<Array>} A promise that resolves to an array containing the tasks loaded from the database, or an empty array if no tasks are found.
  */
 
 async function loadTasksFromDatabase() {
@@ -112,6 +114,7 @@ function hideBoardLoadScreen() {
  * - Returns the determined `variableClass`.
  * 
  * @param {Object} element - The element object containing a `category` property.
+ * @returns {string} The CSS class name corresponding to the element's category.
  */
 
 function setVariableClass(element) {
@@ -134,6 +137,7 @@ function setVariableClass(element) {
  * 3. Returns the generated SVG element.
  * 
  * @param {Object} element - The element object containing a `priority` property.
+ * @returns {SVGElement} The generated SVG element corresponding to the element's priority.
  */
 
 function insertCorrectUrgencyIcon(element) {
@@ -162,6 +166,7 @@ function insertCorrectUrgencyIcon(element) {
  *    - The JSON string representation of the element.
  * 
  * @param {Object} element - The to-do item object used to generate the HTML.
+ * @returns {string} The generated HTML string for the to-do item.
  */
 
 function createToDoHTML(element) {
@@ -182,6 +187,7 @@ function createToDoHTML(element) {
  * - Appends the generated HTML for each contact to `contactsHTML`.
  * 
  * @param {Object} element - The object representing the item (in this case the corresponding task), which includes an `assigned` property.
+ * @returns {string} A string containing the HTML representation of the assigned contacts.
  */
 
 function generateContactsHTML(element) {
@@ -203,6 +209,7 @@ function generateContactsHTML(element) {
  * @param {Object} element - The object representing the item, which includes an `assigned` property.
  * @param {number} index - The index of the contact in the `assigned` array.
  * @param {number} lengthOfAssignedTo - The total number of contacts assigned to the item.
+ * @returns {string} A string containing the HTML representation of the contact or a summary of additional contacts.
  */
 
 function generateContactHTML(element, index, lengthOfAssignedTo) {
@@ -342,7 +349,6 @@ function hideAddTaskPopUp() {
  * - Disables page scrolling by setting the `overflow` style of the body to `"hidden"`.
  * - Calls the `renderBigTask()` function with the provided `jsonTextElement` to display the task content within the pop-up.
  * 
- * @function
  * @param {string} jsonTextElement - A JSON string representing the task content to be rendered in the "Big Task" pop-up.
  */
 
@@ -450,6 +456,22 @@ function setupSubtaskArray(taskJson) {
   taskJson.subtask = subtaskArray;
 }
 
+/**
+ * This function renders elements of the "Big Task" pop-up with the provided old values performing the following actions in the process:
+ * - Setting the title of the pop-up using the provided `oldTitle`.
+ * - Setting the description of the pop-up using the provided `oldDescription`.
+ * - Rendering the due date section of the pop-up using the provided `oldDate` and the `returnBigTaskPopUpDueDateContainer` function.
+ * - Rendering the priority section of the pop-up using the provided `oldPriority` and the `returnBigTaskPopUpPriorityContainer` function.
+ * - Setting the global `priorityValue` to the provided `oldPriority`.
+ * - Activating the priority element in the pop-up by adding the corresponding CSS class.
+ * 
+ * @param {string} oldTitle - The previous title of the task.
+ * @param {string} oldDescription - The previous description of the task.
+ * @param {string} oldDate - The previous due date of the task.
+ * @param {string} oldPriority - The previous priority level of the task.
+ * @param {string} id - The unique identifier of the task.
+ */
+
 function renderPopUpElements(oldTitle, oldDescription, oldDate, oldPriority, id) {
   returnBigTaskPopUpTitle(oldTitle);
   returnBigTaskPopUpDescription(oldDescription);
@@ -461,18 +483,44 @@ function renderPopUpElements(oldTitle, oldDescription, oldDate, oldPriority, id)
     .classList.add("big-edit-task-" + oldPriority.toLowerCase() + "-priority-aktiv");
 }
 
+/**
+ * This function renders a section of the "Big Task" pop-up by adding a specific CSS class and calling the render function "renderFunction(value)".
+ * 
+ * @param {string} containerId - The ID of the container element to be updated.
+ * @param {string} value - The value to be passed to the `renderFunction`.
+ * @param {function} renderFunction - The function to be called to render the content of the section.
+ */
+
 function renderBigTaskPopUpSection(containerId, value, renderFunction) {
   document.getElementById(containerId).classList.add("big-edit-task-pop-up-section-container");
   renderFunction(value);
 }
 
-function renderBigTaskDetails(taskJson, oldPriority, id) {
+/**
+ * This function renders detailed information for the "Big Task" pop-up performing the following actions in the process:
+ * - Rendering all contact elements for the "Big Task" pop-up using the task ID.
+ * - Rendering all subtask elements for the "Big Task" pop-up.
+ * - Rendering the assigned contact container using the provided `taskJson`.
+ * - Rendering the assigned contacts in the edit pop-up using the provided `taskJson`.
+ * - Rendering the edit buttons for the "Big Task" pop-up using the task ID.
+ * 
+ * @param {Object} taskJson - The JSON object containing the task details.
+ * @param {string} id - The unique identifier of the task.
+ */
+
+function renderBigTaskDetails(taskJson, id) {
   returnBigTaskPopUpContactAll(id);
   returnBigTaskPopUpSubtasksAll();
   renderBigTaskAssignedContactContainer(taskJson);
   renderBigEditTaskAssignedToPopUp(taskJson);
   returnBigPopUpEditButtons(id);
 }
+
+/**
+ * This function Closes all dropdown pop-ups by selecting all elements with the class "mobileDropdown" and adding the "mobileDropdown-translate-100" CSS class to each of them
+ * to hide them.
+ * 
+ */
 
 function closeAllDropDownPopUps() {
   let AllMobileDropdownPopUps = document.querySelectorAll(".mobileDropdown");
@@ -481,6 +529,20 @@ function closeAllDropDownPopUps() {
     dropdown.classList.add("mobileDropdown-translate-100");
   }
 }
+
+/**
+ * This function generates the HTML content for a task element, including subtasks and other details thereby performing the following actions:
+ * - Encodes the JSON representation of the task element.
+ * - If the task has subtasks, calculates the number of checked subtasks and the corresponding taskbar width.
+ * - Depending on the presence and length of subtasks, it returns the appropriate HTML by calling the respective helper functions.
+ * 
+ * @param {Object} element - The task element containing task details.
+ * @param {string} contactsHTML - The HTML content representing the contacts associated with the task.
+ * @param {string} oppositeCategory - The CSS class representing the opposite category of the task.
+ * @param {string} rightIcon - The HTML content representing the urgency icon of the task.
+ * @param {string} jsonElement - The JSON string representation of the task element.
+ * @returns {string} - The generated HTML content for the task.
+ */
 
 function generateTaskHTML(element, contactsHTML, oppositeCategory, rightIcon, jsonElement) {
   let jsonTextElement = encodeURIComponent(jsonElement);
@@ -499,6 +561,14 @@ function generateTaskHTML(element, contactsHTML, oppositeCategory, rightIcon, js
     return returnTaskHtmlWithoutSubtask(element, contactsHTML, oppositeCategory, rightIcon, jsonTextElement);
   }
 }
+
+/**
+ * This functions checks if the Enter key is pressed in the big task edit subtask input field and triggers the subtask array build thus performing the following actions:
+ * - Listen for a key event in the big task edit subtask input field.
+ * - If the Enter key is pressed, it calls the function to build the subtask array for upload.
+ * 
+ * @param {KeyboardEvent} event - The key event triggered by the user.
+ */
 
 function bigEditTaskSubtaskInputCheckEnter(event) {
   if (event.key === "Enter") {
