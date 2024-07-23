@@ -1,4 +1,7 @@
-document.addEventListener('DOMContentLoaded', (event) => {
+/**
+ * Start the animation when the html-side is loaded
+ */
+document.addEventListener('DOMContentLoaded', () => {
     let logo = document.getElementById('logoKlein');
     let overlay = document.getElementById('overlay');
     let mainContainer = document.getElementById('main');
