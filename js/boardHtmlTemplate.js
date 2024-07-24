@@ -1,3 +1,19 @@
+/**
+ * This function generates HTML for a task element used in search results.
+ *
+ * @param {number} id - The unique identifier for the task.
+ * @param {string} variableClass - The CSS class to be applied to the task element.
+ * @param {string} storyCategory - The category of the story to which the task belongs.
+ * @param {string} title - The title of the task.
+ * @param {string} taskDescription - The description of the task. It will be truncated if it exceeds 40 characters.
+ * @param {string} contactsHTML - The HTML string representing the contacts associated with the task.
+ * @param {string} category - The category name for the task.
+ * @param {string} oppositeCategory - The name of the opposite category for drag-and-drop functionality.
+ * @param {string} rightIcon - The HTML string for the icon to be displayed on the right side of the task.
+ * @param {Object} jsonElement - The JSON object representing the task, which will be encoded as a URI component.
+ * @returns {string} The HTML string representing the task element.
+ */
+
 function generateTaskHTMLForSearch(
   id,
   variableClass,
@@ -11,11 +27,9 @@ function generateTaskHTMLForSearch(
   jsonElement
 ) {
   let jsonTextElement = encodeURIComponent(jsonElement);
-
   if (taskDescription.length > 40) {
     taskDescription = taskDescription.substring(0, 40) + "...";
   }
-
   return /*html*/ `
       <div class="task" 
           id="task${index}"
@@ -49,15 +63,23 @@ function generateTaskHTMLForSearch(
     `;
 }
 
+/**
+ * This function generates HTML for a task element without subtasks.
+ *
+ * @param {Object} element - The task element object containing task details.
+ * @param {string} contactsHTML - The HTML string representing the contacts associated with the task.
+ * @param {string} oppositeCategory - The name of the opposite category for drag-and-drop functionality.
+ * @param {string} rightIcon - The HTML string for the icon to be displayed on the right side of the task.
+ * @param {string} jsonTextElement - The JSON string representation of the task, which will be used for displaying the task popup.
+ * @returns {string} The HTML string representing the task element without subtasks.
+ */
+
 function returnTaskHtmlWithoutSubtask(element, contactsHTML, oppositeCategory, rightIcon, jsonTextElement) {
   let taskIndex = element.tasksIdentity;
-
   let taskDescription = element["description"];
-
   if (taskDescription.length > 40) {
     taskDescription = element["description"].substring(0, 40) + "...";
   }
-
   return /*html*/ `
   <div class="task" 
       id=task${taskIndex}
@@ -98,15 +120,25 @@ function returnTaskHtmlWithoutSubtask(element, contactsHTML, oppositeCategory, r
 `;
 }
 
+/**
+ * This function generates HTML for a task element with subtasks.
+ *
+ * @param {Object} element - The task element object containing task details.
+ * @param {string} contactsHTML - The HTML string containing contact information for the task.
+ * @param {string} oppositeCategory - The opposite category name for drag-and-drop operations.
+ * @param {string} rightIcon - The HTML string for the icon displayed on the right side of the task.
+ * @param {string} jsonTextElement - The JSON stringified version of the task object.
+ * @param {number} taskbarWidth - The width of the task bar representing subtasks progress, in percentage.
+ * @param {number} numberOfTasksChecked - The number of completed subtasks.
+ * @returns {string} The HTML string representing the task element with subtasks.
+ */
+
 function returnTaskHtmlWithSubtask(element, contactsHTML, oppositeCategory, rightIcon, jsonTextElement, taskbarWidth, numberOfTasksChecked) {
   let taskIndex = element.tasksIdentity;
-
   let taskDescription = element["description"];
-
   if (taskDescription.length > 40) {
     taskDescription = taskDescription.substring(0, 40) + "...";
   }
-
   return /*html*/ `
       <div class="task" id=task${taskIndex}
           draggable="true" 
@@ -146,13 +178,17 @@ function returnTaskHtmlWithSubtask(element, contactsHTML, oppositeCategory, righ
           ${rightIcon}
         </div>
       </div>
-      
       <div id="${oppositeCategory}" class="no-task d-none">
         <p>No tasks in ${element["container"]}</p>
       </div>`;
 }
 
-// onclick="showBigTaskPopUp()"
+/**
+ * This function returns an HTML string containing an SVG icon. The icon is composed of two green arrows, signifying low urgency.
+ *
+ * @returns {string} - The HTML string containing the SVG icon for low urgency.
+ */
+
 function generateHTMLUrgencyLow() {
   return /*html*/ `
       <svg width="21" height="16" viewBox="0 0 21 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -162,6 +198,13 @@ function generateHTMLUrgencyLow() {
       `;
 }
 
+/**
+ * This function returns an HTML string containing an SVG icon. The icon is composed of two orange bars,
+ * signifying medium urgency.
+ *
+ * @returns {string} - The HTML string containing the SVG icon for medium urgency.
+ */
+
 function generateHTMLUrgencyMedium() {
   return /*html*/ `
       <svg width="18" height="8" viewBox="0 0 18 8" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -170,6 +213,13 @@ function generateHTMLUrgencyMedium() {
       </svg>
       `;
 }
+
+/**
+ * This function returns an HTML string containing an SVG icon. The icon is composed of two red arrows
+ * pointing upwards, signifying urgent urgency.
+ *
+ * @returns {string} - The HTML string containing the SVG icon for urgent urgency.
+ */
 
 function generateHTMLUrgencyUrgent() {
   return /*html*/ `
@@ -187,12 +237,24 @@ function generateHTMLUrgencyUrgent() {
       `;
 }
 
+/**
+ * This function returns an HTML string for a container indicating that there are no tasks awaiting feedback.
+ *
+ * @returns {string} - The HTML string for the "No Tasks Await Feedback" container.
+ */
+
 function returnHtmlNoFeedbackContainer() {
   return /*html*/ `
     <div id="no-await-feedback-container" class="no-task">
         <p>No tasks await feedback</p>
     </div>`;
 }
+
+/**
+ * This function returns an HTML string for a container indicating that the In-Progress-Section is empty so that no tasks can't be found there (for the moment).
+ *
+ * @returns {string} - The HTML string for the "No Tasks In Progress" container.
+ */
 
 function returnHtmlNoProgressContainer() {
   return /*html*/ `
@@ -201,6 +263,12 @@ function returnHtmlNoProgressContainer() {
     </div>`;
 }
 
+/**
+ * This function returns an HTML string for a container indicating that the To-Do-Section is empty so that no tasks can't be found there (for the moment).
+ *
+ * @returns {string} - The HTML string for the "No Tasks To Do" container.
+ */
+
 function returnHtmlNoToDoContainer() {
   return /*html*/ `
     <div id="no-to-do-container" class="no-task">
@@ -208,12 +276,25 @@ function returnHtmlNoToDoContainer() {
     </div>`;
 }
 
+/**
+ * This function returns an HTML string for a container indicating that the Done-Section is empty so that no tasks can't be found there (for the moment).
+ *
+ * @returns {string} - The HTML string for the "No Tasks Done" container.
+ */
+
 function returnHtmlNoDoneContainer() {
   return /*html*/ `
     <div id="no-done-container" class="no-task">
         <p>No tasks done</p>
     </div>`;
 }
+
+/**
+ * This function creates a string of HTML that contains the contact name with a background color as well as the initials of the according contact.
+ *
+ * @param {Object} contact - The contact information.
+ * @returns {string} A string containing the HTML representation of the contact.
+ */
 
 function returnAssignedContactHTML(contact) {
   return /*html*/ `
@@ -223,6 +304,17 @@ function returnAssignedContactHTML(contact) {
       </div>
       `;
 }
+
+/**
+ * This function creates an HTML snippet for a subtask item that includes:
+ * - A checkbox icon (which toggles between unchecked and checked states).
+ * - The subtask's description.
+ *
+ * @param {number} correctTaskId - The ID of the parent task to which the subtask belongs.
+ * @param {Object} subtask - The subtask information.
+ * @param {number} i - The index of the subtask, used to generate unique IDs for the HTML elements.
+ * @returns {string} A string containing the HTML representation of the subtask.
+ */
 
 function returnSubtaskHTML(correctTaskId, subtask, i) {
   return /*html*/ `
@@ -239,7 +331,6 @@ function returnSubtaskHTML(correctTaskId, subtask, i) {
     >   
       <rect x="1" y="1" width="16" height="16" rx="3" stroke="#2A3647" stroke-width="2" />
     </svg>
-
     <svg 
       id="checkBoxIconChecked${i}"
       onclick="addCheckedStatus(${i}, ${correctTaskId})"
@@ -247,26 +338,21 @@ function returnSubtaskHTML(correctTaskId, subtask, i) {
         <path d="M17 8.96582V14.9658C17 16.6227 15.6569 17.9658 14 17.9658H4C2.34315 17.9658 1 16.6227 1 14.9658V4.96582C1 3.30897 2.34315 1.96582 4 1.96582H12" stroke="#2A3647" stroke-width="2" stroke-linecap="round"/>
         <path d="M5 9.96582L9 13.9658L17 2.46582" stroke="#2A3647" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>
-
-
-    <!-- <svg 
-      id="checkBoxIconChecked${i}"
-      onclick="addCheckedStatus(${i}, ${correctTaskId})"
-      class="big-task-pop-up-subtask-checkbox-icon d-none"
-      width="22" 
-      height="22" 
-      viewBox="0 0 22 22" 
-      fill="none" 
-      xmlns="http://www.w3.org/2000/svg">
-       <path d="M20 11V17C20 18.6569 18.6569 20 17 20H7C5.34315 20 4 18.6569 4 17V7C4 5.34315 5.34315 4 7 4H15" stroke="#2A3647" stroke-width="2" stroke-linecap="round"/>
-       <path d="M8 12L12 16L20 4.5" stroke="#2A3647" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg> -->
-
-
     <p>${subtask["task-description"]}</p>
   </div>
 `;
 }
+
+/**
+ * This function creates an HTML snippet for a subtask item that includes:
+ * - A checkbox icon that toggles between unchecked and checked states. In this case, the `unchecked` state is initially hidden, and the `checked` state is visible.
+ * - The subtask's description.
+ * 
+ * @param {number} correctTaskId - The ID of the parent task to which the subtask belongs.
+ * @param {Object} subtask - The subtask information.
+ * @param {number} i - The index of the subtask, used to generate unique IDs for the HTML elements.
+ * @returns {string} A string containing the HTML representation of the subtask.
+ */
 
 function returnSubtaskHTMLWithBolean(correctTaskId, subtask, i) {
   return /*html*/ `
@@ -283,7 +369,6 @@ function returnSubtaskHTMLWithBolean(correctTaskId, subtask, i) {
     >   
       <rect x="1" y="1" width="16" height="16" rx="3" stroke="#2A3647" stroke-width="2" />
     </svg>
-
     <svg 
       id="checkBoxIconChecked${i}"
       onclick="addCheckedStatus(${i}, ${correctTaskId})"
@@ -291,14 +376,21 @@ function returnSubtaskHTMLWithBolean(correctTaskId, subtask, i) {
         <path d="M17 8.96582V14.9658C17 16.6227 15.6569 17.9658 14 17.9658H4C2.34315 17.9658 1 16.6227 1 14.9658V4.96582C1 3.30897 2.34315 1.96582 4 1.96582H12" stroke="#2A3647" stroke-width="2" stroke-linecap="round"/>
         <path d="M5 9.96582L9 13.9658L17 2.46582" stroke="#2A3647" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>
-
-
-
-
     <p>${subtask["task-description"]}</p>
   </div>
 `;
 }
+
+/**
+ * This function creates an HTML snippet that includes:
+ * - A delete button with an associated icon. Clicking the button triggers the `hideBigTaskPopUp` function and the `deleteTask` function with the specified `id`.
+ * - A separator line.
+ * - An edit button with an associated icon. Clicking the button triggers the `renderEditTask` function with the provided `jsonTextElement` and `id`.
+ * 
+ * @param {number} id - The ID of the task to be edited or deleted.
+ * @param {string} jsonTextElement - The JSON representation of the task to be edited.
+ * @returns {string} A string containing the HTML representation of the delete and edit buttons.
+ */
 
 function returnDeleteEditHTML(id, jsonTextElement) {
   return /*html*/ `
@@ -309,12 +401,9 @@ function returnDeleteEditHTML(id, jsonTextElement) {
         fill="#2A3647"
         />
       </svg>
-      
       Delete
   </div>
-    
   <div class="big-task-pop-up-stroke"></div>
-
   <div id="big-task-pop-up-edit-button" onclick='renderEditTask("${jsonTextElement}", ${id})'>
     <svg width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path
@@ -322,10 +411,15 @@ function returnDeleteEditHTML(id, jsonTextElement) {
       fill="#2A3647"
       />
     </svg>
-  
     Edit
 </div>`;
 }
+
+/**
+ * This function updates the inner HTML of the priority container in the task pop-up with priority options.
+ * Each priority option is a clickable item that triggers the `checkBigEditTaskPriority` function with the respective priority level ("urgent", "medium", or "low").
+ * 
+ */
 
 function returnBigTaskPopUpPriorityContainer() {
   document.getElementById("big-task-pop-up-priority-container").innerHTML = /*html*/ `
@@ -356,6 +450,12 @@ function returnBigTaskPopUpPriorityContainer() {
   `;
 }
 
+/**
+ * Updates the inner HTML of the contact selection section in the task pop-up.
+ * 
+ * @param {string} id - The identifier used for the contact search functionality.
+ */
+
 function returnBigTaskPopUpContactAll(id) {
   document.getElementById("big-task-pop-up-contact-all").innerHTML = /*html*/ `
       <div id='big-edit-task-assigned-to-top-container'>
@@ -368,14 +468,17 @@ function returnBigTaskPopUpContactAll(id) {
             </svg>
         </div>
       </div>
-
       <div id='big-edit-task-assigned-to-contact-container'></div>
-
       <div id='big-edit-task-assigned-to-pop-up-container' class='big-edit-task-assigned-to-pop-up-container height-0'>
         <div id='big-edit-task-assigned-to-pop-up' onclick='stopEvent(event);' class='big-edit-task-assigned-to-pop-up box-shadow-none'></div>
       </div>
   `;
 }
+
+/**
+ * Updates the inner HTML of the subtasks section in the task pop-up.
+ * 
+ */
 
 function returnBigTaskPopUpSubtasksAll() {
   document.getElementById("big-task-pop-up-subtask-all").innerHTML = /*html*/ `
@@ -390,10 +493,21 @@ function returnBigTaskPopUpSubtasksAll() {
         </svg>
       </div>
     </div>
-
     <ul id='big-edit-task-subtask-container'></ul>
   `;
 }
+
+/**
+ * This function appends an HTML block to the element with the ID "big-edit-task-assigned-to-pop-up". Each contact item consists of:
+ * - A contact badge with the contact's initials, styled according to the contact's color.
+ * - The contact's name.
+ * - A checkbox icon indicating whether the contact is selected.
+ * 
+ * @param {Object} contact - The contact information.
+ * @param {Object} contactObject - The full contact object.
+ * @param {number} i - The index of the contact in the contact list.
+ * @param {number} taskIndex - The index of the task.
+ */
 
 function renderOnlyAssignedToPopUp(contact, contactObject, i, taskIndex) {
   document.getElementById("big-edit-task-assigned-to-pop-up").innerHTML += /*html*/ `
@@ -413,6 +527,19 @@ function renderOnlyAssignedToPopUp(contact, contactObject, i, taskIndex) {
       </div>
     `;
 }
+
+/**
+ * This function appends an HTML block to the element with the ID "big-edit-task-assigned-to-pop-up".  * The contact item is styled as active, indicating it is currently selected or relevant.
+ * Each active contact item consists of:
+ * - A contact badge with the contact's initials, styled according to the contact's color.
+ * - The contact's name.
+ * - A checked checkbox icon indicating the contact is selected.
+ * 
+ * @param {Object} contact - The contact information.
+ * @param {Object} contactObject - The full contact object.
+ * @param {number} i - The index of the contact in the contact list.
+ * @param {number} taskIndex - The index of the task.
+ */
 
 function renderOnlyActiveAssignedToPopUp(contact, contactObject, i, taskIndex) {
   document.getElementById("big-edit-task-assigned-to-pop-up").innerHTML += /*html*/ `
@@ -434,6 +561,16 @@ function renderOnlyActiveAssignedToPopUp(contact, contactObject, i, taskIndex) {
     `;
 }
 
+/**
+ * This function generates a template for displaying a subtask item within a pop-up container. Each subtask item includes:
+ * - The subtask description.
+ * - Edit and delete icons for managing the subtask.
+ * 
+ * @param {number} i - The index of the subtask in the subtask list.
+ * @param {Object} subtask - An object representing the subtask, which includes:
+ * @returns {string} - The HTML string representing the subtask item.
+ */
+
 function renderSubtaskInPopUpContainer(i, subtask) {
   return /*html*/ `
     <div ondblclick=" editSubtaskPopUpInput(${i})" onclick='stopEvent(event);' id="subtaskNumber${i}" class="edit-popup-subtasks" >
@@ -453,12 +590,24 @@ function renderSubtaskInPopUpContainer(i, subtask) {
   `;
 }
 
+/**
+ * Updates the due date section of the task pop-up container with the given date.
+ * 
+ * @param {string} date - The due date to be displayed, formatted as a string.
+ */
+
 function returnHTMLBigTaskPopUpDueDateContainerContent(date) {
   document.getElementById("big-task-pop-up-due-date-container").innerHTML = /*html*/ `
     <h2 class="big-task-pop-up-label-text">Due date:</h2>
     <p id="big-task-pop-up-date" class="big-task-pop-up-value-text">${date}</p>
   `;
 }
+
+/**
+ * Updates the priority section of the task pop-up container with the given priority level.
+ * 
+ * @param {string} priority - The priority level to be displayed.
+ */
 
 function returnHTMLBigTaskPopUpPriorityContainer(priority) {
   document.getElementById("big-task-pop-up-priority-container").innerHTML = /*html*/ `
@@ -482,12 +631,23 @@ function returnHTMLBigTaskPopUpPriorityContainer(priority) {
   `;
 }
 
+/**
+ * This function updates the contact section of the task pop-up container with a list of contacts.
+ * 
+ * @param {string} contactsHTML - The HTML string representing the list of contacts to be displayed in the pop-up.
+ */
+
 function returnHTMLBigTaskPopUpContactAll(contactsHTML) {
   document.getElementById("big-task-pop-up-contact-all").innerHTML = /*html*/ `
     <h2 class="big-task-pop-up-label-text">Assigned To:</h2>
     <div id="big-task-pop-up-contact-container">${contactsHTML}</div>
   `;
 }
+
+/**
+ * Updates the subtasks section of the task pop-up container.
+ * 
+ */
 
 function returnHTMLBigTaskPopUpSubtaskAll() {
   document.getElementById("big-task-pop-up-subtask-all").innerHTML = /*html*/ `
@@ -496,6 +656,12 @@ function returnHTMLBigTaskPopUpSubtaskAll() {
   `;
 }
 
+/**
+ * Returns the HTML string for a plus icon SVG used in the subtask input area.
+ *
+ * @returns {string} The HTML string containing the SVG markup for the plus icon.
+ */
+
 function returnSubtaskInputHTMLPlusIconSVG() {
   return /*html*/ `
       <svg id='big-edit-task-subtask-input-plus-icon' width="15" height="14" viewBox="0 0 15 14" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -503,6 +669,12 @@ function returnSubtaskInputHTMLPlusIconSVG() {
       </svg>
     `;
 }
+
+/**
+ * Returns the HTML string for subtask input control icons, including a close icon and a save icon.
+ * 
+ * @returns {string} The HTML string containing the SVG markup for the close and save icons.
+ */
 
 function returnSubtaskInputHTMLCloseIcon() {
   return /*html*/ `
@@ -516,12 +688,24 @@ function returnSubtaskInputHTMLCloseIcon() {
     `;
 }
 
+/**
+ * Updates the HTML content of the task pop-up description section.
+ * 
+ * @param {string} oldDescription - The initial description.
+ */
+
 function returnBigTaskPopUpDescription(oldDescription) {
   document.getElementById("big-task-pop-up-description").innerHTML = /*html*/ `
     <p class='big-edit-task-section-headline'>Description</p>
     <textarea id="big-edit-task-description-input" placeholder='Enter a Description'>${oldDescription}</textarea>
   `;
 }
+
+/**
+ * Updates the HTML content of the task pop-up title section.
+ * 
+ * @param {string} oldTitle - The initial title text.
+ */
 
 function returnBigTaskPopUpTitle(oldTitle) {
   document.getElementById("big-task-pop-up-title").innerHTML = /*html*/ `
@@ -530,12 +714,26 @@ function returnBigTaskPopUpTitle(oldTitle) {
   `;
 }
 
+/**
+ * Updates the HTML content of the task pop-up due date section.
+ * 
+ * @param {string} oldDate - The initial due date.
+ */
+
 function returnBigTaskPopUpDueDateContainer(oldDate) {
   document.getElementById("big-task-pop-up-due-date-container").innerHTML = /*html*/ `
     <p class='big-edit-task-section-headline'>Due date</p>
     <input type="text" value='${oldDate}' maxlength='10' placeholder='dd/mm/yyyy' id='big-edit-task-due-date-input'>
   `;
 }
+
+/**
+ * This function creates an input field pre-filled with the description of the subtask at the specified index in the `subtaskArray`.
+ * It also includes two buttons: one for deleting the subtask and another for saving the edited subtask.
+ * 
+ * @param {number} i - The index of the subtask in the `subtaskArray` to be edited.
+ * @returns {string} The HTML markup for the subtask editing input and buttons.
+ */
 
 function returnEditSubtaskPopUpInputHTML(i) {
   return /*html*/ `
@@ -548,18 +746,23 @@ function returnEditSubtaskPopUpInputHTML(i) {
 `;
 }
 
-function returnColorAndAssignedToContacts(contact, index, lengthOfAssignedTo, taskJson) {
-  // document.getElementById("big-edit-task-assigned-to-contact-container").innerHTML += /*html*/ `
-  //   <div class='big-edit-task-assigned-to-contact' style='background-color:${contact.color}'>
-  //     ${firstLetterFirstTwoWords(contact.name)}
-  //   </div>
-  // `;
+/**
+ * This function appends the contact's color and initials to the container. If the index of the contact is less than 3, it will add the contact with the specified background color and initials. 
+ * If the index is exactly 3, it will display a count of additional contacts. If the index exceeds 3, it will trigger an update function for displaying remaining contacts.
+ * 
+ * @param {Object} contact - The contact object containing information to be displayed.
+ * @param {number} index - The index of the contact in the list.
+ * @param {number} lengthOfAssignedTo - The total number of assigned contacts.
+ * @param {Object} taskJson - The JSON object representing the task, used for updating additional contacts.
+ * @returns {string} An empty string if the index exceeds 3, otherwise appends HTML to the container.
+ */
 
+function returnColorAndAssignedToContacts(contact, index, lengthOfAssignedTo, taskJson) {
   if (index < 3) {
     document.getElementById("big-edit-task-assigned-to-contact-container").innerHTML += /*html*/ `
-  <div class='big-edit-task-assigned-to-contact' style='background-color:${contact.color}'>
-    ${firstLetterFirstTwoWords(contact.name)}
-  </div>
+    <div class='big-edit-task-assigned-to-contact' style='background-color:${contact.color}'>
+      ${firstLetterFirstTwoWords(contact.name)}
+    </div>
 `;
   } else if (index === 3) {
     document.getElementById(
@@ -571,11 +774,23 @@ function returnColorAndAssignedToContacts(contact, index, lengthOfAssignedTo, ta
   }
 }
 
+/**
+ * This function sets the inner HTML of the specified container to display a message stating that no one is assigned to the task.
+ * 
+ */
+
 function returnNoOneIsAssignedHTML() {
   document.getElementById("big-edit-task-assigned-to-contact-container").innerHTML = /*html*/ `
   <p class='big-task-pop-up-value-text'>No one is assigned</p>
   `;
 }
+
+/** 
+ * This function sets the inner HTML of the "big-task-pop-up-bottom-buttons-container" element to include an "Ok" button. 
+ * Clicking this button triggers the `saveTaskChanges` function with the specified `id` parameter.
+ * 
+ * @param {number} id - The ID of the task to be saved. This ID is passed to the `saveTaskChanges` function when the button is clicked.
+ */
 
 function returnBigPopUpEditButtons(id) {
   document.getElementById("big-task-pop-up-bottom-buttons-container").innerHTML = /*html*/ `
@@ -588,6 +803,14 @@ function returnBigPopUpEditButtons(id) {
   </button>`;
 }
 
+/**
+ * This function modifies the inner HTML of the checkbox icon container at the given index `i`. It adds an SVG representing
+ * a checkmark to indicate that the corresponding contact is selected.
+ * 
+ * @param {number} i - The index of the checkbox icon container to be updated. This index is used to select the appropriate 
+ *                      container within the `big-edit-task-assigned-to-pop-up-contact-checkbox-icon-container` elements.
+ */
+
 function returnBigEditTaskAssignedToPopUpContactCheckboxIconHTML(i) {
   document.querySelectorAll(".big-edit-task-assigned-to-pop-up-contact-checkbox-icon-container")[i].innerHTML = /*html*/ `
     <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -597,6 +820,13 @@ function returnBigEditTaskAssignedToPopUpContactCheckboxIconHTML(i) {
     `;
 }
 
+/**
+ * Updates the HTML of a specific checkbox icon container in the "Assigned To" section of the big task edit pop-up with an unselected checkbox icon.
+ * 
+ * @param {number} i - The index of the checkbox icon container to be updated. This index is used to select the appropriate
+ *                      container within the `big-edit-task-assigned-to-pop-up-contact-checkbox-icon-container` elements.
+ */
+
 function returnBigEditTaskAssignedToPopUpContactCheckboxSecondIconHTML(i) {
   document.querySelectorAll(".big-edit-task-assigned-to-pop-up-contact-checkbox-icon-container")[i].innerHTML = /*html*/ `
     <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -604,6 +834,13 @@ function returnBigEditTaskAssignedToPopUpContactCheckboxSecondIconHTML(i) {
     </svg>
   `;
 }
+
+/**
+ * Generates the HTML content for an editable subtask pop-up, including an input field for the subtask description and action icons.
+ * 
+ * @param {number} i - The index of the subtask in the `subtaskArray` whose description is to be displayed in the input field.
+ * @returns {string} - A string containing the HTML markup for the subtask pop-up container.
+ */
 
 function returnSubtaskEditedPopUpHTMLContainer(i) {
   return `<input id="subtaskEditedPopUp" type="text" value="${subtaskArray[i]["task-description"]}">
@@ -621,6 +858,12 @@ function returnSubtaskEditedPopUpHTMLContainer(i) {
       </div>
     `;
 }
+
+/**
+ * Generates HTML content for displaying an error message when a subtask input is invalid or empty.
+ * 
+ * @returns {string} - A string containing the HTML markup for the error message container.
+ */
 
 function returnMessageFalseInputValueHTML() {
   return `<div class="messageFalseInputValue">
