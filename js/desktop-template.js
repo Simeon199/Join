@@ -1,8 +1,10 @@
-// import {logout, greetUser} from "../script.js";
-
 let username = getUserNickname();
 let currentSide;
 
+/**
+ * Initializes the sidebar by loading HTML and user letters, and checking login status
+ *
+ */
 async function initSidebar() {
   await sidebarHTML();
   await headerHTML();
@@ -10,6 +12,10 @@ async function initSidebar() {
   isNotLoggedIn();
 }
 
+/**
+ * Appends HTML content to the sidebar element and calls the taskMarker function
+ *
+ */
 async function sidebarHTML() {
   document.getElementById("sidebar").innerHTML += /*html*/ `
     <link rel="stylesheet" href="css/desktop_template.css">
@@ -41,6 +47,10 @@ async function sidebarHTML() {
   taskMarker();
 }
 
+/**
+ *  Updates the HTML content of the header with SVG logos and additional elements
+ *
+ */
 async function headerHTML() {
   document.getElementById("headerForm").innerHTML += /*html*/ `
 
@@ -98,6 +108,10 @@ async function headerHTML() {
     `;
 }
 
+/**
+ *  Toggles the dropdown menu and updates its content
+ *
+ */
 function openDropDownMenu() {
   document.getElementById("dropDown").classList.toggle("translate-100-header");
   dt = document.getElementById("dropDown");
@@ -113,6 +127,10 @@ function openDropDownMenu() {
   }
 }
 
+/**
+ * Clears session and local storage, then redirects to login page
+ *
+ */
 function logout() {
   localStorage.removeItem("isLoggedIn");
   localStorage.removeItem("currentUser");
@@ -126,18 +144,36 @@ function logout() {
   localStorage.setItem("firstTime", "true");
 }
 
+/**
+ * Redirects the user to the privacy policy page
+ *
+ */
 function goToPP() {
   window.location.href = "privacy_policy_en.html";
 }
 
+/**
+ * Redirects the user to the legal notice page
+ *
+ */
 function goToLN() {
   window.location.href = "legal_notice.html";
 }
 
+/**
+ * Redirects the user to the help page
+ *
+ */
 function goToH() {
   window.location.href = "help.html";
 }
 
+/**
+ * Updates a span element with the first letters of the username
+ *
+ * @param {string} id - The ID of the span element
+ * @param {string} username - The username to process
+ */
 function sowUserLetters(id, username) {
   span = document.getElementById(id);
   un = firstLetterFirstTwoWords(username);
@@ -146,6 +182,11 @@ function sowUserLetters(id, username) {
   `;
 }
 
+/**
+ * Extracts and returns the first letter of the first two words of a string
+ *
+ * @param {string} text - The input text to process
+ */
 function firstLetterFirstTwoWords(text) {
   // Split the string into words
   const words = text.split(" ");
@@ -159,6 +200,10 @@ function firstLetterFirstTwoWords(text) {
   return result.toUpperCase();
 }
 
+/**
+ *  Retrieves the user nickname from storage, defaults to "Guest" if not found
+ *
+ */
 function getUserNickname() {
   let storage = localStorage.getItem("userNickname") || sessionStorage.getItem("userNickname");
   if (!storage) {
@@ -167,18 +212,28 @@ function getUserNickname() {
   return storage;
 }
 
+/**
+ *  Hides menu elements if the user is not logged in
+ *
+ */
 function isNotLoggedIn() {
   if (sessionStorage.getItem("isLoggedIn") === "false") {
     setTimeout(function () {
       // document.getElementById("headerIcons").classList.add("d-none");
-      document.getElementById("menuBar").classList.add("d-none");
-      document.getElementById("sidebar").classList.add("sidebarEmpty");
+      if (document.getElementById("menuBar")) {
+        document.getElementById("menuBar").classList.add("d-none");
+        document.getElementById("sidebar").classList.add("sidebarEmpty");
+      }
     }, 50);
   } else {
     return false;
   }
 }
 
+/**
+ * Checks if the user is logged in and displays elements accordingly
+ *
+ */
 function isLoggedIn() {
   if (
     (sessionStorage.getItem("isLoggedIn") === "true" || localStorage.getItem("isLoggedIn") === "true") &&
@@ -193,6 +248,10 @@ function isLoggedIn() {
   }
 }
 
+/**
+ * Hides dropdown items based on current page
+ *
+ */
 function hideCurrentPageFormDropdown() {
   if (window.location.pathname.includes("privacy_policy_en.html")) {
     document.getElementById("dropDown-privacy-policy").classList.add("d-none");
