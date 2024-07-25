@@ -81,19 +81,12 @@
   }
 
   .wrap-container::-webkit-scrollbar {
-    /* width: 16px; */
     height: 10px;
   }
 
   .wrap-container::-webkit-scrollbar-thumb {
-    /* background: linear-gradient(90deg, #d3cece, #d3cece); */
     border-radius: 10px;
-    /* border: 3px solid #918b8b; */
   }
-
-  /* .wrap-container::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(90deg, #252524, #2e2c2b);
-  } */
 
   .wrap-container::-webkit-scrollbar-corner {
     background: #838181;
