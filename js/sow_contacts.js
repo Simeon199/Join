@@ -1,4 +1,5 @@
-const BASE_URL = "https://join-privat-default-rtdb.europe-west1.firebasedatabase.app/";
+// const BASE_URL = "https://join-privat-default-rtdb.europe-west1.firebasedatabase.app/";
+const BASE_URL = "https://join-9bbb0-default-rtdb.europe-west1.firebasedatabase.app/";
 
 /**
  * Fetches and returns JSON data from a specified URL.

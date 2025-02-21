@@ -3,7 +3,9 @@ let firstTime = "true";
 let allTasks;
 let tasks = [];
 
-const BASE_URL = "https://join-privat-default-rtdb.europe-west1.firebasedatabase.app/";
+const BASE_URL = "https://join-9bbb0-default-rtdb.europe-west1.firebasedatabase.app/";
+
+// const BASE_URL = "https://join-privat-default-rtdb.europe-west1.firebasedatabase.app/";
 
 /**
  * Initializes the application, loads tasks, and sets up the UI.
@@ -59,7 +61,7 @@ function numberOfSection(section) {
   }
   try {
     sectionNumber.innerHTML = number;
-  } catch (error) {}
+  } catch (error) { }
 }
 
 /**
