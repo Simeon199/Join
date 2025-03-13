@@ -48,23 +48,31 @@ main {
 
 /* Styling für Webkit-basierte Browser (Chrome, Safari) */
 ::-webkit-scrollbar {
-  width: 8px; /* Breite der Scrollbar */
+  width: 8px;
+  /* Breite der Scrollbar */
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0); /* Hintergrund des Scrollbar-Tracks */
+  background: rgba(255, 255, 255, 0);
+  /* Hintergrund des Scrollbar-Tracks */
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: rgba(128, 128, 128, 0.4); /* Dezente graue Farbe mit Transparenz */
-  border-radius: 100px; /* Abgerundete Ecken des Scrollbar-Thumbs */
-  border: 2px solid rgba(255, 255, 255, 0); /* Optional: Rand für besseren Kontrast */
+  background-color: rgba(128, 128, 128, 0.4);
+  /* Dezente graue Farbe mit Transparenz */
+  border-radius: 100px;
+  /* Abgerundete Ecken des Scrollbar-Thumbs */
+  border: 2px solid rgba(255, 255, 255, 0);
+  /* Optional: Rand für besseren Kontrast */
 }
 
 #contact-list-container:hover::-webkit-scrollbar-thumb {
-  background-color: rgba(128, 128, 128, 0.7); /* Dezente graue Farbe mit Transparenz */
-  border-radius: 100px; /* Abgerundete Ecken des Scrollbar-Thumbs */
-  border: 2px solid rgba(255, 255, 255, 0); /* Optional: Rand für besseren Kontrast */
+  background-color: rgba(128, 128, 128, 0.7);
+  /* Dezente graue Farbe mit Transparenz */
+  border-radius: 100px;
+  /* Abgerundete Ecken des Scrollbar-Thumbs */
+  border: 2px solid rgba(255, 255, 255, 0);
+  /* Optional: Rand für besseren Kontrast */
 }
 
 #add-new-contacts-button {
@@ -796,16 +804,23 @@ body .translate-100 {
 
 @keyframes color-change {
   0% {
-    background-color: #2a3647; /* Anfangsfarbe (hier die ursprüngliche Farbe) */
+    background-color: #2a3647;
+    /* Anfangsfarbe (hier die ursprüngliche Farbe) */
   }
+
   20% {
-    background-color: #29abe2; /* Farbe nach 50% der Animation */
+    background-color: #29abe2;
+    /* Farbe nach 50% der Animation */
   }
+
   80% {
-    background-color: #29abe2; /* Farbe nach 50% der Animation */
+    background-color: #29abe2;
+    /* Farbe nach 50% der Animation */
   }
+
   100% {
-    background-color: #2a3647; /* Zurück zur ursprünglichen Farbe am Ende der Animation */
+    background-color: #2a3647;
+    /* Zurück zur ursprünglichen Farbe am Ende der Animation */
   }
 }
 
@@ -1178,5 +1193,37 @@ body .translate-100 {
 
   #contact-information-headline {
     margin: 10px 0;
+  }
+}
+
+@media(max-height: 600px) {
+  body {
+    min-height: 100vh;
+    overflow-y: auto;
+  }
+
+  .add-task-pop-up {
+    width: 100%;
+    height: 100%;
+    min-height: unset;
+    border-radius: 0;
+    overflow-y: auto;
+  }
+
+  #pop-up-left-container {
+    border-radius: unset;
+  }
+
+  #pop-up-contact-logo {
+    width: 80px;
+    height: 80px;
+  }
+
+  #pop-up-inputs-container {
+    padding-top: 72px;
+  }
+
+  #pop-up-headline {
+    font-size: 40px;
   }
 }
