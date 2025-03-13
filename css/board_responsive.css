@@ -244,4 +244,11 @@
   .animation-bg {
     width: unset;
   }
+
+  .add-task-pop-up {
+    width: 100%;
+    height: 100%;
+    border-radius: unset;
+    padding: 16px;
+  }
 }

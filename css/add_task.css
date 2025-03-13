@@ -471,3 +471,14 @@ h1 {
 
   z-index: 9999;
 }
+
+@media(max-width: 600px) {
+  .max-w h1 {
+    font-size: 40px;
+    text-align: center;
+  }
+
+  /* .add-task-pop-up {
+    width: 100%;
+  } */
+}
