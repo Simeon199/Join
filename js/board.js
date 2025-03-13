@@ -37,7 +37,6 @@ async function init_task() {
  */
 
 async function loadRelevantData(path = "") {
-  debugger;
   let response = await fetch(BASE_URL + path + ".json");
   let responseAsJson = await response.json();
   return responseAsJson;
