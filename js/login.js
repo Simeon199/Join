@@ -21,6 +21,7 @@ async function loginFunction(event) {
     }
   }
   throwLoginError();
+  /* test comment added (hopefully to new branch) */
 }
 
 /**
