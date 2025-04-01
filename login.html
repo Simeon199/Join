@@ -5,21 +5,21 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>JOIN</title>
-  <link rel="shortcut icon" href="Assets/img/Capa2logo_klein.svg" type="image/x-icon" />
+  <link rel="shortcut icon" href="./Assets/img/Capa2logo_klein.svg" type="image/x-icon" />
   <link rel="stylesheet" href="./css/login.css" />
   <link rel="stylesheet" href="./css/fonts.css" />
-  <script src="script.js"></script>
-  <script src="js/login.js"></script>
+  <script src="./script.js"></script>
+  <script src="./js/login.js"></script>
 </head>
 
 <body onload="loadData()">
   <div class="overlay" id="overlay">
-    <img id="logoKlein" src="Assets/img/Capa2logo_klein.svg" alt="" />
+    <img id="logoKlein" src="./Assets/img/Capa2logo_klein.svg" alt="" />
   </div>
 
   <div class="main-container d-none" id="main">
     <header>
-      <img id="headerLogo" src="Assets/img/Capa2logo_klein.svg" alt="" />
+      <img id="headerLogo" src="./Assets/img/Capa2logo_klein.svg" alt="" />
       <div class="signUp">
         <p>Not a Join user?</p>
         <button class="darkBtn" onclick="goToSignUp()">Sign up</button>
@@ -35,17 +35,17 @@
               <input id="loginEmail" inputmode="email" class="loginInputStyle" type="email" placeholder="Email"
                 required />
               <div>
-                <img src="Assets/img/mail.svg" alt="" />
+                <img src="../Assets/img/mail.svg" alt="" />
               </div>
             </div>
             <div class="input" id="loginPasswordInputField">
               <input id="loginPassword" minlength="6" maxlength="16" class="loginInputStyle" type="password"
                 placeholder="Password" required />
               <div>
-                <img src="Assets/img/lock.svg" id="loginLock" alt="" />
-                <img src="Assets/img/visibility.svg" id="visibility" onclick="showLoginPassword('loginPassword')"
+                <img src="../Assets/img/lock.svg" id="loginLock" alt="" />
+                <img src="../Assets/img/visibility.svg" id="visibility" onclick="showLoginPassword('loginPassword')"
                   class="d-none" alt="" />
-                <img src="Assets/img/visibility_off.svg" id="visibilityInputImage"
+                <img src="../Assets/img/visibility_off.svg" id="visibilityInputImage"
                   onclick="showLoginPassword('loginPassword')" class="d-none" alt="" />
               </div>
             </div>
@@ -85,9 +85,9 @@
     </footer>
   </div>
 
-  <script src="js/sow_contacts.js"></script>
+  <script src="./js/sow_contacts.js"></script>
   <link rel="stylesheet" href="./css/animation.css" />
-  <script src="js/animation.js"></script>
+  <script src="./js/animation.js"></script>
 </body>
 
 </html>

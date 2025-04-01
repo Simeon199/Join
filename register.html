@@ -5,18 +5,18 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>JOIN</title>
-  <link rel="icon" href="Assets/img/Capa2logo_klein.svg" type="image/x-icon" />
-  <link rel="stylesheet" href="css/login.css" />
-  <link rel="stylesheet" href="css/register.css" />
-  <script src="script.js"></script>
-  <script src="js/login.js"></script>
-  <script src="js/sow_contacts.js"></script>
-  <link rel="stylesheet" href="css/fonts.css" />
+  <link rel="icon" href="./Assets/img/Capa2logo_klein.svg" type="image/x-icon" />
+  <link rel="stylesheet" href="./css/login.css" />
+  <link rel="stylesheet" href="./css/register.css" />
+  <script src="./script.js"></script>
+  <script src="./js/login.js"></script>
+  <script src="./js/sow_contacts.js"></script>
+  <link rel="stylesheet" href="./css/fonts.css" />
 </head>
 
 <body>
   <div class="header">
-    <img id="logoKlein" src="Assets/img/Capa2logo_klein.svg" alt="" />
+    <img id="logoKlein" src="./Assets/img/Capa2logo_klein.svg" alt="" />
   </div>
 
   <div class="allErrorMessages d-none" id="allErrorMessages">
@@ -42,7 +42,7 @@
     <div class="login">
       <div class="loginAndArrow">
         <div class="arrowcontainer">
-          <img onclick="backToLogin()" class="arrowLeft" src="Assets/img/arrow-left-line.png" alt="" />
+          <img onclick="backToLogin()" class="arrowLeft" src="./Assets/img/arrow-left-line.png" alt="" />
         </div>
         <div class="titlediv">
           <h1 class="underline">Sign up</h1>
@@ -52,29 +52,29 @@
         <div class="loginInput" id="signUpInput">
           <div class="input">
             <input id="name" class="loginInputStyle" type="text" placeholder="Name" required />
-            <img src="Assets/img/person.svg" alt="" />
+            <img src="./Assets/img/person.svg" alt="" />
           </div>
           <div class="input">
             <input id="loginEmail" inputmode="email" class="loginInputStyle" type="email" placeholder="Email"
               required />
-            <img src="Assets/img/mail.svg" alt="" />
+            <img src="./Assets/img/mail.svg" alt="" />
           </div>
           <div class="input" id="signUpPassword">
             <input id="loginPassword" minlength="6" maxlength="16" class="loginInputStyle" type="password"
               placeholder="Password" required />
-            <img src="Assets/img/lock.svg" alt="" id="inputLock" />
-            <img src="Assets/img/visibility.svg" id="visibility" onclick="showPassword('loginPassword')" class="d-none"
+            <img src="./Assets/img/lock.svg" alt="" id="inputLock" />
+            <img src="./Assets/img/visibility.svg" id="visibility" onclick="showPassword('loginPassword')" class="d-none"
               alt="" />
-            <img src="Assets/img/visibility_off.svg" id="visibilityInputImage" onclick="showPassword('loginPassword')"
+            <img src="./Assets/img/visibility_off.svg" id="visibilityInputImage" onclick="showPassword('loginPassword')"
               class="d-none" alt="" />
           </div>
           <div class="input" id="signUpPasswordRepeat">
             <input id="loginPasswordRepeat" minlength="6" maxlength="16" class="loginInputStyle" type="password"
               placeholder="Confirm Password" required />
-            <img src="Assets/img/lock.svg" alt="" id="inputLockRepeat" />
-            <img src="Assets/img/visibility.svg" id="visibilityRepeat" onclick="showPassword('loginPasswordRepeat')"
+            <img src="./Assets/img/lock.svg" alt="" id="inputLockRepeat" />
+            <img src="./Assets/img/visibility.svg" id="visibilityRepeat" onclick="showPassword('loginPasswordRepeat')"
               class="d-none" alt="" />
-            <img src="Assets/img/visibility_off.svg" id="visibilityInputImageRepeat"
+            <img src="./Assets/img/visibility_off.svg" id="visibilityInputImageRepeat"
               onclick="showPassword('loginPasswordRepeat')" class="d-none" alt="" />
           </div>
         </div>
@@ -86,7 +86,7 @@
               <path d="M1 8.96582L5 12.9658L13 1.46582" stroke="#2A3647" stroke-width="2" stroke-linecap="round"
                 stroke-linejoin="round" />
             </svg>
-            I accept the <a onclick="checkIfUserIsLoggedIn()" href="privacy_policy_en.html">Privacy policy</a>
+            I accept the <a onclick="checkIfUserIsLoggedIn()" href="./privacy_policy_en.html">Privacy policy</a>
           </label>
         </div>
         <div class="loginButtons">
@@ -99,8 +99,8 @@
   <footer>
     <div>
       <div id="login-privacy-legal-container">
-        <a onclick="checkIfUserIsLoggedIn()" href="privacy_policy_en.html">Privacy Policy</a>
-        <a onclick="checkIfUserIsLoggedIn()" href="legal_notice.html">Legal notice</a>
+        <a onclick="checkIfUserIsLoggedIn()" href="./privacy_policy_en.html">Privacy Policy</a>
+        <a onclick="checkIfUserIsLoggedIn()" href="./legal_notice.html">Legal notice</a>
       </div>
     </div>
   </footer>

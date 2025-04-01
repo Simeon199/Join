@@ -4,28 +4,28 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>JOIN</title>
-    <link rel="shortcut icon" href="Assets/img/Capa2logo_klein.svg" type="image/x-icon" />
+    <link rel="shortcut icon" href="./Assets/img/Capa2logo_klein.svg" type="image/x-icon" />
 
     <!-- css -->
-    <link rel="stylesheet" href="css/generally.css" />
-    <link rel="stylesheet" href="css/add_task.css" />
-    <link rel="stylesheet" href="css/add_task_contacts.css" />
-    <link rel="stylesheet" href="css/add_task_subtasks.css" />
-    <link rel="stylesheet" href="css/add_task_animation.css" />
-    <link rel="stylesheet" href="css/add_task_responsive.css" />
+    <link rel="stylesheet" href="./css/generally.css" />
+    <link rel="stylesheet" href="./css/add_task.css" />
+    <link rel="stylesheet" href="./css/add_task_contacts.css" />
+    <link rel="stylesheet" href="./css/add_task_subtasks.css" />
+    <link rel="stylesheet" href="./css/add_task_animation.css" />
+    <link rel="stylesheet" href="./css/add_task_responsive.css" />
 
     <!-- js -->
-    <script src="js/board.js"></script>
-    <script src="js/desktop-template.js"></script>
-    <script src="js/sow_contacts.js"></script>
-    <script src="js/contacts.js"></script>
-    <script src="js/add_task.js"></script>
-    <script src="js/add_task_contacts.js"></script>
-    <script src="js/add_task_subtask.js"></script>
-    <script src="script.js"></script>
+    <script src="./js/board.js"></script>
+    <script src="./js/desktop-template.js"></script>
+    <script src="./js/sow_contacts.js"></script>
+    <script src="./js/contacts.js"></script>
+    <script src="./js/add_task.js"></script>
+    <script src="./js/add_task_contacts.js"></script>
+    <script src="./js/add_task_subtask.js"></script>
+    <script src="./js/script.js"></script>
 
     <!-- fonts -->
-    <link rel="stylesheet" href="css/fonts.css" />
+    <link rel="stylesheet" href="./css/fonts.css" />
   </head>
   <body id="addTaskBody" onload="initSidebar(); init()" onclick="hideAllAddTaskPopups()">
     <header id="headerForm"></header>
@@ -160,9 +160,9 @@
                 <div id="testForFunction" class="onFocus">
                   <input onkeyup="addSubtaskByEnterClick()" onclick="stopEvent(event); hideOrShowEditButtons()" id="subtask" type="text" placeholder="Add new subtask" />
                   <div id="subtaskInputButtons" class="subtaskIcons d-none">
-                    <img onclick="clearSubtaskInput()" src="Assets/img/close.svg" alt="" />
+                    <img onclick="clearSubtaskInput()" src="./Assets/img/close.svg" alt="" />
                     <div class="subtaskBorder"></div>
-                    <img id="enterClick" onclick="addSubtask()" src="Assets/img/checksubmit.svg" alt="" />
+                    <img id="enterClick" onclick="addSubtask()" src="./Assets/img/checksubmit.svg" alt="" />
                   </div>
                   <svg
                     onclick="stopEvent(event); focusInput()"
@@ -222,7 +222,7 @@
     <div id="addedAnimation" class="d-none">
       <div class="animation-bg">
         <span>Task added to board</span>
-        <img src="Assets/img/board.svg" alt="" />
+        <img src="./Assets/img/board.svg" alt="" />
       </div>
     </div>
 
