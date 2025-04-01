@@ -3,7 +3,11 @@ let firstTime = "true";
 let allTasks;
 let tasks = [];
 
-const BASE_URL = "https://join-9bbb0-default-rtdb.europe-west1.firebasedatabase.app/";
+// Mein Firebase Zugang - Anfang
+
+// const BASE_URL = "https://join-9bbb0-default-rtdb.europe-west1.firebasedatabase.app/";
+
+// Mein Firebase Zugang - Ende
 
 // const BASE_URL = "https://join-privat-default-rtdb.europe-west1.firebasedatabase.app/";
 
@@ -14,15 +18,11 @@ const BASE_URL = "https://join-9bbb0-default-rtdb.europe-west1.firebasedatabase.
 async function init() {
   let responseJson = await loadTasksFromDatabase();
   allTasks = responseJson;
-
   greetAnimation();
   greet();
-
   renderNumberOfAllContainers();
-
   await initSidebar();
   checkIfUserIsLoggedIn();
-
   loadTasksFromDatabase();
   getDateFormUrgetTask();
 }
@@ -37,7 +37,6 @@ async function renderNumberOfAllContainers() {
   numberOfSection("in-progress");
   numberOfSection("await-feedback");
   numberOfSection("tasks-in-board");
-
   numberOfUrgentSection();
 }
 

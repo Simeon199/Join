@@ -19,7 +19,6 @@ async function initSidebar() {
 async function sidebarHTML() {
   document.getElementById("sidebar").innerHTML += /*html*/ `
     <link rel="stylesheet" href="css/desktop_template.css">
-
     <section class="sidebar">
         <img id='sidebar-logo' src="Assets/img/Capa 1.svg" alt="">
         <div id="menuBar" class="menuBarDesktop">
@@ -219,7 +218,6 @@ function getUserNickname() {
 function isNotLoggedIn() {
   if (sessionStorage.getItem("isLoggedIn") === "false") {
     setTimeout(function () {
-      // document.getElementById("headerIcons").classList.add("d-none");
       if (document.getElementById("menuBar")) {
         document.getElementById("menuBar").classList.add("d-none");
         document.getElementById("sidebar").classList.add("sidebarEmpty");

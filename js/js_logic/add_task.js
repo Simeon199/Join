@@ -261,8 +261,6 @@ async function saveTask() {
   let newTask = createNewTask();
   tasksId++;
   tasks.push(newTask);
-  console.log(tasks);
-  console.log(newTask);
   await saveTaskIdToFirebase(tasksId);
   await uploadToAllTasks(newTask);
   updateCategories();
@@ -376,7 +374,6 @@ async function deleteTask(taskId) {
     tasks[i].tasksIdentity = i;
   }
   await upload("testRealTasks", tasks);
-  // saveTasksToLocalStorage();
   tasksId = tasks.length;
   await saveTaskIdToFirebase(tasksId);
   updateCategories();
