@@ -242,7 +242,6 @@ async function deselectContact() {
   document.getElementById("show-icon-container-button").classList.add("show-icon-container-button-translate-100");
   document.getElementById("show-icon-container-button").classList.remove("animation");
   document.getElementById("add-new-contacts-mobile-button").classList.remove("d-none");
-
   activeContactIndex = null;
 }
 
@@ -335,7 +334,6 @@ function renderContactLetterContainer(i, contactListContainer) {
  */
 function renderContact(i, j, letter) {
   const user = allUsers[j];
-  // console.log(allUsers);
   if (user["name"].toLowerCase().startsWith(letter)) {
     document.querySelectorAll(".letter-list-contact-container")[i].innerHTML += returnContactHTML(j, user);
   }

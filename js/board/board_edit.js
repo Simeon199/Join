@@ -1,18 +1,4 @@
 /**
- * Enables editing of a specific subtask in the popup input container.
- *
- * @param {number} i - The index of the subtask to be edited.
- */
-
-function editSubtaskPopUpInput(i) {
-  insertSubtasksIntoContainer();
-  container = document.getElementById(`subtaskNumber${i}`);
-  container.onmouseover = null;
-  container.onmouseout = null;
-  container.innerHTML = returnSubtaskEditedPopUpHTMLContainer(i);
-}
-
-/**
  * This function retrieves the search value from the input field and filters the users by name based on this value. 
  * It then iterates over the filtered users, rendering each contact in the popup.
  *
@@ -100,74 +86,6 @@ function renderContact(contact, contactIndex, taskIndex, isAssigned) {
     renderOnlyActiveAssignedToPopUp(contact, contactObject, contactIndex, taskIndex);
   } else {
     renderOnlyAssignedToPopUp(contact, contactObject, contactIndex, taskIndex);
-  }
-}
-
-/**
- * Hides the subtask container in the task edit popup.
- *
- */
-
-function closeSubtaskContainer() {
-  // let bigSubtaskContainer = document.getElementById("big-edit-task-subtask-container");
-  // bigSubtaskContainer.classList.add("d-none");
-}
-
-/**
- * This function retrieves the edited text from the subtask input field. If the input field is empty, it calls a function to mark the input as invalid. 
- * If the input is not empty, it updates the subtask array with the new text and refreshes the subtask container display.
- *
- * @param {number} i - The index of the subtask in the `subtaskArray` to be updated.
- */
-
-function saveEditedSubtaskPopUp(i) {
-  let text = document.getElementById(`subtaskEditedPopUp`).value;
-  if (text == "") {
-    markFalseEditSubtaskInput(`subtaskEditedPopUp`, i);
-  } else {
-    subtaskArray[i]["task-description"] = text;
-    insertSubtasksIntoContainer();
-  }
-}
-
-/**
- * Displays an error message for an invalid subtask input.
- *
- * @param {string} inputString - The ID of the input field that contains the edited subtask text.
- * @param {number} i - The index of the subtask being edited.
- */
-
-function markFalseEditSubtaskInput(inputString, i) {
-  let subtaskContainer = document.getElementById(`big-task-pop-up-subtask-all`);
-  subtaskContainer.innerHTML += returnMessageFalseInputValueHTML();
-}
-
-/**
- * This function removes a subtask from the `subtaskArray` at the specified index and then updates the display of the subtask container to reflect the deletion.
- *
- * @param {number} i - The index of the subtask to be deleted from the `subtaskArray`.
- */
-
-function deleteSubtaskPopUp(i) {
-  subtaskArray.splice(i, 1);
-  insertSubtasksIntoContainer();
-}
-
-/**
- * This asynchronous function fetches the task data from the database using the provided task ID. 
- * It checks if the retrieved task data contains subtasks. If subtasks are present, they are returned; otherwise, an empty array is returned.
- *
- * @param {string} id - The ID of the task for which subtasks are to be retrieved.
- * @returns {Promise<Array<Object>>} A promise that resolves to an array of subtasks. If no subtasks are found, it resolves to an empty array.
- */
-
-async function getSubtaskFromDataBase(id) {
-  let oldTaskAll = await loadRelevantData(`/testRealTasks/${id}`);
-  if (oldTaskAll.subtask) {
-    return oldTaskAll.subtask;
-  } else {
-    let subtaskArray = [];
-    return subtaskArray;
   }
 }
 
@@ -301,33 +219,6 @@ async function processTaskEditing(id, task) {
 }
 
 /**
- * This function clears the current subtask array and resets the checkbox status object. 
- * 
- */
-
-function resetSubtasks() {
-  subtaskArray = [];
-  checkBoxCheckedJson = {};
-}
-
-/**
- * Saves the changes made to a task's subtasks and updates the user interface.
- *
- * @param {string} id - The ID of the task whose subtasks are being edited.
- */
-
-async function saveSubtaskChanges(id) {
-  let task = tasks[id];
-  let taskForEditing = createTaskForEditing(task);
-  try {
-    await processTaskEditing(id, taskForEditing);
-  } catch (error) {
-  }
-  resetSubtasks();
-  updateHTML();
-}
-
-/**
  * Creates a task object formatted for editing from the provided task details.
  *
  * @param {Object} task - The task object to format for editing.
@@ -364,17 +255,6 @@ async function processTaskEditing(id, taskForEditing) {
 }
 
 /**
- * This function clears the current list of subtasks and resets the checkbox status object. 
- * It prepares the subtasks state for a new set of subtasks or a fresh editing session by emptying the `subtaskArray` and `checkBoxCheckedJson`.
- * 
- */
-
-function resetSubtasks() {
-  subtaskArray = [];
-  checkBoxCheckedJson = {};
-}
-
-/**
  * This function updates the visual representation of task priorities by adding or removing active classes based on the provided priority level. 
  *
  * @param {string} priority - The priority level to set for the task. 
@@ -408,59 +288,6 @@ function checkBigEditTaskPriority(priority) {
 function savePriorityValue(priority) {
   priorityValue = priority;
   return priorityValue;
-}
-
-/**
- * This function updates a task with new details including subtask information.
- *
- * @param {string} taskId - The unique identifier of the task to be updated.
- * @param {Object} objectForEditing - An object containing the updated properties for the task. 
- * @param {string} container - The container associated with the task.
- * @param {string} category - The category of the task.
- * @returns {Object} The updated task object.
- */
-
-function saveChangesSingleTaskWithSubtask(taskId, objectForEditing, container, category) {
-  tasks[taskId] = {
-    assigned: objectForEditing["newAssignedTo"],
-    category: category,
-    container: container,
-    date: objectForEditing["newDate"],
-    description: objectForEditing["newDescription"],
-    priority: objectForEditing["newPriority"],
-    tasksIdentity: taskId,
-    title: objectForEditing["newTitle"],
-    subtask: objectForEditing["newSubtaskArray"],
-  };
-  let newTask = tasks[taskId];
-  assignedToContactsBigContainer = [];
-  return newTask;
-}
-
-/**
- * Updates a task with new details, excluding subtask information.
- *
- * @param {string} taskId - The unique identifier of the task to be updated.
- * @param {Object} objectForEditing - An object containing the updated properties for the task. 
- * @param {string} container - The container associated with the task.
- * @param {string} category - The category of the task.
- * @returns {Object} The updated task object.
- */
-
-function saveChangesSingleTaskWithoutSubtask(taskId, objectForEditing, container, category) {
-  tasks[taskId] = {
-    assigned: objectForEditing["newAssignedTo"],
-    category: category,
-    container: container,
-    date: objectForEditing["newDate"],
-    description: objectForEditing["newDescription"],
-    priority: objectForEditing["newPriority"],
-    tasksIdentity: taskId,
-    title: objectForEditing["newTitle"],
-  };
-  let newTask = tasks[taskId];
-  assignedToContactsBigContainer = [];
-  return newTask;
 }
 
 /**
@@ -510,34 +337,6 @@ async function saveTaskWithCatch(task) {
   } catch (error) {
     console.error("Fehler beim Hochladen der Daten: ", error);
   }
-}
-
-/**
- * This function updates the task object with new details including subtask information. It uses the `saveChangesSingleTaskWithSubtask` function to perform the update.
- *
- * @param {string} taskId - The unique identifier of the task to be updated.
- * @param {Object} objectForEditing - An object containing the new details for the task.
- * @param {string} container - The identifier of the container where the task is displayed.
- * @param {string} category - The category of the task.
- * @returns {Object} The updated task object including subtask information.
- */
-
-function saveChangesWithSubtask(taskId, objectForEditing, container, category) {
-  return saveChangesSingleTaskWithSubtask(taskId, objectForEditing, container, category);
-}
-
-/**
- * This function updates the task object with new details but excludes any subtask information. It uses the `saveChangesSingleTaskWithoutSubtask` function to perform the update.
- *
- * @param {string} taskId - The unique identifier of the task to be updated.
- * @param {Object} objectForEditing - An object containing the new details for the task.
- * @param {string} container - The identifier of the container where the task is displayed.
- * @param {string} category - The category of the task.
- * @returns {Object} The updated task object excluding subtask information.
- */
-
-function saveChangesWithoutSubtask(taskId, objectForEditing, container, category) {
-  return saveChangesSingleTaskWithoutSubtask(taskId, objectForEditing, container, category);
 }
 
 /**
