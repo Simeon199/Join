@@ -231,6 +231,7 @@ function searchContacts() {
 /**
  * show only contacts with the Letter(s) in the inputfield
  */
+
 function showDropDownAssignedToOnlyResult() {
   contact = document.getElementById("assignedToDropDown");
   contact.innerHTML = "";

@@ -172,16 +172,6 @@ function editSubtaskPopUpInput(i) {
 }
 
 /**
- * Hides the subtask container in the task edit popup.
- *
- */
-
-function closeSubtaskContainer() {
-    // let bigSubtaskContainer = document.getElementById("big-edit-task-subtask-container");
-    // bigSubtaskContainer.classList.add("d-none");
-}
-
-/**
  * This function retrieves the edited text from the subtask input field. If the input field is empty, it calls a function to mark the input as invalid. 
  * If the input is not empty, it updates the subtask array with the new text and refreshes the subtask container display.
  *
@@ -346,3 +336,30 @@ function saveChangesWithSubtask(taskId, objectForEditing, container, category) {
 function saveChangesWithoutSubtask(taskId, objectForEditing, container, category) {
     return saveChangesSingleTaskWithoutSubtask(taskId, objectForEditing, container, category);
 }
+
+/**
+ * This functions checks if the Enter key is pressed in the big task edit subtask input field and triggers the subtask array build thus performing the following actions:
+ * - Listen for a key event in the big task edit subtask input field.
+ * - If the Enter key is pressed, it calls the function to build the subtask array for upload.
+ * 
+ * @param {KeyboardEvent} event - The key event triggered by the user.
+ */
+
+function bigEditTaskSubtaskInputCheckEnter(event) {
+    if (event.key === "Enter") {
+      buildSubtaskArrayForUpload();
+    }
+}
+
+/**
+ * This function initializes the subtask array for a task based on the provided task JSON performing the following actions in the process:
+ * - Sets the `subtaskArray` variable to the `subtask` property of the provided `taskJson` object, or initializes it as an empty array if `taskJson.subtask` is undefined or null.
+ * - Updates the `subtask` property of `taskJson` to ensure it is always set to the `subtaskArray`.
+ * 
+ * @param {Object} taskJson - The JSON object representing the task, which includes the `subtask` property.
+ */
+
+function setupSubtaskArray(taskJson) {
+    subtaskArray = taskJson.subtask || [];
+    taskJson.subtask = subtaskArray;
+  }
