@@ -4,23 +4,23 @@
  * @param {Event} event - The event object from the form submission.
  */
 
-async function signUp(event) {
-    showBoardLoadScreen();
-    event.preventDefault();
-    let name = document.getElementById("name").value;
-    let email = document.getElementById("loginEmail").value;
-    let password = document.getElementById("loginPassword").value;
-    let passwordRepeat = document.getElementById("loginPasswordRepeat").value;
-    let privacyPolicity = document.getElementById("privacyPolicity");
-    let signUpValid = await checkSignInRequirements(name, email, password, passwordRepeat, privacyPolicity);
-    if (!signUpValid) {
-      hideBoardLoadScreen();
-      return;
-    }
-    let user = buildUserFunction(name, email, password);
-    await createUserAndShowPopup((path = "/users"), user);
-    hideBoardLoadScreen();
-}
+// async function signUp(event) {
+//     showBoardLoadScreen();
+//     event.preventDefault();
+//     let name = document.getElementById("name").value;
+//     let email = document.getElementById("loginEmail").value;
+//     let password = document.getElementById("loginPassword").value;
+//     let passwordRepeat = document.getElementById("loginPasswordRepeat").value;
+//     let privacyPolicity = document.getElementById("privacyPolicity");
+//     let signUpValid = await checkSignInRequirements(name, email, password, passwordRepeat, privacyPolicity);
+//     if (!signUpValid) {
+//       hideBoardLoadScreen();
+//       return;
+//     }
+//     let user = buildUserFunction(name, email, password);
+//     await createUserAndShowPopup((path = "/users"), user);
+//     hideBoardLoadScreen();
+// }
 
 /**
  * This function displays an error message when the password syntax is incorrect during sign-up.
@@ -29,20 +29,20 @@ async function signUp(event) {
  * 
  */
 
-function throwSignUpErrorWhenWrongPasswordSyntax() {
-    removeErrorMessageIfPresent();
-    let allErrorMessages = document.getElementById("allErrorMessages");
-    let reportFailedSignUp = document.getElementById("reportFailedSignUpWhenWeakPassword");
-    if (reportFailedSignUp.classList.contains("d-none") && allErrorMessages.classList.contains("d-none")) {
-      allErrorMessages.classList.remove("d-none");
-      allErrorMessages.classList.add("d-flex");
-      reportFailedSignUp.classList.remove("d-none");
-    } else {
-      allErrorMessages.classList.remove("d-flex");
-      allErrorMessages.classList.add("d-none");
-      reportFailedSignUp.classList.add("d-none");
-    }
-  }
+// function throwSignUpErrorWhenWrongPasswordSyntax() {
+//     removeErrorMessageIfPresent();
+//     let allErrorMessages = document.getElementById("allErrorMessages");
+//     let reportFailedSignUp = document.getElementById("reportFailedSignUpWhenWeakPassword");
+//     if (reportFailedSignUp.classList.contains("d-none") && allErrorMessages.classList.contains("d-none")) {
+//       allErrorMessages.classList.remove("d-none");
+//       allErrorMessages.classList.add("d-flex");
+//       reportFailedSignUp.classList.remove("d-none");
+//     } else {
+//       allErrorMessages.classList.remove("d-flex");
+//       allErrorMessages.classList.add("d-none");
+//       reportFailedSignUp.classList.add("d-none");
+//     }
+//   }
 
   /**
  * This function chekcks a password to ensure it meets the necessary password criteria (minimum length, at least one uppercase, one lowercase and one digit) 
@@ -53,18 +53,18 @@ function throwSignUpErrorWhenWrongPasswordSyntax() {
  * @returns {string|null} - Returns an error message if the password is invalid, otherwise returns null.
  */
 
-function checkIfPasswordIsValid(password) {
-    let minLength = 6;
-    let regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{6,}$/;
-    if (password.length < minLength) {
-      return `Das Passwort muss mindestens ${minLength} Zeichen lang sein.`;
-    }
-    if (!regex.test(password)) {
-      throwSignUpErrorWhenWrongPasswordSyntax();
-      return true;
-    }
-    return null;
-  }
+// function checkIfPasswordIsValid(password) {
+//     let minLength = 6;
+//     let regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{6,}$/;
+//     if (password.length < minLength) {
+//       return `Das Passwort muss mindestens ${minLength} Zeichen lang sein.`;
+//     }
+//     if (!regex.test(password)) {
+//       throwSignUpErrorWhenWrongPasswordSyntax();
+//       return true;
+//     }
+//     return null;
+//   }
 
 /** 
  * This function checks whether the password meets the necessary criteria, by calling the function `checkIfPasswordIsValid`.
@@ -74,13 +74,13 @@ function checkIfPasswordIsValid(password) {
  * @returns {boolean} - Returns true if the password is valid, otherwise false.
  */
 
-function checkPasswordWhenSignUp(password) {
-    let passwordError = checkIfPasswordIsValid(password);
-    if (passwordError) {
-      return false;
-    }
-    return true;
-}
+// function checkPasswordWhenSignUp(password) {
+//     let passwordError = checkIfPasswordIsValid(password);
+//     if (passwordError) {
+//       return false;
+//     }
+//     return true;
+// }
 
   /**
  * This async function sends the user data a specified path, shows a registration popup in the case of success,
@@ -91,18 +91,18 @@ function checkPasswordWhenSignUp(password) {
  * @returns {Promise<Object>} - Returns a promise that resolves to the server's response in JSON format.
  */
 
-async function createUserAndShowPopup(path, user) {
-    try {
-      let responseToJson = await postDataToDatabase(path, user);
-      showRegisterPopup();
-      setTimeout(() => {
-        window.location.href = "login.html";
-      }, 1000);
-      return responseToJson;
-    } catch (error) {
-      console.error("Es gab ein Problem bei der Registrierung. Bitte versuchen Sie es später erneut");
-    }
-}
+// async function createUserAndShowPopup(path, user) {
+//     try {
+//       let responseToJson = await postDataToDatabase(path, user);
+//       showRegisterPopup();
+//       setTimeout(() => {
+//         window.location.href = "login.html";
+//       }, 1000);
+//       return responseToJson;
+//     } catch (error) {
+//       console.error("Es gab ein Problem bei der Registrierung. Bitte versuchen Sie es später erneut");
+//     }
+// }
 
 /**
  * This function adjusts the visibility of icons for showing or hiding passwords based on the specified
@@ -140,91 +140,73 @@ function checkAllCasesForShowPassword(variable, visibilityInputImage, visibility
  * @param {Object} data - The data to be sent to the database.
  */
 
-async function postDataToDatabase(path, data) {
-    try {
-      let response = await fetch(BASE_URL + path + ".json", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
-      if (!response.ok) {
-        throw new Error("Network response was not ok: " + response.statusText);
-      }
-      return await response.json();
-    } catch (error) {
-      console.error("Es gab ein Problem mit der Registrierung:", error);
-      throw error;
-    }
-}
-
-/**
- * This function takes the username, the email address and a password and creates a user object with this information.
- * 
- * @param {string} name - The name of the user.
- * @param {string} email - The email of the user.
- * @param {string} password - the password of the user.
- * @returns {Object} - The user object containing the name, email, and password.
- */
-
-function buildUserFunction(name, email, password) {
-    let user = {
-      name: name,
-      email: email,
-      password: password,
-    };
-    return user;
-}
+// async function postDataToDatabase(path, data) {
+//     try {
+//       let response = await fetch(BASE_URL + path + ".json", {
+//         method: "POST",
+//         headers: {
+//           "Content-Type": "application/json",
+//         },
+//         body: JSON.stringify(data),
+//       });
+//       if (!response.ok) {
+//         throw new Error("Network response was not ok: " + response.statusText);
+//       }
+//       return await response.json();
+//     } catch (error) {
+//       console.error("Es gab ein Problem mit der Registrierung:", error);
+//       throw error;
+//     }
+// }
 
   /**
  * This function displays a registration error message if the passwords don't match. It removes the existing error messages, highlights the password repeat input in red and shows a notification.
  * 
  */
 
-function throwSignUpError() {
-    removeErrorMessageIfPresent();
-    let signUpInput = document.getElementById("signUpInput");
-    let signUpPasswordRepeat = document.getElementById("signUpPasswordRepeat");
-    signUpPasswordRepeat.style.border = "1px solid red";
-    let notification = document.createElement("div");
-    notification.classList.add("notification");
-    notification.innerHTML = `<p>Ups! Your passwords don't match</p>`;
-    signUpInput.appendChild(notification);
-}
+// function throwSignUpError() {
+//     removeErrorMessageIfPresent();
+//     let signUpInput = document.getElementById("signUpInput");
+//     let signUpPasswordRepeat = document.getElementById("signUpPasswordRepeat");
+//     signUpPasswordRepeat.style.border = "1px solid red";
+//     let notification = document.createElement("div");
+//     notification.classList.add("notification");
+//     notification.innerHTML = `<p>Ups! Your passwords don't match</p>`;
+//     signUpInput.appendChild(notification);
+// }
 
 /**
  * This function toggles the visibility of the error messages in the case of a failed registration.
  * 
  */
 
-function createReportDueToFailedRegistration() {
-    removeErrorMessageIfPresent();
-    let allErrorMessages = document.getElementById("allErrorMessages");
-    let reportFailedSignUp = document.getElementById("reportFailedSignUp");
-    if (reportFailedSignUp.classList.contains("d-none") && allErrorMessages.classList.contains("d-none")) {
-      allErrorMessages.classList.remove("d-none");
-      allErrorMessages.classList.add("d-flex");
-      reportFailedSignUp.classList.remove("d-none");
-    } else {
-      allErrorMessages.classList.remove("d-flex");
-      allErrorMessages.classList.add("d-none");
-      reportFailedSignUp.classList.add("d-none");
-    }
-}
+// function createReportDueToFailedRegistration() {
+//     removeErrorMessageIfPresent();
+//     let allErrorMessages = document.getElementById("allErrorMessages");
+//     let reportFailedSignUp = document.getElementById("reportFailedSignUp");
+//     if (reportFailedSignUp.classList.contains("d-none") && allErrorMessages.classList.contains("d-none")) {
+//       allErrorMessages.classList.remove("d-none");
+//       allErrorMessages.classList.add("d-flex");
+//       reportFailedSignUp.classList.remove("d-none");
+//     } else {
+//       allErrorMessages.classList.remove("d-flex");
+//       allErrorMessages.classList.add("d-none");
+//       reportFailedSignUp.classList.add("d-none");
+//     }
+// }
 
 /**
 * Removes an existing error message and resets the border of the password repeat input field.
 * 
 */
 
-function removeErrorMessageIfPresent() {
-    document.getElementById("signUpPasswordRepeat").style.border = "1px solid #d1d1d1";
-    let existingNotification = document.querySelector(".notification");
-    if (existingNotification) {
-      existingNotification.remove();
-    }
-}
+// function removeErrorMessageIfPresent() {
+//     document.getElementById("signUpPasswordRepeat").style.border = "1px solid #d1d1d1";
+//     let existingNotification = document.querySelector(".notification");
+//     if (existingNotification) {
+//       existingNotification.remove();
+//     }
+// }
 
 /**
  * This function takes the user data from the server checks if the given nickname or email is already in use. 
@@ -235,19 +217,19 @@ function removeErrorMessageIfPresent() {
  * @returns {Promise<boolean>} - Returns a promise that resolves to true if the nickname or email already exists, otherwise false.
  */
 
-async function nicknameAlreadyExists(name, email) {
-    let response = await loadData((path = "/users"));
-    for (let key in response) {
-      let user = response[key];
-      let availabelNickname = user["name"];
-      let availabelEmail = user["email"];
-      if (availabelNickname == name || availabelEmail == email) {
-        createReportDueToFailedRegistration();
-        return true;
-      }
-    }
-    return false;
-}
+// async function nicknameAlreadyExists(name, email) {
+//     let response = await loadData((path = "/users"));
+//     for (let key in response) {
+//       let user = response[key];
+//       let availabelNickname = user["name"];
+//       let availabelEmail = user["email"];
+//       if (availabelNickname == name || availabelEmail == email) {
+//         createReportDueToFailedRegistration();
+//         return true;
+//       }
+//     }
+//     return false;
+// }
 
 /**
  * Checks all the the sign-up requirements including password strength, uniqueness of the nickname, password match, and acceptance of privacy policy.
@@ -260,22 +242,22 @@ async function nicknameAlreadyExists(name, email) {
  * @returns {Promise<boolean>} - Returns a promise that resolves to true if all sign-up requirements are met, otherwise false.
  */
 
-async function checkSignInRequirements(name, email, password, passwordRepeat, privacyPolicity) {
-    if (!checkPasswordWhenSignUp(password)) {
-      return false;
-    }
-    if ((await nicknameAlreadyExists(name, email)) == true) {
-      return false;
-    }
-    if (password !== passwordRepeat) {
-      throwSignUpError();
-      return false;
-    }
-    if (!privacyPolicity.checked) {
-      return false;
-    }
-    return true;
-}
+// async function checkSignInRequirements(name, email, password, passwordRepeat, privacyPolicity) {
+//     if (!checkPasswordWhenSignUp(password)) {
+//       return false;
+//     }
+//     if ((await nicknameAlreadyExists(name, email)) == true) {
+//       return false;
+//     }
+//     if (password !== passwordRepeat) {
+//       throwSignUpError();
+//       return false;
+//     }
+//     if (!privacyPolicity.checked) {
+//       return false;
+//     }
+//     return true;
+// }
 
 /**
  * Checks if an error message notification already exists in the sign-up input section. 
@@ -283,11 +265,11 @@ async function checkSignInRequirements(name, email, password, passwordRepeat, pr
  * @returns {boolean} - Returns true if an error message is found, otherwise false.
  */
 
-function proveIfErrorMessageAlreadyExists() {
-    let childrenElements = Array.from(document.getElementById("signUpInput").children);
-    let messageExists = childrenElements.some((child) => child.classList.contains("notification") && child.classList.contains("error"));
-    return messageExists;
-}
+// function proveIfErrorMessageAlreadyExists() {
+//     let childrenElements = Array.from(document.getElementById("signUpInput").children);
+//     let messageExists = childrenElements.some((child) => child.classList.contains("notification") && child.classList.contains("error"));
+//     return messageExists;
+// }
 
 /**
  * This function makes the board load screen visible by removing the "d-none" class 
@@ -295,15 +277,93 @@ function proveIfErrorMessageAlreadyExists() {
  * 
  */
 
-function showBoardLoadScreen() {
-    document.getElementById("board-add_task-load-screen").classList.remove("d-none");
-}
+// function showBoardLoadScreen() {
+//     document.getElementById("board-add_task-load-screen").classList.remove("d-none");
+// }
   
 /**
 * This function hides the board load screen by adding the "d-none" class to the element with the ID "board-add_task-load-screen".
 * 
 */
   
-function hideBoardLoadScreen() {
-    document.getElementById("board-add_task-load-screen").classList.add("d-none");
+// function hideBoardLoadScreen() {
+//     document.getElementById("board-add_task-load-screen").classList.add("d-none");
+// }
+
+  // register function
+
+// const signUp = document.getElementById('submitSignUp');
+
+/**
+ * This function takes the username, the email address and a password and creates a user object with this information.
+ * 
+ * @param {string} name - The name of the user.
+ * @param {string} email - The email of the user.
+ * @param {string} password - the password of the user.
+ * @returns {Object} - The user object containing the name, email, and password.
+ */
+
+// function buildUserFunction(name, email, password) {
+//   let user = {
+//     name: name,
+//     email: email,
+//     password: password,
+//   };
+//   return user;
+// }
+
+function showMessage(message, divId){
+  let messageDiv=document.getElementById(divId);
+  messageDiv.style.display="block";
+  messageDiv.innerHTML=message;
+  messageDiv.style.opacity=1;
+  setTimeout(function(){
+      messageDiv.style.opacity=0;
+  },5000);
+}
+
+function signUp(event){
+  event.preventDefault();
+  let name=document.getElementById('name').value;
+  let email=document.getElementById('loginEmail').value;
+  let password=document.getElementById('loginPassword').value;
+  let passwordRepeat=document.getElementById('loginPasswordRepeat').value;
+  const auth=getAuth(); 
+  const db=getFirestore();
+  createUserWithEmailAndPassword(auth, email, password)
+  .then((userCredential) => {
+      const user=userCredential.user;
+      const userData={
+          name: name,
+          email: email,
+          password: password,
+          passwordRepeat: passwordRepeat
+      }
+      console.log(userData);
+      showMessage('Account created successfully', 'signUpMessage');
+      const docRef=doc(db, "users", user.uid);
+      setDoc(docRef, userData).then(() => {
+          window.location.href='login.html';
+      }).catch((error) => {
+          console.error("error writing document", error);
+      })
+  }).catch((error) => {
+      const errorCode=error.code;
+      if(errorCode=='auth/email-already-in-use'){
+          showMessage('Email Address Already Exists !!!', 'reportFailedSignUp');
+      } else {
+          showMessage('unable to create User', 'reportFailedSignUp');
+      }
+  })
+};
+
+async function writeTestData(){
+  try {
+    await set(ref(database, 'test/'), {
+      message: "Hallo, Firebase!"
+    });
+    console.log("Testdaten erfolgreich geschrieben");
+  } catch(error){
+    console.error('Fehler beim Schreiben', error);
+  }
 }
