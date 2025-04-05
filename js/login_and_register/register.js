@@ -1,4 +1,5 @@
-import {ref, set} from "../../config/database.js";
+// import {ref, set} from "../../config/database.js";
+import {ref, set, createUserWithEmailAndPassword} from "../../config/database.js";
 import db from "../../config/database.js";
 
 const auth = db.auth;
@@ -122,21 +123,38 @@ const database = db.database;
  * @param {HTMLElement} visibilityRepeat - The element representing the visibility control for the repeat password.
  */
 
-function checkAllCasesForShowPassword(variable, visibilityInputImage, visibilityInputImageRepeat, visibility, visibilityRepeat) {
-    if (variable == "loginPassword" && visibilityInputImage.classList.contains("d-none")) {
-      visibilityInputImage.classList.remove("d-none");
-      visibility.classList.add("d-none");
-    } else if (variable == "loginPassword" && inputLock.classList.contains("d-none")) {
-      visibility.classList.remove("d-none");
-      visibilityInputImage.classList.add("d-none");
-    } else if (variable == "loginPasswordRepeat" && visibilityInputImageRepeat.classList.contains("d-none")) {
-      visibilityInputImageRepeat.classList.remove("d-none");
-      visibilityRepeat.classList.add("d-none");
-    } else if (variable == "loginPasswordRepeat" && inputLockRepeat.classList.contains("d-none")) {
-      visibilityRepeat.classList.remove("d-none");
-      visibilityInputImageRepeat.classList.add("d-none");
-    }
-}
+// function checkAllCasesForShowPassword(variable, visibilityInputImage, visibilityInputImageRepeat, visibility, visibilityRepeat) {
+//     if (variable == "loginPassword" && visibilityInputImage.classList.contains("d-none")) {
+//       visibilityInputImage.classList.remove("d-none");
+//       visibility.classList.add("d-none");
+//     } else if (variable == "loginPassword" && inputLock.classList.contains("d-none")) {
+//       visibility.classList.remove("d-none");
+//       visibilityInputImage.classList.add("d-none");
+//     } else if (variable == "loginPasswordRepeat" && visibilityInputImageRepeat.classList.contains("d-none")) {
+//       visibilityInputImageRepeat.classList.remove("d-none");
+//       visibilityRepeat.classList.add("d-none");
+//     } else if (variable == "loginPasswordRepeat" && inputLockRepeat.classList.contains("d-none")) {
+//       visibilityRepeat.classList.remove("d-none");
+//       visibilityInputImageRepeat.classList.add("d-none");
+//     }
+// }
+
+/**
+ * This function toggles the visibility of the password input field and updates the visibility icons accordingly.
+ *
+ * @param {string} variable - The ID of the password input field to be toggled.
+ */
+
+// function showPassword(variable) {
+//   let passwordContent = document.getElementById(variable);
+//   let visibilityInputImage = document.getElementById("visibilityInputImage");
+//   let visibilityInputImageRepeat = document.getElementById("visibilityInputImageRepeat");
+//   let visibility = document.getElementById("visibility");
+//   let visibilityRepeat = document.getElementById("visibilityRepeat");
+//   checkAllCasesForShowPassword(variable, visibilityInputImage, visibilityInputImageRepeat, visibility, visibilityRepeat);
+//   checkPasswordContentType(passwordContent);
+// }
+
 
 /**
  * This async function sends a POST request to the specified path with the provided data.
@@ -215,57 +233,6 @@ function checkAllCasesForShowPassword(variable, visibilityInputImage, visibility
 // }
 
 /**
- * This function takes the user data from the server checks if the given nickname or email is already in use. 
- * If a match is found, a failed registration attempt is thrown as an error message.
- *
- * @param {string} name - The user's name to check.
- * @param {string} email - The user's email to check.
- * @returns {Promise<boolean>} - Returns a promise that resolves to true if the nickname or email already exists, otherwise false.
- */
-
-// async function nicknameAlreadyExists(name, email) {
-//     let response = await loadData((path = "/users"));
-//     for (let key in response) {
-//       let user = response[key];
-//       let availabelNickname = user["name"];
-//       let availabelEmail = user["email"];
-//       if (availabelNickname == name || availabelEmail == email) {
-//         createReportDueToFailedRegistration();
-//         return true;
-//       }
-//     }
-//     return false;
-// }
-
-/**
- * Checks all the the sign-up requirements including password strength, uniqueness of the nickname, password match, and acceptance of privacy policy.
- *
- * @param {string} name - The user's name.
- * @param {string} email - The user's email.
- * @param {string} password - The user's password.
- * @param {string} passwordRepeat - The repeated password for confirmation.
- * @param {HTMLInputElement} privacyPolicity - The checkbox element for the privacy policy agreement.
- * @returns {Promise<boolean>} - Returns a promise that resolves to true if all sign-up requirements are met, otherwise false.
- */
-
-// async function checkSignInRequirements(name, email, password, passwordRepeat, privacyPolicity) {
-//     if (!checkPasswordWhenSignUp(password)) {
-//       return false;
-//     }
-//     if ((await nicknameAlreadyExists(name, email)) == true) {
-//       return false;
-//     }
-//     if (password !== passwordRepeat) {
-//       throwSignUpError();
-//       return false;
-//     }
-//     if (!privacyPolicity.checked) {
-//       return false;
-//     }
-//     return true;
-// }
-
-/**
  * Checks if an error message notification already exists in the sign-up input section. 
  * 
  * @returns {boolean} - Returns true if an error message is found, otherwise false.
@@ -296,82 +263,53 @@ function checkAllCasesForShowPassword(variable, visibilityInputImage, visibility
 //     document.getElementById("board-add_task-load-screen").classList.add("d-none");
 // }
 
-  // register function
+document.addEventListener('DOMContentLoaded', () => {
+  let form = document.getElementById('signUpForm');
+  form.addEventListener("submit", signUp);
+});
 
-// const signUp = document.getElementById('submitSignUp');
-
-/**
- * This function takes the username, the email address and a password and creates a user object with this information.
- * 
- * @param {string} name - The name of the user.
- * @param {string} email - The email of the user.
- * @param {string} password - the password of the user.
- * @returns {Object} - The user object containing the name, email, and password.
- */
-
-// function buildUserFunction(name, email, password) {
-//   let user = {
-//     name: name,
-//     email: email,
-//     password: password,
-//   };
-//   return user;
-// }
-
-function showMessage(message, divId){
-  let messageDiv=document.getElementById(divId);
-  messageDiv.style.display="block";
-  messageDiv.innerHTML=message;
-  messageDiv.style.opacity=1;
-  setTimeout(function(){
-      messageDiv.style.opacity=0;
-  },5000);
-}
-
-function signUp(event){
-  event.preventDefault();
-  let name=document.getElementById('name').value;
-  let email=document.getElementById('loginEmail').value;
-  let password=document.getElementById('loginPassword').value;
-  let passwordRepeat=document.getElementById('loginPasswordRepeat').value;
-  // const auth=db.auth; 
-  // const db=db.getFirestore();
-  createUserWithEmailAndPassword(auth, email, password)
-  .then((userCredential) => {
-      const user=userCredential.user;
-      const userData={
-          name: name,
-          email: email,
-          password: password,
-          passwordRepeat: passwordRepeat
-      }
-      console.log(userData);
-      showMessage('Account created successfully', 'signUpMessage');
-      const docRef=doc(database, "users", user.uid);
-      setDoc(docRef, userData).then(() => {
-          window.location.href='login.html';
-      }).catch((error) => {
-          console.error("error writing document", error);
-      })
-  }).catch((error) => {
-      const errorCode=error.code;
-      if(errorCode=='auth/email-already-in-use'){
-          showMessage('Email Address Already Exists !!!', 'reportFailedSignUp');
-      } else {
-          showMessage('unable to create User', 'reportFailedSignUp');
-      }
-  })
-};
-
-async function writeTestData(){
+async function registerUser(email, password){
   try {
-    await set(ref(database, 'test/'), {
-      message: "Hallo, Firebase!"
-    });
-    console.log("Testdaten erfolgreich geschrieben");
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    console.log("User registered: ", userCredential.user);
+    return userCredential;
   } catch(error){
-    console.error('Fehler beim Schreiben', error);
+    console.log("Error registering user: ", error);
+    throw error;
   }
 }
 
-writeTestData();
+async function signUp(event){
+  event.preventDefault();
+  const name=document.getElementById('name').value; 
+  const loginEmail=document.getElementById('loginEmail').value;
+  const loginPassword=document.getElementById('loginPassword').value;
+  const loginPasswordRepeat=document.getElementById('loginPasswordRepeat').value;
+  if(checkIfPasswordInputsCoincide(loginPassword, loginPasswordRepeat)){
+    try{
+      const userCredential = await registerUser(loginEmail, loginPassword);
+      const uid = userCredential.user.uid;
+      let userData = createUserData(name, loginEmail);
+      await writeData(`users/${uid}`, userData);
+    } catch(error){
+      console.error("Fehler bei Registrierung: ", error.message);
+    }
+  }
+}
+
+function checkIfPasswordInputsCoincide(loginPassword, loginPasswordRepeat){
+  return loginPassword === loginPasswordRepeat;
+}
+
+function createUserData(name, email){
+  const userData = {
+    name: name,
+    email: email
+  }
+  return userData;
+}
+
+async function writeData(path, userdata){
+  const dbref=ref(database, path);
+  return set(dbref, userdata);
+}

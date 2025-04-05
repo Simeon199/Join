@@ -83,21 +83,6 @@
 // }
 
 /**
- * This function checks the visibility of the checkbox element with the ID "checkbox-check".
- * If the checkbox is currently visible, it hides it and if the checkbox is currently hidden, it shows it.
- * 
- */
-
-function addCheck() {
-  let checkboxCheck = document.getElementById("checkbox-check");
-  if (!checkboxCheck.classList.contains("d-none")) {
-    checkboxCheck.classList.add("d-none");
-  } else {
-    checkboxCheck.classList.remove("d-none");
-  }
-}
-
-/**
  * This function sets the guest login status in the session storage and redirects the user to the summary page.
  * It also marks the first-time login status in the local storage.
  * 
@@ -239,22 +224,6 @@ function backToLogin() {
 
 function goToSignUp() {
   window.location.href = "register.html";
-}
-
-/**
- * This function changes the type of the given password input field to either "text" or "password".
- * If the current type is "password", it sets the type to "text" to show the password. If the current
- * type is "text", it sets the type back to "password" to hide the password.
- * 
- * @param {HTMLInputElement} passwordContent - The password input field element whose type will be toggled.
- */
-
-function checkPasswordContentType(passwordContent) {
-  if (passwordContent.type == "password") {
-    passwordContent.type = "text";
-  } else {
-    passwordContent.type = "password";
-  }
 }
 
   // Login-Funktionalität
