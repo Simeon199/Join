@@ -1,3 +1,9 @@
+import {ref, set} from "../../config/database.js";
+import db from "../../config/database.js";
+
+const auth = db.auth;
+const database = db.database;
+
 /**
  * Manages the sign-up process through validating user input, creating a user object, and sending it to the server in the case of a successfull validation.
  *
@@ -328,8 +334,8 @@ function signUp(event){
   let email=document.getElementById('loginEmail').value;
   let password=document.getElementById('loginPassword').value;
   let passwordRepeat=document.getElementById('loginPasswordRepeat').value;
-  const auth=getAuth(); 
-  const db=getFirestore();
+  // const auth=db.auth; 
+  // const db=db.getFirestore();
   createUserWithEmailAndPassword(auth, email, password)
   .then((userCredential) => {
       const user=userCredential.user;
@@ -341,7 +347,7 @@ function signUp(event){
       }
       console.log(userData);
       showMessage('Account created successfully', 'signUpMessage');
-      const docRef=doc(db, "users", user.uid);
+      const docRef=doc(database, "users", user.uid);
       setDoc(docRef, userData).then(() => {
           window.location.href='login.html';
       }).catch((error) => {
@@ -367,3 +373,5 @@ async function writeTestData(){
     console.error('Fehler beim Schreiben', error);
   }
 }
+
+writeTestData();
