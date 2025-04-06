@@ -13,10 +13,10 @@
   <link rel="stylesheet" href="../css/login_and_register/register.media_queries.css">
 
   <!-- javascript files -->
-  <script src="../config/database.js"></script>
+  <script type="module" src="../config/database.js"></script>
   <script src="../js/script.js"></script>
-  <script src="../js/login_and_register/register.js"></script>
-  <script src="../js/login_and_register/login.js"></script>
+  <script type="module" src="../js/login_and_register/register.js"></script>
+  <script type="module" src="../js/login_and_register/login.js"></script>
   <script src="../js/contacts/contacts_database.js"></script>
   <link rel="stylesheet" href="../css/remaining/fonts.css" />
 </head>
@@ -55,7 +55,7 @@
           <h1 class="underline">Sign up</h1>
         </div>
       </div>
-      <form id="signUpForm" onsubmit="return signUp(event)">
+      <form id="signUpForm">
         <div class="loginInput" id="signUpInput">
           <div class="input">
             <input id="name" class="loginInputStyle" type="text" placeholder="Name" required />

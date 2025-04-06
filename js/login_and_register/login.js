@@ -148,15 +148,15 @@
  * @param {string} variable - The ID of the password field to be toggled.
  */
 
-function showPassword(variable) {
-  let passwordContent = document.getElementById(variable);
-  let visibilityInputImage = document.getElementById("visibilityInputImage");
-  let visibilityInputImageRepeat = document.getElementById("visibilityInputImageRepeat");
-  let visibility = document.getElementById("visibility");
-  let visibilityRepeat = document.getElementById("visibilityRepeat");
-  checkAllCasesForShowPassword(variable, visibilityInputImage, visibilityInputImageRepeat, visibility, visibilityRepeat);
-  checkPasswordContentType(passwordContent);
-}
+// function showPassword(variable) {
+//   let passwordContent = document.getElementById(variable);
+//   let visibilityInputImage = document.getElementById("visibilityInputImage");
+//   let visibilityInputImageRepeat = document.getElementById("visibilityInputImageRepeat");
+//   let visibility = document.getElementById("visibility");
+//   let visibilityRepeat = document.getElementById("visibilityRepeat");
+//   checkAllCasesForShowPassword(variable, visibilityInputImage, visibilityInputImageRepeat, visibility, visibilityRepeat);
+//   checkPasswordContentType(passwordContent);
+// }
 
 /**
  * This function updates the visibility of the password field identified by the provided variable.
