@@ -1,6 +1,5 @@
 body {
   background-color: rgba(246, 247, 248, 1);
-
   min-height: 100vh;
 
   p {
@@ -14,7 +13,6 @@ body {
   height: calc(100vh - 96px);
   width: 100%;
   padding: 50px 50px 50px 282px;
-
   display: flex;
   justify-content: center;
 
@@ -36,24 +34,19 @@ body {
 
 #inputDescription {
   width: 100%;
-
   height: 120px;
   max-height: 200px;
   min-height: 50px;
-
   border-radius: 10px;
   padding: 12px;
   outline: none;
   cursor: pointer;
   box-sizing: border-box;
-
   border: 1px solid #d1d1d1;
-
   resize: vertical;
 }
 
 form div div div {
-  /* background-color: rgba(255, 255, 255, 1); */
   height: 48px;
   border: 1px solid;
   border-color: rgba(209, 209, 209, 1);
@@ -95,22 +88,17 @@ form div div div {
   display: flex;
   padding: 10px;
   margin-right: 10px;
-
   width: unset;
   border-radius: 100%;
-
   transition: 0.2s;
 }
 
 .arrow:hover {
   background-color: #d9d9d9;
-  /* padding: 10px !important;
-  margin-right: 10px; */
 }
 
 .rotate {
   transform: rotate(180deg);
-  /* padding: 0px 0px 0px 20px !important; */
 }
 
 #calender {
@@ -127,7 +115,6 @@ h1 {
   font-family: "Inter";
   font-size: 61px;
   font-weight: 700;
-
   margin: 0;
 }
 
@@ -135,19 +122,15 @@ h1 {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-
   padding-top: 30px;
-
   gap: 30px;
 }
 
 .input1 {
   width: 100%;
-
   display: flex;
   align-items: center;
   flex-direction: column;
-
   gap: 20px;
 }
 
@@ -164,9 +147,7 @@ h1 {
 
 .input2 {
   width: 100%;
-
   gap: 20px;
-
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -188,7 +169,6 @@ h1 {
   .prio div div {
     box-sizing: border-box;
     padding: 16px 10px;
-
     border-radius: 10px;
     background-color: rgba(255, 255, 255, 1);
     box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.1);
@@ -208,7 +188,6 @@ h1 {
 #inputDescription {
   font-size: 20px;
   font-weight: 400;
-
   font-family: "Inter", sans-serif;
 }
 
@@ -231,7 +210,6 @@ h1 {
 .center {
   align-items: center;
   justify-content: center;
-
   transition: 0.2s;
 }
 
@@ -275,18 +253,15 @@ h1 {
   width: 100%;
   display: flex;
   justify-content: space-between;
-
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
-
   background-color: rgba(246, 247, 248, 1);
 }
 
 .submitSection p {
   margin: 0;
-
   display: flex;
   align-items: end;
 }
@@ -302,20 +277,14 @@ h1 {
 .darkBTN {
   border-radius: 10px;
   background: #2a3647;
-
   padding: 16px;
   color: rgba(255, 255, 255, 1);
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   gap: 10px;
-
   border: none;
-
   cursor: pointer;
-
   transition: 0.2s;
 
   span {
@@ -338,21 +307,15 @@ h1 {
 .btn {
   background: rgba(246, 247, 248, 1);
   border: 2px solid #2a3647;
-
   border-radius: 10px;
   padding: 14px;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   gap: 10px;
-
   font-size: 20px;
   font-weight: 400;
-
   transition: 0.2s;
-
   cursor: pointer;
 }
 
@@ -429,52 +392,4 @@ h1 {
   justify-content: end !important;
   padding-right: 20px;
   width: 40px !important;
-}
-
-/* Styling für Webkit-basierte Browser (Chrome, Safari) */
-::-webkit-scrollbar {
-  width: 8px;
-  /* Breite der Scrollbar */
-}
-
-::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0);
-  /* Hintergrund des Scrollbar-Tracks */
-}
-
-::-webkit-scrollbar-thumb {
-  background-color: rgba(128, 128, 128, 0.4);
-  /* Dezente graue Farbe mit Transparenz */
-  border-radius: 100px;
-  /* Abgerundete Ecken des Scrollbar-Thumbs */
-  border: 2px solid rgba(255, 255, 255, 0);
-  /* Optional: Rand für besseren Kontrast */
-}
-
-:hover::-webkit-scrollbar-thumb {
-  background-color: rgba(128, 128, 128, 0.7);
-  /* Dezente graue Farbe mit Transparenz */
-  border-radius: 100px;
-  /* Abgerundete Ecken des Scrollbar-Thumbs */
-  border: 2px solid rgba(255, 255, 255, 0);
-  /* Optional: Rand für besseren Kontrast */
-}
-
-#board-add_task-load-screen {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-
-  background-color: rgba(0, 0, 0, 0.5);
-
-  z-index: 9999;
-}
-
-@media(max-width: 600px) {
-  .max-w h1 {
-    font-size: 40px;
-    text-align: center;
-  }
 }

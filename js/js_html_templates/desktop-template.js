@@ -18,21 +18,21 @@ async function initSidebar() {
  */
 async function sidebarHTML() {
   document.getElementById("sidebar").innerHTML += /*html*/ `
-    <link rel="stylesheet" href="css/remaining/desktop_template.css">
+    <link rel="stylesheet" href="../../css/remaining/desktop_template.css">
     <section class="sidebar">
-        <img id='sidebar-logo' src="Assets/img/Capa 1.svg" alt="">
+        <img id='sidebar-logo' src="../../assets/img/Capa 1.svg" alt="">
         <div id="menuBar" class="menuBarDesktop">
             <a href="summary.html" class="linkTo" id="summary">
-                <img src="Assets/img/Vector1.svg" alt=""><p>Summary</p>
+                <img src="../../assets/img/Vector1.svg" alt=""><p>Summary</p>
             </a>
             <a href="add_task.html" class="linkTo" id="addTask">
-                <img src="Assets/img/edit_square.svg" alt=""><p>Add Task</p>
+                <img src="../../assets/img/edit_square.svg" alt=""><p>Add Task</p>
             </a>
             <a href="board.html" class="linkTo" id="board">
-                <img src="Assets/img/board.svg" alt=""><p>Board</p>
+                <img src="../../assets/img/board.svg" alt=""><p>Board</p>
             </a>
             <a href="contacts.html" class="linkTo" id="contacts">
-                <img src="Assets/img/perm_contact_calendar.svg" alt=""><p>Contacts</p>
+                <img src="../../assets/img/perm_contact_calendar.svg" alt=""><p>Contacts</p>
             </a>
         </div>
         <footer>

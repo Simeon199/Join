@@ -13,10 +13,12 @@
     <link rel="stylesheet" href="../css/tasks/add_task_subtasks.css" />
     <link rel="stylesheet" href="../css/tasks/add_task_animation.css" />
     <link rel="stylesheet" href="../css/tasks/add_task_responsive.css" />
+    <link rel="stylesheet" href="../css/tasks/add_task.webkit.css">
+    <link rel="stylesheet" href="../css/tasks/add_task.media_queries.css">
     <link rel="stylesheet" href="../css/remaining/desktop_template.css">
 
     <!-- js -->
-    <script src="databse.js"></script>
+    <script src="../config/database.js"></script>
     <script src="../js/board/board.js"></script>
     <script src="../js/js_html_templates/desktop-template.js"></script>
     <script src="../js/contacts/contacts_database.js"></script>
@@ -29,7 +31,7 @@
     <script src="../js/script.js"></script>
 
     <!-- fonts -->
-    <link rel="stylesheet" href="./css/remaining/fonts.css" />
+    <link rel="stylesheet" href="../css/remaining/fonts.css" />
   </head>
   <body id="addTaskBody" onload="initSidebar(); init()" onclick="hideAllAddTaskPopups()">
     <header id="headerForm"></header>
@@ -41,7 +43,6 @@
         </div>
 
         <section id="section99" class="addTaskBody">
-          <!-- onsubmit="checkRequiredFields('addTask'); return false;" -->
           <form>
             <div class="input1">
               <div>
@@ -109,7 +110,6 @@
                       />
                     </svg>
 
-                    <!-- <img id="imgUrgent" src="Assets/img/Prio altaUrgent_symbole.svg" alt="" /> -->
                   </div>
                   <div onclick="changePriority(medium)" id="medium" class="center">
                     Medium
@@ -125,7 +125,6 @@
                       />
                     </svg>
 
-                    <!-- <img id="imgMedium" src="Assets/img/Prio mediameduim_white.svg" alt="" /> -->
                   </div>
                   <div onclick="changePriority(low)" id="low" class="center">
                     Low
@@ -141,7 +140,6 @@
                       />
                     </svg>
 
-                    <!-- <img id="imgLow" src="Assets/img/Prio bajaLow_symbole.svg" alt="" /> -->
                   </div>
                 </div>
               </div>
@@ -238,7 +236,6 @@
 
     <!-- loading -->
     <div id="board-add_task-load-screen" class="d-none"></div>
-
     <div id="sidebar"></div>
   </body>
 </html>

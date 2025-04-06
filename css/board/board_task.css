@@ -1,0 +1,290 @@
+/* task - general properties */
+.task {
+    width: 100%;
+    cursor: pointer;
+    border-radius: 24px;
+    padding: 16px;
+    background: #ffffff;
+    box-shadow: 0px 0px 10px 3px #00000014;
+    position: relative;
+}
+  
+.task-category {
+    text-align: center;
+    width: fit-content;
+    padding: 5px 16px;
+    border-radius: 8px;
+    color: white;
+}
+  
+.task-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #2a3647;
+    margin: 17px 0 0 0;
+}
+  
+.task-description {
+    font-size: 16px;
+    font-weight: 400;
+    color: #a8a8a8;
+    margin: 8px 0 0 0;
+    word-break: break-all;
+}
+  
+.task-bar-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 5px 0;
+}
+  
+.task-bar-content {
+    background-color: #4589ff;
+    width: 50%;
+    height: 100%;
+    border-radius: 10px;
+}
+  
+.messageFalseInputValue {
+    color: red;
+    padding: 4px;
+}
+  
+.messageFalseInputValue p {
+    font-size: 16px;
+}
+  
+.task-bar {
+    width: 100%;
+    flex: 1;
+    height: 8px;
+    border-radius: 8px;
+    background: #f4f4f4;
+}
+  
+.task-bar-text {
+    font-size: 12px;
+    font-weight: 400;
+    width: max-content;
+}
+  
+.task-contacts-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding-top: 8%;
+    padding-bottom: 8%;
+}
+  
+.task-contacts {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+  
+.task-contact {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 32px;
+    width: 32px;
+    border-radius: 100%;
+    border: 1px solid #ffffff;
+    background: #1fd7c1;
+    margin-left: -10px;
+    color: white;
+    font-size: 12px;
+    font-weight: 400;
+}
+  
+.task-contact:first-child {
+    background: #ff7a00;
+    margin-left: 0;
+}
+  
+.task-contact:last-child {
+    background: #462f8a;
+}
+
+/* add task pop up */
+.add-task-pop-up-bg {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 10;
+    background-color: rgba(0, 0, 0, 0.5);
+    transition: 0.2s;
+}
+  
+.add-task-pop-up {
+    width: 90%;
+    min-width: 800px;
+    max-width: 1300px;
+    background-color: white;
+    box-shadow: 0px 0px 4px 0px #0000001a;
+    border-radius: 30px;
+    padding: 50px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: 0.5s ease-in-out;
+}
+  
+#close-add-task-pop-up {
+    box-sizing: unset;
+    position: absolute;
+    top: 50px;
+    right: 40px;
+    height: 15px;
+    padding: 8px;
+    border-radius: 100%;
+    cursor: pointer;
+    z-index: 100;
+}
+  
+#close-add-task-pop-up:hover {
+    background: #d9d9d9;
+}
+  
+.main {
+    padding: 0;
+    margin-bottom: 50px;
+}
+  
+.add-task-pop-up h1 {
+    font-size: 61px;
+    font-weight: 700;  
+    margin: 0;
+    padding: 0;
+}
+  
+.addTaskBody form {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 40px;  
+    width: 100%;
+}
+  
+.input1 {
+    width: unset;
+    height: unset;
+    padding: 0;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: unset;  
+    flex-direction: column;
+}
+  
+.input2 {
+    width: unset;
+    height: unset;
+    padding: 0px;
+    flex: 1;
+    display: flex;
+    align-items: center;  
+    flex-direction: column;
+}
+  
+.input2 .prio div {
+    background-color: unset;
+}
+  
+.input2 .prio div div {
+    width: 100%;
+    max-width: 150px;
+}
+  
+.submitSection {
+    bottom: -25px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    background-color: rgb(255, 255, 255);
+}
+  
+.buttons {
+    padding: 0;
+}
+  
+  /* show big task pop up */
+.big-task-pop-up-bg {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 10;
+    background-color: rgba(0, 0, 0, 0.5);
+    transition: 0.5s;
+}
+  
+.big-task-pop-up {
+    box-sizing: border-box;
+    width: 525px;
+    max-height: 850px;
+    overflow-y: scroll;
+    background-color: white;
+    box-shadow: 0px 0px 4px 0px #00000029;
+    border-radius: 30px;
+    padding: 45px 40px 0 40px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: 0.5s ease-in-out;
+}
+  
+#big-task-pop-up-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 10px;
+}
+  
+#big-task-pop-up-category {
+    background: #0038ff;
+    color: white;
+    font-size: 23px;
+    font-weight: 400;
+    padding: 5px 24px 4px 24px;
+    gap: 10px;
+    border-radius: 8px;
+    width: max-content;
+}
+  
+#big-task-pop-up-close-icon path {
+    fill: #2a3647;
+}
+  
+#big-task-pop-up-close-icon {
+    padding: 8px;
+    border-radius: 100%;
+    box-sizing: unset;
+    cursor: pointer;
+}
+  
+#big-task-pop-up-close-icon:hover {
+    background-color: #d9d9d9;
+}
+  
+#big-task-pop-up-title h1 {
+    font-size: 61px;
+    font-weight: 700;
+    line-height: 73.2px;
+    padding: 0;
+    margin: 0;
+    overflow: scroll;
+}
+
+.taskAssignedToNumberContainer {
+    padding-left: 8px;
+}

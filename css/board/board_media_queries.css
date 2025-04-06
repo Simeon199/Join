@@ -1,0 +1,31 @@
+@media (max-height: 900px) {
+    .submitSection {
+      width: 100%;
+      position: fixed;
+      bottom: 0;
+      margin-left: 0;
+      background-color: rgb(255, 255, 255);
+      border-radius: 0 0 30px 30px;
+    }
+  }
+  
+  @media(max-height: 600px) {
+    body {
+      overflow-y: auto;
+      min-height: 100vh;
+    }
+  }
+  
+  @media(max-width: 500px) {
+  
+    #close-add-task-pop-up {
+      position: unset;
+      top: unset;
+      right: unset;
+      width: 100%;
+    }
+  
+    .darkBTN {
+      width: 60%;
+    }
+  }

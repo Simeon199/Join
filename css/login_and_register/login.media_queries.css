@@ -1,0 +1,90 @@
+@media (min-height: 800px) {
+    footer {
+      position: fixed;
+      right: 0;
+      left: 0;
+      bottom: 0;
+    }
+  }
+  
+  @media (max-width: 600px) {
+    .signUp {
+      gap: 16px;
+    }
+  
+    .login {
+      padding-right: 8px;
+      padding-left: 8px;
+    }
+  
+    #headerLogo {
+      width: 72px;
+    }
+  }
+  
+  @media (max-width: 500px) {
+    header {
+      padding-left: 32px;
+      padding-right: 32px;
+    }
+  
+    h1 {
+      font-size: 50px;
+    }
+  
+    .login {
+      padding-right: 16px;
+      padding-left: 16px;
+    }
+  
+    .signUp {
+      flex-direction: column;
+      height: 100%;
+    }
+  
+    .loginButtons {
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+  
+    .darkBtn {
+      width: 70%;
+      font-size: 18px;
+    }
+  
+    .darkBtn:nth-child(2) {
+      width: unset;
+    }
+  
+    .brightBtn {
+      width: 70%;
+      font-size: 18px;
+    }
+  }
+  
+  @media (max-width: 400px) {
+    .checkbox-check {
+      left: 10px;
+    }
+  
+    .signUp {
+      display: none;
+    }
+  
+    .loginFrame {
+      flex: 0.5;
+    }
+  
+    .signUpDown {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      padding-right: 32px;
+      padding-left: 32px;
+    }
+  
+    .input {
+      font-size: 16px;
+    }
+  }

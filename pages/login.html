@@ -5,19 +5,18 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>JOIN</title>
-  <link rel="shortcut icon" href="../assets/img/Capa2logo_klein.svg" type="image/x-icon" />
 
   <!-- css files -->
-
+  <link rel="shortcut icon" href="../assets/img/Capa2logo_klein.svg" type="image/x-icon" />
   <link rel="stylesheet" href="../css/login_and_register/login.css" />
+  <link rel="stylesheet" href="../css/login_and_register/login.media_queries.css">
   <link rel="stylesheet" href="../css/remaining/fonts.css" />
 
-  <!--javascript files -->
-
-  <script type="module" src="../config/database.js"></script>
+  <!-- javascript files -->
+  <script src="../config/database.js"></script>
   <script src="../js/script.js"></script>
-  <script type="module" src="../js/login_and_register/register.js"></script>
-  <script type="module" src="../js/login_and_register/login.js"></script>
+  <script src="../js/login_and_register/register.js"></script>
+  <script src="../js/login_and_register/login.js"></script>
 </head>
 
 <body onload="loadData()">
@@ -86,8 +85,8 @@
     <footer>
       <div>
         <div id="login-privacy-legal-container">
-          <a onclick="checkIfUserIsLoggedIn()" href="privacy_policy_en.html">Privacy Policy</a>
-          <a onclick="checkIfUserIsLoggedIn()" href="legal_notice.html">Legal notice</a>
+          <a onclick="checkIfUserIsLoggedIn()" href="./privacy_policy_en.html">Privacy Policy</a>
+          <a onclick="checkIfUserIsLoggedIn()" href="./legal_notice.html">Legal notice</a>
         </div>
       </div>
     </footer>

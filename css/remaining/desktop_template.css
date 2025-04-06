@@ -8,7 +8,6 @@
   background-color: rgba(42, 54, 71, 1);
   height: 100%;
   width: 232px;
-
   z-index: 1;
 }
 
@@ -16,7 +15,6 @@
   padding: 0px 40px 0px 262px;
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.1);
   justify-content: space-between;
-
   position: relative;
 }
 
@@ -59,11 +57,9 @@ footer a:hover {
 
 .linkTo {
   height: 46px;
-  /* padding: 8px 56px 8px 56px; */
   padding: 0px 56px 0px 56px;
   gap: 8px;
   background-color: rgba(42, 54, 71, 1);
-  /* background: rgba(9, 25, 49, 1); */
   display: flex;
   align-items: center;
 }
@@ -110,7 +106,6 @@ body.menuBarDesktop {
   display: flex;
   justify-content: center;
   align-items: center;
-
   user-select: none;
 }
 
@@ -141,7 +136,6 @@ body.menuBarDesktop {
   display: flex;
   align-items: center;
   justify-content: center;
-
   transition: 0.1s;
 }
 
@@ -151,35 +145,25 @@ body.menuBarDesktop {
 
 #dropDown {
   box-sizing: border-box;
-
   top: 96px;
   right: 20px;
-
   background-color: rgb(42, 54, 71, 1);
   box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.1);
   color: rgba(205, 205, 205, 1);
-
   position: fixed;
   display: flex;
   flex-direction: column;
-
   border-radius: 20px 0px 20px 20px;
   z-index: 99;
-
   transition: 0.2s ease-in-out;
-
   padding: 10px;
-
   div {
     box-sizing: border-box;
     width: 130px;
     height: 46px;
     display: flex;
-    /* justify-content: center; */
     align-items: center;
-
     padding: 10px;
-
     font-size: 16px;
     font-weight: 400;
   }
@@ -201,13 +185,11 @@ body.menuBarDesktop {
 
 #dropDown div:hover {
   background-color: #2a3d59;
-
   cursor: pointer;
 }
 
 #header-logo {
   height: 60%;
-
   display: none;
 }
 
@@ -222,7 +204,6 @@ body.menuBarDesktop {
     right: 0;
     left: 0;
     top: unset;
-
     height: 80px;
     justify-content: center;
     width: 100%;
@@ -238,11 +219,8 @@ body.menuBarDesktop {
 
   .menuBarDesktop {
     width: 100%;
-
     padding-bottom: 0;
-
     gap: 10px;
-
     flex-direction: row;
     justify-content: space-evenly;
   }
@@ -250,12 +228,9 @@ body.menuBarDesktop {
   .linkTo {
     flex-direction: column;
     justify-content: center;
-
     height: 76px;
     width: 100%;
-
     border-radius: 16px;
-
     padding: 0;
     gap: 5px;
   }
@@ -265,18 +240,14 @@ body.menuBarDesktop {
     font-weight: 400;
     line-height: 16.8px;
     text-align: left;
-
     margin: 0;
   }
 
   /* header */
   #headerForm {
     padding: 0 25px;
-
     left: 0;
-
     position: fixed;
-
     z-index: 1;
   }
 

@@ -227,50 +227,6 @@ function showPassword(variable) {
 }
 
 /**
- * This function changes the type of the given password input field to either "text" or "password".
- * If the current type is "password", it sets the type to "text" to show the password. If the current
- * type is "text", it sets the type back to "password" to hide the password.
- * 
- * @param {HTMLInputElement} passwordContent - The password input field element whose type will be toggled.
- */
-
-function checkPasswordContentType(passwordContent) {
-  if (passwordContent.type == "password") {
-    passwordContent.type = "text";
-  } else {
-    passwordContent.type = "password";
-  }
-}
-
-/**
- * This function adjusts the visibility of icons for showing or hiding passwords based on the specified
- * password input fields and its associated icons. It handles cases for both the login password and
- * the repeat password fields.
- * 
- * @param {string} variable - A string indicating which password field to process ("loginPassword" or "loginPasswordRepeat").
- * @param {HTMLElement} visibilityInputImage - The element representing the visibility input image for the login password.
- * @param {HTMLElement} visibilityInputImageRepeat - The element representing the visibility input image for the repeat password.
- * @param {HTMLElement} visibility - The element representing the visibility control for the login password.
- * @param {HTMLElement} visibilityRepeat - The element representing the visibility control for the repeat password.
- */
-
-function checkAllCasesForShowPassword(variable, visibilityInputImage, visibilityInputImageRepeat, visibility, visibilityRepeat) {
-  if (variable == "loginPassword" && visibilityInputImage.classList.contains("d-none")) {
-    visibilityInputImage.classList.remove("d-none");
-    visibility.classList.add("d-none");
-  } else if (variable == "loginPassword" && inputLock.classList.contains("d-none")) {
-    visibility.classList.remove("d-none");
-    visibilityInputImage.classList.add("d-none");
-  } else if (variable == "loginPasswordRepeat" && visibilityInputImageRepeat.classList.contains("d-none")) {
-    visibilityInputImageRepeat.classList.remove("d-none");
-    visibilityRepeat.classList.add("d-none");
-  } else if (variable == "loginPasswordRepeat" && inputLockRepeat.classList.contains("d-none")) {
-    visibilityRepeat.classList.remove("d-none");
-    visibilityInputImageRepeat.classList.add("d-none");
-  }
-}
-
-/**
  * This function toggles the visibility of the login password input field and updates the visibility and lock icons accordingly.
  *
  * @param {string} variable - The ID of the password input field to be toggled.
@@ -402,19 +358,4 @@ function createObjectforEventListener() {
     inputLockRepeat: document.getElementById("inputLockRepeat"),
   };
   return object;
-}
-
-/**
- * This function checks the visibility of the checkbox element with the ID "checkbox-check".
- * If the checkbox is currently visible, it hides it and if the checkbox is currently hidden, it shows it.
- * 
- */
-
-function addCheck() {
-  let checkboxCheck = document.getElementById("checkbox-check");
-  if (!checkboxCheck.classList.contains("d-none")) {
-    checkboxCheck.classList.add("d-none");
-  } else {
-    checkboxCheck.classList.remove("d-none");
-  }
 }

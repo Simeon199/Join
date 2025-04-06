@@ -4,17 +4,7 @@ body {
   font-family: "Inter", sans-serif !important;
 }
 
-/* body {
-    margin: 0px;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 32px;
-} */
-
 header {
-  /* position: absolute; */
-  /*left: 232px; */ /*263*/
   right: 0;
   top: 0px;
   display: flex;
