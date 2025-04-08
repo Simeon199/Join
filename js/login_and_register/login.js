@@ -1,29 +1,8 @@
-// import { database } from "../../databse_access";
+import {ref, set, signInWithEmailAndPassword} from "../../config/database.js";
+import db from "../../config/database.js";
 
-/**
- * Manages the login process. Validates the user's email and password.
- * 
- * @param {Event} event - The event object from the form submission.
- */
-
-// async function loginFunction(event) {
-//   event.preventDefault();
-//   let loginEmail = document.getElementById("loginEmail").value;
-//   let loginPassword = document.getElementById("loginPassword").value;
-//   let remember = document.getElementById("remember").checked;
-//   let response = await loadData((path = "/users"));
-//   for (let key in response) {
-//     let user = response[key];
-//     if (user["email"] && user["password"]) {
-//       if (loginEmail == user["email"] && loginPassword == user["password"]) {
-//         saveLoggedInStatus(user["name"], user["email"], remember);
-//         window.location.href = "summary.html";
-//         return;
-//       }
-//     }
-//   }
-//   throwLoginError();
-// }
+const auth = db.auth;
+const database = db.database;
 
 /**
  * This function clears the input fields, highlights them in red and throws an error message. This function is executed in the case of a failed login attempt.
@@ -209,43 +188,59 @@ function showLoginPassword(variable) {
 // }
 
 /**
- * This function redirects the user directly to the login site.
+ * Manages the login process. Validates the user's email and password.
  * 
+ * @param {Event} event - The event object from the form submission.
  */
 
-function backToLogin() {
-  window.location.href = "login.html";
-}
+// async function loginFunction(event) {
+//   event.preventDefault();
+//   let loginEmail = document.getElementById("loginEmail").value;
+//   let loginPassword = document.getElementById("loginPassword").value;
+//   let remember = document.getElementById("remember").checked;
+//   let response = await loadData((path = "/users"));
+//   for (let key in response) {
+//     let user = response[key];
+//     if (user["email"] && user["password"]) {
+//       if (loginEmail == user["email"] && loginPassword == user["password"]) {
+//         saveLoggedInStatus(user["name"], user["email"], remember);
+//         window.location.href = "summary.html";
+//         return;
+//       }
+//     }
+//   }
+//   throwLoginError();
+// }
 
-/**
- * This function redirects the user directly to the sign up site.
- * 
- */
+// Login-Funktionalität
 
-function goToSignUp() {
-  window.location.href = "register.html";
-}
+document.addEventListener('DOMContentLoaded', () => {
+  let loginForm = document.getElementById('loginForm');
+  if(loginForm){
+    loginForm.addEventListener("submit", loginFunction);
+  }
+})
 
-  // Login-Funktionalität
-
-// const signIn=document.getElementById('submitSignIn');
 function loginFunction(event){
   event.preventDefault();
-  const email=document.getElementById('email').value;
-  const password=document.getElementById('password').value;
-  const auth=getAuth();
-
-  signInWithEmailAndPassword(auth, email, password).then((userCredential)=>{
-    showMessage('login is successfull', 'signInMessage');
-    const user=userCredential.user;
-    localStorage.setItem('loggedInUserId', user.uid);
-    window.location.href='summary.html';
+  let email = document.getElementById('loginEmail').value;
+  let password = document.getElementById('loginPassword').value;
+  signInWithEmailAndPassword(auth, email, password).then((userCredential) => {
+    const user = userCredential.user;
+    console.log("Login erfolgreich: ", user.email);
+    window.location.href="summary.html";
   }).catch((error) => {
-    const errorCode=error.code;
-    if(errorCode==='auth/invalid-credential'){
-      showMessage('Incorrect Email or Password', 'signInMessage');
-    } else {
-      showMessage('Account does not Exist', 'signInMessage');
-    }
+    console.log("Fehler beim Login: ", error.message);
   });
-};
+}
+
+// Optionaler Code, um zusätzliche Informationen aus der Datenbank zu laden
+
+// const userRef = ref(db, "users/" + user.uid);
+// get(userRef).then((snapshot) => {
+//   if(snapshot.exists()){
+//     console.log("Benutzerdaten: ", snapshot.val());
+//   } else {
+//     console.log("Keine zusätzlichen Benutzerdaten gefunden");
+//   }
+// });

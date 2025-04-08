@@ -17,4 +17,4 @@ const auth = getAuth(app);
 const database = getDatabase(app);
 
 export default {auth, database}
-export {ref, set, createUserWithEmailAndPassword}
+export {ref, set, createUserWithEmailAndPassword, signInWithEmailAndPassword}

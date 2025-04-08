@@ -1,4 +1,3 @@
-// import {ref, set} from "../../config/database.js";
 import {ref, set, createUserWithEmailAndPassword} from "../../config/database.js";
 import db from "../../config/database.js";
 
@@ -265,7 +264,9 @@ const database = db.database;
 
 document.addEventListener('DOMContentLoaded', () => {
   let form = document.getElementById('signUpForm');
-  form.addEventListener("submit", signUp);
+  if(form){
+    form.addEventListener("submit", signUp);
+  }
 });
 
 async function registerUser(email, password){
@@ -291,6 +292,7 @@ async function signUp(event){
       const uid = userCredential.user.uid;
       let userData = createUserData(name, loginEmail);
       await writeData(`users/${uid}`, userData);
+      window.location.href="login.html";
     } catch(error){
       console.error("Fehler bei Registrierung: ", error.message);
     }
