@@ -294,7 +294,7 @@ async function signUp(event){
       await writeData(`users/${uid}`, userData);
       window.location.href="login.html";
     } catch(error){
-      console.error("Fehler bei Registrierung: ", error.message);
+      console.error("Fehler bei Registrierung:", error.message);
     }
   }
 }
