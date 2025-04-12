@@ -1,6 +1,3 @@
-//  checkWebsiteLocation();
-//  checkIfUserIsLoggedIn();
- 
  /**
   * Stops the propagation of an event through the DOM.
   * 
@@ -12,24 +9,6 @@
  }
  
  /**
-  * Creates an object representing the current logged-in status and user information.
-  * 
-  * @returns {Object} The object containing the user's login status and information.
-  */
- 
-//  function createLoggedInStatusObject() {
-//    let obj = {
-//      status: localStorage.getItem("isLoggedIn"),
-//      currentUser: localStorage.getItem("currentUser"),
-//      sessionUser: sessionStorage.getItem("currentUser"),
-//      sessionStatus: sessionStorage.getItem("isLoggedIn"),
-//      currentPath: window.location.pathname.split("/").pop(),
-//      guestLoginStatus: sessionStorage.getItem("guestLoginStatus"),
-//    };
-//    return obj;
-//  }
- 
- /**
   * Redirects the user to the login site.
   * 
   */
@@ -37,168 +16,6 @@
  function redirectToLogin() {
    window.location.href = "login.html";
  }
- 
- /**
-  * Sets session attributes related to user login status.
-  * 
-  * This function updates the sessionStorage to set the "isLoggedIn" attribute to "false",
-  * indicating that the user is not logged in. It then calls the `isNotLoggedIn` function.
-  */
- 
-//  function setSessionAttributes() {
-//    sessionStorage.setItem("isLoggedIn", "false");
-//    isNotLoggedIn();
-//  }
- 
- /**
-  * This function evaluates the `guestLoginStatus` and `currentPath` properties of the provided
-  * object to determine if the user is currently logged in as a guest and is not on the "summary.html" page.
-  * 
-  * @param {Object} obj - An object containing user and login information.
-  * @returns {boolean} `true` if the guest is logged in and the current path is not "summary.html", otherwise `false`.
-  */
- 
-//  function isGuestLoggedIn(obj) {
-//    return obj["guestLoginStatus"] == "true" && obj["currentPath"] !== "summary.html";
-//  }
- 
- /**
-  * This function determines if the user is logged in by evaluating either the localStorage or
-  * sessionStorage status and user details.
-  * 
-  * @param {Object} obj - An object containing login status and user information.
-  * @returns {boolean} `true` if the user is logged in based on the provided status and user information, otherwise `false`.
-  */
- 
-//  function isUserLoggedIn(obj) {
-//    return (obj["status"] === "true" && obj["currentUser"]) || (obj["sessionStatus"] === "true" && obj["sessionUser"]);
-//  }
- 
- /**
-  * This function checks if the current path is not one of the specified pages (e.g., "register.html",
-  * "login.html", "legal_notice.html", "privacy_policy_en.html") and if the provided boolean flag is `true`.
-  * It returns `true` if both conditions are met, indicating that a redirect should occur.
-  * 
-  * @param {Object} obj - An object containing the current path information.
-  * @param {boolean} boolean - A flag indicating whether the redirect condition is met.
-  * @returns {boolean} `true` if redirection should occur based on the path and boolean value, otherwise `false`.
-  */
- 
-//  function shouldRedirect(obj, bolean) {
-//    return (obj["currentPath"] !== "register.html" && obj["currentPath"] !== "login.html" &&
-//      obj["currentPath"] !== "legal_notice.html" && obj["currentPath"] !== "privacy_policy_en.html") && bolean;
-//  }
- 
- /**
-  * Checks if the user is logged in and manages redirection and session attributes accordingly and thereby performing the following actions:
-  * - Redirect the user to the login page if required.
-  * - Sets storage attributes if the session status indicates an active session without a current user.
-  * - Updates session attributes or removes the "isLoggedIn" item from sessionStorage based on the current path and boolean flag.
-  * 
-  */
- 
-//  function checkIfUserIsLoggedIn() {
-//    let LoggedInObject = createLoggedInStatusObject();
-//    let bolean = proveIfEverythingIsNullExceptCurrentPath(LoggedInObject);
-//    if (isGuestLoggedIn(LoggedInObject) || isUserLoggedIn(LoggedInObject)) return;
-//    if (shouldRedirect(LoggedInObject, bolean)) {
-//      redirectToLogin();
-//    }
-//    if (LoggedInObject["sessionStatus"] === "true" && !LoggedInObject["sessionUser"] &&
-//      (LoggedInObject["currentPath"] !== "legal_notice.html" || LoggedInObject["currentPath"] !== "privacy_policy_en.html")) {
-//      setStorageAttributes();
-//    }
-//    if (bolean && (LoggedInObject["currentPath"] == "legal_notice.html" || LoggedInObject["currentPath"] == "privacy_policy_en.html")) {
-//      setSessionAttributes();
-//    } else {
-//      sessionStorage.removeItem("isLoggedIn");
-//    }
-//  }
- 
- /**
-  * This function removes session-related information associated with the user's login state and current session (namely the attributes "isLoggedIn", "currentUser" and "guestLoginStatus").
-  * 
-  */
- 
-//  function setStorageAttributes() {
-//    sessionStorage.removeItem("isLoggedIn");
-//    sessionStorage.removeItem("currentUser");
-//    sessionStorage.removeItem("guestLoginStatus");
-//  }
- 
- /**
-  * Checks if all properties of the given object are null except for `currentPath`.
-  *
-  * @param {Object} obj - The object to be checked.
-  * @returns {boolean} `true` if `currentPath` is defined and all other properties are null, otherwise `false`.
-  */
- 
-//  function proveIfEverythingIsNullExceptCurrentPath(obj) {
-//    if (obj["currentPath"] && obj["currentUser"] == null && obj["guestLoginStatus"] == null && obj["sessionUser"] == null) {
-//      return true;
-//    } else {
-//      return false;
-//    }
-//  }
- 
- /**
-  * Saves the logged-in status of the user in either localStorage or sessionStorage.
-  *
-  * @param {string} name - The nickname of the user.
-  * @param {string} email - The email of the user.
-  * @param {boolean} remember - A flag indicating whether to remember the user across sessions (true) or only for the current session (false).
-  * @returns
-  */
- 
-//  function saveLoggedInStatus(name, email, remember) {
-//    if (remember) {
-//      localStorage.setItem("isLoggedIn", "true");
-//      localStorage.setItem("currentUser", email);
-//      localStorage.setItem("userNickname", name);
-//    } else {
-//      sessionStorage.setItem("isLoggedIn", "true");
-//      sessionStorage.setItem("currentUser", email);
-//      sessionStorage.setItem("userNickname", name);
-//    }
-//    return;
-//  }
- 
- /**
-  * Tests and updates the login status by setting it in sessionStorage if it is not already set in localStorage or sessionStorage.
-  * 
-  */
- 
-//  function testLoginStatus() {
-//    if (!localStorage.getItem("isLoggedIn") || !sessionStorage.getItem("isLoggedIn")) {
-//      sessionStorage.setItem("isLoggedIn", "true");
-//    }
-//  }
- 
- /**
-  * This function posts data to a specified database path using a POST request and throws an error if the network response is not ok or if there is a problem with the registration.
-  *
-  * @param {string} path - The path in the database where the data will be posted.
-  * @param {Object} data - The data to be posted to the database.
-  */
- 
-//  async function postDataToDatabase(path, data) {
-//    try {
-//      let response = await fetch(BASE_URL + path + ".json", {
-//        method: "POST",
-//        headers: {
-//          "Content-Type": "application/json",
-//        },
-//        body: JSON.stringify(data),
-//      });
-//      if (!response.ok) {
-//        throw new Error("Network response was not ok: " + response.statusText);
-//      }
-//      return await response.json();
-//    } catch (error) {
-//      console.error("Es gab ein Problem mit der Registrierung:", error);
-//      throw error;
-//    }
-//  }
  
  /**
   * This function displays the registration popup by removing the "d-none" class from its element.
@@ -370,37 +187,6 @@ function goToSignUp() {
  }
  
  /**
-  * This function determines the current URL and executes specific orders based on the cases if the page is either 
-  * "login.html" or "register.html". If neither of these pages is detected, it calls `checkIfUserIsLoggedIn`.
-  * 
-  */
- 
-//  function checkWebsiteLocation() {
-//    let currentURL = window.location.href;
-//    if (currentURL.includes("login.html")) {
-//      document.addEventListener("DOMContentLoaded", () => {
-//        let loginPassword = document.getElementById("loginPassword");
-//        let loginLock = document.getElementById("loginLock");
-//        loginPasswordFunction(loginPassword, loginLock, visibilityInputImage, visibility);
-//      });
-//    } else if (currentURL.includes("register.html")) {
-//      document.addEventListener("DOMContentLoaded", () => {
-//        let obj = createObjectforEventListener();
-//        registerInputFieldFunction(obj["inputLock"], obj["registerInputField"], obj["visibilityInputImage"], obj["visibility"]);
-//        registerInputFieldRepeatFunction(
-//          obj["registerInputFieldRepeat"],
-//          obj["inputLockRepeat"],
-//          obj["visibilityInputImageRepeat"],
-//          obj["visibility"],
-//          obj["visibilityRepeat"]
-//        );
-//      });
-//    } else {
-//      checkIfUserIsLoggedIn();
-//    }
-//  }
- 
- /**
   * The function retrieves several HTML elements by their IDs and organizes them into an object.
   * The returned object includes references to elements related to visibility controls and input fields
   * for login and registration purposes.
@@ -436,3 +222,4 @@ function goToSignUp() {
      checkboxCheck.classList.remove("d-none");
    }
  }
+

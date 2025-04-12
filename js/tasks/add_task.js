@@ -1,3 +1,8 @@
+import {ref, get, push, remove } from "../../config/database.js";
+import db from "../../config/database.js";
+
+const database = db.database;
+
 let assignetTo = document.getElementById("assignetTo");
 let category = document.getElementById("category");
 let priority;
@@ -5,9 +10,32 @@ let subArray = [];
 let assignedContacts = [];
 let standardContainer = "to-do-container";
 
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('arrowa').addEventListener('click', () => {
+    debugger;
+    checkDropDown('arrowa');
+  });
+  document.getElementById("addTaskBody").addEventListener('click', () => {
+    hideAllAddTaskPopups();
+  })
+  init();
+  initSidebar();
+});
+
+/**
+ * Initializes add-task variables and functions when the website loads.
+ */
+
+async function init() {
+  changePriority(medium);
+  // getAllContacts();
+  // tasksId = await loadTaskIdFromFirebase();
+}
+
 /**
  * Marks the current Position in the Sidebar
  */
+
 function taskMarker() {
   document.getElementById("addTask").classList.add("currentSection");
 }
@@ -17,6 +45,7 @@ function taskMarker() {
  * 
  * @param {string} id 
  */
+
 function changePriority(id) {
   removeBackground(id);
   if (id == urgent) {
@@ -38,6 +67,7 @@ function changePriority(id) {
  * 
  * @param {string} id 
  */
+
 function removeBackground(id) {
   if (id == urgent) {
     medium.classList.remove("backgroundMedium");
@@ -56,6 +86,7 @@ function removeBackground(id) {
 /**
  * clear the add Task page and set the standart values
  */
+
 function clearTask() {
   let inputTitle = document.getElementById("inputTitle");
   let inputDescription = document.getElementById("inputDescription");
@@ -73,6 +104,7 @@ function clearTask() {
 /**
  * show the DropDown for the category field
  */
+
 function showDropDownCategory() {
   document.getElementById("categoryDropDown").classList.remove("d-none");
   document.getElementById("arrowb").classList.add("rotate");
@@ -85,6 +117,7 @@ function showDropDownCategory() {
 /**
  * hide the DropDown
  */
+
 function hideDropDownCategory() {
   document.getElementById("categoryDropDown").classList.add("d-none");
   document.getElementById("arrowb").classList.remove("rotate");
@@ -95,6 +128,7 @@ function hideDropDownCategory() {
  * 
  * @param {string} text 
  */
+
 function changeCategory(text) {
   document.getElementById("categoryText").innerHTML = `${text}`;
 }
@@ -104,6 +138,7 @@ function changeCategory(text) {
  * 
  * @returns ture or false
  */
+
 function checkCategory() {
   let select = document.getElementById("categoryText").textContent;
   let standart = "Select task category";
@@ -119,6 +154,7 @@ function checkCategory() {
  * 
  * @param {string} side 
  */
+
 async function checkRequiredFields(side) {
   let title = document.getElementById("inputTitle").value;
   let date = document.getElementById("date").value;
@@ -150,14 +186,48 @@ async function checkRequiredFields(side) {
 
   if (title.length > 1 && date.length > 1 && checkCategory() == true && checkDate() === true) {
     showBoardLoadScreen();
-    await createTask(side);
+    let newTask = createNewTask();
+    await uploadToAllTasks(newTask);
+    // await createTask(side);
     hideBoardLoadScreen();
   }
 }
 
 /**
+ * push task to array all tasks
+ * 
+ * @param {json} task 
+ */
+
+async function uploadToAllTasks(task){
+  let tasksRef = ref(database, 'kanban/sharedBoard/tasks');
+  await push(tasksRef, task);
+}
+
+/**
+ * retuns the task json
+ * 
+ * @returns json
+ */
+function createNewTask() {
+  return {
+    title: getInputValue("inputTitle"),
+    description: getInputValue("inputDescription"),
+    assigned: assignedContacts,
+    date: getInputValue("date"),
+    priority: priority,
+    category: document.getElementById("categoryText").textContent,
+    subtask: subArray,
+    container: standardContainer
+    // tasksIdentity: tasksId,
+  };
+}
+
+
+/**
  * show the container with the text message
  */
+
 function showRequiredText() {
   let ids = ["requiredTitle", "requiredDate", "requiredCatergory"];
   ids.forEach(function (id) {
@@ -169,6 +239,7 @@ function showRequiredText() {
 /**
  * hide the container with the text message
  */
+
 function hideRequiredText() {
   let ids = ["requiredTitle", "requiredDate", "requiredCatergory"];
   ids.forEach(function (id) {
@@ -183,6 +254,7 @@ function hideRequiredText() {
  * @param {string} elementId 
  * @returns 
  */
+
 function getInputValue(elementId) {
   return document.getElementById(elementId).value;
 }
@@ -192,6 +264,7 @@ function getInputValue(elementId) {
  * 
  * @param {string} id 
  */
+
 function checkDropDown(id) {
   rot = document.getElementById(id);
   if (rot.classList.contains("rotate")) {
@@ -212,12 +285,13 @@ function checkDropDown(id) {
 /**
  * hide all popups on screen
  */
+
 function hideAllAddTaskPopups() {
   hideDropDownAssignedTo();
   hideDropDownCategory();
   changeToInputfield();
-  plus = document.getElementById("plusSymbole");
-  subtask = document.getElementById("subtaskInputButtons");
+  let plus = document.getElementById("plusSymbole");
+  let subtask = document.getElementById("subtaskInputButtons");
   plus.classList.remove("d-none");
   subtask.classList.add("d-none");
 }
@@ -225,6 +299,7 @@ function hideAllAddTaskPopups() {
 /**
  * Start "got to board" animation
  */
+
 function startAnimation() {
   scrollTo(0, 0);
   document.getElementById("addedAnimation").classList.remove("d-none");
@@ -236,6 +311,7 @@ function startAnimation() {
 /**
  * go to the board side
  */
+
 function goToBoard() {
   window.location.href = "board.html";
 }
@@ -244,6 +320,7 @@ function goToBoard() {
  * check if the Date in the inputfield is not in the past
  * @returns 
  */
+
 function checkDate() {
   animation = document.getElementById("dateAnimation");
   let dateInput = document.getElementById("date");

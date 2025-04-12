@@ -17,23 +17,23 @@
     <link rel="stylesheet" href="../css/tasks/add_task.media_queries.css">
     <link rel="stylesheet" href="../css/remaining/desktop_template.css">
 
-    <!-- js -->
-    <script src="../config/database.js"></script>
-    <script src="../js/board/board.js"></script>
-    <script src="../js/js_html_templates/desktop-template.js"></script>
-    <script src="../js/contacts/contacts_database.js"></script>
-    <script src="../js/contacts/contacts.js"></script>
-    <script src="../js/js_html_templates/contactEditTemplate.js"></script>
-    <script src="../js/tasks/add_task_database.js"></script>
-    <script src="../js/tasks/add_task.js"></script>
-    <script src="../js/tasks/add_task_contacts.js"></script>
-    <script src="../js/tasks/add_task_subtask.js"></script>
-    <script src="../js/script.js"></script>
-
     <!-- fonts -->
     <link rel="stylesheet" href="../css/remaining/fonts.css" />
+
+     <!-- js -->
+     <script type="module" src="../config/database.js"></script>
+     <script src="../js/board/board.js"></script>
+     <script src="../js/js_html_templates/desktop-template.js"></script>
+     <script src="../js/contacts/contacts_database.js"></script>
+     <script src="../js/contacts/contacts.js"></script>
+     <script src="../js/js_html_templates/contactEditTemplate.js"></script>
+     <script type="module" src="../js/tasks/add_task_database.js"></script>
+     <script type="module" src="../js/tasks/add_task.js"></script>
+     <script src="../js/tasks/add_task_contacts.js"></script>
+     <script src="../js/tasks/add_task_subtask.js"></script>
+     <script src="../js/script.js"></script>
   </head>
-  <body id="addTaskBody" onload="initSidebar(); init()" onclick="hideAllAddTaskPopups()">
+  <body id="addTaskBody">
     <header id="headerForm"></header>
 
     <div class="main">

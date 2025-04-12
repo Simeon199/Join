@@ -15,24 +15,25 @@ async function loadData(path = "") {
  *
  * @param {string} path - The path for the API request.
  */
-async function getAllContacts(path = "") {
-  let response = await fetch(BASE_URL + path + ".json");
-  let responseJson = await response.json();
-  let userData = responseJson["contacts"];
-  for (const key in userData) {
-    const userD = userData[key];
-    let newUser = {
-      id: key,
-      name: userD.name,
-      email: userD.email,
-      phone: userD.number,
-      color: userD.color,
-    };
-    allUsers.push(newUser);
-    sortContacts();
-  }
-  await sortAllUserLetters();
-}
+
+// async function getAllContacts(path = "") {
+//   let response = await fetch(BASE_URL + path + ".json");
+//   let responseJson = await response.json();
+//   let userData = responseJson["contacts"];
+//   for (const key in userData) {
+//     const userD = userData[key];
+//     let newUser = {
+//       id: key,
+//       name: userD.name,
+//       email: userD.email,
+//       phone: userD.number,
+//       color: userD.color,
+//     };
+//     allUsers.push(newUser);
+//     sortContacts();
+//   }
+//   await sortAllUserLetters();
+// }
 
 /**
  * Posts new contact data to the specified path.

@@ -1,24 +1,13 @@
-/**
- * Uploading to the Database
- * 
- * @param {string} path 
- * @param {json} data 
- * @returns
- */
-async function upload(path = "", data) {
-    let response = await fetch(BASE_URL + path + ".json", {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
-    return (responseToJson = await response.json());
-}
+import {ref, get, push, remove } from "../../config/database.js";
+import db from "../../config/database.js";
+
+const database = db.database;
+
 
 /**
  * check if the folder exists if not it would be added
  */
+
 async function ensureAllTasksExists() {
     let response = await loadRelevantData();
     if (!response || !response.hasOwnProperty("testRealTasks")) {
@@ -39,53 +28,16 @@ async function saveTask() {
 }
 
 /**
- * retuns the task json
- * 
- * @returns json
- */
-function createNewTask() {
-    return {
-      title: getInputValue("inputTitle"),
-      description: getInputValue("inputDescription"),
-      assigned: assignedContacts,
-      date: getInputValue("date"),
-      priority: priority,
-      category: document.getElementById("categoryText").textContent,
-      subtask: subArray,
-      container: standardContainer,
-      tasksIdentity: tasksId,
-    };
-}
-
-/**
- * push task to array all tasks
- * 
- * @param {json} task 
- */
-async function uploadToAllTasks(task) {
-    try {
-      let response = await loadRelevantData();
-      let allTasks = response["testRealTasks"];
-      if (!Array.isArray(allTasks)) {
-        allTasks = [];
-      }
-      allTasks.push(task);
-      await upload("testRealTasks", allTasks);
-    } catch (error) {
-      console.error("Fehler in uploadToAllTasks:", error);
-    }
-}
-
-/**
  * fetch all data from firebase
  * 
  * @param {string} path 
  * @returns 
  */
-async function loadRelevantData(path = "") {
-    let response = await fetch(BASE_URL + path + ".json");
-    let responseAsJson = await response.json();
-    return responseAsJson;
+
+async function loadRelevantData(path=""){
+  let databaseRef = ref(database, `kanban/sharedBoard/${path}`);
+  let snapshot = await get(databaseRef);
+  return snapshot.exists() ? snapshot.val() : null;
 }
 
 /**
@@ -93,18 +45,10 @@ async function loadRelevantData(path = "") {
  * 
  * @param {number} taskId 
  */
-async function deleteTask(taskId) {
-    showBoardLoadScreen();
-    tasks = tasks.filter((task) => task.tasksIdentity !== taskId);
-    for (let i = taskId; i < tasks.length; i++) {
-      tasks[i].tasksIdentity = i;
-    }
-    await upload("testRealTasks", tasks);
-    tasksId = tasks.length;
-    await saveTaskIdToFirebase(tasksId);
-    updateCategories();
-    updateHTML();
-    hideBoardLoadScreen();
+
+async function deleteTaskById(taskFirebaseKey){
+  let taskRef = ref(database, `kanban/sharedBoard/tasks/${taskFirebaseKey}`);
+  await remove(taskRef);
 }
 
 /**
@@ -112,6 +56,7 @@ async function deleteTask(taskId) {
  * 
  * @param {string} side is used to initializes some funktion for special sides
  */
+
 async function createTask(side) {
     await ensureAllTasksExists();
     await saveTask();
@@ -130,28 +75,20 @@ async function createTask(side) {
  * 
  * @returns 
  */
-async function loadTaskIdFromFirebase() {
-    let response = await loadRelevantData("taskId");
-    if (response !== null && response !== undefined) {
-      return response;
-    }
-    return 0;
-}
 
-/**
- * Initializes add-task variables and functions when the website loads.
- */
-async function init() {
-    changePriority(medium);
-    getAllContacts();
-    tasksId = await loadTaskIdFromFirebase();
+async function loadTaskIdFromFirebase(){
+  const idRef = ref(database, 'kanban/sharedBoard/taskId');
+  const snapshot = await get(idRef);
+  return snapshot.exists() ? snapshot.val() : 0;
 }
   
-  /**
-   * Upload TasksID to Database
-   * 
-   * @param {number} taskId 
-   */
-  async function saveTaskIdToFirebase(taskId) {
-    await upload("taskId", taskId);
+/**
+ * Upload TasksID to Database
+ * 
+ * @param {number} taskId 
+ */
+
+async function saveTaskIdToFirebase(taskId){
+  const idRef = ref(database, 'kanban/sharedBoard/taskId');
+  await set(idRef, taskId);
 }
