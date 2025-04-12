@@ -1,4 +1,4 @@
-import {ref, set, signInWithEmailAndPassword} from "../../config/database.js";
+import {signInWithEmailAndPassword, signInAnonymously } from "../../config/database.js";
 import db from "../../config/database.js";
 
 const auth = db.auth;
@@ -61,18 +61,6 @@ const database = db.database;
 //   report.classList.add("d-none");
 // }
 
-/**
- * This function sets the guest login status in the session storage and redirects the user to the summary page.
- * It also marks the first-time login status in the local storage.
- * 
- */
-
-// function guestLogin() {
-//   sessionStorage.setItem("guestLoginStatus", "true");
-//   window.location.href = "summary.html";
-
-//   localStorage.setItem("firstTime", "true");
-// }
 
 /**
  * This function removes the login information (the attributes "isLoggedIn", "currentUser" and "guestLoginStatus") from the sessionstorage.
@@ -219,7 +207,18 @@ document.addEventListener('DOMContentLoaded', () => {
   if(loginForm){
     loginForm.addEventListener("submit", loginFunction);
   }
-})
+});
+
+document.getElementById('guestLogIn').addEventListener('click', () => {
+  signInAnonymously(auth).then(result => {
+    const user = result.user;
+    console.log(`Als Gast eingeloggt! UID: ${user.uid}`);
+    window.location.href="summary.html";
+  }).catch(error => {
+    console.error(error);
+    console.log("Fehler beim Login: " + error.message);
+  });
+});
 
 function loginFunction(event){
   event.preventDefault();
