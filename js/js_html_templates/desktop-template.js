@@ -46,6 +46,10 @@ async function sidebarHTML() {
   taskMarker();
 }
 
+function taskMarker() {
+  document.getElementById("contacts").classList.add("currentSection");
+}
+
 /**
  *  Updates the HTML content of the header with SVG logos and additional elements
  *
@@ -187,15 +191,9 @@ function sowUserLetters(id, username) {
  * @param {string} text - The input text to process
  */
 function firstLetterFirstTwoWords(text) {
-  // Split the string into words
   const words = text.split(" ");
-
-  // Extract the first letter of each word
   const firstLetters = words.map((word) => word.charAt(0));
-
-  // Concatenate the first two letters into a string
   const result = firstLetters.slice(0, 2).join("");
-
   return result.toUpperCase();
 }
 

@@ -12,7 +12,6 @@ let standardContainer = "to-do-container";
 
 document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('arrowa').addEventListener('click', () => {
-    debugger;
     checkDropDown('arrowa');
   });
   document.getElementById("addTaskBody").addEventListener('click', () => {

@@ -1,5 +1,5 @@
-let allUsers = [];
-let firstUsersNameLetter = [];
+// let allUsers = [];
+// let firstUsersNameLetter = [];
 let colors = [
   "#4B3C99",
   "#FF4646",
@@ -33,16 +33,37 @@ let colors = [
 
 let activeContactIndex = null;
 
+document.addEventListener('DOMContentLoaded', () => {
+  let body = document.getElementById('body');
+  let newContactsButton = document.getElementById('add-new-contacts-button');
+  let addTaskPopUp = document.getElementById('add-task-pop-up-bg');
+  if(body){
+    body.addEventListener('click', hideAllSmallPopUps);    
+  }
+  if(newContactsButton){
+    newContactsButton.addEventListener('click', triggerPopUpFunctions);
+  }
+  if(addTaskPopUp){
+    addTaskPopUp.addEventListener('click', hidePopUp);
+  }
+  // initContact();
+  initSidebar();
+});
+
+function triggerPopUpFunctions(){
+  showPopUp();
+  renderAddContactPopUp();
+}
 /**
  * Initializes contact-related variables and functions when the website loads.
  *
  */
-async function initContact() {
-  allUsers = [];
-  firstUsersNameLetter = [];
-  await getAllContacts();
-  await renderContactList();
-}
+// async function initContact() {
+//   allUsers = [];
+//   firstUsersNameLetter = [];
+//   await getAllContacts();
+//   await renderContactList();
+// }
 
 /**
  * Sorts the contacts in alphabetical order by name.
@@ -82,15 +103,9 @@ function sortAllUserLetters() {
  * @param {string} name - The name from which to extract the letters.
  */
 function firstLetterFirstTwoWords(name) {
-  // Split the string into words
   const words = name.split(" ");
-
-  // Extract the first letter of each word
   const firstLetters = words.map((word) => word.charAt(0));
-
-  // Concatenate the first two letters into a string
   const result = firstLetters.slice(0, 2).join("");
-
   return result.toUpperCase();
 }
 
@@ -110,7 +125,6 @@ function randomColor() {
 function showPopUp() {
   document.getElementById("add-task-pop-up-bg").classList.remove("bg-op-0");
   document.getElementById("add-task-pop-up").classList.remove("translate-100");
-
   hideAllSmallPopUps();
 }
 
@@ -170,7 +184,6 @@ function hideLoadScreen() {
 function toggleBigContact(i, userName, userEmail, userNumber, userID, userColor) {
   let bigContact = document.getElementById("big-contact");
   let contactEl = document.querySelectorAll(".contact")[i];
-
   if (activeContactIndex === i) {
     deselectContact();
   } else {

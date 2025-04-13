@@ -1,14 +1,43 @@
+import {ref, set, get} from '../../config/database.js';
+import db from "../../config/database.js";
+
+const database = db.database;
+let allUsers = [];
+let firstUsersNameLetter = [];
+
+document.addEventListener('DOMContentLoaded', () => {
+  initContact();
+  loadData();
+})
+
 /**
  * Fetches and returns JSON data from a specified URL.
  *
  * @param {string} path - The path to the JSON file.
  */
 
-async function loadData(path = "") {
-  let response = await fetch(BASE_URL + path + ".json");
-  let responseAsJson = await response.json();
-  return responseAsJson;
+async function loadData(){
+  let contacts = ref(database, 'kanban/sharedBoard/contacts');
+  let allContacts = await get(contacts);
+  console.log('contacts: ', allContacts);
 }
+
+/**
+ * Initializes contact-related variables and functions when the website loads.
+ *
+ */
+async function initContact() {
+  allUsers = [];
+  firstUsersNameLetter = [];
+  await getAllContacts();
+  // await renderContactList();
+}
+
+// async function loadData(path = "") {
+//   let response = await fetch(BASE_URL + path + ".json");
+//   let responseAsJson = await response.json();
+//   return responseAsJson;
+// }
 
 /**
  * Fetches contacts from the base URL and updates the user list.
@@ -34,6 +63,12 @@ async function loadData(path = "") {
 //   }
 //   await sortAllUserLetters();
 // }
+
+async function getAllContacts(){
+  let contacts = ref(database, 'kanban/sharedBoard/contacts');
+  let everyContact = get(contacts);
+  console.log(everyContact);
+}
 
 /**
  * Posts new contact data to the specified path.
@@ -74,7 +109,6 @@ async function deleteData(path = "") {
 async function editContact(userID, i, userColor) {
   showLoadScreen();
   await deleteData("/contacts/" + userID);
-
   addNewContact(userColor, "edited");
   hideLoadScreen();
 }
@@ -98,7 +132,7 @@ async function deleteContact(userID) {
  * @param {string} bgColor - Background color for the contact.
  * @param {string} action - Action message to display.
  */
-async function addNewContact(bgColor = randomColor(), action) {
+async function addNewContact(bgColor=randomColor(), action) {
   showLoadScreen();
   document.getElementById("contact-successfully-created-pop-up").innerHTML = "Contact successfully " + action;
   await hidePopUp();
@@ -142,6 +176,5 @@ async function selectContact(userName, userEmail, userNumber, userID, i, userCol
   document.getElementById("show-icon-container-button").classList.add("animation");
   document.getElementById("add-new-contacts-mobile-button").classList.add("d-none");
   activeContactIndex = i;
-
   contactEl.scrollIntoView({ behavior: "smooth", block: "nearest" });
 }
