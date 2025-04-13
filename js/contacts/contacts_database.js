@@ -5,10 +5,10 @@ const database = db.database;
 let allUsers = [];
 let firstUsersNameLetter = [];
 
-document.addEventListener('DOMContentLoaded', () => {
-  initContact();
-  loadData();
-})
+// document.addEventListener('DOMContentLoaded', () => {
+//   initContact();
+//   loadData();
+// })
 
 /**
  * Fetches and returns JSON data from a specified URL.
@@ -76,15 +76,22 @@ async function getAllContacts(){
  * @param {string} path - The path for the API request.
  * @param {Object} data - The contact data to be posted.
  */
-async function postNewContact(path = "", data = {}) {
-  let response = await fetch(BASE_URL + path + ".json", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-  });
-  return (responseToJson = await response.json());
+
+// async function postNewContact(path = "", data = {}) {
+//   let response = await fetch(BASE_URL + path + ".json", {
+//     method: "POST",
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//     body: JSON.stringify(data),
+//   });
+//   return (responseToJson = await response.json());
+// }
+
+async function postNewContact(newUserData){
+  let contacts = ref(database, 'kanban/sharedBoard/contacts');
+  console.log("Upload war erfolgreich!");
+  return set(contacts, newUserData);
 }
 
 /**
@@ -132,25 +139,26 @@ async function deleteContact(userID) {
  * @param {string} bgColor - Background color for the contact.
  * @param {string} action - Action message to display.
  */
-async function addNewContact(bgColor=randomColor(), action) {
-  showLoadScreen();
-  document.getElementById("contact-successfully-created-pop-up").innerHTML = "Contact successfully " + action;
-  await hidePopUp();
-  let nameInputValue = document.getElementById("pop-up-name-input").value;
-  let emailInputValue = document.getElementById("pop-up-email-input").value;
-  let phoneInputValue = document.getElementById("pop-up-phone-input").value;
-  await postNewContact("/contacts", {
-    name: nameInputValue,
-    email: emailInputValue,
-    number: phoneInputValue,
-    color: bgColor,
-  });
-  await initContact();
-  afterAddingNewContactShowBigContact(nameInputValue);
-  hideLoadScreen();
-  await showContactSuccessfullyCreatedPopUp();
-  hideContactSuccessfullyCreatedPopUp();
-}
+
+// async function addNewContact(bgColor=randomColor(), action) {
+//   showLoadScreen();
+//   document.getElementById("contact-successfully-created-pop-up").innerHTML = "Contact successfully " + action;
+//   await hidePopUp();
+//   let nameInputValue = document.getElementById("pop-up-name-input").value;
+//   let emailInputValue = document.getElementById("pop-up-email-input").value;
+//   let phoneInputValue = document.getElementById("pop-up-phone-input").value;
+//   await postNewContact("/contacts", {
+//     name: nameInputValue,
+//     email: emailInputValue,
+//     number: phoneInputValue,
+//     color: bgColor,
+//   });
+//   await initContact();
+//   afterAddingNewContactShowBigContact(nameInputValue);
+//   hideLoadScreen();
+//   await showContactSuccessfullyCreatedPopUp();
+//   hideContactSuccessfullyCreatedPopUp();
+// }
 
 /**
  * Updates the UI to show the selected contact and highlights it.

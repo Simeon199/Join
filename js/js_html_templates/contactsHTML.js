@@ -169,7 +169,7 @@ function returnAddContactPopUpContactLogoHTML() {
  */
 function returnAddContactPopUpFormHTML() {
   return /*html*/ `
-        <form onsubmit='addNewContact("${randomColor()}", "created"); return false;'>
+        <form id="form">
           <div class="pop-up-input-container">
             <input 
             minlength = 2
@@ -313,7 +313,7 @@ function returnAddContactPopUpFormHTML() {
               </svg>
             </button>
   
-            <button id="pop-up-create-contact-button" type='submit'>
+            <button data-action="submitNewUser" id="pop-up-create-contact-button" type='submit'>
               Create contact
               <svg
                 width="16"

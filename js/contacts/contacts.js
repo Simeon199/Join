@@ -33,22 +33,77 @@ let colors = [
 
 let activeContactIndex = null;
 
-document.addEventListener('DOMContentLoaded', () => {
-  let body = document.getElementById('body');
-  let newContactsButton = document.getElementById('add-new-contacts-button');
-  let addTaskPopUp = document.getElementById('add-task-pop-up-bg');
-  if(body){
-    body.addEventListener('click', hideAllSmallPopUps);    
-  }
-  if(newContactsButton){
-    newContactsButton.addEventListener('click', triggerPopUpFunctions);
-  }
-  if(addTaskPopUp){
-    addTaskPopUp.addEventListener('click', hidePopUp);
-  }
-  // initContact();
+
+document.addEventListener("DOMContentLoaded", () => {
+  // setInterval(() => {
+  //   let form = document.getElementById('form');
+  //   console.log(form);
+  // }, 500);
+  // debugger;
+  setInterval(() => {
+    let form = document.getElementById('form');
+    if(form){
+      form.addEventListener("submit", function(event){
+        event.preventDefault();
+        let actionElement = event.submitter.closest("[data-action]");
+        let action = actionElement?.dataset.action;
+        if(action === "submitNewUser"){
+          addNewContact(bgColor=randomColor(), "created");
+        }
+      });
+    };
+  }, 100);
+  document.addEventListener("click", function(event){
+    let action = event.target.closest("[data-action]").dataset.action;
+    if(action === "hideAllSmallPopUps"){
+      hideAllSmallPopUps();
+    }
+  });
   initSidebar();
 });
+
+/**
+ * Adds a new contact and shows a success message.
+ *
+ * @param {string} bgColor - Background color for the contact.
+ * @param {string} action - Action message to display.
+ */
+async function addNewContact(bgColor=randomColor(), action) {
+  showLoadScreen();
+  document.getElementById("contact-successfully-created-pop-up").innerHTML = "Contact successfully " + action;
+  await hidePopUp();
+  let nameInputValue = document.getElementById("pop-up-name-input").value;
+  let emailInputValue = document.getElementById("pop-up-email-input").value;
+  let phoneInputValue = document.getElementById("pop-up-phone-input").value;
+  await postNewContact("/contacts", {
+    name: nameInputValue,
+    email: emailInputValue,
+    number: phoneInputValue,
+    color: bgColor,
+  });
+  await initContact();
+  afterAddingNewContactShowBigContact(nameInputValue);
+  hideLoadScreen();
+  await showContactSuccessfullyCreatedPopUp();
+  hideContactSuccessfullyCreatedPopUp();
+}
+
+// document.addEventListener('DOMContentLoaded', () => {
+//   let body = document.getElementById('body');
+//   let newContactsButton = document.getElementById('add-new-contacts-button');
+//   let addTaskPopUp = document.getElementById('add-task-pop-up-bg');
+//   if(body){
+//     body.addEventListener('click', hideAllSmallPopUps);    
+//   }
+//   if(newContactsButton){
+//     newContactsButton.addEventListener('click', triggerPopUpFunctions);
+//   }
+//   if(addTaskPopUp){
+//     addTaskPopUp.addEventListener('click', hidePopUp);
+//   }
+//   initContact();
+//   initSidebar();
+// });
 
 function triggerPopUpFunctions(){
   showPopUp();
@@ -217,7 +272,8 @@ function showIconContainer() {
  * Hides all small pop-ups by adding a CSS class.
  *
  */
-function hideAllSmallPopUps() {
+
+function hideAllSmallPopUps(){
   document.getElementById("icon-container").classList.add("icon-container-translate-100");
 }
 
