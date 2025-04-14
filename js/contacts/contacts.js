@@ -1,5 +1,10 @@
-// let allUsers = [];
-// let firstUsersNameLetter = [];
+import {ref, set, get} from '../../config/database.js';
+import db from "../../config/database.js";
+
+const database = db.database;
+
+let allUsers = [];
+let firstUsersNameLetter = [];
 let colors = [
   "#4B3C99",
   "#FF4646",
@@ -32,35 +37,65 @@ let colors = [
 ];
 
 let activeContactIndex = null;
-
+let actions = {
+  showPopUp: () => showPopUp(),
+  renderAddContactPopUp: () => renderAddContactPopUp(),
+  hideAllSmallPopUps: () => hideAllSmallPopUps(),
+  deselectContact: () => deselectContact(),
+  showIconContainer: () => showIconContainer(),
+  hidePopUp: () => hidePopUp(),
+  stopEvent: (event) => stopEvent(event),
+  submitNewUser: (event) => submitNewUser(event)
+};
 
 document.addEventListener("DOMContentLoaded", () => {
-  // setInterval(() => {
-  //   let form = document.getElementById('form');
-  //   console.log(form);
-  // }, 500);
-  // debugger;
-  setInterval(() => {
-    let form = document.getElementById('form');
-    if(form){
-      form.addEventListener("submit", function(event){
-        event.preventDefault();
-        let actionElement = event.submitter.closest("[data-action]");
-        let action = actionElement?.dataset.action;
-        if(action === "submitNewUser"){
-          addNewContact(bgColor=randomColor(), "created");
-        }
-      });
-    };
-  }, 100);
-  document.addEventListener("click", function(event){
-    let action = event.target.closest("[data-action]").dataset.action;
-    if(action === "hideAllSmallPopUps"){
-      hideAllSmallPopUps();
+  document.addEventListener("click", (event) => {
+    let actionElement = event.target.closest("[data-action]");
+    if(!actionElement){
+      return;
     }
+    let actionString = actionElement.dataset.action;
+    let actionList = actionString.split(",").map(element => element.trim());
+    actionList.forEach(action => {
+      if(typeof actions[action] === 'function'){
+        actions[action](event);
+      } else {
+        console.warn(`Aktion '${action}' ist nicht definiert.`);
+      }
+    });
   });
+  initContact();
+  observeForForm();
   initSidebar();
 });
+
+function observeForForm(){
+  let observer = new MutationObserver(() => {
+    let form = document.getElementById('form');
+    if(form){
+      form.addEventListener('submit', function(event){
+        event.preventDefault();
+        let actionElement = event.submitter.closest("[data-action]");
+        console.log('value of actionElement: ', actionElement);
+        console.log('value of actionElement.dataset.action: ', actionElement.dataset.action); // actionElement.dataset ist vom Typ DOMStringMap
+        let action = actionElement?.dataset.action;
+        if(action && typeof actions[action] === 'function'){
+          actions[action](event); // submitNewUser wird aufgerufen
+        }
+      });
+      observer.disconnect();
+    }
+  });
+  observer.observe(document.body, {
+    childList: true,
+    subtree: true
+  });
+}
+
+function submitNewUser(){
+  let bgColor = randomColor();
+  addNewContact(bgColor, "create");
+}
 
 /**
  * Adds a new contact and shows a success message.
@@ -69,41 +104,47 @@ document.addEventListener("DOMContentLoaded", () => {
  * @param {string} action - Action message to display.
  */
 async function addNewContact(bgColor=randomColor(), action) {
+  let newUserData = createUserData(bgColor);
   showLoadScreen();
-  document.getElementById("contact-successfully-created-pop-up").innerHTML = "Contact successfully " + action;
-  await hidePopUp();
-  let nameInputValue = document.getElementById("pop-up-name-input").value;
-  let emailInputValue = document.getElementById("pop-up-email-input").value;
-  let phoneInputValue = document.getElementById("pop-up-phone-input").value;
-  await postNewContact("/contacts", {
-    name: nameInputValue,
-    email: emailInputValue,
-    number: phoneInputValue,
-    color: bgColor,
-  });
-  await initContact();
-  afterAddingNewContactShowBigContact(nameInputValue);
+  returnContactSuccessfullyCreatetPopUp(action);
+  hidePopUp();
+  invokeDatabankChangesRelatedToNewContact(newUserData);
+  afterAddingNewContactShowBigContact(newUserData.name);
   hideLoadScreen();
-  await showContactSuccessfullyCreatedPopUp();
+  showContactSuccessfullyCreatedPopUp();
   hideContactSuccessfullyCreatedPopUp();
 }
 
-// document.addEventListener('DOMContentLoaded', () => {
-//   let body = document.getElementById('body');
-//   let newContactsButton = document.getElementById('add-new-contacts-button');
-//   let addTaskPopUp = document.getElementById('add-task-pop-up-bg');
-//   if(body){
-//     body.addEventListener('click', hideAllSmallPopUps);    
-//   }
-//   if(newContactsButton){
-//     newContactsButton.addEventListener('click', triggerPopUpFunctions);
-//   }
-//   if(addTaskPopUp){
-//     addTaskPopUp.addEventListener('click', hidePopUp);
-//   }
-//   initContact();
-//   initSidebar();
-// });
+async function invokeDatabankChangesRelatedToNewContact(newUserData){
+  await postNewContact(newUserData);
+  await initContact();
+}
+
+function returnContactSuccessfullyCreatetPopUp(action){
+  document.getElementById("contact-successfully-created-pop-up").innerHTML = "Contact successfully " + action; 
+}
+
+function createUserData(bgColor=randomColor()){
+  return {
+    name: document.getElementById("pop-up-name-input").value,
+    email: document.getElementById("pop-up-email-input").value,
+    number: document.getElementById("pop-up-phone-input").value,
+    color: bgColor
+  }
+}
+
+/**
+ * Posts new contact data to the specified path.
+ *
+ * @param {string} path - The path for the API request.
+ * @param {Object} data - The contact data to be posted.
+ */
+
+async function postNewContact(newUserData){
+  let contacts = ref(database, 'kanban/sharedBoard/contacts');
+  console.log("Upload war erfolgreich!");
+  return set(contacts, newUserData);
+}
 
 function triggerPopUpFunctions(){
   showPopUp();
@@ -113,12 +154,19 @@ function triggerPopUpFunctions(){
  * Initializes contact-related variables and functions when the website loads.
  *
  */
-// async function initContact() {
-//   allUsers = [];
-//   firstUsersNameLetter = [];
-//   await getAllContacts();
-//   await renderContactList();
-// }
+
+async function initContact() {
+  allUsers = [];
+  firstUsersNameLetter = [];
+  await getAllContacts();
+  await renderContactList();
+}
+
+async function getAllContacts(){
+  let contacts = ref(database, 'kanban/sharedBoard/contacts');
+  let everyContact = get(contacts);
+  console.log(everyContact);
+}
 
 /**
  * Sorts the contacts in alphabetical order by name.
@@ -292,7 +340,6 @@ function taskMarker() {
 function renderContactList() {
   let contactListContainer = document.getElementById("contact-list");
   contactListContainer.innerHTML = "";
-
   for (let i = 0; i < firstUsersNameLetter.length; i++) {
     renderContactLetterContainer(i, contactListContainer);
   }
@@ -383,6 +430,7 @@ function renderEditContactPopUp(userID, userName, userEmail, userNumber, i, user
  * @param {string} nameInputValue - The name of the contact to display.
  */
 function afterAddingNewContactShowBigContact(nameInputValue) {
+  console.log('allUsers: ', allUsers);
   let index = allUsers.findIndex((user) => user.name === nameInputValue);
   let userName = allUsers[index]["name"];
   let userEmail = allUsers[index]["email"];

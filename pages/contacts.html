@@ -25,7 +25,7 @@
 
       <main>
         <div id="contact-list-container">
-          <button id="add-new-contacts-button" onclick="showPopUp(), renderAddContactPopUp()">
+          <button id="add-new-contacts-button" data-action="showPopUp, renderAddContactPopUp">
             <!-- <button id="add-new-contacts-button" onclick="showPopUp(), renderAddContactPopUp()"> -->
             Add new contacts
             <svg
@@ -97,7 +97,7 @@
           <button
             id="add-new-contacts-mobile-button"
             class="mobile-button"
-            onclick="showPopUp(), renderAddContactPopUp()"
+            data-action="showPopUp, renderAddContactPopUp"
           >
           <!-- <button
             id="add-new-contacts-mobile-button"
@@ -163,7 +163,7 @@
             <div id="contact-headline-h1-container">
               <h1>Contacts</h1>
               <svg
-                onclick="deselectContact()"
+                data-action="deselectContact"
                 id="big-contact-arrow"
                 width="25"
                 height="23"
@@ -208,7 +208,8 @@
                 <div
                   id="show-icon-container-button"
                   class="mobile-button show-icon-container-button-translate-100"
-                  onclick="stopEvent(event), showIconContainer()"
+                  data-action="showIconContainer"
+                  onclick="stopEvent(event)"
                 >
                 <!-- <div
                   id="show-icon-container-button"
@@ -262,7 +263,7 @@
       </main>
 
       <!-- add new contact pop-up -->
-      <div id="add-task-pop-up-bg" class="add-task-pop-up-bg bg-op-0" onclick="hidePopUp()">
+      <div id="add-task-pop-up-bg" class="add-task-pop-up-bg bg-op-0" data-action="hidePopUp">
         <!-- <div id="add-task-pop-up-bg" class="add-task-pop-up-bg bg-op-0" onclick="hidePopUp()"> -->
         <div id="add-task-pop-up" class="add-task-pop-up translate-100" onclick="stopEvent(event)">
           <!-- <div id="add-task-pop-up" class="add-task-pop-up translate-100" onclick="stopEvent(event)"> -->
@@ -365,7 +366,7 @@
     <script type="module" src="../config/database.js"></script>
     <script src="../js/js_html_templates/desktop-template.js"></script>
     <script src="../js/script.js"></script>
-    <script src="../js/contacts/contacts.js"></script>
+    <script type="module" src="../js/contacts/contacts.js"></script>
     <script src="../js/js_html_templates/contactsHTML.js"></script>
     <script type="module" src="../js/contacts/contacts_database.js"></script>
     <script src="../js/js_html_templates/contactEditTemplate.js"></script>

@@ -64,19 +64,6 @@ async function initContact() {
 //   await sortAllUserLetters();
 // }
 
-async function getAllContacts(){
-  let contacts = ref(database, 'kanban/sharedBoard/contacts');
-  let everyContact = get(contacts);
-  console.log(everyContact);
-}
-
-/**
- * Posts new contact data to the specified path.
- *
- * @param {string} path - The path for the API request.
- * @param {Object} data - The contact data to be posted.
- */
-
 // async function postNewContact(path = "", data = {}) {
 //   let response = await fetch(BASE_URL + path + ".json", {
 //     method: "POST",
@@ -87,12 +74,6 @@ async function getAllContacts(){
 //   });
 //   return (responseToJson = await response.json());
 // }
-
-async function postNewContact(newUserData){
-  let contacts = ref(database, 'kanban/sharedBoard/contacts');
-  console.log("Upload war erfolgreich!");
-  return set(contacts, newUserData);
-}
 
 /**
  * Deletes data from the specified path and returns the response.
