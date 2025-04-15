@@ -1,6 +1,6 @@
 import { initializeApp} from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signInAnonymously  } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
-import { getDatabase, ref, set, get, push, remove} from "https://www.gstatic.com/firebasejs/11.6.0/firebase-database.js";
+import { getDatabase, ref, set, get, child, push, remove, update, onValue} from "https://www.gstatic.com/firebasejs/11.6.0/firebase-database.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCHiavJkxxh1bRR4vzCUArY4mqkfHrMqxU",
@@ -23,8 +23,11 @@ export default {
 
 export {
   ref,
+  onValue,
   remove,
   push,
+  update,
+  child,
   get, 
   set, 
   createUserWithEmailAndPassword, 

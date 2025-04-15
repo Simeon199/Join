@@ -1,4 +1,4 @@
-import {ref, set, get} from '../../config/database.js';
+import {ref, set, child, onValue, get, update, push} from '../../config/database.js';
 import db from "../../config/database.js";
 
 const database = db.database;
@@ -76,11 +76,9 @@ function observeForForm(){
       form.addEventListener('submit', function(event){
         event.preventDefault();
         let actionElement = event.submitter.closest("[data-action]");
-        console.log('value of actionElement: ', actionElement);
-        console.log('value of actionElement.dataset.action: ', actionElement.dataset.action); // actionElement.dataset ist vom Typ DOMStringMap
         let action = actionElement?.dataset.action;
         if(action && typeof actions[action] === 'function'){
-          actions[action](event); // submitNewUser wird aufgerufen
+          actions[action](event); 
         }
       });
       observer.disconnect();
@@ -109,10 +107,13 @@ async function addNewContact(bgColor=randomColor(), action) {
   returnContactSuccessfullyCreatetPopUp(action);
   hidePopUp();
   invokeDatabankChangesRelatedToNewContact(newUserData);
-  afterAddingNewContactShowBigContact(newUserData.name);
+  readNewContactsFromDatabase();
   hideLoadScreen();
   showContactSuccessfullyCreatedPopUp();
   hideContactSuccessfullyCreatedPopUp();
+  setTimeout(() => {
+    afterAddingNewContactShowBigContact(newUserData.name);
+  }, 500);
 }
 
 async function invokeDatabankChangesRelatedToNewContact(newUserData){
@@ -141,15 +142,37 @@ function createUserData(bgColor=randomColor()){
  */
 
 async function postNewContact(newUserData){
-  let contacts = ref(database, 'kanban/sharedBoard/contacts');
-  console.log("Upload war erfolgreich!");
-  return set(contacts, newUserData);
+  let contactsRef = ref(database, 'kanban/sharedBoard/contacts');
+  let newContactKey = push(contactsRef).key;
+  let contactWithId = {
+    ...newUserData,
+    id: newContactKey
+  };
+  let updates = {};
+  updates[`contacts/${newContactKey}`] = contactWithId;
+  try {
+    await update(ref(database, 'kanban/sharedBoard'), updates);
+    console.log('Kontakt erfolgreich gespeichert');
+  } catch(error) {
+    console.error('Fehler beim Speichern des Kontakts: ', error);
+  }
+}
+
+function readNewContactsFromDatabase(){
+  let contactsRef = ref(database, 'kanban/sharedBoard/contacts');
+  onValue(contactsRef, (snapshot) => {
+    let contactData = snapshot.val();
+    allUsers = Object.values(contactData);
+    console.log('allUsers value: ', allUsers);
+    return allUsers;
+  })
 }
 
 function triggerPopUpFunctions(){
   showPopUp();
   renderAddContactPopUp();
 }
+
 /**
  * Initializes contact-related variables and functions when the website loads.
  *
@@ -429,8 +452,8 @@ function renderEditContactPopUp(userID, userName, userEmail, userNumber, i, user
  *
  * @param {string} nameInputValue - The name of the contact to display.
  */
+
 function afterAddingNewContactShowBigContact(nameInputValue) {
-  console.log('allUsers: ', allUsers);
   let index = allUsers.findIndex((user) => user.name === nameInputValue);
   let userName = allUsers[index]["name"];
   let userEmail = allUsers[index]["email"];
