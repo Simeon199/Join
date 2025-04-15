@@ -1,21 +1,4 @@
 /**
- * Returns the HTML for a contact letter container.
- *
- * @param {string} letter - The letter to be displayed.
- */
-function returnContactLetterContainerHTML(letter) {
-  return /*html*/ `
-    <div class="contact-container">
-          <!-- letter -->
-          <h2 class="letter">${letter.toUpperCase()}</h2>
-  
-          <div class='letter-list-contact-container'>
-          </div>
-     </div>
-  `;
-}
-
-/**
  * Generates HTML for a contact card with user details.
  *
  * @param {number} j - Index of the contact.
@@ -53,9 +36,9 @@ function returnContactHTML(j, user) {
  * @param {number} i - An index or identifier for the user.
  * @param {string} userColor - The color associated with the user.
  */
-function returnBigContactIconContainerHTML(userName, userEmail, userNumber, userID, i, userColor) {
+function returnBigContactIconContainerHTML(createdUserObject, index) {
   return /*html*/ `
-      <div id="edit-contact" onclick='showPopUp(),renderEditContactPopUp("${userID}","${userName}","${userEmail}","${userNumber}","${i}","${userColor}")'>
+      <div id="edit-contact" onclick='showPopUp(),renderEditContactPopUp("${createdUserObject}","${index}")'>
         <svg
           width="19"
           height="19"
@@ -76,7 +59,7 @@ function returnBigContactIconContainerHTML(userName, userEmail, userNumber, user
         <p>Edit</p>
       </div>
   
-      <div id="delete-contact" onclick='deleteContact("${userID}")'>
+      <div id="delete-contact" onclick='deleteContact("${createdUserObject.userID}")'>
         <svg
           width="16"
           height="18"
@@ -336,4 +319,25 @@ function returnAddContactPopUpFormHTML() {
           </div>
         </form>
     `;
+}
+
+/**
+ * Renders the edit contact popup with provided user details.
+ *
+ * @param {string} userID - The ID of the user.
+ * @param {string} userName - The name of the user.
+ * @param {string} userEmail - The email of the user.
+ * @param {string} userNumber - The phone number of the user.
+ * @param {number} i - Index or additional identifier for the user.
+ * @param {string} userColor - The color associated with the user.
+ */
+
+function renderEditContactPopUp(createdUserObject, index) {
+  document.getElementById("pop-up-inputs-container").innerHTML = returnEditContactPopUpFormHTML(createdUserObject.userID, index, createdUserObject.userColor);
+  document.getElementById("pop-up-headline-container").innerHTML = returnEditContactPopUpHeadlineHTML();
+  document.getElementById("pop-up-contact-logo").innerHTML = returnEditContactPopUpLogoHTML(createdUserObject.userName);
+  document.getElementById("pop-up-contact-logo").style.backgroundColor = createdUserObject.userColor;
+  document.getElementById("pop-up-name-input").value = createdUserObject.userName;
+  document.getElementById("pop-up-email-input").value = createdUserObject.userEmail;
+  document.getElementById("pop-up-phone-input").value = createdUserObject.userNumber;
 }
