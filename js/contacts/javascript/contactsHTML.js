@@ -342,3 +342,22 @@ export function returnAddContactPopUpFormHTML() {
         </form>
     `;
 }
+
+// Bauplan 
+
+function useTemplate(name){
+  let template = document.getElementById('contact-card-template');
+  let clone = template.content.cloneNode(true);
+  clone.querySelector('.contact-name').textContent = name;
+  return clone;
+}
+
+// Zu folgendem Template-Beispiel:
+
+
+/* <template id="contact-card-template">
+  <div class="contact-card">
+    <p class="contact-name"></p>
+    <button class="edit-btn">Edit</button>
+  </div>
+</template> */

@@ -179,11 +179,6 @@ function getAllContacts(){
   })
 }
 
-// function triggerPopUpFunctions(){
-//   showPopUp();
-//   renderAddContactPopUp();
-// }
-
 /**
  * Initializes contact-related variables and functions when the website loads.
  *
@@ -196,11 +191,6 @@ async function initContact() {
   // renderContactList();
 }
 
-// async function getAllContacts(){
-//   let contactsRef = ref(database, 'kanban/sharedBoard/contacts');
-//   let everyContact = get(contacts);
-//   console.log(everyContact);
-// }
 
 /**
  * Sorts the contacts in alphabetical order by name.
@@ -507,3 +497,12 @@ function renderBigContact(createdUserObject, index) {
   document.getElementById("big-number").innerHTML = createdUserObject.userNumber;
   document.getElementById("icon-container").innerHTML = contactsHTML.returnBigContactIconContainerHTML(createdUserObject, index);
 }
+
+// All functions used in contactsHTML.js
+
+// returnContactLetterContainerHTML
+// returnContactHTML
+// returnBigContactIconContainerHTML
+// returnAddContactPopUpHeadlineHTML
+// returnAddContactPopUpContactLogoHTML
+// returnAddContactPopUpFormHTML
