@@ -1,10 +1,32 @@
+import * as contacts from '../contacts/contacts.js';
+export * from './contactsHTML.js';
+
+window.renderEditContactPopUp = contacts.renderEditContactPopUp;
+
+/**
+ * Returns the HTML for a contact letter container.
+ *
+ * @param {string} letter - The letter to be displayed.
+ */
+export function returnContactLetterContainerHTML(letter) {
+  return /*html*/ `
+    <div class="contact-container">
+          <!-- letter -->
+          <h2 class="letter">${letter.toUpperCase()}</h2>
+          <div class='letter-list-contact-container'>
+          </div>
+     </div>
+  `;
+}
+
 /**
  * Generates HTML for a contact card with user details.
  *
  * @param {number} j - Index of the contact.
  * @param {Object} user - The user object containing details.
  */
-function returnContactHTML(j, user) {
+
+export function returnContactHTML(j, user) {
   let userName = user["name"];
   let userEmail = user["email"];
   let userNumber = user["phone"];
@@ -36,9 +58,9 @@ function returnContactHTML(j, user) {
  * @param {number} i - An index or identifier for the user.
  * @param {string} userColor - The color associated with the user.
  */
-function returnBigContactIconContainerHTML(createdUserObject, index) {
+export function returnBigContactIconContainerHTML(createdUserObject, index) {
   return /*html*/ `
-      <div id="edit-contact" onclick='showPopUp(),renderEditContactPopUp("${createdUserObject}","${index}")'>
+      <div id="edit-contact" onclick='showPopUp(), renderEditContactPopUp("${createdUserObject}","${index}")'>
         <svg
           width="19"
           height="19"
@@ -96,7 +118,7 @@ function returnBigContactIconContainerHTML(createdUserObject, index) {
  * Returns HTML for the add contact popup headline.
  *
  */
-function returnAddContactPopUpHeadlineHTML() {
+export function returnAddContactPopUpHeadlineHTML() {
   return /*html*/ `
         <h1 id="pop-up-headline">Add contact</h1>
         <p id="pop-up-comment">Tasks are better with a team!</p>
@@ -107,7 +129,7 @@ function returnAddContactPopUpHeadlineHTML() {
  * Returns HTML string for an SVG logo in the contact popup.
  *
  */
-function returnAddContactPopUpContactLogoHTML() {
+export function returnAddContactPopUpContactLogoHTML() {
   return /*html*/ `
           <svg
           width="44"
@@ -150,7 +172,7 @@ function returnAddContactPopUpContactLogoHTML() {
  * Generates HTML for a contact addition pop-up form.
  *
  */
-function returnAddContactPopUpFormHTML() {
+export function returnAddContactPopUpFormHTML() {
   return /*html*/ `
         <form id="form">
           <div class="pop-up-input-container">
@@ -319,25 +341,4 @@ function returnAddContactPopUpFormHTML() {
           </div>
         </form>
     `;
-}
-
-/**
- * Renders the edit contact popup with provided user details.
- *
- * @param {string} userID - The ID of the user.
- * @param {string} userName - The name of the user.
- * @param {string} userEmail - The email of the user.
- * @param {string} userNumber - The phone number of the user.
- * @param {number} i - Index or additional identifier for the user.
- * @param {string} userColor - The color associated with the user.
- */
-
-function renderEditContactPopUp(createdUserObject, index) {
-  document.getElementById("pop-up-inputs-container").innerHTML = returnEditContactPopUpFormHTML(createdUserObject.userID, index, createdUserObject.userColor);
-  document.getElementById("pop-up-headline-container").innerHTML = returnEditContactPopUpHeadlineHTML();
-  document.getElementById("pop-up-contact-logo").innerHTML = returnEditContactPopUpLogoHTML(createdUserObject.userName);
-  document.getElementById("pop-up-contact-logo").style.backgroundColor = createdUserObject.userColor;
-  document.getElementById("pop-up-name-input").value = createdUserObject.userName;
-  document.getElementById("pop-up-email-input").value = createdUserObject.userEmail;
-  document.getElementById("pop-up-phone-input").value = createdUserObject.userNumber;
 }

@@ -1,5 +1,7 @@
 import {ref, set, child, onValue, get, update, push} from '../../config/database.js';
 import db from "../../config/database.js";
+import * as contactsHTML from '../js_html_templates/contactsHTML.js';
+export {renderEditContactPopUp};
 
 const database = db.database;
 
@@ -38,6 +40,7 @@ let colors = [
 
 let activeContactIndex = null;
 let actions = {
+  testFunction: () => testFunction(),
   showPopUp: () => showPopUp(),
   renderAddContactPopUp: () => renderAddContactPopUp(),
   hideAllSmallPopUps: () => hideAllSmallPopUps(),
@@ -413,22 +416,6 @@ function renderContactLetterContainer(i, contactListContainer) {
 }
 
 /**
- * Returns the HTML for a contact letter container.
- *
- * @param {string} letter - The letter to be displayed.
- */
-function returnContactLetterContainerHTML(letter) {
-  return /*html*/ `
-    <div class="contact-container">
-          <!-- letter -->
-          <h2 class="letter">${letter.toUpperCase()}</h2>
-          <div class='letter-list-contact-container'>
-          </div>
-     </div>
-  `;
-}
-
-/**
  * Renders contact if the name starts with the given letter.
  *
  * @param {number} i - Index for letter list container.
@@ -439,8 +426,29 @@ function returnContactLetterContainerHTML(letter) {
 function renderContact(i, j, letter) {
   const user = allUsers[j];
   if (user["name"].toLowerCase().startsWith(letter)) {
-    document.querySelectorAll(".letter-list-contact-container")[i].innerHTML += returnContactHTML(j, user);
+    document.querySelectorAll(".letter-list-contact-container")[i].innerHTML += contactsHTML.returnContactHTML(j, user);
   }
+}
+
+/**
+ * Renders the edit contact popup with provided user details.
+ *
+ * @param {string} userID - The ID of the user.
+ * @param {string} userName - The name of the user.
+ * @param {string} userEmail - The email of the user.
+ * @param {string} userNumber - The phone number of the user.
+ * @param {number} i - Index or additional identifier for the user.
+ * @param {string} userColor - The color associated with the user.
+ */
+
+function renderEditContactPopUp(createdUserObject, index) {
+  document.getElementById("pop-up-inputs-container").innerHTML = returnEditContactPopUpFormHTML(createdUserObject.userID, index, createdUserObject.userColor);
+  document.getElementById("pop-up-headline-container").innerHTML = returnEditContactPopUpHeadlineHTML();
+  document.getElementById("pop-up-contact-logo").innerHTML = returnEditContactPopUpLogoHTML(createdUserObject.userName);
+  document.getElementById("pop-up-contact-logo").style.backgroundColor = createdUserObject.userColor;
+  document.getElementById("pop-up-name-input").value = createdUserObject.userName;
+  document.getElementById("pop-up-email-input").value = createdUserObject.userEmail;
+  document.getElementById("pop-up-phone-input").value = createdUserObject.userNumber;
 }
 
 /**
@@ -449,9 +457,9 @@ function renderContact(i, j, letter) {
  */
 
 function renderAddContactPopUp() {
-  document.getElementById("pop-up-inputs-container").innerHTML = returnAddContactPopUpFormHTML();
-  document.getElementById("pop-up-headline-container").innerHTML = returnAddContactPopUpHeadlineHTML();
-  document.getElementById("pop-up-contact-logo").innerHTML = returnAddContactPopUpContactLogoHTML();
+  document.getElementById("pop-up-inputs-container").innerHTML = contactsHTML.returnAddContactPopUpFormHTML();
+  document.getElementById("pop-up-headline-container").innerHTML = contactsHTML.returnAddContactPopUpHeadlineHTML();
+  document.getElementById("pop-up-contact-logo").innerHTML = contactsHTML.returnAddContactPopUpContactLogoHTML();
   document.getElementById("pop-up-contact-logo").style.backgroundColor = "#d1d1d1";
 }
 
@@ -497,5 +505,5 @@ function renderBigContact(createdUserObject, index) {
   document.getElementById("big-name").innerHTML = createdUserObject.userName;
   document.getElementById("big-email").innerHTML = createdUserObject.userEmail;
   document.getElementById("big-number").innerHTML = createdUserObject.userNumber;
-  document.getElementById("icon-container").innerHTML = returnBigContactIconContainerHTML(createdUserObject, index);
+  document.getElementById("icon-container").innerHTML = contactsHTML.returnBigContactIconContainerHTML(createdUserObject, index);
 }
