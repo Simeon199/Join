@@ -17,7 +17,7 @@ export function getTemplateClone(templateId){
     return template.content.cloneNode(true);
 }
 
-async function generatePromise(filename, basePath){
+export async function generatePromise(filename, basePath){
     try {
         let result = await fetch(`${basePath}${filename}`);
         if(!result.ok){

@@ -1,5 +1,8 @@
-import * as contacts from '../contacts/contacts.js';
+import * as contacts from './contacts.js';
+import * as core from '../../../core/templateLoader.js';
 export * from './contactsHTML.js';
+
+core.loadTemplates(contacts.allTemplates, '../templates/');
 
 window.renderEditContactPopUp = contacts.renderEditContactPopUp;
 
@@ -345,12 +348,12 @@ export function returnAddContactPopUpFormHTML() {
 
 // Bauplan 
 
-function useTemplate(name){
-  let template = document.getElementById('contact-card-template');
-  let clone = template.content.cloneNode(true);
-  clone.querySelector('.contact-name').textContent = name;
-  return clone;
-}
+// function useTemplate(name){
+//   let template = document.getElementById('contact-card-template');
+//   let clone = template.content.cloneNode(true);
+//   clone.querySelector('.contact-name').textContent = name;
+//   return clone;
+// }
 
 // Zu folgendem Template-Beispiel:
 

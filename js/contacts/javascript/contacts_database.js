@@ -1,5 +1,5 @@
-import {ref, set, get} from '../../config/database.js';
-import db from "../../config/database.js";
+import {ref, set, get} from "../../../config/database.js";
+import db from "../../../config/database.js";
 
 const database = db.database;
 let allUsers = [];
