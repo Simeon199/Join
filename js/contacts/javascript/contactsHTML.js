@@ -26,6 +26,7 @@ window.renderEditContactPopUp = contacts.renderEditContactPopUp;
  *
  * @param {string} letter - The letter to be displayed.
  */
+
 export function returnContactLetterContainerHTML(letter) {
   let template = core.getTemplateClone('contact-letter-container');
   let heading = template.querySelector('.letter');
@@ -41,12 +42,14 @@ export function returnContactLetterContainerHTML(letter) {
  */
 
 export function returnContactHTML(j, user) {
-  let userName = user["name"];
-  let userEmail = user["email"];
-  let userNumber = user["phone"];
-  let userID = user["id"];
-  let userColor = user["color"];
   let template = core.getTemplateClone('contact-template');
+  template.querySelector('.contact').addEventListener('click', ()=> {
+    toggleBigContact(j, user.name, user.email, user.phone, user.id, user.color);
+  });
+  template.querySelector('.profile-badge').style.backgroundColor = user.color;
+  template.querySelector('.initials').textContent = firstLetterFirstTwoWords(user.name);
+  template.querySelector('.name').textContent = user.name;
+  template.querySelector('.email').textContent = user.email;
   return template;
 }
 
@@ -60,8 +63,16 @@ export function returnContactHTML(j, user) {
  * @param {number} i - An index or identifier for the user.
  * @param {string} userColor - The color associated with the user.
  */
+
 export function returnBigContactIconContainerHTML(createdUserObject, index) {
   let template = core.getTemplateClone('contact-template');
+  template.querySelector('#edit-contact').addEventListener('click', () => {
+    showPopUp(),
+    contacts.renderEditContactPopUp(createdUserObject, index)
+  });
+  template.querySelector('#delete-contact').addEventListener('click', () =>{
+    deleteContact(createdUserObject.userID)
+  });
   return template;
 }
 
@@ -69,6 +80,7 @@ export function returnBigContactIconContainerHTML(createdUserObject, index) {
  * Returns HTML for the add contact popup headline.
  *
  */
+
 export function returnAddContactPopUpHeadlineHTML() {
   let template = core.getTemplateClone('contact-pop-up-headline');
   return template;
@@ -78,6 +90,7 @@ export function returnAddContactPopUpHeadlineHTML() {
  * Returns HTML string for an SVG logo in the contact popup.
  *
  */
+
 export function returnAddContactPopUpContactLogoHTML() {
   let template = core.getTemplateClone('add-contact-pop-up-contact');
   return template;
@@ -90,5 +103,8 @@ export function returnAddContactPopUpContactLogoHTML() {
 
 export function returnAddContactPopUpFormHTML() {
   let template = core.getTemplateClone('add-new-contact-form');
+  template.querySelector('#pop-up-cancel-button').addEventListener('click', () => {
+    hidePopUp()
+  });
   return template;
 }
