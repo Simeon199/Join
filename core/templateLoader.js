@@ -7,6 +7,7 @@ export async function loadTemplates(templateList, basePath){
     let loadPromises = templateList.map(filename => generatePromise(filename, basePath));
     await Promise.all(loadPromises);
     console.log('[TemplateLoader] All templates loaded: ', Object.keys(templateCache));
+    return Object.keys(templateCache);
 }
 
 export function getTemplateClone(templateId){
@@ -37,7 +38,7 @@ export async function generatePromise(filename, basePath){
             }
             templateCache[template.id] = template;
         });
-    } catch {
+    } catch(error) {
         console.error('[TemplateLoader] Error while loading template: ', error);
         throw error;
     }

@@ -2,16 +2,6 @@ import {ref, set, child, onValue, get, update, push} from "../../../config/datab
 import db from "../../../config/database.js";
 import * as contactsHTML from './contactsHTML.js';
 export {renderEditContactPopUp};
-export {allTemplates};
-
-let allTemplates = [
-  'add-contact-pop-up-contact-logo.html', 
-  'add-contact-pop-up-form.html', 
-  'add-contact-pop-up-headline.html',
-  'big-contact-icon-container.html',
-  'contact-letter-container.html',
-  'contact-template.html'
-]
 
 const database = db.database;
 
