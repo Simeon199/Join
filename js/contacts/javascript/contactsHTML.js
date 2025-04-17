@@ -60,17 +60,17 @@ export function returnContactHTML(j, user) {
  * @param {string} userEmail - The email of the user.
  * @param {string} userNumber - The contact number of the user.
  * @param {string} userID - The unique ID of the user.
- * @param {number} i - An index or identifier for the user.
+ * @param {number} index - An index or identifier for the user.
  * @param {string} userColor - The color associated with the user.
  */
 
 export function returnBigContactIconContainerHTML(createdUserObject, index) {
-  let template = core.getTemplateClone('contact-template');
-  template.querySelector('#edit-contact').addEventListener('click', () => {
+  let template = core.getTemplateClone('big-contact-icon-container');
+  template.querySelector('.edit-contact').addEventListener('click', () => {
     showPopUp(),
     contacts.renderEditContactPopUp(createdUserObject, index)
   });
-  template.querySelector('#delete-contact').addEventListener('click', () =>{
+  template.querySelector('.delete-contact').addEventListener('click', () =>{
     deleteContact(createdUserObject.userID)
   });
   return template;
@@ -102,9 +102,26 @@ export function returnAddContactPopUpContactLogoHTML() {
  */
 
 export function returnAddContactPopUpFormHTML() {
-  let template = core.getTemplateClone('add-new-contact-form');
-  template.querySelector('#pop-up-cancel-button').addEventListener('click', () => {
+  // let template = core.getTemplateClone('add-new-contact-form');
+  let template = getContentFromTemplate('add-new-contact-form');
+  document.body.appendChild(template);
+  template.querySelector('.pop-up-cancel-button').addEventListener('click', () => {
     hidePopUp()
   });
-  return template;
+  // return template;
 }
+
+// Pattern für dynamisches Template
+
+export function getContentFromTemplate(id){
+  let clone = document.importNode(document.getElementById(id), true);
+  let wrapper = document.createElement('div');
+  wrapper.appendChild(clone);
+  return wrapper;
+}
+
+// Wie man es später benutzen kann
+
+// let formWrapper = getFormFromTemplate('add-new-contact-form');
+// document.body.appendChild(formWrapper);
+// formWrapper.querySelector('#pop-up-cancel-button').addEventListener('click', hidePopUp);
