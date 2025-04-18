@@ -447,7 +447,8 @@ function renderEditContactPopUp(createdUserObject, index) {
  */
 
 function renderAddContactPopUp() {
-  document.getElementById("pop-up-inputs-container").innerHTML = contactsHTML.returnAddContactPopUpFormHTML();
+  console.log(document.getElementById("add-new-contact-form"));
+  document.getElementById("add-new-contact-form").innerHTML = contactsHTML.returnAddContactPopUpFormHTML(); // pop-up-inputs-container
   document.getElementById("pop-up-headline-container").innerHTML = contactsHTML.returnAddContactPopUpHeadlineHTML();
   document.getElementById("pop-up-contact-logo").innerHTML = contactsHTML.returnAddContactPopUpContactLogoHTML();
   document.getElementById("pop-up-contact-logo").style.backgroundColor = "#d1d1d1";

@@ -5,7 +5,7 @@ export * from './contactsHTML.js';
 let basePath = '../js/contacts/templates/';
 
 let allTemplates = [
-  'add-contact-pop-up-contact-logo.html', 
+  'add-contact-pop-up-logo.html', 
   'add-contact-pop-up-form.html', 
   'add-contact-pop-up-headline.html',
   'big-contact-icon-container.html',
@@ -92,7 +92,7 @@ export function returnAddContactPopUpHeadlineHTML() {
  */
 
 export function returnAddContactPopUpContactLogoHTML() {
-  let template = core.getTemplateClone('add-contact-pop-up-contact');
+  let template = core.getTemplateClone('add-contact-pop-up-logo');
   return template;
 }
 
@@ -102,26 +102,17 @@ export function returnAddContactPopUpContactLogoHTML() {
  */
 
 export function returnAddContactPopUpFormHTML() {
-  // let template = core.getTemplateClone('add-new-contact-form');
-  let template = getContentFromTemplate('add-new-contact-form');
-  document.body.appendChild(template);
-  template.querySelector('.pop-up-cancel-button').addEventListener('click', () => {
-    hidePopUp()
-  });
-  // return template;
+  let template = core.getTemplateClone('add-new-contact-form');
+  // let wrapper = document.createElement('div');
+  // wrapper.id = 'add-new-contact-form';
+  // wrapper.appendChild(template);
+  // console.log(wrapper);
+  // document.body.appendChild(wrapper);
+  // let cancelButton = template.querySelector('.pop-up-cancel-button');
+  // if(!cancelButton){
+  //   console.error('Cancel Button was not found!');
+  // } else {
+  //   cancelButton.addEventListener('click', hidePopUp);
+  // }
+  return template;
 }
-
-// Pattern für dynamisches Template
-
-export function getContentFromTemplate(id){
-  let clone = document.importNode(document.getElementById(id), true);
-  let wrapper = document.createElement('div');
-  wrapper.appendChild(clone);
-  return wrapper;
-}
-
-// Wie man es später benutzen kann
-
-// let formWrapper = getFormFromTemplate('add-new-contact-form');
-// document.body.appendChild(formWrapper);
-// formWrapper.querySelector('#pop-up-cancel-button').addEventListener('click', hidePopUp);
