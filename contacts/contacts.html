@@ -5,16 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title>JOIN</title>
-    <link rel="shortcut icon" href="../assets/img/Capa2logo_klein.svg" type="image/x-icon" />
+    <link rel="shortcut icon" href="../assets/img/Capa2logo_klein.svg" type="image/x-icon" /> 
 
     <!-- fonts -->
     <link rel="stylesheet" href="../css/remaining/fonts.css">
 
     <!-- css -->
-    <link rel="stylesheet" href="../css/remaining/generally.css" />
-    <link rel="stylesheet" href="../css/contacts/contacts.css" />
-    <link rel="stylesheet" href="../css/contacts/popup_and_contact.css">
-    <link rel="stylesheet" href="../css/contacts/contacts.media_queries.css">
+    <link rel="stylesheet" href="../css/remaining/generally.css" />  
+    <link rel="stylesheet" href="../contacts/css/contacts.css" /> 
+    <link rel="stylesheet" href="../contacts/css/popup_and_contact.css"> 
+    <link rel="stylesheet" href="../contacts/css/contacts.media_queries.css"> 
     <link rel="stylesheet" href="../css/remaining/desktop_template.css">
   </head>
 
@@ -25,8 +25,9 @@
 
       <main>
         <div id="contact-list-container">
-          <button id="add-new-contacts-button" data-action="showPopUp, renderAddContactPopUp">
-            <!-- <button id="add-new-contacts-button" onclick="showPopUp(), renderAddContactPopUp()"> -->
+          <!-- <button id="add-new-contacts-button" data-action="showPopUp, renderAddContactPopUp"> -->
+            <button id="add-new-contacts-button">
+              <!-- <button id="add-new-contacts-button" onclick="showPopUp(), renderAddContactPopUp()"></button> -->
             Add new contacts
             <svg
               width="33"
@@ -363,12 +364,11 @@
       <div id="sidebar"></div>
     </div>
     <!-- js -->
-    <script type="module" src="../config/database.js"></script>
+    <script type="module" src="../core/database.js"></script> 
     <script src="../js/js_html_templates/desktop-template.js"></script>
     <script src="../js/script.js"></script>
-    <script type="module" src="../js/contacts/javascript/contacts.js"></script>
-    <!-- <script src="../js/js_html_templates/contactsHTML.js"></script> -->
-    <script type="module" src="../js/contacts/javascript/contacts_database.js"></script>
-    <script src="../js/js_html_templates/contactEditTemplate.js"></script>
-  </body>
+    <script type="module" src="../contacts/javascript/contacts.js"></script>
+    <script type="module" src="../contacts/javascript/contacts_database.js"></script> 
+    <script src="../contacts/javascript/contactEditTemplate.js"></script> contactEditTemplate.js
+  </body> 
 </html>

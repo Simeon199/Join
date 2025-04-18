@@ -2,7 +2,7 @@ import * as contacts from './contacts.js';
 import * as core from '../../../core/templateLoader.js';
 export * from './contactsHTML.js';
 
-let basePath = '../js/contacts/templates/';
+let basePath = '../contacts/templates/';
 
 let allTemplates = [
   'add-contact-pop-up-logo.html', 
@@ -14,12 +14,32 @@ let allTemplates = [
 ];
 
 let allTemplatesIds = [];
+let allContacts = [];
 
 document.addEventListener('DOMContentLoaded', async () => {
-  allTemplatesIds = await core.loadTemplates(allTemplates, basePath);
+  initFunctionsForContacts();
+  document.getElementById('add-new-contacts-button').addEventListener('click', () => {
+    showPopUp();
+  })
 });
 
+/**
+ * Shows the add task popup and hides all small popups.
+ *
+ */
+
+function showPopUp() {
+  document.getElementById("add-task-pop-up-bg").classList.remove("bg-op-0");
+  document.getElementById("add-task-pop-up").classList.remove("translate-100");
+  hideAllSmallPopUps();
+}
+
 window.renderEditContactPopUp = contacts.renderEditContactPopUp;
+
+async function initFunctionsForContacts(){
+  allTemplatesIds = await core.loadTemplates(allTemplates, basePath);
+  allContacts = contacts.getAllContacts();
+}
 
 /**
  * Returns the HTML for a contact letter container.
@@ -76,43 +96,20 @@ export function returnBigContactIconContainerHTML(createdUserObject, index) {
   return template;
 }
 
-/**
- * Returns HTML for the add contact popup headline.
- *
- */
-
-export function returnAddContactPopUpHeadlineHTML() {
-  let template = core.getTemplateClone('contact-pop-up-headline');
+export function returnTemplate(id){
+  let template = core.getTemplateClone(id);
   return template;
 }
 
-/**
- * Returns HTML string for an SVG logo in the contact popup.
- *
- */
-
-export function returnAddContactPopUpContactLogoHTML() {
-  let template = core.getTemplateClone('add-contact-pop-up-logo');
-  return template;
+function renderAddContactPopUp(){
+  buildTemplateModel('add-new-contact-form', returnTemplate('add-new-contact-form'));
+  buildTemplateModel('contact-pop-up-headline', returnTemplate('contact-pop-up-headline'));
+  buildTemplateModel('add-contact-pop-up-logo', returnTemplate('add-contact-pop-up-logo'));
 }
 
-/**
- * Generates HTML for a contact addition pop-up form.
- *
- */
-
-export function returnAddContactPopUpFormHTML() {
-  let template = core.getTemplateClone('add-new-contact-form');
-  // let wrapper = document.createElement('div');
-  // wrapper.id = 'add-new-contact-form';
-  // wrapper.appendChild(template);
-  // console.log(wrapper);
-  // document.body.appendChild(wrapper);
-  // let cancelButton = template.querySelector('.pop-up-cancel-button');
-  // if(!cancelButton){
-  //   console.error('Cancel Button was not found!');
-  // } else {
-  //   cancelButton.addEventListener('click', hidePopUp);
-  // }
-  return template;
+function buildTemplateModel(id, renderMethod){
+  let wrapper = document.createElement(id);
+  wrapper.id = id;
+  wrapper.appendChild(renderMethod);
+  return wrapper;
 }

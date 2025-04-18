@@ -1,5 +1,5 @@
-import {ref, set, child, onValue, get, update, push} from "../../../config/database.js";
-import db from "../../../config/database.js";
+import {ref, set, child, onValue, get, update, push} from "../../../core/database.js";
+import db from "../../../core/database.js";
 import * as contactsHTML from './contactsHTML.js';
 export {renderEditContactPopUp};
 
@@ -39,64 +39,63 @@ let colors = [
 ];
 
 let activeContactIndex = null;
-let actions = {
-  testFunction: () => testFunction(),
-  showPopUp: () => showPopUp(),
-  renderAddContactPopUp: () => renderAddContactPopUp(),
-  hideAllSmallPopUps: () => hideAllSmallPopUps(),
-  deselectContact: () => deselectContact(),
-  showIconContainer: () => showIconContainer(),
-  hidePopUp: () => hidePopUp(),
-  stopEvent: (event) => stopEvent(event),
-  submitNewUser: (event) => submitNewUser(event)
-};
+// let actions = {
+//   showPopUp: () => showPopUp(),
+//   renderAddContactPopUp: () => renderAddContactPopUp(),
+//   hideAllSmallPopUps: () => hideAllSmallPopUps(),
+//   deselectContact: () => deselectContact(),
+//   showIconContainer: () => showIconContainer(),
+//   hidePopUp: () => hidePopUp(),
+//   stopEvent: (event) => stopEvent(event),
+//   submitNewUser: (event) => submitNewUser(event)
+// };
 
-document.addEventListener("DOMContentLoaded", () => {
-  document.addEventListener("click", (event) => {
-    let actionElement = event.target.closest("[data-action]");
-    if(!actionElement){
-      return;
-    }
-    let actionString = actionElement.dataset.action;
-    let actionList = actionString.split(",").map(element => element.trim());
-    actionList.forEach(action => {
-      if(typeof actions[action] === 'function'){
-        actions[action](event);
-      } else {
-        console.warn(`Aktion '${action}' ist nicht definiert.`);
-      }
-    });
-  });
-  initContact();
-  observeForForm();
-  initSidebar();
-});
+// document.addEventListener("DOMContentLoaded", () => {
+//   document.addEventListener("click", (event) => {
+//     let actionElement = event.target.closest("[data-action]");
+//     if(!actionElement){
+//       return;
+//     }
+//     let actionString = actionElement.dataset.action;
+//     let actionList = actionString.split(",").map(element => element.trim());
+//     actionList.forEach(action => {
+//       if(typeof actions[action] === 'function'){
+//         actions[action](event);
+//       } else {
+//         console.warn(`Aktion '${action}' ist nicht definiert.`);
+//       }
+//     });
+//   });
+//   initContact();
+//   observeForForm();
+//   initSidebar();
+// });
 
-function observeForForm(){
-  let observer = new MutationObserver(() => {
-    let form = document.getElementById('form');
-    if(form){
-      form.addEventListener('submit', function(event){
-        event.preventDefault();
-        let actionElement = event.submitter.closest("[data-action]");
-        let action = actionElement?.dataset.action;
-        if(action && typeof actions[action] === 'function'){
-          actions[action](event); 
-        }
-      });
-      observer.disconnect();
-    }
-  });
-  observer.observe(document.body, {
-    childList: true,
-    subtree: true
-  });
-}
+// function observeForForm(){
+//   let observer = new MutationObserver(() => {
+//     let form = document.querySelector('form');
+//     if(form){
+//       form.addEventListener('submit', function(event){
+//         event.preventDefault();
+//         let actionElement = event.submitter.closest("[data-action]");
+//         let action = actionElement?.dataset.action;
+//         if(action && typeof actions[action] === 'function'){
+//           actions[action](event); 
+//         }
+//       });
+//       observer.disconnect();
+//     }
+//   });
+//   observer.observe(document.body, {
+//     childList: true,
+//     subtree: true
+//   });
+// }
 
-function submitNewUser(){
-  let bgColor = randomColor();
-  addNewContact(bgColor, "create");
-}
+// function submitNewUser(){
+//   let bgColor = randomColor();
+//   addNewContact(bgColor, "create");
+// }
 
 /**
  * Adds a new contact and shows a success message.
@@ -104,38 +103,38 @@ function submitNewUser(){
  * @param {string} bgColor - Background color for the contact.
  * @param {string} action - Action message to display.
  */
-async function addNewContact(bgColor=randomColor(), action) {
-  let newUserData = createUserData(bgColor);
-  showLoadScreen();
-  returnContactSuccessfullyCreatetPopUp(action);
-  hidePopUp();
-  invokeDatabankChangesRelatedToNewContact(newUserData);
-  readNewContactsFromDatabase();
-  hideLoadScreen();
-  showContactSuccessfullyCreatedPopUp();
-  hideContactSuccessfullyCreatedPopUp();
-  setTimeout(() => {
-    afterAddingNewContactShowBigContact(newUserData.name);
-  }, 500);
-}
+// async function addNewContact(bgColor=randomColor(), action) {
+//   let newUserData = createUserData(bgColor);
+//   showLoadScreen();
+//   returnContactSuccessfullyCreatetPopUp(action);
+//   hidePopUp();
+//   invokeDatabankChangesRelatedToNewContact(newUserData);
+//   readNewContactsFromDatabase();
+//   hideLoadScreen();
+//   showContactSuccessfullyCreatedPopUp();
+//   hideContactSuccessfullyCreatedPopUp();
+//   setTimeout(() => {
+//     afterAddingNewContactShowBigContact(newUserData.name);
+//   }, 500);
+// }
 
-async function invokeDatabankChangesRelatedToNewContact(newUserData){
-  await postNewContact(newUserData);
-  await initContact();
-}
+// async function invokeDatabankChangesRelatedToNewContact(newUserData){
+//   await postNewContact(newUserData);
+//   await initContact();
+// }
 
-function returnContactSuccessfullyCreatetPopUp(action){
-  document.getElementById("contact-successfully-created-pop-up").innerHTML = "Contact successfully " + action; 
-}
+// function returnContactSuccessfullyCreatetPopUp(action){
+//   document.getElementById("contact-successfully-created-pop-up").innerHTML = "Contact successfully " + action; 
+// }
 
-function createUserData(bgColor=randomColor()){
-  return {
-    name: document.getElementById("pop-up-name-input").value,
-    email: document.getElementById("pop-up-email-input").value,
-    number: document.getElementById("pop-up-phone-input").value,
-    color: bgColor
-  }
-}
+// function createUserData(bgColor=randomColor()){
+//   return {
+//     name: document.getElementById("pop-up-name-input").value,
+//     email: document.getElementById("pop-up-email-input").value,
+//     number: document.getElementById("pop-up-phone-input").value,
+//     color: bgColor
+//   }
+// }
 
 /**
  * Posts new contact data to the specified path.
@@ -144,33 +143,33 @@ function createUserData(bgColor=randomColor()){
  * @param {Object} data - The contact data to be posted.
  */
 
-async function postNewContact(newUserData){
-  let contactsRef = ref(database, 'kanban/sharedBoard/contacts');
-  let newContactKey = push(contactsRef).key;
-  let contactWithId = {
-    ...newUserData,
-    id: newContactKey
-  };
-  let updates = {};
-  updates[`contacts/${newContactKey}`] = contactWithId;
-  try {
-    await update(ref(database, 'kanban/sharedBoard'), updates);
-    console.log('Kontakt erfolgreich gespeichert');
-  } catch(error) {
-    console.error('Fehler beim Speichern des Kontakts: ', error);
-  }
-}
+// async function postNewContact(newUserData){
+//   let contactsRef = ref(database, 'kanban/sharedBoard/contacts');
+//   let newContactKey = push(contactsRef).key;
+//   let contactWithId = {
+//     ...newUserData,
+//     id: newContactKey
+//   };
+//   let updates = {};
+//   updates[`contacts/${newContactKey}`] = contactWithId;
+//   try {
+//     await update(ref(database, 'kanban/sharedBoard'), updates);
+//     console.log('Kontakt erfolgreich gespeichert');
+//   } catch(error) {
+//     console.error('Fehler beim Speichern des Kontakts: ', error);
+//   }
+// }
 
-function readNewContactsFromDatabase(){
-  let contactsRef = ref(database, 'kanban/sharedBoard/contacts');
-  onValue(contactsRef, (snapshot) => {
-    let contactData = snapshot.val();
-    allUsers = Object.values(contactData);
-    return allUsers;
-  })
-}
+// function readNewContactsFromDatabase(){
+//   let contactsRef = ref(database, 'kanban/sharedBoard/contacts');
+//   onValue(contactsRef, (snapshot) => {
+//     let contactData = snapshot.val();
+//     allUsers = Object.values(contactData);
+//     return allUsers;
+//   })
+// }
 
-function getAllContacts(){
+export async function getAllContacts(){
   let contactsRef = ref(database, 'kanban/sharedBoard/contacts');
   onValue(contactsRef, (snapshot) => {
     let contactsData = snapshot.val();
@@ -247,17 +246,6 @@ function firstLetterFirstTwoWords(name) {
 function randomColor() {
   let randomIndex = Math.floor(Math.random() * colors.length);
   return colors[randomIndex];
-}
-
-/**
- * Shows the add task popup and hides all small popups.
- *
- */
-
-function showPopUp() {
-  document.getElementById("add-task-pop-up-bg").classList.remove("bg-op-0");
-  document.getElementById("add-task-pop-up").classList.remove("translate-100");
-  hideAllSmallPopUps();
 }
 
 /**
@@ -446,13 +434,12 @@ function renderEditContactPopUp(createdUserObject, index) {
  *
  */
 
-function renderAddContactPopUp() {
-  console.log(document.getElementById("add-new-contact-form"));
-  document.getElementById("add-new-contact-form").innerHTML = contactsHTML.returnAddContactPopUpFormHTML(); // pop-up-inputs-container
-  document.getElementById("pop-up-headline-container").innerHTML = contactsHTML.returnAddContactPopUpHeadlineHTML();
-  document.getElementById("pop-up-contact-logo").innerHTML = contactsHTML.returnAddContactPopUpContactLogoHTML();
-  document.getElementById("pop-up-contact-logo").style.backgroundColor = "#d1d1d1";
-}
+// function renderAddContactPopUp() {
+//   document.getElementById("pop-up-inputs-container").innerHTML = contactsHTML.returnAddContactPopUpFormHTML();  
+//   document.getElementById("pop-up-headline-container").innerHTML = contactsHTML.returnAddContactPopUpHeadlineHTML();
+//   document.getElementById("pop-up-contact-logo").innerHTML = contactsHTML.returnAddContactPopUpContactLogoHTML();
+//   document.getElementById("pop-up-contact-logo").style.backgroundColor = "#d1d1d1";
+// }
 
 /**
  * Displays the big contact view for the newly added contact.

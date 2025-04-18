@@ -1,26 +1,9 @@
-import {ref, set, get} from "../../../config/database.js";
-import db from "../../../config/database.js";
+import {ref, set, get} from "../../../core/database.js";
+import db from "../../../core/database.js";
 
 const database = db.database;
 let allUsers = [];
 let firstUsersNameLetter = [];
-
-// document.addEventListener('DOMContentLoaded', () => {
-//   initContact();
-//   loadData();
-// })
-
-/**
- * Fetches and returns JSON data from a specified URL.
- *
- * @param {string} path - The path to the JSON file.
- */
-
-async function loadData(){
-  let contacts = ref(database, 'kanban/sharedBoard/contacts');
-  let allContacts = await get(contacts);
-  console.log('contacts: ', allContacts);
-}
 
 /**
  * Initializes contact-related variables and functions when the website loads.
