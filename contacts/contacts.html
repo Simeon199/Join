@@ -18,16 +18,13 @@
     <link rel="stylesheet" href="../css/remaining/desktop_template.css">
   </head>
 
-  <body id="body" data-action="hideAllSmallPopUps">
-    <!-- <body onload="initSidebar(); initContact()" onclick="hideAllSmallPopUps()"> -->
+  <body id="body">
     <div id="wrap">
       <header id="headerForm"></header>
 
       <main>
         <div id="contact-list-container">
-          <!-- <button id="add-new-contacts-button" data-action="showPopUp, renderAddContactPopUp"> -->
-            <button id="add-new-contacts-button">
-              <!-- <button id="add-new-contacts-button" onclick="showPopUp(), renderAddContactPopUp()"></button> -->
+          <button id="add-new-contacts-button">
             Add new contacts
             <svg
               width="33"
@@ -94,17 +91,10 @@
           </button>
 
           <div id="contact-list"></div>
-
           <button
             id="add-new-contacts-mobile-button"
             class="mobile-button"
-            data-action="showPopUp, renderAddContactPopUp"
           >
-          <!-- <button
-            id="add-new-contacts-mobile-button"
-            class="mobile-button"
-            onclick="showPopUp(), renderAddContactPopUp()"
-          > -->
             <svg
               width="30"
               height="22"
@@ -164,7 +154,6 @@
             <div id="contact-headline-h1-container">
               <h1>Contacts</h1>
               <svg
-                data-action="deselectContact"
                 id="big-contact-arrow"
                 width="25"
                 height="23"
@@ -172,15 +161,6 @@
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
               >
-              <!-- <svg
-                onclick="deselectContact()"
-                id="big-contact-arrow"
-                width="25"
-                height="23"
-                viewBox="0 0 25 23"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              > -->
                 <path
                   d="M6.00972 9.88554H23.1871C24.0362 9.88554 24.7246 10.5739 24.7246 
                 11.4231C24.7246 12.2722 24.0362 12.9606 23.1871 12.9606H6.00972L13.17 
@@ -209,14 +189,7 @@
                 <div
                   id="show-icon-container-button"
                   class="mobile-button show-icon-container-button-translate-100"
-                  data-action="showIconContainer"
-                  onclick="stopEvent(event)"
                 >
-                <!-- <div
-                  id="show-icon-container-button"
-                  class="mobile-button show-icon-container-button-translate-100"
-                  onclick="stopEvent(event), showIconContainer()"
-                > -->
                   <svg
                     id="show-icon-container-button-icon"
                     width="6"
@@ -231,14 +204,7 @@
                     />
                   </svg>
 
-                  <!-- <div
-                    onclick="stopEvent(event)"
-                    id="icon-container"
-                    class="icon-container icon-container-translate-100"
-                  > -->
-
                   <div
-                    onclick="stopEvent(event)"
                     id="icon-container"
                     class="icon-container icon-container-translate-100"
                   ></div>
@@ -264,12 +230,9 @@
       </main>
 
       <!-- add new contact pop-up -->
-      <div id="add-task-pop-up-bg" class="add-task-pop-up-bg bg-op-0" data-action="hidePopUp">
-        <!-- <div id="add-task-pop-up-bg" class="add-task-pop-up-bg bg-op-0" onclick="hidePopUp()"> -->
-        <div id="add-task-pop-up" class="add-task-pop-up translate-100" onclick="stopEvent(event)">
-          <!-- <div id="add-task-pop-up" class="add-task-pop-up translate-100" onclick="stopEvent(event)"> -->
+      <div id="add-task-pop-up-bg" class="add-task-pop-up-bg bg-op-0">
+        <div id="add-task-pop-up" class="add-task-pop-up translate-100">
           <svg
-            data-action="hidePopUp"
             id="close-add-task-pop-up"
             width="14"
             height="14"
@@ -277,15 +240,6 @@
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
           >
-          <!-- <svg
-            onclick="hidePopUp()"
-            id="close-add-task-pop-up"
-            width="14"
-            height="14"
-            viewBox="0 0 14 14"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          > -->
             <path
               d="M6.9998 8.36587L2.0998 13.2659C1.91647 13.4492 1.68314 13.5409 1.3998 
             13.5409C1.11647 13.5409 0.883138 13.4492 0.699805 13.2659C0.516471 13.0825 
@@ -368,7 +322,5 @@
     <script src="../js/js_html_templates/desktop-template.js"></script>
     <script src="../js/script.js"></script>
     <script type="module" src="../contacts/javascript/contacts.js"></script>
-    <script type="module" src="../contacts/javascript/contacts_database.js"></script> 
-    <script src="../contacts/javascript/contactEditTemplate.js"></script> contactEditTemplate.js
   </body> 
 </html>

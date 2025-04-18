@@ -7,38 +7,7 @@ const database = db.database;
 
 let allUsers = [];
 let firstUsersNameLetter = [];
-let colors = [
-  "#4B3C99",
-  "#FF4646",
-  "#FF8C1A",
-  "#AA4FFF",
-  "#6464FF",
-  "#DE1AFF",
-  "#FFC61A",
-  "#32D4C3",
-  "#FF5733",
-  "#33FF57",
-  "#3357FF",
-  "#FF33A8",
-  "#A833FF",
-  "#33FFDD",
-  "#FFDD33",
-  "#DD33FF",
-  "#FF336B",
-  "#6BFF33",
-  "#1E3A55",
-  "#FFA500",
-  "#00CED1",
-  "#8A2BE2",
-  "#A52A2A",
-  "#7FFF00",
-  "#D2691E",
-  "#FF7F50",
-  "#DC143C",
-  "#008B8B",
-];
 
-let activeContactIndex = null;
 // let actions = {
 //   showPopUp: () => showPopUp(),
 //   renderAddContactPopUp: () => renderAddContactPopUp(),
@@ -178,18 +147,6 @@ export async function getAllContacts(){
   })
 }
 
-/**
- * Initializes contact-related variables and functions when the website loads.
- *
- */
-
-async function initContact() {
-  allUsers = [];
-  firstUsersNameLetter = [];
-  getAllContacts();
-  // renderContactList();
-}
-
 
 /**
  * Sorts the contacts in alphabetical order by name.
@@ -238,25 +195,6 @@ function firstLetterFirstTwoWords(name) {
   return result.toUpperCase();
 }
 
-/**
- * Returns a random color from the colors array.
- *
- */
-
-function randomColor() {
-  let randomIndex = Math.floor(Math.random() * colors.length);
-  return colors[randomIndex];
-}
-
-/**
- * Hides the add task popup.
- *
- */
-
-function hidePopUp() {
-  document.getElementById("add-task-pop-up-bg").classList.add("bg-op-0");
-  document.getElementById("add-task-pop-up").classList.add("translate-100");
-}
 
 /**
  * Shows the contact creation success popup.
@@ -294,60 +232,6 @@ function showLoadScreen() {
 
 function hideLoadScreen() {
   document.getElementById("load-screen").classList.add("d-none");
-}
-
-/**
- * Toggles the display of a contact's details.
- *
- * @param {number} i - The index of the contact.
- * @param {string} userName - The name of the contact.
- * @param {string} userEmail - The email of the contact.
- * @param {string} userNumber - The phone number of the contact.
- * @param {string} userID - The ID of the contact.
- * @param {string} userColor - The color associated with the contact.
- */
-
-function toggleBigContact(i, userName, userEmail, userNumber, userID, userColor) {
-  let bigContact = document.getElementById("big-contact");
-  let contactEl = document.querySelectorAll(".contact")[i];
-  if (activeContactIndex === i) {
-    deselectContact();
-  } else {
-    selectContact(userName, userEmail, userNumber, userID, i, userColor, bigContact, contactEl);
-  }
-}
-
-/**
- * Deselects the currently active contact and updates the UI.
- *
- */
-
-async function deselectContact() {
-  document.getElementById("big-contact").classList.add("hide-big-contact");
-  document.querySelectorAll(".contact")[activeContactIndex].classList.remove("contact-aktiv");
-  document.getElementById("right-site-container").classList.add("right-site-container-translate-100");
-  document.getElementById("show-icon-container-button").classList.add("show-icon-container-button-translate-100");
-  document.getElementById("show-icon-container-button").classList.remove("animation");
-  document.getElementById("add-new-contacts-mobile-button").classList.remove("d-none");
-  activeContactIndex = null;
-}
-
-/**
- * Toggles the translation class for the icon container.
- *
- */
-
-function showIconContainer() {
-  document.getElementById("icon-container").classList.toggle("icon-container-translate-100");
-}
-
-/**
- * Hides all small pop-ups by adding a CSS class.
- *
- */
-
-function hideAllSmallPopUps(){
-  document.getElementById("icon-container").classList.add("icon-container-translate-100");
 }
 
 /**
@@ -429,17 +313,6 @@ function renderEditContactPopUp(createdUserObject, index) {
   document.getElementById("pop-up-phone-input").value = createdUserObject.userNumber;
 }
 
-/**
- * Renders the add contact popup with form, headline, and logo.
- *
- */
-
-// function renderAddContactPopUp() {
-//   document.getElementById("pop-up-inputs-container").innerHTML = contactsHTML.returnAddContactPopUpFormHTML();  
-//   document.getElementById("pop-up-headline-container").innerHTML = contactsHTML.returnAddContactPopUpHeadlineHTML();
-//   document.getElementById("pop-up-contact-logo").innerHTML = contactsHTML.returnAddContactPopUpContactLogoHTML();
-//   document.getElementById("pop-up-contact-logo").style.backgroundColor = "#d1d1d1";
-// }
 
 /**
  * Displays the big contact view for the newly added contact.
@@ -485,12 +358,3 @@ function renderBigContact(createdUserObject, index) {
   document.getElementById("big-number").innerHTML = createdUserObject.userNumber;
   document.getElementById("icon-container").innerHTML = contactsHTML.returnBigContactIconContainerHTML(createdUserObject, index);
 }
-
-// All functions used in contactsHTML.js
-
-// returnContactLetterContainerHTML
-// returnContactHTML
-// returnBigContactIconContainerHTML
-// returnAddContactPopUpHeadlineHTML
-// returnAddContactPopUpContactLogoHTML
-// returnAddContactPopUpFormHTML
