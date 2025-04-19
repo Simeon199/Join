@@ -9,7 +9,7 @@ async function initSidebar() {
   await sidebarHTML();
   await headerHTML();
   sowUserLetters("userLetters", username);
-  isNotLoggedIn();
+  // isNotLoggedIn();
 }
 
 /**
@@ -65,9 +65,6 @@ async function headerHTML() {
 <path d="M87.6768 104.76V118.593H85.2224V104.76H87.6768Z" fill="#2A3647"/>
 <path d="M90.3358 118.593V104.76H93.0629L95.9946 110.461C96.7493 111.952 97.4207 113.483 98.0058 115.049C97.8524 113.337 97.7843 111.368 97.7843 109.177V104.76H100.034V118.593H97.4945L94.5288 112.772C93.7436 111.243 93.0437 109.671 92.4323 108.064C92.4323 109.776 92.5516 111.711 92.5516 114.09V118.576L90.3358 118.593Z" fill="#2A3647"/>
 </svg>
-
-
-
   <h1>Kanban Project Management Tool</h1>
   <div id="headerIcons" class="headerIcons">
     <a href="help.html">
@@ -143,7 +140,6 @@ function logout() {
   sessionStorage.removeItem("userNickname");
   sessionStorage.removeItem("guestLoginStatus");
   window.location.href = "login.html";
-
   localStorage.setItem("firstTime", "true");
 }
 

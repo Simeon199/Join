@@ -8,12 +8,11 @@
   <link rel="icon" href="../assets/img/Capa2logo_klein.svg" type="image/x-icon" />
 
   <!-- css files -->
-  <link rel="stylesheet" href="../css/login_and_register/login.css" />
-  <link rel="stylesheet" href="../css/login_and_register/register.css" />
-  <link rel="stylesheet" href="../css/login_and_register/register.media_queries.css">
-  <link rel="stylesheet" href="../css/remaining/fonts.css" />
 
-  <!-- javascript files -->
+  <link rel="stylesheet" href="./css/login.css" /> 
+  <link rel="stylesheet" href="./css/register.css" /> 
+  <link rel="stylesheet" href="./css/register.media_queries.css">
+  <link rel="stylesheet" href="../shared/css/fonts.css" />
   
 </head>
 
@@ -110,11 +109,13 @@
 
   <!-- loading -->
   <div id="board-add_task-load-screen" class="d-none"></div>
-  <script type="module" src="../config/database.js"></script>
-  <script src="../js/script.js"></script>
-  <script type="module" src="../js/login_and_register/register.js"></script>
-  <script type="module" src="../js/login_and_register/login.js"></script>
-  <script src="../js/contacts/contacts_database.js"></script>
+
+  <!-- All javascript files -->
+
+  <script type="module" src="../core/database.js"></script> 
+  <script src="../shared/javascript/script.js"></script> 
+  <script type="module" src="./javascript/register.js"></script> 
+  <script type="module" src="./javascript/login.js"></script> 
 </body>
 
 </html>
