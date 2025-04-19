@@ -5,12 +5,12 @@ export * from './contactsHTML.js';
 let basePath = '../contacts/templates/';
 
 let allTemplates = [
-  'add-contact-pop-up-logo.html', 
-  'add-contact-pop-up-form.html', 
-  'add-contact-pop-up-headline.html',
-  'big-contact-icon-container.html',
-  'contact-letter-container.html',
-  'contact-template.html'
+  'add-contact-pop-up-logo.template.html', 
+  'add-contact-pop-up-form.template.html', 
+  'add-contact-pop-up-headline.template.html',
+  'big-contact-icon-container.template.html',
+  'contact-letter-container.template.html',
+  'contact-template.template.html'
 ];
 
 let colors = [
@@ -61,11 +61,11 @@ function observeForForm(){
   let observer = new MutationObserver(() => {
     let form = document.querySelector('#add-contact-form');
     if(form && form.dataset.listenerAttached){
-      form?.addEventListener('submit', (event) => {
+      form.addEventListener('submit', (event) => {
         contacts.submitNewUser(event);
       });
       form.dataset.listenerAttached = 'true'; // Verhindert doppelte Listener
-      obs.disconnect(); // observer nur einmal auslösen
+      observer.disconnect(); // observer nur einmal auslösen
     }
   });
   observer.observe(document.getElementById('pop-up-inputs-container'), {
@@ -208,47 +208,56 @@ export function returnContactHTML(j, user) {
 // }
 
 function renderAddContactPopUp(){
+  // observeFalseCloningProcess();
   insertTemplateIntoExistingParentContainer('add-new-contact-form', 'pop-up-inputs-container');  
-  // buildTemplateModel('add-new-contact-form', returnTemplate('add-new-contact-form'));
-  buildTemplateModel('contact-pop-up-headline', returnTemplate('contact-pop-up-headline'));
-  buildTemplateModel('add-contact-pop-up-logo', returnTemplate('add-contact-pop-up-logo'));
-  // document.getElementById("pop-up-contact-logo").style.backgroundColor = "#d1d1d1"
+  // insertTemplateIntoExistingParentContainer('contact-pop-up-headline', 'pop-up-headline-container');
+  // insertTemplateIntoExistingParentContainer('add-contact-pop-up-logo','pop-up-contact-logo');
+  document.getElementById("pop-up-contact-logo").style.backgroundColor = "#d1d1d1"
 }
 
-// function insertTemplateIntoExistingParentContainer(idTemplate, idParentContainer){
-//   let parentContainer = document.getElementById(`${idParentContainer}`);
-//   if(parentContainer){
-//     parentContainer.innerHTML = '';
-//   }
-//   parentContainer.appendChild(buildTemplateModel(idTemplate, returnTemplate(idTemplate)));
-// }
+function observeFalseCloningProcess(){
+  const observer = new MutationObserver((mutationsList) => {
+    for(let mutation of mutationsList){
+      console.log('[MutationObserver] Mutation detected: ', mutation);
+
+      // Direkt prüfen, ob Buttons hinzugefügt wurden
+      const buttons = document.querySelector('.pop-up-buttons-container');
+      console.log('[MutationObserver] Buttons vorhanden? ', !!buttons, buttons);
+      if(buttons){
+        console.log('[Observer] Buttons korrekt erkannt. Beobachtung wird gestoppt.');
+        observer.disconnect();
+      }
+    }
+  }); 
+
+  observer.observe(document.getElementById('pop-up-inputs-container') ?? document.body, {
+    childList: true,
+    subtree: true
+  });
+}
 
 function insertTemplateIntoExistingParentContainer(idTemplate, idParentContainer){
   let parentContainer = document.getElementById(idParentContainer);
-  if(parentContainer){
-    parentContainer.innerHTML = '';
-    try {
-    parentContainer?.appendChild(buildTemplateModel(idTemplate, returnTemplate(idTemplate)));
-    } catch(error) {
-      console.warn('Fehler beim Hinzufügen des Templates:', error);
-    }
+  try {
+    parentContainer.appendChild(buildTemplateModel(idTemplate, returnTemplate(idTemplate)));
+  } catch(error) {
+    console.warn('Fehler beim Hinzufügen des Templates:', error);
   }
 }
 
 function buildTemplateModel(id, renderMethod){
   let wrapper = document.createElement('div');
-  wrapper.id = id;
-  if(renderMethod instanceof Node){
-    wrapper.appendChild(renderMethod);
-  } else {
-    console.log(`Kein gültiger Node für Template "${id}"`);
-  }
-  // wrapper.appendChild(renderMethod);
+  wrapper.appendChild(renderMethod);
+  // const found = wrapper.querySelector('.pop-up-buttons-container');
+  // console.log('[buildTemplateModel] Buttons vorhanden?', !!found, found);
   return wrapper;
 }
 
 export function returnTemplate(id){
   let template = core.getTemplateClone(id);
+  let fragment = document.createDocumentFragment();
+  fragment.append(...template.childNodes);
+  // console.log('fragment value: ', fragment);
   if(!template){
     console.warn(`Template mit ID "${id}" nicht gefunden.`);
   }
