@@ -59,15 +59,16 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 function observeForForm(){
   let observer = new MutationObserver(() => {
-    let form = document.querySelector('form');
-    if(form){
-      form.addEventListener('submit', (event) => {
+    let form = document.querySelector('#add-contact-form');
+    if(form && form.dataset.listenerAttached){
+      form?.addEventListener('submit', (event) => {
         contacts.submitNewUser(event);
       });
-      observer.disconnect();
+      form.dataset.listenerAttached = 'true'; // Verhindert doppelte Listener
+      obs.disconnect(); // observer nur einmal auslösen
     }
   });
-  observer.observe(document.body, {
+  observer.observe(document.getElementById('pop-up-inputs-container'), {
     childList: true,
     subtree: true
   });
@@ -206,24 +207,52 @@ export function returnContactHTML(j, user) {
 //   return template;
 // }
 
-export function returnTemplate(id){
-  let template = core.getTemplateClone(id);
-  return template;
-}
-
 function renderAddContactPopUp(){
-  console.log('nix da');
-  buildTemplateModel('add-new-contact-form', returnTemplate('add-new-contact-form'));
+  insertTemplateIntoExistingParentContainer('add-new-contact-form', 'pop-up-inputs-container');  
+  // buildTemplateModel('add-new-contact-form', returnTemplate('add-new-contact-form'));
   buildTemplateModel('contact-pop-up-headline', returnTemplate('contact-pop-up-headline'));
   buildTemplateModel('add-contact-pop-up-logo', returnTemplate('add-contact-pop-up-logo'));
   // document.getElementById("pop-up-contact-logo").style.backgroundColor = "#d1d1d1"
 }
 
+// function insertTemplateIntoExistingParentContainer(idTemplate, idParentContainer){
+//   let parentContainer = document.getElementById(`${idParentContainer}`);
+//   if(parentContainer){
+//     parentContainer.innerHTML = '';
+//   }
+//   parentContainer.appendChild(buildTemplateModel(idTemplate, returnTemplate(idTemplate)));
+// }
+
+function insertTemplateIntoExistingParentContainer(idTemplate, idParentContainer){
+  let parentContainer = document.getElementById(idParentContainer);
+  if(parentContainer){
+    parentContainer.innerHTML = '';
+    try {
+    parentContainer?.appendChild(buildTemplateModel(idTemplate, returnTemplate(idTemplate)));
+    } catch(error) {
+      console.warn('Fehler beim Hinzufügen des Templates:', error);
+    }
+  }
+}
+
 function buildTemplateModel(id, renderMethod){
-  let wrapper = document.createElement(id);
+  let wrapper = document.createElement('div');
   wrapper.id = id;
-  wrapper.appendChild(renderMethod);
+  if(renderMethod instanceof Node){
+    wrapper.appendChild(renderMethod);
+  } else {
+    console.log(`Kein gültiger Node für Template "${id}"`);
+  }
+  // wrapper.appendChild(renderMethod);
   return wrapper;
+}
+
+export function returnTemplate(id){
+  let template = core.getTemplateClone(id);
+  if(!template){
+    console.warn(`Template mit ID "${id}" nicht gefunden.`);
+  }
+  return template;
 }
 
 // <!--- Hier kommen die ganzen veralteten Funktionen -->
