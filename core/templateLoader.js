@@ -27,9 +27,9 @@ export async function generatePromise(filename, basePath){
             throw new Error(`Failed to fetch ${filename}: ${result.status} ${result.statusText}`);
         }
         let htmlContent = await result.text();
-        if(filename === 'add-contact-pop-up-form.template.html'){
-            console.log('Geladener HTML-Inhalt für: ', filename, ':', htmlContent);
-        }
+        // if(filename === 'add-contact-pop-up-form.template.html'){
+        //     console.log('Geladener HTML-Inhalt für: ', filename, ':', htmlContent);
+        // }
         let container = document.createElement('div');
         container.innerHTML = htmlContent;
         let templates = container.querySelectorAll('template');

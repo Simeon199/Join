@@ -1,6 +1,7 @@
 import * as contacts from './contacts.js';
 import * as core from '../../../core/templateLoader.js';
-export * from './contactsHTML.js';
+import * as shared from '../../shared/javascript/desktop-template.js';
+// export * from './contactsHTML.js';
 
 let basePath = '../contacts/templates/';
 
@@ -52,6 +53,7 @@ let firstContactsNameLetter = [];
 export {allContacts, firstContactsNameLetter};
 
 document.addEventListener('DOMContentLoaded', async () => {
+  shared.bundleLoadingHTMLTemplates();
   initFunctionsForContacts();
   triggerAllClickEventFunctions();
   observeForForm();
@@ -77,7 +79,7 @@ function observeForForm(){
 async function initFunctionsForContacts(){
   allTemplatesIds = await core.loadTemplates(allTemplates, basePath);
   initContact();
-  initSidebar();
+  // initSidebar();
 }
 
 function triggerAllClickEventFunctions(){
