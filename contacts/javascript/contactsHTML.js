@@ -53,7 +53,7 @@ let firstContactsNameLetter = [];
 export {allContacts, firstContactsNameLetter};
 
 document.addEventListener('DOMContentLoaded', async () => {
-  await shared.bundleLoadingHTMLTemplates();
+  shared.bundleLoadingHTMLTemplates();
   // initFunctionsForContacts();
   triggerAllClickEventFunctions();
   // observeForForm();

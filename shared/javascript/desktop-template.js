@@ -6,17 +6,22 @@
 //   bundleLoadingHTMLTemplates();
 // });
 
-export async function bundleLoadingHTMLTemplates(){
-  await initHTMLContent('/shared/templates/header.template.html', 'headerForm');
-  await initHTMLContent('/shared/templates/sidebar.template.html', 'sidebar');
-  // initHTMLContent('/shared/templates/dropdown_menu.template.html');
+export function bundleLoadingHTMLTemplates(){
+  initHTMLContent('/shared/templates/header.tpl', 'headerForm');
+  initHTMLContent('/shared/templates/sidebar.tpl', 'sidebar');
 }
 
 export async function initHTMLContent(path, parentId){
-  debugger;
   let response = await fetch(path);
+  if(!response.ok){
+    console.error(`Fehler beim Laden der Datei ${path}: ${response.statusText}`);
+    return;
+  }
   let html = await response.text();
-
+  if(!html.trim()){
+    console.error(`Die geladene HTML-Datei ist leer:`, path);
+    return;
+  }
   // HTML-String in echtes DOM kovertieren
 
   const parser = new DOMParser();
@@ -28,6 +33,7 @@ export async function initHTMLContent(path, parentId){
   }
 
   const clone = template.content.cloneNode(true);
+  console.log('parent Id and clone: ', document.getElementById(parentId), clone);
   document.getElementById(parentId).appendChild(clone);
 
   // let parentElement = document.getElementById(`${parentId}`);
