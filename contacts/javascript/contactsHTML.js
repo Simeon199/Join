@@ -66,7 +66,17 @@ document.addEventListener('DOMContentLoaded', async () => {
   loadAllContactsTemplateFunctions();
   // initFunctionsForContacts();
   triggerAllClickEventFunctions();
+  triggerSubmitEventFunction();
 });
+
+function triggerSubmitEventFunction(){
+  document.body.addEventListener('submit', (event) => {
+    if(event.target && event.target.matches('#add-contact-form')){
+      event.preventDefault();
+      contacts.submitNewUser(event);
+    }
+  });
+}
 
 async function loadAllContactsTemplateFunctions(){
   for(let j = 0; j < templatePaths.length; j++){
