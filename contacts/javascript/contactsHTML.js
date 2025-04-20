@@ -1,51 +1,60 @@
 import * as contacts from './contacts.js';
 import * as core from '../../../core/templateLoader.js';
-import * as shared from '../../shared/javascript/desktop-template.js';
+import * as shared from '../../shared/javascript/shared.js';
 export * from './contactsHTML.js';
 
-let basePath = '../contacts/templates/';
-
-let allTemplates = [
-  'add-contact-pop-up-logo.template.html', 
-  'add-contact-pop-up-form.template.html', 
-  'add-contact-pop-up-headline.template.html',
-  'big-contact-icon-container.template.html',
-  'contact-letter-container.template.html',
-  'contact-template.template.html'
+const templateParentDivs = [
+  'pop-up-inputs-container', 
+  'pop-up-headline-container', 
+  'pop-up-contact-logo'
 ];
 
-let colors = [
-  "#4B3C99",
-  "#FF4646",
-  "#FF8C1A",
-  "#AA4FFF",
-  "#6464FF",
-  "#DE1AFF",
-  "#FFC61A",
-  "#32D4C3",
-  "#FF5733",
-  "#33FF57",
-  "#3357FF",
-  "#FF33A8",
-  "#A833FF",
-  "#33FFDD",
-  "#FFDD33",
-  "#DD33FF",
-  "#FF336B",
-  "#6BFF33",
-  "#1E3A55",
-  "#FFA500",
-  "#00CED1",
-  "#8A2BE2",
-  "#A52A2A",
-  "#7FFF00",
-  "#D2691E",
-  "#FF7F50",
-  "#DC143C",
-  "#008B8B",
+const templatePaths = [
+  '/contacts/templates/add-contact-pop-up-form.tpl', 
+  '/contacts/templates/add-contact-pop-up-headline.tpl', 
+  '/contacts/templates/add-contact-pop-up-logo.tpl'
 ];
 
-let allTemplatesIds = [];
+// let allTemplates = [
+//   'add-contact-pop-up-logo.tpl', 
+//   'add-contact-pop-up-form.tpl', 
+//   'add-contact-pop-up-headline.tpl',
+//   'big-contact-icon-container.tpl',
+//   'contact-letter-container.tpl',
+//   'contact-template.tpl'
+// ];
+
+// let colors = [
+//   "#4B3C99",
+//   "#FF4646",
+//   "#FF8C1A",
+//   "#AA4FFF",
+//   "#6464FF",
+//   "#DE1AFF",
+//   "#FFC61A",
+//   "#32D4C3",
+//   "#FF5733",
+//   "#33FF57",
+//   "#3357FF",
+//   "#FF33A8",
+//   "#A833FF",
+//   "#33FFDD",
+//   "#FFDD33",
+//   "#DD33FF",
+//   "#FF336B",
+//   "#6BFF33",
+//   "#1E3A55",
+//   "#FFA500",
+//   "#00CED1",
+//   "#8A2BE2",
+//   "#A52A2A",
+//   "#7FFF00",
+//   "#D2691E",
+//   "#FF7F50",
+//   "#DC143C",
+//   "#008B8B",
+// ];
+
 let activeContactIndex = null;
 let allContacts = [];
 let firstContactsNameLetter = [];
@@ -54,33 +63,16 @@ export {allContacts, firstContactsNameLetter};
 
 document.addEventListener('DOMContentLoaded', async () => {
   shared.bundleLoadingHTMLTemplates();
+  loadAllContactsTemplateFunctions();
   // initFunctionsForContacts();
   triggerAllClickEventFunctions();
-  // observeForForm();
 });
 
-// function observeForForm(){
-//   let observer = new MutationObserver(() => {
-//     let form = document.querySelector('#add-contact-form');
-//     if(form && form.dataset.listenerAttached){
-//       form.addEventListener('submit', (event) => {
-//         contacts.submitNewUser(event);
-//       });
-//       form.dataset.listenerAttached = 'true'; // Verhindert doppelte Listener
-//       observer.disconnect(); // observer nur einmal auslösen
-//     }
-//   });
-//   observer.observe(document.getElementById('pop-up-inputs-container'), {
-//     childList: true,
-//     subtree: true
-//   });
-// }
-
-// async function initFunctionsForContacts(){
-//   allTemplatesIds = await core.loadTemplates(allTemplates, basePath);
-//   initContact();
-//   initSidebar();
-// }
+async function loadAllContactsTemplateFunctions(){
+  for(let j = 0; j < templatePaths.length; j++){
+    await shared.initHTMLContent(templatePaths[j], templateParentDivs[j]);
+  }
+}
 
 function triggerAllClickEventFunctions(){
   document.getElementById('body').addEventListener('click', () => {
@@ -110,12 +102,10 @@ function manageClickEventOnIconContainerButton(){
 
 function manageClickEventOnAddNewContactsButton(){
   document.getElementById('add-new-contacts-button').addEventListener('click', () => {
-    showPopUp(), 
-    renderAddContactPopUp()
+    showPopUp(); 
   });
   document.getElementById('add-new-contacts-mobile-button').addEventListener('click', () => {
-    showPopUp(), 
-    renderAddContactPopUp()
+    showPopUp();
   });
 }
 
@@ -155,19 +145,6 @@ async function initContact() {
 }
 
 /**
- * Returns the HTML for a contact letter container.
- *
- * @param {string} letter - The letter to be displayed.
- */
-
-export function returnContactLetterContainerHTML(letter) {
-  let template = core.getTemplateClone('contact-letter-container');
-  let heading = template.querySelector('.letter');
-  heading.textContent = letter.toUpperCase();
-  return template;
-}
-
-/**
  * Generates HTML for a contact card with user details.
  *
  * @param {number} j - Index of the contact.
@@ -175,7 +152,6 @@ export function returnContactLetterContainerHTML(letter) {
  */
 
 export function returnContactHTML(j, user) {
-  let template = core.getTemplateClone('contact-template');
   template.querySelector('.contact').addEventListener('click', ()=> {
     toggleBigContact(j, user.name, user.email, user.phone, user.id, user.color);
   });
@@ -209,62 +185,9 @@ export function returnContactHTML(j, user) {
 //   return template;
 // }
 
-function renderAddContactPopUp(){
-  // observeFalseCloningProcess();
-  insertTemplateIntoExistingParentContainer('add-new-contact-form', 'pop-up-inputs-container');  
-  // insertTemplateIntoExistingParentContainer('contact-pop-up-headline', 'pop-up-headline-container');
-  // insertTemplateIntoExistingParentContainer('add-contact-pop-up-logo','pop-up-contact-logo');
-  document.getElementById("pop-up-contact-logo").style.backgroundColor = "#d1d1d1"
-}
-
-function observeFalseCloningProcess(){
-  const observer = new MutationObserver((mutationsList) => {
-    for(let mutation of mutationsList){
-      console.log('[MutationObserver] Mutation detected: ', mutation);
-
-      // Direkt prüfen, ob Buttons hinzugefügt wurden
-      const buttons = document.querySelector('.pop-up-buttons-container');
-      console.log('[MutationObserver] Buttons vorhanden? ', !!buttons, buttons);
-      if(buttons){
-        console.log('[Observer] Buttons korrekt erkannt. Beobachtung wird gestoppt.');
-        observer.disconnect();
-      }
-    }
-  }); 
-
-  observer.observe(document.getElementById('pop-up-inputs-container') ?? document.body, {
-    childList: true,
-    subtree: true
-  });
-}
-
-function insertTemplateIntoExistingParentContainer(idTemplate, idParentContainer){
-  let parentContainer = document.getElementById(idParentContainer);
-  try {
-    parentContainer.appendChild(buildTemplateModel(idTemplate, returnTemplate(idTemplate)));
-  } catch(error) {
-    console.warn('Fehler beim Hinzufügen des Templates:', error);
-  }
-}
-
-function buildTemplateModel(id, renderMethod){
-  let wrapper = document.createElement('div');
-  wrapper.appendChild(renderMethod);
-  // const found = wrapper.querySelector('.pop-up-buttons-container');
-  // console.log('[buildTemplateModel] Buttons vorhanden?', !!found, found);
-  return wrapper;
-}
-
-export function returnTemplate(id){
-  let template = core.getTemplateClone(id);
-  let fragment = document.createDocumentFragment();
-  fragment.append(...template.childNodes);
-  // console.log('fragment value: ', fragment);
-  if(!template){
-    console.warn(`Template mit ID "${id}" nicht gefunden.`);
-  }
-  return template;
-}
+// function renderAddContactPopUp(){
+//   document.getElementById("pop-up-contact-logo").style.backgroundColor = "#d1d1d1"
+// }
 
 // <!--- Hier kommen die ganzen veralteten Funktionen -->
 
@@ -288,13 +211,14 @@ export function returnTemplate(id){
  *
  * @param {string} userID - The ID of the contact to be deleted.
  */
-async function deleteContact(userID) {
-  showLoadScreen();
-  await deleteData("/contacts/" + userID);
-  deselectContact();
-  await initContact();
-  hideLoadScreen();
-}
+
+// async function deleteContact(userID) {
+//   showLoadScreen();
+//   await deleteData("/contacts/" + userID);
+//   deselectContact();
+//   await initContact();
+//   hideLoadScreen();
+// }
 
 /**
  * Updates the UI to show the selected contact and highlights it.
@@ -534,9 +458,9 @@ function showIconContainer() {
  *
  */
 
-function hideLoadScreen() {
-  document.getElementById("load-screen").classList.add("d-none");
-}
+// function hideLoadScreen() {
+//   document.getElementById("load-screen").classList.add("d-none");
+// }
 
 /**
  * Renders the edit contact popup with provided user details.
@@ -609,9 +533,9 @@ function firstLetterFirstTwoWords(name) {
  *
  */
 
-function showLoadScreen() {
-  document.getElementById("load-screen").classList.remove("d-none");
-}
+// function showLoadScreen() {
+//   document.getElementById("load-screen").classList.remove("d-none");
+// }
 
 /**
  * Displays the big contact view for the newly added contact.

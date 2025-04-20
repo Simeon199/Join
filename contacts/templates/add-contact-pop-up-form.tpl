@@ -1,5 +1,5 @@
 <template id="add-new-contact-form">
-    <form id="add-contact-form">
+    <form id="form">
 
         <div class="pop-up-input-container">
           <input 
@@ -114,8 +114,8 @@
           </svg>
         </div>
 
-        <div class="pop-up-buttons-container">
-          <button class="pop-up-cancel-button">
+        <div id="pop-up-buttons-container">
+          <button id="pop-up-cancel-button">
             Cancel
             <svg
               class="pop-up-cancel-button-svg"
