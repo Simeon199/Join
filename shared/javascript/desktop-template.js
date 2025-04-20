@@ -6,18 +6,35 @@
 //   bundleLoadingHTMLTemplates();
 // });
 
-export function bundleLoadingHTMLTemplates(){
-  initHTMLContent('/shared/templates/header.template.html');
-  initHTMLContent('/shared/templates/sidebar.template.html');
-  initHTMLContent('/shared/templates/dropdown_menu.template.html');
+export async function bundleLoadingHTMLTemplates(){
+  await initHTMLContent('/shared/templates/header.template.html', 'headerForm');
+  await initHTMLContent('/shared/templates/sidebar.template.html', 'sidebar');
+  // initHTMLContent('/shared/templates/dropdown_menu.template.html');
 }
 
-export async function initHTMLContent(id){
-  let response = await fetch(id);
+export async function initHTMLContent(path, parentId){
+  debugger;
+  let response = await fetch(path);
   let html = await response.text();
-  let container = document.createElement('div');
-  container.innerHTML = html;
-  document.body.append(container);
+
+  // HTML-String in echtes DOM kovertieren
+
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(html, 'text/html');
+  const template = doc.querySelector('template');
+
+  if(!template){
+    return;
+  }
+
+  const clone = template.content.cloneNode(true);
+  document.getElementById(parentId).appendChild(clone);
+
+  // let parentElement = document.getElementById(`${parentId}`);
+  // if(parentElement && parentElement.innerHTML !== ''){
+  //   parentElement.innerHTML = '';
+  // }
+  // parentElement.innerHTML += html;
 }
 
 /**

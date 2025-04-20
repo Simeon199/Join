@@ -1,7 +1,7 @@
 import * as contacts from './contacts.js';
 import * as core from '../../../core/templateLoader.js';
 import * as shared from '../../shared/javascript/desktop-template.js';
-// export * from './contactsHTML.js';
+export * from './contactsHTML.js';
 
 let basePath = '../contacts/templates/';
 
@@ -53,34 +53,34 @@ let firstContactsNameLetter = [];
 export {allContacts, firstContactsNameLetter};
 
 document.addEventListener('DOMContentLoaded', async () => {
-  shared.bundleLoadingHTMLTemplates();
-  initFunctionsForContacts();
+  await shared.bundleLoadingHTMLTemplates();
+  // initFunctionsForContacts();
   triggerAllClickEventFunctions();
-  observeForForm();
+  // observeForForm();
 });
 
-function observeForForm(){
-  let observer = new MutationObserver(() => {
-    let form = document.querySelector('#add-contact-form');
-    if(form && form.dataset.listenerAttached){
-      form.addEventListener('submit', (event) => {
-        contacts.submitNewUser(event);
-      });
-      form.dataset.listenerAttached = 'true'; // Verhindert doppelte Listener
-      observer.disconnect(); // observer nur einmal auslösen
-    }
-  });
-  observer.observe(document.getElementById('pop-up-inputs-container'), {
-    childList: true,
-    subtree: true
-  });
-}
+// function observeForForm(){
+//   let observer = new MutationObserver(() => {
+//     let form = document.querySelector('#add-contact-form');
+//     if(form && form.dataset.listenerAttached){
+//       form.addEventListener('submit', (event) => {
+//         contacts.submitNewUser(event);
+//       });
+//       form.dataset.listenerAttached = 'true'; // Verhindert doppelte Listener
+//       observer.disconnect(); // observer nur einmal auslösen
+//     }
+//   });
+//   observer.observe(document.getElementById('pop-up-inputs-container'), {
+//     childList: true,
+//     subtree: true
+//   });
+// }
 
-async function initFunctionsForContacts(){
-  allTemplatesIds = await core.loadTemplates(allTemplates, basePath);
-  initContact();
-  // initSidebar();
-}
+// async function initFunctionsForContacts(){
+//   allTemplatesIds = await core.loadTemplates(allTemplates, basePath);
+//   initContact();
+//   initSidebar();
+// }
 
 function triggerAllClickEventFunctions(){
   document.getElementById('body').addEventListener('click', () => {
