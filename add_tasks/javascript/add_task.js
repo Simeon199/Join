@@ -1,5 +1,6 @@
 import {ref, get, push, remove } from "../../config/database.js";
 import db from "../../config/database.js";
+import * as shared from '../../shared/javascript/shared.js';
 
 const database = db.database;
 
@@ -11,15 +12,20 @@ let assignedContacts = [];
 let standardContainer = "to-do-container";
 
 document.addEventListener('DOMContentLoaded', () => {
+  shared.bundleLoadingHTMLTemplates();
+  handleAllClickEvents();
+  init();
+  initSidebar();
+});
+
+function handleAllClickEvents(){
   document.getElementById('arrowa').addEventListener('click', () => {
     checkDropDown('arrowa');
   });
   document.getElementById("addTaskBody").addEventListener('click', () => {
     hideAllAddTaskPopups();
-  })
-  init();
-  initSidebar();
-});
+  });
+}
 
 /**
  * Initializes add-task variables and functions when the website loads.

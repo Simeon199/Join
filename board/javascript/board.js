@@ -1,3 +1,5 @@
+import * as shared from '../../shared/javascript/shared.js';
+
 let tasks = [];
 let categories = [];
 let searchedTasks = [];
@@ -13,6 +15,14 @@ let checkBoxCheckedJson = {};
 let emptyList = [];
 let renderCurrentTaskId;
 let touchTime;
+
+document.addEventListener('DOMContentLoaded', async () => {
+  shared.bundleLoadingHTMLTemplates();
+  init();
+  init_task();
+  updateHTML();
+})
+
 
 /**
  * This asynchronous function performs two main actions:
