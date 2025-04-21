@@ -1,25 +1,39 @@
+import * as shared from '../../shared/javascript/shared.js'
+
 // const BASE_URL = "https://join-9bbb0-default-rtdb.europe-west1.firebasedatabase.app/";
 
 
-let userName = getUserNickname();
+// let userName = getUserNickname();
 let firstTime = "true";
 let allTasks;
 let tasks = [];
+
+document.addEventListener('DOMContentLoaded', async () => {
+  await init();
+  initializeClickEvent();
+})
+
+function initializeClickEvent(){
+  document.querySelector('.box1').addEventListener('click', () => {
+    goToBoard();
+  });
+}
 
 /**
  * Initializes the application, loads tasks, and sets up the UI.
  *
  */
 async function init() {
-  let responseJson = await loadTasksFromDatabase();
-  allTasks = responseJson;
-  greetAnimation();
-  greet();
+  // let responseJson = await loadTasksFromDatabase();
+  // allTasks = responseJson;
+  shared.bundleLoadingHTMLTemplates();
+  // greetAnimation();
+  // greet();
   renderNumberOfAllContainers();
-  await initSidebar();
-  checkIfUserIsLoggedIn();
-  loadTasksFromDatabase();
-  getDateFormUrgetTask();
+  // await initSidebar();
+  // checkIfUserIsLoggedIn();
+  // loadTasksFromDatabase();
+  // getDateFormUrgetTask();
 }
 
 /**
