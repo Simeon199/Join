@@ -1,3 +1,9 @@
+import * as shared from '../javascript/shared.js';
+
+document.addEventListener('DOMContentLoaded', () => {
+  shared.bundleLoadingHTMLTemplates();
+})
+
 /**
  * Clears the task marker.
  *
