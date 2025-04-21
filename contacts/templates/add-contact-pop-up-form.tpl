@@ -48,8 +48,9 @@
 
         <div class="pop-up-input-container">
           <input
+            id="pop-up-email-input"
             required
-            class="pop-up-email-input pop-up-input"
+            class="pop-up-input"
             type="email"
             placeholder="Email"
           />

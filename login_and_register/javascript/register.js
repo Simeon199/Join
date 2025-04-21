@@ -1,5 +1,5 @@
-import {ref, set, createUserWithEmailAndPassword} from "../../config/database.js";
-import db from "../../config/database.js";
+import {ref, set, createUserWithEmailAndPassword} from "../../core/database.js";
+import db from "../../core/database.js";
 
 const auth = db.auth;
 const database = db.database;

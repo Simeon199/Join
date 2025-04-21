@@ -4,6 +4,8 @@ import * as contactsHTML from './contactsHTML.js';
 
 const database = db.database;
 
+// Wichtige Bemerkung --> Datenbank-Upload funktioniert nicht, weil ich nicht als User eingeloggt bin --> Ablehnung der Abfrage
+
 /**
  * Adds a new contact and shows a success message.
  *
@@ -13,27 +15,25 @@ const database = db.database;
 
 async function addNewContact(bgColor=randomColor(), action) {
   let newUserData = createUserData(bgColor);
-  showLoadScreen();
-  returnContactSuccessfullyCreatetPopUp(action);
-  hidePopUp();
+  contactsHTML.showLoadScreen();
+  contactsHTML.returnContactSuccessfullyCreatetPopUp(action);
+  contactsHTML.hidePopUp();
   invokeDatabankChangesRelatedToNewContact(newUserData);
-  readNewContactsFromDatabase();
-  hideLoadScreen();
-  showContactSuccessfullyCreatedPopUp();
-  hideContactSuccessfullyCreatedPopUp();
-  setTimeout(() => {
-    afterAddingNewContactShowBigContact(newUserData.name);
-  }, 500);
+  // readNewContactsFromDatabase();
+  contactsHTML.hideLoadScreen();
+  contactsHTML.showContactSuccessfullyCreatedPopUp();
+  contactsHTML.hideContactSuccessfullyCreatedPopUp();
+  // afterAddingNewContactShowBigContact(newUserData.name);
 }
 
 export function submitNewUser(){
-  let bgColor = randomColor();
+  let bgColor = contactsHTML.randomColor();
   addNewContact(bgColor, "create");
 }
 
 async function invokeDatabankChangesRelatedToNewContact(newUserData){
   await postNewContact(newUserData);
-  await initContact();
+  await contactsHTML.initContact();
 }
 
 function createUserData(bgColor=randomColor()){

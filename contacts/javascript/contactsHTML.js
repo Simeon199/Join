@@ -24,36 +24,36 @@ const templatePaths = [
 //   'contact-template.tpl'
 // ];
 
-// let colors = [
-//   "#4B3C99",
-//   "#FF4646",
-//   "#FF8C1A",
-//   "#AA4FFF",
-//   "#6464FF",
-//   "#DE1AFF",
-//   "#FFC61A",
-//   "#32D4C3",
-//   "#FF5733",
-//   "#33FF57",
-//   "#3357FF",
-//   "#FF33A8",
-//   "#A833FF",
-//   "#33FFDD",
-//   "#FFDD33",
-//   "#DD33FF",
-//   "#FF336B",
-//   "#6BFF33",
-//   "#1E3A55",
-//   "#FFA500",
-//   "#00CED1",
-//   "#8A2BE2",
-//   "#A52A2A",
-//   "#7FFF00",
-//   "#D2691E",
-//   "#FF7F50",
-//   "#DC143C",
-//   "#008B8B",
-// ];
+let colors = [
+  "#4B3C99",
+  "#FF4646",
+  "#FF8C1A",
+  "#AA4FFF",
+  "#6464FF",
+  "#DE1AFF",
+  "#FFC61A",
+  "#32D4C3",
+  "#FF5733",
+  "#33FF57",
+  "#3357FF",
+  "#FF33A8",
+  "#A833FF",
+  "#33FFDD",
+  "#FFDD33",
+  "#DD33FF",
+  "#FF336B",
+  "#6BFF33",
+  "#1E3A55",
+  "#FFA500",
+  "#00CED1",
+  "#8A2BE2",
+  "#A52A2A",
+  "#7FFF00",
+  "#D2691E",
+  "#FF7F50",
+  "#DC143C",
+  "#008B8B",
+];
 
 let activeContactIndex = null;
 let allContacts = [];
@@ -71,7 +71,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 function triggerSubmitEventFunction(){
   document.body.addEventListener('submit', (event) => {
-    if(event.target && event.target.matches('#add-contact-form')){
+    if(event.target && event.target.matches('#form')){
       event.preventDefault();
       contacts.submitNewUser(event);
     }
@@ -147,7 +147,7 @@ function showPopUp() {
  *
  */
 
-async function initContact() {
+export async function initContact() {
   allContacts = [];
   firstContactsNameLetter = [];
   contacts.getAllContacts();
@@ -339,7 +339,7 @@ function toggleBigContact(i, userName, userEmail, userNumber, userID, userColor)
  *
  */
 
-function hidePopUp() {
+export function hidePopUp() {
   document.getElementById("add-task-pop-up-bg").classList.add("bg-op-0");
   document.getElementById("add-task-pop-up").classList.add("translate-100");
 }
@@ -349,10 +349,10 @@ function hidePopUp() {
  *
  */
 
-// function randomColor() {
-//   let randomIndex = Math.floor(Math.random() * colors.length);
-//   return colors[randomIndex];
-// }
+export function randomColor() {
+  let randomIndex = Math.floor(Math.random() * colors.length);
+  return colors[randomIndex];
+}
 
 /**
  * Toggles the translation class for the icon container.
@@ -450,9 +450,9 @@ function showIconContainer() {
  *
  */
 
-// function showContactSuccessfullyCreatedPopUp() {
-//   document.getElementById("contact-successfully-created-pop-up-bg").classList.remove("hide-pop-up-translate-100");
-// }
+export function showContactSuccessfullyCreatedPopUp() {
+  document.getElementById("contact-successfully-created-pop-up-bg").classList.remove("hide-pop-up-translate-100");
+}
 
 /**
  * Marks the "contacts" section as the current section.
@@ -468,9 +468,9 @@ function showIconContainer() {
  *
  */
 
-// function hideLoadScreen() {
-//   document.getElementById("load-screen").classList.add("d-none");
-// }
+export function hideLoadScreen() {
+  document.getElementById("load-screen").classList.add("d-none");
+}
 
 /**
  * Renders the edit contact popup with provided user details.
@@ -532,20 +532,20 @@ function firstLetterFirstTwoWords(name) {
  *
  */
 
-// function hideContactSuccessfullyCreatedPopUp() {
-//   setTimeout(() => {
-//     document.getElementById("contact-successfully-created-pop-up-bg").classList.add("hide-pop-up-translate-100");
-//   }, 3000);
-// }
+export function hideContactSuccessfullyCreatedPopUp() {
+  setTimeout(() => {
+    document.getElementById("contact-successfully-created-pop-up-bg").classList.add("hide-pop-up-translate-100");
+  }, 3000);
+}
 
 /**
  * Shows the loading screen by removing the "d-none" class.
  *
  */
 
-// function showLoadScreen() {
-//   document.getElementById("load-screen").classList.remove("d-none");
-// }
+export function showLoadScreen() {
+  document.getElementById("load-screen").classList.remove("d-none");
+}
 
 /**
  * Displays the big contact view for the newly added contact.
@@ -571,8 +571,8 @@ function firstLetterFirstTwoWords(name) {
 //   }
 // }
 
-// function returnContactSuccessfullyCreatetPopUp(action){
-//   document.getElementById("contact-successfully-created-pop-up").innerHTML = "Contact successfully " + action; 
-// }
+export function returnContactSuccessfullyCreatetPopUp(action){
+  document.getElementById("contact-successfully-created-pop-up").innerHTML = "Contact successfully " + action; 
+}
 
 // <!--- Hier enden die ganzen veralteten Funktionen -->
