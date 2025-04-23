@@ -13,8 +13,8 @@ const database = db.database;
  * @param {string} action - Action message to display.
  */
 
-async function addNewContact(bgColor=randomColor(), action) {
-  let newUserData = createUserData(bgColor);
+async function addNewContact(action) { // bgColor=randomColor()
+  let newUserData = createUserData();
   contactsHTML.showLoadScreen();
   contactsHTML.returnContactSuccessfullyCreatetPopUp(action);
   contactsHTML.hidePopUp();
@@ -27,8 +27,7 @@ async function addNewContact(bgColor=randomColor(), action) {
 }
 
 export function submitNewUser(){
-  let bgColor = contactsHTML.randomColor();
-  addNewContact(bgColor, "create");
+  addNewContact("create");
 }
 
 async function invokeDatabankChangesRelatedToNewContact(newUserData){
@@ -36,13 +35,20 @@ async function invokeDatabankChangesRelatedToNewContact(newUserData){
   await contactsHTML.initContact();
 }
 
-function createUserData(bgColor=randomColor()){
-  return {
-    name: document.getElementById("pop-up-name-input").value,
-    email: document.getElementById("pop-up-email-input").value,
-    number: document.getElementById("pop-up-phone-input").value,
-    color: bgColor
+function createUserData(){
+  let name = document.getElementById("pop-up-name-input").value;
+  let initials = contactsHTML.getContactInitials(name);
+  let email = document.getElementById("pop-up-email-input").value;
+  let number = document.getElementById("pop-up-phone-input").value;
+  let color = contactsHTML.randomColor();
+  let userObject = {
+    name: name,
+    initials: initials,
+    email: email,
+    number: number,
+    color: color
   }
+  return userObject;
 }
 
 /**
@@ -70,11 +76,19 @@ async function postNewContact(newUserData){
 }
 
 export async function getAllContacts(){
-  let contactsRef = ref(database, 'kanban/sharedBoard/contacts');
-  onValue(contactsRef, (snapshot) => {
-    let contactsData = snapshot.val();
-    // contactsHTML.allContacts = Object.values(contactsData);
-    // renderContactList(Object.values(contactsData));
-    return Object.values(contactsData);
+  return new Promise((resolve, reject) => {
+    let contactsRef = ref(database, 'kanban/sharedBoard/contacts');
+    onValue(
+      contactsRef,
+      (snapshot) => {
+        let contactsData = snapshot.val();
+        console.log('contacts data: ', Object.values(contactsData));
+        resolve(Object.values(contactsData));
+      },
+    ),
+    (error) => {
+      console.error('Fehler beim Laden der Kontakte: ', error);
+      reject(error);
+    }
   });
-}
+} 

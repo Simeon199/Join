@@ -1,6 +1,7 @@
 export function bundleLoadingHTMLTemplates(){
   initHTMLContent('/shared/templates/header.tpl', 'headerForm');
   initHTMLContent('/shared/templates/sidebar.tpl', 'sidebar');
+  initHTMLContent('/shared/templates/dropdown_menu.tpl', 'dropdown');
 }
 
 export async function initHTMLContent(path, parentId){
