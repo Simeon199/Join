@@ -4,8 +4,6 @@ import * as contactsHTML from './contactsHTML.js';
 
 const database = db.database;
 
-// Wichtige Bemerkung --> Datenbank-Upload funktioniert nicht, weil ich nicht als User eingeloggt bin --> Ablehnung der Abfrage
-
 /**
  * Adds a new contact and shows a success message.
  *

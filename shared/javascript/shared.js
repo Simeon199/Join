@@ -8,12 +8,12 @@ export async function initHTMLContent(path, parentId){
   let response = await fetch(path);
   if(!response.ok){
     console.error(`Fehler beim Laden der Datei ${path}: ${response.statusText}`);
-    return;
+    return null;
   }
   let html = await response.text();
   if(!html.trim()){
     console.error(`Die geladene HTML-Datei ist leer:`, path);
-    return;
+    return null;
   }
   // HTML-String in echtes DOM kovertieren
 
@@ -22,11 +22,12 @@ export async function initHTMLContent(path, parentId){
   const template = doc.querySelector('template');
 
   if(!template){
-    return;
+    console.error(`Kein <template>-Element in Datei: ${path}`);
+    return null;
   }
-
   const clone = template.content.cloneNode(true);
   document.getElementById(parentId).appendChild(clone);
+
   // taskMarker() --> Bei Sidebar;
 }
 

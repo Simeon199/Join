@@ -245,9 +245,18 @@ async function renderContactList(array) {
     await shared.initHTMLContent('/contacts/templates/contact-letter-container.tpl', "contact-list"); 
     document.querySelectorAll(".letter-list-contact-container")[i].innerHTML = "";
     for (let j = 0; j < allContacts.length; j++) { 
-      renderContact(i, j, letter);
+      let user = allContacts[j];
+      if (areUserInitialsEqual(user, letter)) { // user["name"].toLowerCase().startsWith(letter)
+        document.querySelectorAll(".letter-list-contact-container")[i].innerHTML += returnContactHTML(j, user);
+      }
+      // renderContact(i, j, letter);
     }
   }
+}
+
+function areUserInitialsEqual(user, existingInitials){
+  let userInitials = getContactInitials(user.name).toLowerCase();
+  return userInitials == existingInitials.toLowerCase();
 }
 
 /**
@@ -258,13 +267,12 @@ async function renderContactList(array) {
  * @param {string} letter - The starting letter to filter contacts.
  */
 
-function renderContact(i, j, letter) {
-  // debugger;
-  let user = allContacts[j];
-  if (user["name"].toLowerCase().startsWith(letter)) {
-    document.querySelectorAll(".letter-list-contact-container")[i].innerHTML += returnContactHTML(j, user);
-  }
-}
+// function renderContact(i, j, letter) {
+//   let user = allContacts[j];
+//   if (user["name"].toLowerCase().startsWith(letter)) {
+//     document.querySelectorAll(".letter-list-contact-container")[i].innerHTML += returnContactHTML(j, user);
+//   }
+// }
 
 /**
  * Generates HTML for a contact card with user details.
@@ -273,15 +281,27 @@ function renderContact(i, j, letter) {
  * @param {Object} user - The user object containing details.
  */
 
-export function returnContactHTML(j, user) {
-  template.querySelector('.contact').addEventListener('click', ()=> {
-    toggleBigContact(j, user.name, user.email, user.phone, user.id, user.color);
-  });
-  template.querySelector('.profile-badge').style.backgroundColor = user.color;
-  template.querySelector('.initials').textContent = getContactInitials(user.name);
-  template.querySelector('.name').textContent = user.name;
-  template.querySelector('.email').textContent = user.email;
-  return template;
+export async function returnContactHTML(j, user) {
+  await shared.initHTMLContent('/contacts/templates/contact-template.tpl','contact-list');
+  setTimeout(() => {
+    let contactList = document.getElementById('contact-list');
+    let contactElement = contactList.querySelector('.contact');
+    // contactElement.querySelector('.contact').addEventListener('click', ()=> {
+    //   toggleBigContact(j, user.name, user.email, user.phone, user.id, user.color);
+    // });
+    if(!contactElement){
+      console.error('contactElement ist null - wurde das Template korrekt eingefügt?');
+    }
+
+    contactElement.addEventListener('click', () => {
+      toggleBigContact(j, user.name, user.email, user.phone, user.id, user.color);
+    });
+    contactElement.querySelector('.profile-badge').style.backgroundColor = user.color;
+    contactElement.querySelector('.initials').textContent = getContactInitials(user.name);
+    contactElement.querySelector('.name').textContent = user.name;
+    contactElement.querySelector('.email').textContent = user.email;
+  }, 100);
+  // return contactTemplate;
 }
 
 /**
