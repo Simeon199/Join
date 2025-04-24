@@ -1,7 +1,6 @@
 export function bundleLoadingHTMLTemplates(){
   initHTMLContent('/shared/templates/header.tpl', 'headerForm');
   initHTMLContent('/shared/templates/sidebar.tpl', 'sidebar');
-  initHTMLContent('/shared/templates/dropdown_menu.tpl', 'dropdown');
 }
 
 export async function initHTMLContent(path, parentId){
@@ -17,16 +16,18 @@ export async function initHTMLContent(path, parentId){
   }
   // HTML-String in echtes DOM kovertieren
 
-  const parser = new DOMParser();
-  const doc = parser.parseFromString(html, 'text/html');
-  const template = doc.querySelector('template');
+  let parser = new DOMParser();
+  let doc = parser.parseFromString(html, 'text/html');
+  let template = doc.querySelector('template');
 
   if(!template){
     console.error(`Kein <template>-Element in Datei: ${path}`);
     return null;
   }
-  const clone = template.content.cloneNode(true);
-  document.getElementById(parentId).appendChild(clone);
+  let clone = template.content.cloneNode(true);
+  let parent = document.getElementById(parentId);
+  parent.appendChild(clone);
+  return parent.lastElementChild;
 
   // taskMarker() --> Bei Sidebar;
 }

@@ -237,19 +237,18 @@ async function renderContactList(array) {
   contactListContainer.innerHTML = "";
   array.forEach((element) => {
     firstContactsNameLetter.push(element.initials);
-    contactListContainer.innerHTML += `${element.name}`;
-    contactListContainer.innerHTML += `${getContactInitials(element.name)}`;
   });
   for (let i = 0; i < firstContactsNameLetter.length; i++) {
-    const letter = firstContactsNameLetter[i];
+    let letter = firstContactsNameLetter[i];
     await shared.initHTMLContent('/contacts/templates/contact-letter-container.tpl', "contact-list"); 
     document.querySelectorAll(".letter-list-contact-container")[i].innerHTML = "";
     for (let j = 0; j < allContacts.length; j++) { 
       let user = allContacts[j];
-      if (areUserInitialsEqual(user, letter)) { // user["name"].toLowerCase().startsWith(letter)
-        document.querySelectorAll(".letter-list-contact-container")[i].innerHTML += returnContactHTML(j, user);
+      if (areUserInitialsEqual(user, letter)) {
+        document.querySelectorAll('.letter')[i].innerHTML += letter.charAt(0).toUpperCase();
+        let contactHTML = await returnContactHTML(j, user);
+        document.querySelectorAll(".letter-list-contact-container")[i].appendChild(contactHTML);
       }
-      // renderContact(i, j, letter);
     }
   }
 }
@@ -260,21 +259,6 @@ function areUserInitialsEqual(user, existingInitials){
 }
 
 /**
- * Renders contact if the name starts with the given letter.
- *
- * @param {number} i - Index for letter list container.
- * @param {number} j - Index for the user in allUsers array.
- * @param {string} letter - The starting letter to filter contacts.
- */
-
-// function renderContact(i, j, letter) {
-//   let user = allContacts[j];
-//   if (user["name"].toLowerCase().startsWith(letter)) {
-//     document.querySelectorAll(".letter-list-contact-container")[i].innerHTML += returnContactHTML(j, user);
-//   }
-// }
-
-/**
  * Generates HTML for a contact card with user details.
  *
  * @param {number} j - Index of the contact.
@@ -282,27 +266,20 @@ function areUserInitialsEqual(user, existingInitials){
  */
 
 export async function returnContactHTML(j, user) {
-  await shared.initHTMLContent('/contacts/templates/contact-template.tpl','contact-list');
-  setTimeout(() => {
-    let contactList = document.getElementById('contact-list');
-    let contactElement = contactList.querySelector('.contact');
-    // contactElement.querySelector('.contact').addEventListener('click', ()=> {
-    //   toggleBigContact(j, user.name, user.email, user.phone, user.id, user.color);
-    // });
-    if(!contactElement){
-      console.error('contactElement ist null - wurde das Template korrekt eingefügt?');
-    }
-
-    contactElement.addEventListener('click', () => {
-      toggleBigContact(j, user.name, user.email, user.phone, user.id, user.color);
-    });
-    contactElement.querySelector('.profile-badge').style.backgroundColor = user.color;
-    contactElement.querySelector('.initials').textContent = getContactInitials(user.name);
-    contactElement.querySelector('.name').textContent = user.name;
-    contactElement.querySelector('.email').textContent = user.email;
-  }, 100);
-  // return contactTemplate;
+  let clone = await shared.initHTMLContent('/contacts/templates/contact-template.tpl','contact-list');
+  let contactList = document.getElementById('contact-list');
+  let contactElement = contactList.querySelectorAll('.contact')[j];
+  contactElement.querySelector('.profile-badge').style.backgroundColor = user.color;
+  contactElement.querySelector('.initials').textContent = getContactInitials(user.name);
+  contactElement.querySelector('.name').textContent = user.name;
+  contactElement.querySelector('.email').textContent = user.email;
+  contactElement.addEventListener('click', () => {
+    toggleBigContact(j, user); // user.name, user.email, user.phone, user.id, user.color
+  });
+  return clone;
+  // await.initHTMLContent();
 }
+
 
 /**
  * Toggles the display of a contact's details.
@@ -315,13 +292,12 @@ export async function returnContactHTML(j, user) {
  * @param {string} userColor - The color associated with the contact.
  */
 
-function toggleBigContact(i, userName, userEmail, userNumber, userID, userColor) {
-  let bigContact = document.getElementById("big-contact");
-  let contactEl = document.querySelectorAll(".contact")[i];
-  if (activeContactIndex === i) {
+function toggleBigContact(j, user) { // i, userName, userEmail, userNumber, userID, userColor
+  let contactEl = document.querySelectorAll(".contact")[j]; // let contactEl = document.querySelectorAll(".contact")[i]
+  if (activeContactIndex === j) { // activeContactIndex === i
     deselectContact();
   } else {
-    selectContact(userName, userEmail, userNumber, userID, i, userColor, bigContact, contactEl);
+    selectContact(user, j, contactEl); // userName, userEmail, userNumber, userID, i, userColor,
   }
 }
 
@@ -353,18 +329,18 @@ async function deselectContact() {
  * @param {Element} contactEl - The element representing the contact.
  */
 
-async function selectContact(userName, userEmail, userNumber, userID, i, userColor, bigContact, contactEl) {
-  renderBigContact(userName, userEmail, userNumber, userID, i, userColor);
+async function selectContact(user, j, contactEl) { // userName, userEmail, userNumber, userID, i, userColor, bigContact, contactEl
+  renderBigContact(user, j); // userName, userEmail, userNumber, userID, i, userColor
   if (activeContactIndex !== null) {
     document.querySelectorAll(".contact")[activeContactIndex].classList.remove("contact-aktiv");
   }
   contactEl.classList.add("contact-aktiv");
-  bigContact.classList.remove("hide-big-contact");
+  document.getElementById('big-contact').classList.remove("hide-big-contact");
   document.getElementById("right-site-container").classList.remove("right-site-container-translate-100");
   document.getElementById("show-icon-container-button").classList.remove("show-icon-container-button-translate-100");
   document.getElementById("show-icon-container-button").classList.add("animation");
   document.getElementById("add-new-contacts-mobile-button").classList.add("d-none");
-  activeContactIndex = i;
+  activeContactIndex = j; // activeContactIndex = i
   contactEl.scrollIntoView({ behavior: "smooth", block: "nearest" });
 }
 
@@ -373,13 +349,13 @@ async function selectContact(userName, userEmail, userNumber, userID, i, userCol
  *
  */
 
-function renderBigContact(createdUserObject, index) {
-  document.getElementById("big-profile-badge").innerHTML = getContactInitials(createdUserObject.userName);
-  document.getElementById("big-profile-badge").style.backgroundColor = createdUserObject.userColor;
-  document.getElementById("big-name").innerHTML = createdUserObject.userName;
-  document.getElementById("big-email").innerHTML = createdUserObject.userEmail;
-  document.getElementById("big-number").innerHTML = createdUserObject.userNumber;
-  document.getElementById("icon-container").innerHTML = returnBigContactIconContainerHTML(createdUserObject, index);
+function renderBigContact(user, index) {
+  document.getElementById("big-profile-badge").innerHTML = getContactInitials(user.name);
+  document.getElementById("big-profile-badge").style.backgroundColor = user.color;
+  document.getElementById("big-name").innerHTML = user.name;
+  document.getElementById("big-email").innerHTML = user.email;
+  document.getElementById("big-number").innerHTML = user.number;
+  document.getElementById("icon-container").innerHTML = returnBigContactIconContainerHTML(user, index);
 }
 
 /**
@@ -393,14 +369,15 @@ function renderBigContact(createdUserObject, index) {
  * @param {string} userColor - The color associated with the user.
  */
 
-export function returnBigContactIconContainerHTML(createdUserObject, index) {
-  let template = core.getTemplateClone('big-contact-icon-container');
+export async function returnBigContactIconContainerHTML(user, index) {
+  let template = await shared.initHTMLContent('/contacts/templates/big-contact-icon-container.tpl', 'big-contact');
+  console.log('template value: ', template);
   template.querySelector('.edit-contact').addEventListener('click', () => {
     showPopUp();
-    renderEditContactPopUp(createdUserObject, index);
+    renderEditContactPopUp(user, index);
   });
   template.querySelector('.delete-contact').addEventListener('click', () =>{
-    deleteContact(createdUserObject.userID)
+    deleteContact(user.userID)
   });
   return template;
 }
@@ -416,14 +393,14 @@ export function returnBigContactIconContainerHTML(createdUserObject, index) {
  * @param {string} userColor - The color associated with the user.
  */
 
-function renderEditContactPopUp(createdUserObject, index) {
-  document.getElementById("pop-up-inputs-container").innerHTML = returnEditContactPopUpFormHTML(createdUserObject.userID, index, createdUserObject.userColor);
+function renderEditContactPopUp(user, index) {
+  document.getElementById("pop-up-inputs-container").innerHTML = returnEditContactPopUpFormHTML(user.id, index, user.color);
   document.getElementById("pop-up-headline-container").innerHTML = returnEditContactPopUpHeadlineHTML();
-  document.getElementById("pop-up-contact-logo").innerHTML = returnEditContactPopUpLogoHTML(createdUserObject.userName);
-  document.getElementById("pop-up-contact-logo").style.backgroundColor = createdUserObject.userColor;
-  document.getElementById("pop-up-name-input").value = createdUserObject.userName;
-  document.getElementById("pop-up-email-input").value = createdUserObject.userEmail;
-  document.getElementById("pop-up-phone-input").value = createdUserObject.userNumber;
+  document.getElementById("pop-up-contact-logo").innerHTML = returnEditContactPopUpLogoHTML(user.name);
+  document.getElementById("pop-up-contact-logo").style.backgroundColor = user.color;
+  document.getElementById("pop-up-name-input").value = user.name;
+  document.getElementById("pop-up-email-input").value = user.email;
+  document.getElementById("pop-up-phone-input").value = user.number;
 }
 
 /**
@@ -434,7 +411,7 @@ function renderEditContactPopUp(createdUserObject, index) {
  * @param {string} userColor - The color associated with the user.
  */
 
-function returnEditContactPopUpFormHTML(userID, i, userColor) {
+function returnEditContactPopUpFormHTML(userID, i, userColor) { // Hier muss das Edit-Template geladen werden !!!
   console.log('index: ', i);
   console.log('user id: ', userID);
   console.log('user color: ', userColor);
@@ -483,34 +460,34 @@ function returnEditContactPopUpLogoHTML(userName) {
  *
  */
 
-// function sortContacts() {
-//   allContacts.sort((a, b) => {
-//     const nameA = a.name.toUpperCase();
-//     const nameB = b.name.toUpperCase();
-//     if (nameA < nameB) {
-//       return -1;
-//     }
-//     if (nameA > nameB) {
-//       return 1;
-//     }
-//     return 0;
-//   });
-// }
+function sortContacts() {
+  allContacts.sort((a, b) => {
+    const nameA = a.name.toUpperCase();
+    const nameB = b.name.toUpperCase();
+    if (nameA < nameB) {
+      return -1;
+    }
+    if (nameA > nameB) {
+      return 1;
+    }
+    return 0;
+  });
+}
 
 /**
  * Sorts the first letters of the contact names and updates the list.
  *
  */
 
-// function sortAllUserLetters() {
-//   for (let i = 0; i < allContacts.length; i++) {
-//     let userLetter = allContacts[i]["name"].charAt(0).toLowerCase();
-//     if (!firstContactsNameLetter.includes(userLetter)) {
-//       firstContactsNameLetter.push(userLetter);
-//     }
-//   }
-//   firstContactsNameLetter.sort();
-// }
+function sortAllUserLetters() {
+  for (let i = 0; i < allContacts.length; i++) {
+    let userLetter = allContacts[i]["name"].charAt(0).toLowerCase();
+    if (!firstContactsNameLetter.includes(userLetter)) {
+      firstContactsNameLetter.push(userLetter);
+    }
+  }
+  firstContactsNameLetter.sort();
+}
 
 /**
  * Shows the contact creation success popup.
@@ -593,18 +570,6 @@ export function showLoadScreen() {
 //   toggleClasses();
 // }
 
-// function getCreatedUsersValue(index){
-//   return {
-//     userName: allContacts[index]["name"],
-//     userEmail:allContacts[index]["email"],
-//     userNumber: allContacts[index]["number"],
-//     userID: allContacts[index]["id"],
-//     userColor: allContacts[index]["color"]
-//   }
-// }
-
 export function returnContactSuccessfullyCreatetPopUp(action){
   document.getElementById("contact-successfully-created-pop-up").innerHTML = "Contact successfully " + action; 
 }
-
-// <!--- Hier enden die ganzen veralteten Funktionen -->
