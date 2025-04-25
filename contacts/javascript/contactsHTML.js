@@ -307,6 +307,18 @@ function toggleBigContact(j, user) { // i, userName, userEmail, userNumber, user
  */
 
 async function deselectContact() {
+  let bigContactIconWrapper = document.getElementById('big-contact-icon-wrapper');
+  if(bigContactIconWrapper){
+    bigContactIconWrapper.innerHTML = '';
+  }
+  // let editContactIcon = document.querySelector('.edit-contact');
+  // let deleteContactIcon = document.querySelector('.delete-contact');
+  // if(editContactIcon){
+  //   editContactIcon.innerHTML = '';
+  // }
+  // if(deleteContactIcon){
+  //   deleteContactIcon.innerHTML = '';
+  // }
   document.getElementById("big-contact").classList.add("hide-big-contact");
   document.querySelectorAll(".contact")[activeContactIndex].classList.remove("contact-aktiv");
   document.getElementById("right-site-container").classList.add("right-site-container-translate-100");
@@ -329,8 +341,8 @@ async function deselectContact() {
  * @param {Element} contactEl - The element representing the contact.
  */
 
-async function selectContact(user, j, contactEl) { // userName, userEmail, userNumber, userID, i, userColor, bigContact, contactEl
-  renderBigContact(user, j); // userName, userEmail, userNumber, userID, i, userColor
+async function selectContact(user, j, contactEl) { 
+  renderBigContact(user, j); 
   if (activeContactIndex !== null) {
     document.querySelectorAll(".contact")[activeContactIndex].classList.remove("contact-aktiv");
   }
@@ -350,12 +362,26 @@ async function selectContact(user, j, contactEl) { // userName, userEmail, userN
  */
 
 function renderBigContact(user, index) {
+  insertInformationIntoBigContact(user);
+  insertIconsIntoIconContainer(user, index);
+}
+
+function insertInformationIntoBigContact(user){
   document.getElementById("big-profile-badge").innerHTML = getContactInitials(user.name);
   document.getElementById("big-profile-badge").style.backgroundColor = user.color;
   document.getElementById("big-name").innerHTML = user.name;
   document.getElementById("big-email").innerHTML = user.email;
   document.getElementById("big-number").innerHTML = user.number;
-  document.getElementById("icon-container").innerHTML = returnBigContactIconContainerHTML(user, index);
+}
+
+async function insertIconsIntoIconContainer(user, index){
+  let iconContainer = document.getElementById('icon-container');
+  if(iconContainer){
+    iconContainer.innerHTML = '';
+  }
+  let contactDataHTML = await returnBigContactIconContainerHTML(user, index);
+  iconContainer.appendChild(contactDataHTML);
+  // iconContainer.innerHTML = await returnBigContactIconContainerHTML(user, index);
 }
 
 /**
@@ -371,7 +397,6 @@ function renderBigContact(user, index) {
 
 export async function returnBigContactIconContainerHTML(user, index) {
   let template = await shared.initHTMLContent('/contacts/templates/big-contact-icon-container.tpl', 'big-contact');
-  console.log('template value: ', template);
   template.querySelector('.edit-contact').addEventListener('click', () => {
     showPopUp();
     renderEditContactPopUp(user, index);
@@ -393,8 +418,13 @@ export async function returnBigContactIconContainerHTML(user, index) {
  * @param {string} userColor - The color associated with the user.
  */
 
-function renderEditContactPopUp(user, index) {
-  document.getElementById("pop-up-inputs-container").innerHTML = returnEditContactPopUpFormHTML(user.id, index, user.color);
+async function renderEditContactPopUp(user, index) {
+  let editContactPopUp = await returnEditContactPopUpFormHTML(index);
+  let popUpInputsContainer = document.getElementById("pop-up-inputs-container");
+  if(popUpInputsContainer){
+    popUpInputsContainer.innerHTML = '';
+  }
+  popUpInputsContainer.appendChild(editContactPopUp); // ursprünglich user.id, index, user.color
   document.getElementById("pop-up-headline-container").innerHTML = returnEditContactPopUpHeadlineHTML();
   document.getElementById("pop-up-contact-logo").innerHTML = returnEditContactPopUpLogoHTML(user.name);
   document.getElementById("pop-up-contact-logo").style.backgroundColor = user.color;
@@ -411,10 +441,10 @@ function renderEditContactPopUp(user, index) {
  * @param {string} userColor - The color associated with the user.
  */
 
-function returnEditContactPopUpFormHTML(userID, i, userColor) { // Hier muss das Edit-Template geladen werden !!!
-  console.log('index: ', i);
-  console.log('user id: ', userID);
-  console.log('user color: ', userColor);
+async function returnEditContactPopUpFormHTML(index) { // userID, i, userColor
+  console.log('index: ', index);
+  let template = await shared.initHTMLContent('/contacts/templates/edit-contact-pop-up-form.tpl', 'add-task-pop-up');
+  return template;
 }
 
 /**

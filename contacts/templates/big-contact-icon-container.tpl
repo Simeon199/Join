@@ -1,5 +1,6 @@
 <template id="big-contact-icon-container">
   <!-- <div id="edit-contact" onclick='showPopUp(), renderEditContactPopUp("${createdUserObject}","${index}")'></div> -->
+  <div id="big-contact-icon-wrapper">
     <div class="edit-contact">
         <svg
           width="19"
@@ -52,4 +53,5 @@
         </svg>
         <p>Delete</p>
     </div>
+  </div>
 </template>
