@@ -402,7 +402,8 @@ export async function returnBigContactIconContainerHTML(user, index) {
     renderEditContactPopUp(user, index);
   });
   template.querySelector('.delete-contact').addEventListener('click', () =>{
-    deleteContact(user.userID)
+    console.log('user id: ', user.id);
+    contacts.deleteContact(user.id);
   });
   return template;
 }

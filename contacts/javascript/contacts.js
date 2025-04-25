@@ -1,4 +1,4 @@
-import {ref, onValue, update, push} from "../../../core/database.js";
+import {ref, onValue, update, push, remove} from "../../../core/database.js";
 import db from "../../../core/database.js";
 import * as contactsHTML from './contactsHTML.js';
 
@@ -90,3 +90,23 @@ export async function getAllContacts(){
     }
   });
 } 
+
+export async function deleteContact(contactId){
+  try {
+    let contactRef = ref(database, `kanban/sharedBoard/contacts/${contactId}`);
+    await remove(contactRef);
+    console.log(`Kontakt mit ID ${contactId} wurde erfolgreich gelöscht.`);
+  } catch(error){
+    console.error('Fehler beim Löschen des Kontakts: ', error);
+  }
+}
+
+export async function editContact(contactId, updateData){
+  try {
+    let contactRef = ref(database, `kanban/sharedBoard/contacts/${contactId}`);
+    await update(contactRef, updateData);
+    console.log(`Kontakt mit ID ${contactId} wurde erfolgreich aktualisiert.`);
+  } catch(error){
+    console.error('Fehler beim Bearbeiten des Kontakts: ', error);
+  }
+}
