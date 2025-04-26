@@ -61,7 +61,12 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 export async function getAllContactsAndRenderThem(){
   allContacts = await contacts.getAllContacts();
-  renderContactList(allContacts);
+  allContacts.forEach((element) => {
+    firstContactsNameLetter.push(element.initials);
+  });
+  sortContacts();
+  sortAllUserLetters();
+  renderContactList();
 }
 
 function triggerSubmitEventFunction(){
@@ -106,11 +111,14 @@ function manageClickEventOnIconContainerButton(){
 }
 
 function manageClickEventOnAddNewContactsButton(){
+  let emptyUser = {};
   document.getElementById('add-new-contacts-button').addEventListener('click', () => {
     showPopUp(); 
+    fillInputValuesDependingOnFormCall(emptyUser);
   });
   document.getElementById('add-new-contacts-mobile-button').addEventListener('click', () => {
     showPopUp();
+    fillInputValuesDependingOnFormCall(emptyUser);
   });
 }
 
@@ -136,10 +144,6 @@ function showPopUp() {
   document.getElementById("add-task-pop-up").classList.remove("translate-100");
   hideAllSmallPopUps();
 }
-
-// function renderAddContactPopUp(){
-//   document.getElementById("pop-up-contact-logo").style.backgroundColor = "#d1d1d1"
-// }
 
 /**
  * Hides all small pop-ups by adding a CSS class.
@@ -184,12 +188,9 @@ function showIconContainer() {
  *
  */
 
-async function renderContactList(array) {
+async function renderContactList() {
   let contactListContainer = document.getElementById("contact-list");
   contactListContainer.innerHTML = "";
-  array.forEach((element) => {
-    firstContactsNameLetter.push(element.initials);
-  });
   for (let i = 0; i < firstContactsNameLetter.length; i++) {
     let letter = firstContactsNameLetter[i];
     await shared.initHTMLContent('/contacts/templates/contact-letter-container.tpl', "contact-list"); 
@@ -295,7 +296,7 @@ async function selectContact(user, j, contactEl) {
   document.getElementById("show-icon-container-button").classList.remove("show-icon-container-button-translate-100");
   document.getElementById("show-icon-container-button").classList.add("animation");
   document.getElementById("add-new-contacts-mobile-button").classList.add("d-none");
-  activeContactIndex = j; // activeContactIndex = i
+  activeContactIndex = j; 
   contactEl.scrollIntoView({ behavior: "smooth", block: "nearest" });
 }
 
@@ -367,13 +368,36 @@ async function renderEditContactPopUp(user, index) {
     popUpInputsContainer.innerHTML = '';
   }
   popUpInputsContainer.appendChild(editContactPopUp); 
+  prepareRenderEditPopUpForm(user);
+  fillInputValuesDependingOnFormCall(user);
+}
+
+function prepareRenderEditPopUpForm(user){
   document.getElementById("pop-up-headline-container").innerHTML = returnEditContactPopUpHeadlineHTML();
   document.getElementById("pop-up-contact-logo").innerHTML = returnEditContactPopUpLogoHTML(user.name);
   document.getElementById("pop-up-contact-logo").style.backgroundColor = user.color;
+}
+
+function fillInputValuesDependingOnFormCall(user){
+  if(Object.keys(user).length > 0){
+    assignUserPropertiesToInputs(user);
+  } else {
+    assignEmptyContentToInputs();
+  }
+}
+
+function assignUserPropertiesToInputs(user){
   document.getElementById("pop-up-name-input").value = user.name;
   document.getElementById("pop-up-email-input").value = user.email;
   document.getElementById("pop-up-phone-input").value = user.number;
 }
+
+function assignEmptyContentToInputs(){
+  document.getElementById("pop-up-name-input").value = '';
+  document.getElementById("pop-up-email-input").value = '';
+  document.getElementById("pop-up-phone-input").value = '';
+}
+
 
 /**
  * Returns the HTML form for editing a contact.
@@ -407,23 +431,6 @@ function returnEditContactPopUpHeadlineHTML() {
 function returnEditContactPopUpLogoHTML(userName) {
   return  `${getContactInitials(userName)}`;
 }
-
-/**
- * Renders contact letter container and updates contact list.
- *
- * @param {number} i - Index of the letter in the list.
- * @param {HTMLElement} contactListContainer - Container for the contact list.
- */
-
-// async function renderContactLetterContainer(i, contactListContainer) {
-//   const letter = firstContactsNameLetter[i];
-//   await shared.initHTMLContent('/contacts/templates/add-contact-pop-up-form.tpl', contactListContainer); 
-//   contactListContainer.innerHTML += returnContactLetterContainerHTML(letter); 
-//   document.querySelectorAll(".letter-list-contact-container")[i].innerHTML = "";
-//   for (let j = 0; j < firstContactsNameLetter.length; j++) { 
-//     renderContact(i, j, letter);
-//   }
-// }
 
 /**
  * Sorts the contacts in alphabetical order by name.
@@ -469,15 +476,6 @@ export function showContactSuccessfullyCreatedPopUp() {
 }
 
 /**
- * Marks the "contacts" section as the current section.
- *
- */
-
-// function taskMarker() {
-//   document.getElementById("contacts").classList.add("currentSection");
-// }
-
-/**
  * Hides the loading screen by adding the "d-none" class..
  *
  */
@@ -486,12 +484,12 @@ export function hideLoadScreen() {
   document.getElementById("load-screen").classList.add("d-none");
 }
 
-// function toggleClasses(){
-//   document.getElementById("big-contact").classList.remove("hide-big-contact");
-//   document.getElementById("right-site-container").classList.remove("right-site-container-translate-100");
-//   document.getElementById("show-icon-container-button").classList.remove("show-icon-container-button-translate-100");
-//   document.getElementById("show-icon-container-button").classList.add("animation");
-// }
+export function toggleClasses(){
+  document.getElementById("big-contact").classList.remove("hide-big-contact");
+  document.getElementById("right-site-container").classList.remove("right-site-container-translate-100");
+  document.getElementById("show-icon-container-button").classList.remove("show-icon-container-button-translate-100");
+  document.getElementById("show-icon-container-button").classList.add("animation");
+}
 
 /**
  * Extracts and concatenates the first letters of the first two words in the name.
@@ -532,13 +530,13 @@ export function showLoadScreen() {
  * @param {string} nameInputValue - The name of the contact to display.
  */
 
-// function afterAddingNewContactShowBigContact(nameInputValue) {
-//   let index = allContacts.findIndex((user) => user.name === nameInputValue);
-//   let createdUserObject = getCreatedUsersValue(index);
-//   activeContactIndex = index;
-//   renderBigContact(createdUserObject, index);
-//   toggleClasses();
-// }
+export function afterAddingNewContactShowBigContact(userName) {
+  let index = allContacts.findIndex((user) => user.name === userName);
+  let createdUserObject = getCreatedUsersValue(index);
+  activeContactIndex = index;
+  renderBigContact(createdUserObject, index); // user, j
+  toggleClasses();
+}
 
 export function returnContactSuccessfullyCreatetPopUp(action){
   document.getElementById("contact-successfully-created-pop-up").innerHTML = "Contact successfully " + action; 

@@ -1,4 +1,5 @@
 <template>
+  <div id="edit-contact-form">
     <form onsubmit='editContact("${userID}","${i}","${userColor}"); return false;'>
         <div class="pop-up-input-container">
           <input 
@@ -141,4 +142,5 @@
           </button>
         </div>
     </form>
+  </div>
 </template>

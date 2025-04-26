@@ -17,11 +17,13 @@ async function addNewContact(action) { // bgColor=randomColor()
   contactsHTML.returnContactSuccessfullyCreatetPopUp(action);
   contactsHTML.hidePopUp();
   invokeDatabankChangesRelatedToNewContact(newUserData);
-  // readNewContactsFromDatabase();
   contactsHTML.hideLoadScreen();
   contactsHTML.showContactSuccessfullyCreatedPopUp();
   contactsHTML.hideContactSuccessfullyCreatedPopUp();
-  // afterAddingNewContactShowBigContact(newUserData.name);
+  setTimeout(() => {
+    window.location.reload();
+  }, 3100); // provisorische Lösung
+  // contactsHTML.afterAddingNewContactShowBigContact(newUserData.name);
 }
 
 export function submitNewUser(){
@@ -99,7 +101,7 @@ export async function deleteContact(contactId){
   } catch(error){
     console.error('Fehler beim Löschen des Kontakts: ', error);
   }
-  contactsHTML.getAllContactsAndRenderThem(); // In dieser Methode noch das Verstecken des Pop-Ups einfügen
+  window.location.reload();
 }
 
 export async function editContact(contactId, updateData){
