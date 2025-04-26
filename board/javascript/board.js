@@ -18,7 +18,7 @@ let touchTime;
 
 document.addEventListener('DOMContentLoaded', async () => {
   shared.bundleLoadingHTMLTemplates();
-  init();
+  // init();
   init_task();
   updateHTML();
 })

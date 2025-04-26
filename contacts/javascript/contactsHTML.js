@@ -545,13 +545,13 @@ export function showLoadScreen() {
  * @param {string} nameInputValue - The name of the contact to display.
  */
 
-export function afterAddingNewContactShowBigContact(userName) {
-  let index = allContacts.findIndex((user) => user.name === userName);
-  let createdUserObject = getCreatedUsersValue(index);
-  activeContactIndex = index;
-  renderBigContact(createdUserObject, index); // user, j
-  toggleClasses();
-}
+// export function afterAddingNewContactShowBigContact(userName) {
+//   let index = allContacts.findIndex((user) => user.name === userName);
+//   let createdUserObject = getCreatedUsersValue(index);
+//   activeContactIndex = index;
+//   renderBigContact(createdUserObject, index); // user, j
+//   toggleClasses();
+// }
 
 export function returnContactSuccessfullyCreatetPopUp(action){
   document.getElementById("contact-successfully-created-pop-up").innerHTML = "Contact successfully " + action; 

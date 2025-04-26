@@ -1,6 +1,7 @@
 import {ref, onValue, update, push, remove} from "../../../core/database.js";
 import db from "../../../core/database.js";
 import * as contactsHTML from './contactsHTML.js';
+export * from './contacts.js';
 
 const database = db.database;
 

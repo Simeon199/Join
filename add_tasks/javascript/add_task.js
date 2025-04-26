@@ -1,12 +1,15 @@
-import {ref, get, push, remove } from "../../config/database.js";
-import db from "../../config/database.js";
+import {ref, get, push, remove } from "../../core/database.js";
+import db from "../../core/database.js";
+import * as contacts from '../../contacts/javascript/contacts.js';
 import * as shared from '../../shared/javascript/shared.js';
+import { allContacts } from "../../contacts/javascript/contactsHTML.js";
 
 const database = db.database;
 
 let assignetTo = document.getElementById("assignetTo");
 let category = document.getElementById("category");
 let priority;
+let allUsers = [];
 let subArray = [];
 let assignedContacts = [];
 let standardContainer = "to-do-container";
@@ -15,7 +18,6 @@ document.addEventListener('DOMContentLoaded', () => {
   shared.bundleLoadingHTMLTemplates();
   handleAllClickEvents();
   init();
-  initSidebar();
 });
 
 function handleAllClickEvents(){
@@ -33,7 +35,8 @@ function handleAllClickEvents(){
 
 async function init() {
   changePriority(medium);
-  // getAllContacts();
+  allUsers = await contacts.getAllContacts();
+  console.log('all users: ', allContacts);
   // tasksId = await loadTaskIdFromFirebase();
 }
 
