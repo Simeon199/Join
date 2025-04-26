@@ -14,15 +14,6 @@ const templatePaths = [
   '/contacts/templates/add-contact-pop-up-logo.tpl'
 ];
 
-// let allTemplates = [
-//   'add-contact-pop-up-logo.tpl', 
-//   'add-contact-pop-up-form.tpl', 
-//   'add-contact-pop-up-headline.tpl',
-//   'big-contact-icon-container.tpl',
-//   'contact-letter-container.tpl',
-//   'contact-template.tpl'
-// ];
-
 let colors = [
   "#4B3C99",
   "#FF4646",
@@ -63,11 +54,15 @@ export {allContacts, firstContactsNameLetter};
 document.addEventListener('DOMContentLoaded', async () => {
   shared.bundleLoadingHTMLTemplates();
   loadAllContactsTemplateFunctions();
-  allContacts = await contacts.getAllContacts();
-  renderContactList(allContacts);
+  await getAllContactsAndRenderThem();
   triggerAllClickEventFunctions();
   triggerSubmitEventFunction();
 });
+
+export async function getAllContactsAndRenderThem(){
+  allContacts = await contacts.getAllContacts();
+  renderContactList(allContacts);
+}
 
 function triggerSubmitEventFunction(){
   document.body.addEventListener('submit', (event) => {
@@ -142,51 +137,8 @@ function showPopUp() {
   hideAllSmallPopUps();
 }
 
-/**
- * Initializes contact-related variables and functions when the website loads.
- *
- */
-
-export async function initContact() {
-  allContacts = [];
-  firstContactsNameLetter = [];
-  contacts.getAllContacts();
-  // renderContactList();
-}
-
 // function renderAddContactPopUp(){
 //   document.getElementById("pop-up-contact-logo").style.backgroundColor = "#d1d1d1"
-// }
-
-// <!--- Hier kommen die ganzen veralteten Funktionen -->
-
-/**
- * Edits a contact by deleting and re-adding it with updated details.
- *
- * @param {string} userID - The ID of the user to edit.
- * @param {number} i - Index or position in the list (not used in the function).
- * @param {string} userColor - The color associated with the user.
- */
-
-// async function editContact(userID, i, userColor) {
-//   showLoadScreen();
-//   await deleteData("/contacts/" + userID);
-//   addNewContact(userColor, "edited");
-//   hideLoadScreen();
-// }
-
-/**
- * Deletes a contact and updates the contact list.
- *
- * @param {string} userID - The ID of the contact to be deleted.
- */
-
-// async function deleteContact(userID) {
-//   showLoadScreen();
-//   await deleteData("/contacts/" + userID);
-//   deselectContact();
-//   await initContact();
-//   hideLoadScreen();
 // }
 
 /**
@@ -274,10 +226,9 @@ export async function returnContactHTML(j, user) {
   contactElement.querySelector('.name').textContent = user.name;
   contactElement.querySelector('.email').textContent = user.email;
   contactElement.addEventListener('click', () => {
-    toggleBigContact(j, user); // user.name, user.email, user.phone, user.id, user.color
+    toggleBigContact(j, user);
   });
   return clone;
-  // await.initHTMLContent();
 }
 
 
@@ -311,14 +262,6 @@ async function deselectContact() {
   if(bigContactIconWrapper){
     bigContactIconWrapper.innerHTML = '';
   }
-  // let editContactIcon = document.querySelector('.edit-contact');
-  // let deleteContactIcon = document.querySelector('.delete-contact');
-  // if(editContactIcon){
-  //   editContactIcon.innerHTML = '';
-  // }
-  // if(deleteContactIcon){
-  //   deleteContactIcon.innerHTML = '';
-  // }
   document.getElementById("big-contact").classList.add("hide-big-contact");
   document.querySelectorAll(".contact")[activeContactIndex].classList.remove("contact-aktiv");
   document.getElementById("right-site-container").classList.add("right-site-container-translate-100");
@@ -381,7 +324,6 @@ async function insertIconsIntoIconContainer(user, index){
   }
   let contactDataHTML = await returnBigContactIconContainerHTML(user, index);
   iconContainer.appendChild(contactDataHTML);
-  // iconContainer.innerHTML = await returnBigContactIconContainerHTML(user, index);
 }
 
 /**
@@ -402,7 +344,6 @@ export async function returnBigContactIconContainerHTML(user, index) {
     renderEditContactPopUp(user, index);
   });
   template.querySelector('.delete-contact').addEventListener('click', () =>{
-    console.log('user id: ', user.id);
     contacts.deleteContact(user.id);
   });
   return template;
@@ -425,7 +366,7 @@ async function renderEditContactPopUp(user, index) {
   if(popUpInputsContainer){
     popUpInputsContainer.innerHTML = '';
   }
-  popUpInputsContainer.appendChild(editContactPopUp); // ursprünglich user.id, index, user.color
+  popUpInputsContainer.appendChild(editContactPopUp); 
   document.getElementById("pop-up-headline-container").innerHTML = returnEditContactPopUpHeadlineHTML();
   document.getElementById("pop-up-contact-logo").innerHTML = returnEditContactPopUpLogoHTML(user.name);
   document.getElementById("pop-up-contact-logo").style.backgroundColor = user.color;
@@ -483,8 +424,6 @@ function returnEditContactPopUpLogoHTML(userName) {
 //     renderContact(i, j, letter);
 //   }
 // }
-
-
 
 /**
  * Sorts the contacts in alphabetical order by name.
@@ -561,9 +500,9 @@ export function hideLoadScreen() {
  */
 
 export function getContactInitials(name) {
-  const words = name.split(" ");
-  const firstLetters = words.map((word) => word.charAt(0));
-  const result = firstLetters.slice(0, 2).join("");
+  let words = name.split(" ");
+  let firstLetters = words.map((word) => word.charAt(0));
+  let result = firstLetters.slice(0, 2).join("");
   return result.toUpperCase();
 }
 

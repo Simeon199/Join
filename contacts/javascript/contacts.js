@@ -99,6 +99,7 @@ export async function deleteContact(contactId){
   } catch(error){
     console.error('Fehler beim Löschen des Kontakts: ', error);
   }
+  contactsHTML.getAllContactsAndRenderThem(); // In dieser Methode noch das Verstecken des Pop-Ups einfügen
 }
 
 export async function editContact(contactId, updateData){
