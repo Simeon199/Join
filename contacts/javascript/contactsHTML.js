@@ -362,15 +362,30 @@ export async function returnBigContactIconContainerHTML(user, index) {
  */
 
 async function renderEditContactPopUp(user, index) {
+  await prepareRenderEditContactTemplate(index);
+  prepareRenderEditPopUpForm(user);
+  fillInputValuesDependingOnFormCall(user);
+  listenForSubmitOnRenderEditContact(user);
+}
+
+function listenForSubmitOnRenderEditContact(user){
+  document.getElementById('edit-contact-form').addEventListener('submit', () => {
+    contacts.editContact(user.id, {
+      name: document.getElementById('pop-up-name-input').value,
+      email: document.getElementById('pop-up-email-input').value,
+      number: document.getElementById('pop-up-phone-input').value
+    });
+  });
+}
+
+async function prepareRenderEditContactTemplate(index){
   let editContactPopUp = await returnEditContactPopUpFormHTML(index);
   let popUpInputsContainer = document.getElementById("pop-up-inputs-container");
   if(popUpInputsContainer){
     popUpInputsContainer.innerHTML = '';
   }
   popUpInputsContainer.appendChild(editContactPopUp); 
-  prepareRenderEditPopUpForm(user);
-  fillInputValuesDependingOnFormCall(user);
-}
+} 
 
 function prepareRenderEditPopUpForm(user){
   document.getElementById("pop-up-headline-container").innerHTML = returnEditContactPopUpHeadlineHTML();
