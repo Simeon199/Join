@@ -1,10 +1,12 @@
+export * from './feedbackAndUrgencyTemplate.js';
+
 /**
  * This function returns an HTML string containing an SVG icon. The icon is composed of two green arrows, signifying low urgency.
  *
  * @returns {string} - The HTML string containing the SVG icon for low urgency.
  */
 
-function generateHTMLUrgencyLow() {
+export function generateHTMLUrgencyLow() {
     return /*html*/ `
         <svg width="21" height="16" viewBox="0 0 21 16" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M10.2485 9.50589C10.0139 9.5063 9.7854 9.43145 9.59655 9.29238L0.693448 2.72264C0.57761 2.63708 0.47977 2.52957 0.405515 2.40623C0.33126 2.28289 0.282043 2.14614 0.260675 2.00379C0.217521 1.71631 0.290421 1.42347 0.463337 1.1897C0.636253 0.955928 0.895022 0.800371 1.18272 0.757248C1.47041 0.714126 1.76347 0.786972 1.99741 0.95976L10.2485 7.04224L18.4997 0.95976C18.6155 0.874204 18.7471 0.812285 18.8869 0.777538C19.0266 0.742791 19.1719 0.735896 19.3144 0.757248C19.4568 0.7786 19.5937 0.82778 19.7171 0.901981C19.8405 0.976181 19.9481 1.07395 20.0337 1.1897C20.1194 1.30545 20.1813 1.43692 20.2161 1.57661C20.2509 1.71629 20.2578 1.86145 20.2364 2.00379C20.215 2.14614 20.1658 2.28289 20.0916 2.40623C20.0173 2.52957 19.9195 2.63708 19.8036 2.72264L10.9005 9.29238C10.7117 9.43145 10.4831 9.5063 10.2485 9.50589Z" fill="#7AE229"/>
@@ -20,7 +22,7 @@ function generateHTMLUrgencyLow() {
  * @returns {string} - The HTML string containing the SVG icon for medium urgency.
  */
 
-function generateHTMLUrgencyMedium() {
+export function generateHTMLUrgencyMedium() {
     return /*html*/ `
         <svg width="18" height="8" viewBox="0 0 18 8" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M16.5685 7.16658L1.43151 7.16658C1.18446 7.16658 0.947523 7.06773 0.772832 6.89177C0.598141 6.71581 0.5 6.47716 0.5 6.22831C0.5 5.97947 0.598141 5.74081 0.772832 5.56485C0.947523 5.38889 1.18446 5.29004 1.43151 5.29004L16.5685 5.29004C16.8155 5.29004 17.0525 5.38889 17.2272 5.56485C17.4019 5.74081 17.5 5.97947 17.5 6.22831C17.5 6.47716 17.4019 6.71581 17.2272 6.89177C17.0525 7.06773 16.8155 7.16658 16.5685 7.16658Z" fill="#FFA800"/>
@@ -36,7 +38,7 @@ function generateHTMLUrgencyMedium() {
  * @returns {string} - The HTML string containing the SVG icon for urgent urgency.
  */
 
-function generateHTMLUrgencyUrgent() {
+export function generateHTMLUrgencyUrgent() {
     return /*html*/ `
         <svg width="21" height="16" viewBox="0 0 21 16" fill="none" xmlns="http://www.w3.org/2000/svg">
             <g clip-path="url(#clip0_185713_5531)">
@@ -58,7 +60,7 @@ function generateHTMLUrgencyUrgent() {
  * @returns {string} - The HTML string for the "No Tasks Await Feedback" container.
  */
 
-function returnHtmlNoFeedbackContainer() {
+export function returnHtmlNoFeedbackContainer() {
     return /*html*/ `
       <div id="no-await-feedback-container" class="no-task">
           <p>No tasks await feedback</p>
@@ -71,7 +73,7 @@ function returnHtmlNoFeedbackContainer() {
  * @returns {string} - The HTML string for the "No Tasks In Progress" container.
  */
 
-function returnHtmlNoProgressContainer() {
+export function returnHtmlNoProgressContainer() {
     return /*html*/ `
       <div id="no-in-progress-container" class="no-task">
           <p>No tasks in progress</p>
@@ -84,7 +86,7 @@ function returnHtmlNoProgressContainer() {
  * @returns {string} - The HTML string for the "No Tasks To Do" container.
  */
 
-function returnHtmlNoToDoContainer() {
+export function returnHtmlNoToDoContainer() {
     return /*html*/ `
       <div id="no-to-do-container" class="no-task">
           <p>No tasks to do</p>
@@ -97,7 +99,7 @@ function returnHtmlNoToDoContainer() {
  * @returns {string} - The HTML string for the "No Tasks Done" container.
  */
 
-function returnHtmlNoDoneContainer() {
+export function returnHtmlNoDoneContainer() {
     return /*html*/ `
       <div id="no-done-container" class="no-task">
           <p>No tasks done</p>

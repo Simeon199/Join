@@ -25,10 +25,10 @@
      <script type="module" src="../board/javascript/board.js"></script>
      <!-- <script type="module" src="../shared/javascript/shared.js"></script> -->
      <!-- <script type="module" src="../contacts/javascript/contacts.js"></script>  -->
-     <script type="module" src="./javascript/add_task_database.js"></script> 
+     <!-- <script type="module" src="./javascript/add_task_database.js"></script>  -->
      <script type="module" src="../add_tasks/javascript/add_task.js"></script> 
-     <script src="./javascript/add_task_contacts.js"></script> 
-     <script src="./javascript/add_task_subtask.js"></script>
+     <!-- <script type="module" src="./javascript/add_task_contacts.js"></script> 
+     <script type="module" src="./javascript/add_task_subtask.js"></script> -->
      <!-- <script src="../shared/javascript/script.js"></script>  -->
   </head>
   <body id="addTaskBody">
@@ -64,7 +64,6 @@
                     </div>
                   </div>
                   <svg
-                    onclick="checkDropDown('arrowa'); stopEvent(event)"
                     id="arrowa"
                     class="arrow"
                     width="8"
@@ -143,7 +142,7 @@
               </div>
               <div>
                 <p>Category<b>*</b></p>
-                <div id="category" class="select" onclick="stopEvent(event) ,checkDropDown('arrowb')" aria-required="true">
+                <div id="category" class="select" onclick="stopEvent(event), checkDropDown('arrowb')" aria-required="true">
                   <span id="categoryText">Select task category</span>
                   <svg id="arrowb" class="arrow" width="8" height="5" viewBox="0 0 8 5" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
