@@ -107,10 +107,11 @@ function changeToInputfield() {
 }
 
 function showDropDownAssignedTo() {
-  contact = document.getElementById("assignedToDropDown");
+  let contact = document.getElementById("assignedToDropDown");
   contact.innerHTML = "";
+  console.log('allContacts: ', allContacts);
   for (let i = 0; i < allContacts.length; i++) {
-    user = allContacts[i];
+    let user = allContacts[i];
     renderAssignedToHTML(user, i);
     if (assignedContacts != 0) {
       if (checkAssignedContactsStatus(user.name) === true) {
@@ -153,7 +154,7 @@ async function renderAssignedToHTML(user, i) {
 }
 
 function showDropDownAssignedToOnlyResult() {
-  contact = document.getElementById("assignedToDropDown");
+  let contact = document.getElementById("assignedToDropDown");
   contact.innerHTML = "";
   for (let i = 0; i < searchResults.length; i++) {
     user = searchResults[i];
@@ -236,46 +237,60 @@ function checkCategory() {
   }
 }
 
-async function checkRequiredFields(side) {
+function manageDateAndTitleInputStyles(){
   let title = document.getElementById("inputTitle").value;
   let date = document.getElementById("date").value;
+  toggleStyleDependingOnId(title, 'requiredTitle');
+  toggleStyleDependingOnId(date, 'requiredDate');
+}
 
-  if (title.length <= 1) {
-    document.getElementById("requiredTitle").classList.remove("d-none");
+function toggleStyleDependingOnId(inputValue, targetId){
+  if(inputValue.length <= 1){
+    document.getElementById(`${targetId}`).classList.remove("d-none");
   } else {
-    document.getElementById("requiredTitle").classList.add("d-none");
+    document.getElementById(`${targetId}`).classList.add("d-none");
   }
+}
 
-  if (date.length <= 1) {
-    document.getElementById("requiredDate").classList.remove("d-none");
-  } else {
-    document.getElementById("requiredDate").classList.add("d-none");
-  }
-
+function handleCheckCategory(){
   if (checkCategory() == false) {
     document.getElementById("requiredCatergory").classList.remove("d-none");
   } else {
     document.getElementById("requiredDate").classList.add("d-none");
   }
+}
 
+function handleCheckDate(){
   if (checkDate() === false) {
     document.getElementById("requiredDate").classList.remove("d-none");
     document.getElementById("requiredDate").innerHTML = "Date must be in the future";
   } else {
     document.getElementById("requiredDate").classList.add("d-none");
   }
+}
 
-  if (title.length > 1 && date.length > 1 && checkCategory() == true && checkDate() === true) {
+function checkDateAndCategory(){
+  handleCheckCategory();
+  handleCheckDate();
+}
+
+function checkAndPrepareUploadOfNewTask(){
+  if (isAddTaskFormCorrectlyFilled()) {
     showBoardLoadScreen();
-    let newTask = createNewTask();
-    await uploadToAllTasks(newTask);
+    // let newTask = createNewTask();
+    // await uploadToAllTasks(newTask);
     hideBoardLoadScreen();
   }
 }
 
-async function uploadToAllTasks(task){
-  let tasksRef = ref(database, 'kanban/sharedBoard/tasks');
-  await push(tasksRef, task);
+function isAddTaskFormCorrectlyFilled(){
+  return title.length > 1 && date.length > 1 && checkCategory() == true && checkDate() === true
+}
+
+async function checkRequiredFields(side) {
+  manageDateAndTitleInputStyles();
+  checkDateAndCategory();
+  checkAndPrepareUploadOfNewTask();
 }
 
 function createNewTask() {
@@ -354,7 +369,7 @@ function checkDate() {
 
 function hideDropDownAssignedTo() {
   document.getElementById("arrowa").classList.remove("rotate");
-  contact = document.getElementById("assignedToDropDown");
+  let contact = document.getElementById("assignedToDropDown");
   contact.classList.add("d-none");
   contact.innerHTML = "";
 }
