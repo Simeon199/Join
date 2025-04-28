@@ -20,6 +20,7 @@ let searchResults = [];
 document.addEventListener('DOMContentLoaded', () => {
   shared.bundleLoadingHTMLTemplates();
   handleAllClickEvents();
+  handleKeyAndInputEvents();
   init();
 });
 
@@ -30,6 +31,51 @@ function handleAllClickEvents(){
   document.getElementById("addTaskBody").addEventListener('click', () => {
     hideAllAddTaskPopups();
   });
+  document.getElementById('changeTo').addEventListener('click', () => {
+    changeToInputfield();
+  });
+  document.getElementById('assignedToDropDown').addEventListener('click', (event) => {
+    stopEvent(event)
+  });
+  document.getElementById('urgent').addEventListener('click', () => {
+    changePriority('urgent');
+  });
+  document.getElementById('medium').addEventListener('click', () => {
+    changePriority('medium');
+  });
+  document.getElementById('low').addEventListener('click', () => {
+    changePriority('low');
+  });
+  document.getElementById('category').addEventListener('click', (event) => {
+    checkDropDown('arrowb');
+    stopEvent(event);
+  });
+  document.getElementById('subtask').addEventListener('click', (event) => {
+    hideOrShowEditButtons();
+    stopEvent(event);
+  });
+  document.getElementById('subtaskInputButtons').addEventListener('click', () => {
+    clearSubtaskInput();
+  });
+  document.getElementById('enterClick').addEventListener('click', () => {
+    addSubtask();
+  });
+  document.getElementById('clearTaskDiv').addEventListener('click', () => {
+    clearTask();
+  });
+  document.getElementById('subButton').addEventListener('click', () => {
+    checkRequiredFields('addTask');
+    return false;
+  })
+}
+
+function handleKeyAndInputEvents(){
+  document.getElementById('searchField').addEventListener('input', () => {
+    searchContacts();
+  });
+  document.getElementById('subtask').addEventListener('keyup', () => {
+    addSubtaskByEnterClick();
+  });
 }
 
 async function init() {
@@ -38,6 +84,73 @@ async function init() {
 }
 
 // Hier beginnt die Funktionenkette, die die Zuweisung der Kontakte zur Aufgabe verwaltet
+
+function changeToInputfield() {
+  changecont = document.getElementById("changeTo");
+  search = document.getElementById("searchArea").classList;
+  input = document.getElementById("searchField");
+  stV = document.getElementById("standartValue").classList;
+  window.addEventListener("click", function (e) {
+    if (changecont.contains(e.target)) {
+      search.remove("d-none");
+      input.classList.remove("d-none");
+      stV.add("d-none");
+      input.focus();
+      showDropDownAssignedTo();
+    } else {
+      search.add("d-none");
+      input.classList.add("d-none");
+      stV.remove("d-none");
+      input.value = "";
+    }
+  });
+}
+
+function showDropDownAssignedTo() {
+  contact = document.getElementById("assignedToDropDown");
+  contact.innerHTML = "";
+  for (let i = 0; i < allContacts.length; i++) {
+    user = allContacts[i];
+    renderAssignedToHTML(user, i);
+    if (assignedContacts != 0) {
+      if (checkAssignedContactsStatus(user.name) === true) {
+        document.getElementById(`user${i}`).classList.add("contactIsSelect");
+        document.getElementById(`checked${i}`).classList.remove("d-none");
+      } else {
+        document.getElementById(`user${i}`).classList.remove("contactIsSelect");
+        document.getElementById(`checked${i}`).classList.add("d-none");
+      }
+    }
+  }
+  contact.classList.remove("d-none");
+  document.getElementById("arrowa").classList.add("rotate");
+}
+
+function searchContacts() {
+  document.getElementById("assignedToDropDown").innerHTML = "";
+  search = document.getElementById("searchField");
+  text = search.value.toLowerCase();
+  if (text.length >= 1) {
+    searchResults = [];
+    for (let i = 0; i < allContacts.length; i++) {
+      aU = allContacts[i].name.toLowerCase();
+      if (aU.includes(text)) {
+        searchResults.push(allContacts[i]);
+      }
+    }
+    showDropDownAssignedToOnlyResult();
+  } else {
+    searchResults = [];
+    showDropDownAssignedTo();
+  }
+}
+
+async function renderAssignedToHTML(user, i) {
+  let templateHTML = await shared.initHTMLContent('/add_tasks/templates/render-assigned-to-html.tpl', 'assignedToDropDown');
+  document.getElementById(`assignetToLetters${i}`).style.backgroundColor = user["color"];
+  showUserLetters(`assignetToLetters${i}`, user["name"]);
+  return templateHTML;
+}
 
 function showDropDownAssignedToOnlyResult() {
   contact = document.getElementById("assignedToDropDown");
@@ -51,12 +164,6 @@ function showDropDownAssignedToOnlyResult() {
 }
 
 // Hier endet die Funktionenkette, die die Zuweisung der Kontakte zur Aufgabe verwaltet
-
-
-
-function taskMarker() {
-  document.getElementById("addTask").classList.add("currentSection");
-}
 
 function changePriority(id) {
   removeBackground(id);
@@ -184,14 +291,6 @@ function createNewTask() {
   };
 }
 
-function showRequiredText() {
-  let ids = ["requiredTitle", "requiredDate", "requiredCatergory"];
-  ids.forEach(function (id) {
-    let element = document.getElementById(id);
-    element.classList.remove("d-none");
-  });
-}
-
 function hideRequiredText() {
   let ids = ["requiredTitle", "requiredDate", "requiredCatergory"];
   ids.forEach(function (id) {
@@ -222,7 +321,6 @@ function checkDropDown(id) {
   }
 }
 
-
 function hideAllAddTaskPopups() {
   hideDropDownAssignedTo();
   hideDropDownCategory();
@@ -231,18 +329,6 @@ function hideAllAddTaskPopups() {
   let subtask = document.getElementById("subtaskInputButtons");
   plus.classList.remove("d-none");
   subtask.classList.add("d-none");
-}
-
-function startAnimation() {
-  scrollTo(0, 0);
-  document.getElementById("addedAnimation").classList.remove("d-none");
-  document.getElementById("addedAnimation").classList.add("erase-in");
-  document.getElementById("addTaskBody").classList.add("overflow-hidden");
-  setTimeout(goToBoard, 1500);
-}
-
-function goToBoard() {
-  window.location.href = "board.html";
 }
 
 function checkDate() {
@@ -266,26 +352,6 @@ function checkDate() {
   }
 }
 
-function showDropDownAssignedTo() {
-  contact = document.getElementById("assignedToDropDown");
-  contact.innerHTML = "";
-  for (let i = 0; i < allContacts.length; i++) {
-    user = allContacts[i];
-    renderAssignedToHTML(user, i);
-    if (assignedContacts != 0) {
-      if (checkAssignedContactsStatus(user.name) === true) {
-        document.getElementById(`user${i}`).classList.add("contactIsSelect");
-        document.getElementById(`checked${i}`).classList.remove("d-none");
-      } else {
-        document.getElementById(`user${i}`).classList.remove("contactIsSelect");
-        document.getElementById(`checked${i}`).classList.add("d-none");
-      }
-    }
-  }
-  contact.classList.remove("d-none");
-  document.getElementById("arrowa").classList.add("rotate");
-}
-
 function hideDropDownAssignedTo() {
   document.getElementById("arrowa").classList.remove("rotate");
   contact = document.getElementById("assignedToDropDown");
@@ -293,73 +359,10 @@ function hideDropDownAssignedTo() {
   contact.innerHTML = "";
 }
 
-async function renderAssignedToHTML(user, i) {
-  let templateHTML = await shared.initHTMLContent('/add_tasks/templates/render-assigned-to-html.tpl', 'assignedToDropDown');
-  document.getElementById(`assignetToLetters${i}`).style.backgroundColor = user["color"];
-  showUserLetters(`assignetToLetters${i}`, user["name"]);
-  return templateHTML;
-}
-
-function assignetToContects() {
-  circleCont = document.getElementById("userCircles");
-  circleCont.innerHTML = "";
-  for (let i = 0; i < assignedContacts.length; i++) {
-    renderAssignedToCircle(i, assignedContacts[i].name, assignedContacts[i].color, circleCont);
-  }
-}
-
-function renderAssignedToCircle(i, user, color, circleCont) {
-  if (i <= 3) {
-    circleCont.innerHTML += `
-      <div class="assignetToDiv circle" id="showCircle${i}"></div>
-    `;
-    circle = document.getElementById(`showCircle${i}`).style;
-    circle.backgroundColor = color;
-    circle.border = "2px solid rgba(255, 255, 255, 1)";
-    if (assignedContacts.length >= 1) {
-      if (assignedContacts[0].name != user) {
-        circle.marginLeft = "-24px";
-      }
-    }
-    showUserLetters(`showCircle${i}`, user);
-  } else if (i == 4) {
-    circleCont.innerHTML += showplusSVG();
-  } else {
-    showplusSVG();
-  }
-}
-
 function clearAssignedTo() {
   let div = document.getElementById("userCircles");
   assignedContacts = [];
   div.innerHTML = "";
-}
-
-function addUserToTask(u) {
-  userCredicals = {
-    name: u.name,
-    color: u.color,
-    isSelected: u.selected,
-  };
-  assignedContacts.push(userCredicals);
-  assignetToContects();
-}
-
-function checkAssignedContacts(name, color, i) {
-  x = { name: name, color: color, selected: false };
-  selUser = document.getElementById(`user${i}`);
-  if (selUser.classList.contains("contactIsSelect") == true) {
-    document.getElementById(`none_checked${i}`).classList.remove("d-none");
-    document.getElementById(`checked${i}`).classList.add("d-none");
-    selUser.classList.remove("contactIsSelect");
-    removeAssignedToContects(x.name, i);
-  } else {
-    document.getElementById(`none_checked${i}`).classList.add("d-none");
-    document.getElementById(`checked${i}`).classList.remove("d-none");
-    selUser.classList.add("contactIsSelect");
-    x.selected = true;
-    addUserToTask(x);
-  }
 }
 
 function checkAssignedContactsStatus(un) {
@@ -374,64 +377,6 @@ function checkAssignedContactsStatus(un) {
   } else {
     return false;
   }
-}
-
-function removeAssignedToContects(name, index) {
-  for (let i = 0; i < assignedContacts.length; i++) {
-    indexOfName = assignedContacts[i].name.includes(name);
-    if (indexOfName == true) {
-      document.getElementById(`user${index}`).classList.remove("contactIsSelect");
-      assignedContacts.splice(i, 1);
-    }
-  }
-  assignetToContects();
-}
-
-function changeToInputfield() {
-  changecont = document.getElementById("changeTo");
-  search = document.getElementById("searchArea").classList;
-  input = document.getElementById("searchField");
-  stV = document.getElementById("standartValue").classList;
-  window.addEventListener("click", function (e) {
-    if (changecont.contains(e.target)) {
-      search.remove("d-none");
-      input.classList.remove("d-none");
-      stV.add("d-none");
-      input.focus();
-      showDropDownAssignedTo();
-    } else {
-      search.add("d-none");
-      input.classList.add("d-none");
-      stV.remove("d-none");
-      input.value = "";
-    }
-  });
-}
-
-function searchContacts() {
-  document.getElementById("assignedToDropDown").innerHTML = "";
-  search = document.getElementById("searchField");
-  text = search.value.toLowerCase();
-  if (text.length >= 1) {
-    searchResults = [];
-    for (let i = 0; i < allContacts.length; i++) {
-      aU = allContacts[i].name.toLowerCase();
-      if (aU.includes(text)) {
-        searchResults.push(allContacts[i]);
-      }
-    }
-    showDropDownAssignedToOnlyResult();
-  } else {
-    searchResults = [];
-    showDropDownAssignedTo();
-  }
-}
-
-function showplusSVG() {
-  let moreNumber = assignedContacts.length - 4;
-  return `
-    <span class="contactsMoreNumber">+ ${moreNumber}</span>
-  `;
 }
 
 function addSubtask() {
@@ -483,22 +428,6 @@ function clearSubtaskInput() {
   document.getElementById("subtask").value = "";
 }
 
-function editSubtask(i) {
-  editSubtaskInput(i);
-}
-
-function editSubtaskInput(i) {
-  container = document.getElementById(`yyy${i}`);
-  container.onmouseover = null;
-  container.onmouseout = null;
-  container.ondblclick = null;
-  let templateHTML = shared.initHTMLContent('/add_tasks/templates/edit-subtask-inputHTML.tpl', `yyy${i}`);
-  // container.innerHTML = returnEditSubtaskInputHTML(i);
-  edit = document.getElementById(`subtaskEdited`);
-  subtask[i] = edit.value;
-  return templateHTML;
-}
-
 function hideOrShowEditButtons() {
   cont = document.getElementById("testForFunction");
   plus = document.getElementById("plusSymbole");
@@ -507,37 +436,12 @@ function hideOrShowEditButtons() {
   subtask.classList.remove("d-none");
 }
 
-function deleteSubtask(i) {
-  subArray.splice(i, 1);
-  rendersubtask();
-}
-
-function saveEditedSubtask(i) {
-  let text = document.getElementById(`subtaskEdited`).value;
-  if (text.length > 0) {
-    subArray[i]["task-description"] = text;
-    rendersubtask();
-  } else {
-    showsubtaskIsEmptyError();
-  }
-}
-
-function toggleDNone(id) {
-  document.getElementById(`subBTN${id}`).classList.toggle("d-none");
-}
-
 function showsubtaskIsEmptyError() {
   emptySub = document.getElementById("emptySubtask");
   emptySub.classList.remove("d-none");
   setTimeout(function () {
     document.getElementById("emptySubtask").classList.add("d-none");
   }, 5000);
-}
-
-function focusInput() {
-  hideOrShowEditButtons();
-  let activSubtask = document.getElementById("subtask");
-  activSubtask.focus();
 }
 
 function addSubtaskByEnterClick() {
@@ -551,3 +455,144 @@ function addSubtaskByEnterClick() {
     }
   });
 }
+
+// All unused functions are lying here
+
+// function saveEditedSubtask(i) {
+//   let text = document.getElementById(`subtaskEdited`).value;
+//   if (text.length > 0) {
+//     subArray[i]["task-description"] = text;
+//     rendersubtask();
+//   } else {
+//     showsubtaskIsEmptyError();
+//   }
+// }
+
+// function toggleDNone(id) {
+//   document.getElementById(`subBTN${id}`).classList.toggle("d-none");
+// }
+
+// function editSubtask(i) {
+//   editSubtaskInput(i);
+// }
+
+// function focusInput() {
+//   hideOrShowEditButtons();
+//   let activSubtask = document.getElementById("subtask");
+//   activSubtask.focus();
+// }
+
+// function checkAssignedContacts(name, color, i) {
+//   x = { name: name, color: color, selected: false };
+//   selUser = document.getElementById(`user${i}`);
+//   if (selUser.classList.contains("contactIsSelect") == true) {
+//     document.getElementById(`none_checked${i}`).classList.remove("d-none");
+//     document.getElementById(`checked${i}`).classList.add("d-none");
+//     selUser.classList.remove("contactIsSelect");
+//     removeAssignedToContects(x.name, i);
+//   } else {
+//     document.getElementById(`none_checked${i}`).classList.add("d-none");
+//     document.getElementById(`checked${i}`).classList.remove("d-none");
+//     selUser.classList.add("contactIsSelect");
+//     x.selected = true;
+//     addUserToTask(x);
+//   }
+// }
+
+// function addUserToTask(u) {
+//   userCredicals = {
+//     name: u.name,
+//     color: u.color,
+//     isSelected: u.selected,
+//   };
+//   assignedContacts.push(userCredicals);
+//   assignetToContects();
+// }
+
+// function startAnimation() {
+//   scrollTo(0, 0);
+//   document.getElementById("addedAnimation").classList.remove("d-none");
+//   document.getElementById("addedAnimation").classList.add("erase-in");
+//   document.getElementById("addTaskBody").classList.add("overflow-hidden");
+//   setTimeout(goToBoard, 1500);
+// }
+
+// function removeAssignedToContects(name, index) {
+//   for (let i = 0; i < assignedContacts.length; i++) {
+//     indexOfName = assignedContacts[i].name.includes(name);
+//     if (indexOfName == true) {
+//       document.getElementById(`user${index}`).classList.remove("contactIsSelect");
+//       assignedContacts.splice(i, 1);
+//     }
+//   }
+//   assignetToContects();
+// }
+
+// function deleteSubtask(i) {
+//   subArray.splice(i, 1);
+//   rendersubtask();
+// }
+
+// function editSubtaskInput(i) {
+//   container = document.getElementById(`yyy${i}`);
+//   container.onmouseover = null;
+//   container.onmouseout = null;
+//   container.ondblclick = null;
+//   let templateHTML = shared.initHTMLContent('/add_tasks/templates/edit-subtask-inputHTML.tpl', `yyy${i}`);
+//   container.innerHTML = returnEditSubtaskInputHTML(i);
+//   edit = document.getElementById(`subtaskEdited`);
+//   subtask[i] = edit.value;
+//   return templateHTML;
+// }
+
+// function assignetToContects() {
+//   circleCont = document.getElementById("userCircles");
+//   circleCont.innerHTML = "";
+//   for (let i = 0; i < assignedContacts.length; i++) {
+//     renderAssignedToCircle(i, assignedContacts[i].name, assignedContacts[i].color, circleCont);
+//   }
+// }
+
+// function showRequiredText() {
+//   let ids = ["requiredTitle", "requiredDate", "requiredCatergory"];
+//   ids.forEach(function (id) {
+//     let element = document.getElementById(id);
+//     element.classList.remove("d-none");
+//   });
+// }
+
+// function taskMarker() {
+//   document.getElementById("addTask").classList.add("currentSection");
+// }
+
+// function goToBoard() {
+//   window.location.href = "board.html";
+// }
+
+// function renderAssignedToCircle(i, user, color, circleCont) {
+//   if (i <= 3) {
+//     circleCont.innerHTML += `
+//       <div class="assignetToDiv circle" id="showCircle${i}"></div>
+//     `;
+//     circle = document.getElementById(`showCircle${i}`).style;
+//     circle.backgroundColor = color;
+//     circle.border = "2px solid rgba(255, 255, 255, 1)";
+//     if (assignedContacts.length >= 1) {
+//       if (assignedContacts[0].name != user) {
+//         circle.marginLeft = "-24px";
+//       }
+//     }
+//     showUserLetters(`showCircle${i}`, user);
+//   } else if (i == 4) {
+//     circleCont.innerHTML += showplusSVG();
+//   } else {
+//     showplusSVG();
+//   }
+// }
+
+// function showplusSVG() {
+//   let moreNumber = assignedContacts.length - 4;
+//   return `
+//     <span class="contactsMoreNumber">+ ${moreNumber}</span>
+//   `;
+// }

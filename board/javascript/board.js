@@ -16,14 +16,14 @@ let checkBoxCheckedJson = {};
 let emptyList = [];
 let renderCurrentTaskId;
 let touchTime;
+let currentOpenDropdown = null;
 
 document.addEventListener('DOMContentLoaded', async () => {
   shared.bundleLoadingHTMLTemplates();
   // init();
   init_task();
   updateHTML();
-})
-
+});
 
 /**
  * This asynchronous function performs two main actions:
@@ -36,7 +36,6 @@ async function init_task() {
   await getTasksFromDatabase();
   updateHTML();
 }
-
 
 /**
  * This asynchronous function performs the following actions:
@@ -212,9 +211,9 @@ function generateContactHTML(element, index, lengthOfAssignedTo) {
   if (index < 3) {
     let name = element.assigned[index].name;
     let initials = getInitials(name);
-    return /*html*/ `<div class="task-contact" style='background-color: ${element.assigned[index].color}'>${initials}</div>`;
+    return `<div class="task-contact" style='background-color: ${element.assigned[index].color}'>${initials}</div>`;
   } else if (index === 3) {
-    return /*html*/ `<div class='taskAssignedToNumberContainer'><span>+ ${lengthOfAssignedTo - 3}</span></div>`;
+    return `<div class='taskAssignedToNumberContainer'><span>+ ${lengthOfAssignedTo - 3}</span></div>`;
   } else {
     updateTaskContactPlusHTML(element, lengthOfAssignedTo);
     return "";
@@ -321,8 +320,6 @@ function generateTaskHTML(element, contactsHTML, oppositeCategory, rightIcon, js
     return returnTaskHtmlWithoutSubtask(element, contactsHTML, oppositeCategory, rightIcon, jsonTextElement);
   }
 }
-
-let currentOpenDropdown = null;
 
 /**
  * This function processes each task in the `taskArray` and generates HTML for each task using

@@ -57,10 +57,10 @@
               <div>
                 <p>Assigned to</p>
                 <div id="assignedTo" class="select">
-                  <div id="changeTo" onclick="changeToInputfield()" class="assignetToDivSearch">
+                  <div id="changeTo" class="assignetToDivSearch">
                     <span id="standartValue">Select contacts to assign</span>
                     <div id="searchArea" class="border-unset d-none">
-                      <input id="searchField" oninput="searchContacts()" class="border-unset" type="text" placeholder="Search Contact.." />
+                      <input id="searchField" class="border-unset" type="text" placeholder="Search Contact.." />
                     </div>
                   </div>
                   <svg
@@ -78,7 +78,7 @@
                     />
                   </svg>
                 </div>
-                <div id="assignedToDropDown" class="drop-bg d-none" onclick="stopEvent(event)"></div>
+                <div id="assignedToDropDown" class="drop-bg d-none"></div>
                 <div id="userCircles"></div>
               </div>
             </div>
@@ -94,7 +94,7 @@
               <div class="prio">
                 <p>Prio</p>
                 <div>
-                  <div onclick="changePriority(urgent)" id="urgent" class="center">
+                  <div id="urgent" class="center">
                     Urgent
                     <svg id="imgUrgent" width="21" height="16" viewBox="0 0 21 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path
@@ -108,7 +108,7 @@
                     </svg>
 
                   </div>
-                  <div onclick="changePriority(medium)" id="medium" class="center">
+                  <div id="medium" class="center">
                     Medium
 
                     <svg id="imgMedium" width="21" height="8" viewBox="0 0 21 8" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -123,7 +123,7 @@
                     </svg>
 
                   </div>
-                  <div onclick="changePriority(low)" id="low" class="center">
+                  <div id="low" class="center">
                     Low
 
                     <svg id="imgLow" width="21" height="16" viewBox="0 0 21 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -142,7 +142,7 @@
               </div>
               <div>
                 <p>Category<b>*</b></p>
-                <div id="category" class="select" onclick="stopEvent(event), checkDropDown('arrowb')" aria-required="true">
+                <div id="category" class="select" aria-required="true">
                   <span id="categoryText">Select task category</span>
                   <svg id="arrowb" class="arrow" width="8" height="5" viewBox="0 0 8 5" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
@@ -157,11 +157,11 @@
               <div>
                 <p>Subtasks</p>
                 <div id="testForFunction" class="onFocus">
-                  <input onkeyup="addSubtaskByEnterClick()" onclick="stopEvent(event); hideOrShowEditButtons()" id="subtask" type="text" placeholder="Add new subtask" />
+                  <input id="subtask" type="text" placeholder="Add new subtask" />
                   <div id="subtaskInputButtons" class="subtaskIcons d-none">
-                    <img onclick="clearSubtaskInput()" src="../assets/img/close.svg" alt="" />
+                    <img src="../assets/img/close.svg" alt="" />
                     <div class="subtaskBorder"></div>
-                    <img id="enterClick" onclick="addSubtask()" src="../assets/img/checksubmit.svg" alt="" />
+                    <img id="enterClick" src="../assets/img/checksubmit.svg" alt="" />
                   </div>
                   <svg
                     onclick="stopEvent(event); focusInput()"
@@ -190,7 +190,7 @@
             <section class="submitSection">
               <p><b>*</b>This field is required</p>
               <div class="buttons">
-                <div onclick="clearTask()" class="btn">
+                <div id="clearTaskDiv" class="btn">
                   <span>Clear</span>
                   <svg width="13" height="14" viewBox="0 0 13 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
@@ -202,7 +202,7 @@
                     />
                   </svg>
                 </div>
-                <button id="subButton" type="button" onclick="checkRequiredFields('addTask'); return false;" class="darkBTN">
+                <button id="subButton" type="button" class="darkBTN">
                   <span>Create Task</span>
                   <svg width="16" height="12" viewBox="0 0 16 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
