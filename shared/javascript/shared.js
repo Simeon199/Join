@@ -32,19 +32,6 @@ export async function initHTMLContent(path, parentId){
   // taskMarker() --> Bei Sidebar;
 }
 
-/**
- * Initializes the sidebar by loading HTML and user letters, and checking login status
- *
- */
-
-// async function initSidebar() {
-//   await sidebarHTML();
-//   await headerHTML();
-//   showUserLetters("userLetters", username);
-//   isNotLoggedIn();
-// }
-
-
 function taskMarker() {
   document.getElementById("contacts").classList.add("currentSection");
 }
@@ -66,22 +53,6 @@ function openDropDownMenu() {
     hideCurrentPageFormDropdown();
     document.getElementById("arrow-icon").classList.toggle("d-none");
   }
-}
-
-/**
- * Clears session and local storage, then redirects to login page
- *
- */
-function logout() {
-  localStorage.removeItem("isLoggedIn");
-  localStorage.removeItem("currentUser");
-  localStorage.removeItem("userNickname");
-  sessionStorage.removeItem("isLoggedIn");
-  sessionStorage.removeItem("currentUser");
-  sessionStorage.removeItem("userNickname");
-  sessionStorage.removeItem("guestLoginStatus");
-  window.location.href = "login.html";
-  localStorage.setItem("firstTime", "true");
 }
 
 /**

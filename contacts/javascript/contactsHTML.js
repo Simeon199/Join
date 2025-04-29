@@ -52,11 +52,13 @@ let firstContactsNameLetter = [];
 export {allContacts, firstContactsNameLetter};
 
 document.addEventListener('DOMContentLoaded', async () => {
-  shared.bundleLoadingHTMLTemplates();
-  loadAllContactsTemplateFunctions();
-  await getAllContactsAndRenderThem();
-  triggerAllClickEventFunctions();
-  triggerSubmitEventFunction();
+  if(window.location.ref === '/contacts/contacts.html'){
+    shared.bundleLoadingHTMLTemplates();
+    await getAllContactsAndRenderThem();
+    loadAllContactsTemplateFunctions();
+    triggerAllClickEventFunctions();
+    triggerSubmitEventFunction();
+  }
 });
 
 export async function getAllContactsAndRenderThem(){

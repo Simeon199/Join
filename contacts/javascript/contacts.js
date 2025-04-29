@@ -83,7 +83,6 @@ export async function getAllContacts(){
       contactsRef,
       (snapshot) => {
         let contactsData = snapshot.val();
-        console.log('contacts data: ', Object.values(contactsData));
         resolve(Object.values(contactsData));
       },
     ),

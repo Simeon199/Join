@@ -1,27 +1,21 @@
-import {ref, get, push, remove } from "../../core/database.js";
-import db from "../../core/database.js";
 import * as contacts from '../../contacts/javascript/contacts.js';
 import * as shared from '../../shared/javascript/shared.js';
-import { allContacts } from "../../contacts/javascript/contactsHTML.js";
-
-const database = db.database;
-
 
 let assignetTo = document.getElementById("assignetTo");
 let category = document.getElementById("category");
 let priority;
 let subArray = [];
 let assignedContacts = [];
+let allContacts = [];
 let standardContainer = "to-do-container";
 let userCredicals;
 let isSelect;
 let searchResults = [];
 
 document.addEventListener('DOMContentLoaded', () => {
-  shared.bundleLoadingHTMLTemplates();
-  handleAllClickEvents();
-  handleKeyAndInputEvents();
-  init();
+  if(window.location.ref === '/add_tasks/add_task.html'){
+    init();
+  }
 });
 
 function handleAllClickEvents(){
@@ -79,17 +73,20 @@ function handleKeyAndInputEvents(){
 }
 
 async function init() {
-  changePriority(medium);
   allContacts = await contacts.getAllContacts();
+  shared.bundleLoadingHTMLTemplates();
+  handleAllClickEvents();
+  handleKeyAndInputEvents();
+  changePriority(medium);
 }
 
 // Hier beginnt die Funktionenkette, die die Zuweisung der Kontakte zur Aufgabe verwaltet
 
 function changeToInputfield() {
-  changecont = document.getElementById("changeTo");
-  search = document.getElementById("searchArea").classList;
-  input = document.getElementById("searchField");
-  stV = document.getElementById("standartValue").classList;
+  let changecont = document.getElementById("changeTo");
+  let search = document.getElementById("searchArea").classList;
+  let input = document.getElementById("searchField");
+  let stV = document.getElementById("standartValue").classList;
   window.addEventListener("click", function (e) {
     if (changecont.contains(e.target)) {
       search.remove("d-none");
@@ -109,7 +106,6 @@ function changeToInputfield() {
 function showDropDownAssignedTo() {
   let contact = document.getElementById("assignedToDropDown");
   contact.innerHTML = "";
-  console.log('allContacts: ', allContacts);
   for (let i = 0; i < allContacts.length; i++) {
     let user = allContacts[i];
     renderAssignedToHTML(user, i);
@@ -146,11 +142,22 @@ function searchContacts() {
   }
 }
 
+// id="user${i}" class=assignedDropDownField onclick="checkAssignedContacts('${user[`name`]}', '${user[`color`]}', ${i})"
+
 async function renderAssignedToHTML(user, i) {
   let templateHTML = await shared.initHTMLContent('/add_tasks/templates/render-assigned-to-html.tpl', 'assignedToDropDown');
-  document.getElementById(`assignetToLetters${i}`).style.backgroundColor = user["color"];
-  showUserLetters(`assignetToLetters${i}`, user["name"]);
-  return templateHTML;
+  if(templateHTML){
+    console.log('tempalte: ', document.getElementById('assignedToDropDown'));
+    try {
+      document.getElementById(`assignetToLetters${i}`).style.backgroundColor = user.color;
+      showUserLetters(`assignetToLetters${i}`, user.name);
+      document.getElementById(`user${i}`).addEventListener('click', () => {
+        checkAssignedContacts(`${user.name}`, `${user.color}`, `${i}`);
+      });
+    } catch(error){
+      console.error('Something didnt work out with loading the template', error);
+    }
+  }
 }
 
 function showDropDownAssignedToOnlyResult() {
