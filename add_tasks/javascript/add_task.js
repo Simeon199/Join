@@ -13,7 +13,7 @@ let isSelect;
 let searchResults = [];
 
 document.addEventListener('DOMContentLoaded', () => {
-  if(window.location.ref === '/add_tasks/add_task.html'){
+  if(window.location.pathname.endsWith('/add_tasks/add_task.html')){
     init();
   }
 });
@@ -74,7 +74,7 @@ function handleKeyAndInputEvents(){
 
 async function init() {
   allContacts = await contacts.getAllContacts();
-  shared.bundleLoadingHTMLTemplates();
+  // shared.bundleLoadingHTMLTemplates();
   handleAllClickEvents();
   handleKeyAndInputEvents();
   changePriority(medium);
@@ -147,7 +147,9 @@ function searchContacts() {
 async function renderAssignedToHTML(user, i) {
   let templateHTML = await shared.initHTMLContent('/add_tasks/templates/render-assigned-to-html.tpl', 'assignedToDropDown');
   if(templateHTML){
-    console.log('tempalte: ', document.getElementById('assignedToDropDown'));
+    templateHTML.id=`user${i}`;
+    console.log(document.getElementById(`user${i}`).childNodes);
+    console.log('template: ', document.getElementById('assignedToDropDown'));
     try {
       document.getElementById(`assignetToLetters${i}`).style.backgroundColor = user.color;
       showUserLetters(`assignetToLetters${i}`, user.name);

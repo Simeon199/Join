@@ -52,7 +52,7 @@ let firstContactsNameLetter = [];
 export {allContacts, firstContactsNameLetter};
 
 document.addEventListener('DOMContentLoaded', async () => {
-  if(window.location.ref === '/contacts/contacts.html'){
+  if(window.location.pathname.endsWith('/contacts/contacts.html')){
     shared.bundleLoadingHTMLTemplates();
     await getAllContactsAndRenderThem();
     loadAllContactsTemplateFunctions();
