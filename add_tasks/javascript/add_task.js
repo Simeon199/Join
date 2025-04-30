@@ -1,4 +1,5 @@
 import * as contacts from '../../contacts/javascript/contacts.js';
+import * as contactsHTML from '../../contacts/javascript/contactsHTML.js';
 import * as shared from '../../shared/javascript/shared.js';
 
 let assignetTo = document.getElementById("assignetTo");
@@ -74,7 +75,6 @@ function handleKeyAndInputEvents(){
 
 async function init() {
   allContacts = await contacts.getAllContacts();
-  // shared.bundleLoadingHTMLTemplates();
   handleAllClickEvents();
   handleKeyAndInputEvents();
   changePriority(medium);
@@ -142,23 +142,50 @@ function searchContacts() {
   }
 }
 
-// id="user${i}" class=assignedDropDownField onclick="checkAssignedContacts('${user[`name`]}', '${user[`color`]}', ${i})"
-
 async function renderAssignedToHTML(user, i) {
   let templateHTML = await shared.initHTMLContent('/add_tasks/templates/render-assigned-to-html.tpl', 'assignedToDropDown');
   if(templateHTML){
     templateHTML.id=`user${i}`;
-    console.log(document.getElementById(`user${i}`).childNodes);
-    console.log('template: ', document.getElementById('assignedToDropDown'));
     try {
-      document.getElementById(`assignetToLetters${i}`).style.backgroundColor = user.color;
-      showUserLetters(`assignetToLetters${i}`, user.name);
-      document.getElementById(`user${i}`).addEventListener('click', () => {
-        checkAssignedContacts(`${user.name}`, `${user.color}`, `${i}`);
-      });
+      showContactsAndMakeThemSelectable(user, i);
     } catch(error){
       console.error('Something didnt work out with loading the template', error);
     }
+  }
+}
+
+function showContactsAndMakeThemSelectable(user, i){
+  prepareSingleContactForSelection(user, i);
+  document.getElementById(`user${i}`).addEventListener('click', () => {
+    checkAssignedContacts(`${user.name}`, `${user.color}`, `${i}`);
+  });
+}
+
+function prepareSingleContactForSelection(user, i){
+  let parentDiv = document.getElementById(`user${i}`);
+  let assignedToLetters = parentDiv.querySelectorAll('div')[0];
+  let dropdownUser = parentDiv.querySelectorAll('div')[1];
+  let contactInitials = contactsHTML.getContactInitials(user.name);
+  assignedToLetters.id = `assignetToLetters${i}`;
+  assignedToLetters.style.backgroundColor = user.color;
+  assignedToLetters.innerHTML = contactInitials;
+  dropdownUser.querySelector('span').innerHTML = user.name; 
+}
+
+function checkAssignedContacts(name, color, i) {
+  x = { name: name, color: color, selected: false };
+  selUser = document.getElementById(`user${i}`);
+  if (selUser.classList.contains("contactIsSelect") == true) {
+    document.getElementById(`none_checked${i}`).classList.remove("d-none");
+    document.getElementById(`checked${i}`).classList.add("d-none");
+    selUser.classList.remove("contactIsSelect");
+    removeAssignedToContects(x.name, i);
+  } else {
+    document.getElementById(`none_checked${i}`).classList.add("d-none");
+    document.getElementById(`checked${i}`).classList.remove("d-none");
+    selUser.classList.add("contactIsSelect");
+    x.selected = true;
+    addUserToTask(x);
   }
 }
 
@@ -504,23 +531,6 @@ function addSubtaskByEnterClick() {
 //   hideOrShowEditButtons();
 //   let activSubtask = document.getElementById("subtask");
 //   activSubtask.focus();
-// }
-
-// function checkAssignedContacts(name, color, i) {
-//   x = { name: name, color: color, selected: false };
-//   selUser = document.getElementById(`user${i}`);
-//   if (selUser.classList.contains("contactIsSelect") == true) {
-//     document.getElementById(`none_checked${i}`).classList.remove("d-none");
-//     document.getElementById(`checked${i}`).classList.add("d-none");
-//     selUser.classList.remove("contactIsSelect");
-//     removeAssignedToContects(x.name, i);
-//   } else {
-//     document.getElementById(`none_checked${i}`).classList.add("d-none");
-//     document.getElementById(`checked${i}`).classList.remove("d-none");
-//     selUser.classList.add("contactIsSelect");
-//     x.selected = true;
-//     addUserToTask(x);
-//   }
 // }
 
 // function addUserToTask(u) {
