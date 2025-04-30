@@ -104,11 +104,11 @@ function manageRemainingClickEvents(){
 
 function manageClickEventOnIconContainerButton(){
   document.getElementById('show-icon-container-button').addEventListener('click', (event) => {
-    stopEvent(event),
+    shared.stopEvent(event),
     showIconContainer();
   });
   document.getElementById('icon-container').addEventListener('click', (event) => {
-    stopEvent(event);
+    shared.stopEvent(event);
   });
 }
 
@@ -129,7 +129,7 @@ function manageClickEventOnAddTaskPopUp(){
     hidePopUp();
   });
   document.getElementById('add-task-pop-up').addEventListener('click', (event) => {
-    stopEvent(event);
+    shared.stopEvent(event);
   });
   document.getElementById('close-add-task-pop-up').addEventListener('click', () => {
     hidePopUp();

@@ -4,8 +4,8 @@
       <div class="DropDownUser">
         <span></span>
         <div class="checkboxesSVG">
-          <img id=`none_checked${i}` src="../../assets/img/Checkbox_black.svg" alt="">
-          <img id=`checked${i}` class="checked d-none" src="../../assets/img/Checkbox_checked.svg" alt="">
+          <img src="../../assets/img/Checkbox_black.svg" alt="">
+          <img src="../../assets/img/Checkbox_checked.svg" class="checked d-none" alt="">
         </div>
       </div>
     </div>

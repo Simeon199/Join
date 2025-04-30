@@ -1,14 +1,4 @@
  /**
-  * Stops the propagation of an event through the DOM.
-  * 
-  * @param {Event} event - The event object to stop propagation for.
-  */
- 
- function stopEvent(event) {
-   event.stopPropagation();
- }
- 
- /**
   * Redirects the user to the login site.
   * 
   */

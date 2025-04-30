@@ -36,6 +36,16 @@ function taskMarker() {
   document.getElementById("contacts").classList.add("currentSection");
 }
 
+ /**
+  * Stops the propagation of an event through the DOM.
+  * 
+  * @param {Event} event - The event object to stop propagation for.
+  */
+ 
+ export function stopEvent(event) {
+  event.stopPropagation();
+}
+
 /**
  *  Toggles the dropdown menu and updates its content
  *
