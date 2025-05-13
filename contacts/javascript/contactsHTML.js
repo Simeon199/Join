@@ -49,8 +49,6 @@ let activeContactIndex = null;
 let allContacts = [];
 let firstContactsNameLetter = [];
 
-export {allContacts, firstContactsNameLetter};
-
 document.addEventListener('DOMContentLoaded', async () => {
   if(window.location.pathname.endsWith('/contacts/contacts.html')){
     shared.bundleLoadingHTMLTemplates();
@@ -62,6 +60,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 export async function getAllContactsAndRenderThem(){
+  // debugger;
+  console.log('allContacts: ', allContacts);
   allContacts = await contacts.getAllContacts();
   allContacts.forEach((element) => {
     firstContactsNameLetter.push(element.initials);
@@ -558,3 +558,5 @@ export function showLoadScreen() {
 export function returnContactSuccessfullyCreatetPopUp(action){
   document.getElementById("contact-successfully-created-pop-up").innerHTML = "Contact successfully " + action; 
 }
+
+export {allContacts, firstContactsNameLetter};

@@ -21,7 +21,7 @@ let currentOpenDropdown = null;
 document.addEventListener('DOMContentLoaded', async () => {
   shared.bundleLoadingHTMLTemplates();
   // init();
-  init_task();
+  // init_task();
   updateHTML();
 });
 

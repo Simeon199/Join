@@ -1,6 +1,7 @@
-import * as contacts from '../../contacts/javascript/contacts.js';
+// import * as contacts from '../../contacts/javascript/contacts.js';
 import * as contactsHTML from '../../contacts/javascript/contactsHTML.js';
 import * as shared from '../../shared/javascript/shared.js';
+import * as data from '../../core/downloadData.js';
 
 let assignetTo = document.getElementById("assignetTo");
 let category = document.getElementById("category");
@@ -16,68 +17,67 @@ let searchResults = [];
 document.addEventListener('DOMContentLoaded', () => {
   if(window.location.pathname.endsWith('/add_tasks/add_task.html')){
     init();
+    handleEventsFunction();
   }
+  changePriority(medium);
 });
 
-function handleAllClickEvents(){
-  document.getElementById('arrowa').addEventListener('click', () => {
-    checkDropDown('arrowa');
-  });
-  document.getElementById("addTaskBody").addEventListener('click', () => {
-    hideAllAddTaskPopups();
-  });
-  document.getElementById('changeTo').addEventListener('click', () => {
-    changeToInputfield();
-  });
-  document.getElementById('assignedToDropDown').addEventListener('click', (event) => {
-    shared.stopEvent(event)
-  });
-  document.getElementById('urgent').addEventListener('click', () => {
-    changePriority('urgent');
-  });
-  document.getElementById('medium').addEventListener('click', () => {
-    changePriority('medium');
-  });
-  document.getElementById('low').addEventListener('click', () => {
-    changePriority('low');
-  });
-  document.getElementById('category').addEventListener('click', (event) => {
-    checkDropDown('arrowb');
-    shared.stopEvent(event);
-  });
-  document.getElementById('subtask').addEventListener('click', (event) => {
-    hideOrShowEditButtons();
-    shared.stopEvent(event);
-  });
-  document.getElementById('subtaskInputButtons').addEventListener('click', () => {
-    clearSubtaskInput();
-  });
-  document.getElementById('enterClick').addEventListener('click', () => {
-    addSubtask();
-  });
-  document.getElementById('clearTaskDiv').addEventListener('click', () => {
-    clearTask();
-  });
-  document.getElementById('subButton').addEventListener('click', () => {
-    checkRequiredFields('addTask');
-    return false;
-  })
-}
-
-function handleKeyAndInputEvents(){
-  document.getElementById('searchField').addEventListener('input', () => {
-    searchContacts();
-  });
-  document.getElementById('subtask').addEventListener('keyup', () => {
-    addSubtaskByEnterClick();
-  });
+function handleEventsFunction(){
+  handleAllClickEvents();
+  handleKeyAndInputEvents();
 }
 
 async function init() {
-  allContacts = await contacts.getAllContacts();
-  handleAllClickEvents();
-  handleKeyAndInputEvents();
-  changePriority(medium);
+  // allContacts = await contacts.getAllContacts();
+  console.log('all contacts are: ', data.allContacts);
+}
+
+function handleAllClickEvents(){
+  document.addEventListener('click', (event) => {
+    if(event.target.matches('#arrowa')){
+      checkDropDown('arrowa');
+    } else if(event.target.matches('#addTaskBody')){
+      hideAllAddTaskPopups()
+    } else if(event.target.matches('#changeTo')){
+      changeToInputfield();
+    } else if(event.target.matches('#assignedToDropDown')){
+      shared.stopEvent(event);
+    } else if(event.target.matches('#urgent')){
+      changePriority('urgent');
+    } else if(event.target.matches('#medium')){
+      changePriority('medium');
+    } else if(event.target.matches('#low')){
+      changePriority('low');
+    } else if(event.target.matches('#category')){
+      checkDropDown('arrowb');
+      shared.stopEvent(event);
+    } else if(event.target.matches('#subtask')){
+      hideOrShowEditButtons();
+      shared.stopEvent(event);
+    } else if(event.target.matches('#subtaskInputButtons')){
+      clearSubtaskInput();
+    } else if(event.target.matches('#enterClick')){
+      addSubtask();
+    } else if(event.target.matches('#clearTaskDiv')){
+      clearTask();
+    } else if(event.target.matches('#subButton')){
+      checkRequiredFields('addTask');
+      return false;
+    }
+  });
+}
+
+function handleKeyAndInputEvents(){
+  document.addEventListener('input', (event) => {
+    if(event.target.matches('#searchField')){
+      searchContacts();
+    }
+  })
+  document.addEventListener('keyup', (event) => {
+    if(event.target.matches('#subtask')){
+      addSubtaskByEnterClick();
+    }
+  })
 }
 
 // Hier beginnt die Funktionenkette, die die Zuweisung der Kontakte zur Aufgabe verwaltet
@@ -406,6 +406,7 @@ function getInputValue(elementId) {
 }
 
 function checkDropDown(id) {
+  debugger;
   let rot = document.getElementById(id);
   if (rot.classList.contains("rotate")) {
     if (id == "arrowa") {

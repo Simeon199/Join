@@ -84,6 +84,7 @@ export async function getAllContacts(){
       (snapshot) => {
         let contactsData = snapshot.val();
         resolve(Object.values(contactsData));
+        console.log('contacts: ', Object.values(contactsData));
       },
     ),
     (error) => {
