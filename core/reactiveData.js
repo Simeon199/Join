@@ -4,41 +4,40 @@ import database from "./database";
 export function createReactiveDataSource(path){
     let currentData = null;
     let listeners = [];
-
-    // Firebase ref für Pfad erstellen
-
     let dbRef = ref(database, path);
-
-    // Echtzeitlistener setzen
-
     onValue(dbRef, (snapshot) => {
         const val = snapshot.val() || {};
         currentData = val;
-        notify();
+        notify(listeners, currentData);
     }, (error) => {
         console.error(`Fehler beim Hören auf ${path}`, error);
     });
+    return returnReactiveDataObject(listeners, () => currentData);
+}
 
-    function notify(){
-        for(const callback of listeners){
-            callback(currentData);
-        }
+function notify(listeners, currentData){
+    for(const callback of listeners){
+        callback(currentData);
     }
+}
 
+function returnReactiveDataObject(listeners, getCurrentData){
     return {
         get(){
-            return currentData;
+            return getCurrentData();
         }, 
         onChange(callback){
             listeners.push(callback);
-            if(currentData !== null){
-                callback(currentData)
+            const data = getCurrentData();
+            if(data !== null){
+                callback(data);
             }
         },
-        // Optional: Callback wieder entfernen
         offChange(callback){
             const index = listeners.indexOf(callback);
-            if(index !== -1) listeners.splice(index, 1);
+            if(index !== -1) {
+                listeners.splice(index, 1);
+            }
         }
-    }
+    };
 }
