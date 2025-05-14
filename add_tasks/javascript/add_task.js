@@ -1,4 +1,3 @@
-// import * as contacts from '../../contacts/javascript/contacts.js';
 import * as contactsHTML from '../../contacts/javascript/contactsHTML.js';
 import * as shared from '../../shared/javascript/shared.js';
 import * as data from '../../core/downloadData.js';
@@ -29,7 +28,7 @@ function handleEventsFunction(){
 
 async function init() {
   // allContacts = await contacts.getAllContacts();
-  console.log('all contacts are: ', data.allContacts);
+  console.log('all contacts are: ', data.contactsData);
 }
 
 function handleAllClickEvents(){

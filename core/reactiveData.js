@@ -1,10 +1,10 @@
-import { onValue, ref } from "./database";
-import database from "./database";
+import { onValue, ref } from "./firebase.js";
+import * as firebase from "./firebase.js";
 
 export function createReactiveDataSource(path){
     let currentData = null;
     let listeners = [];
-    let dbRef = ref(database, path);
+    let dbRef = ref(firebase.database, path);
     onValue(dbRef, (snapshot) => {
         const val = snapshot.val() || {};
         currentData = val;

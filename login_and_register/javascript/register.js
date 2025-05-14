@@ -1,8 +1,9 @@
-import {ref, set, createUserWithEmailAndPassword} from "../../core/database.js";
-import db from "../../core/database.js";
+// import {ref, set, createUserWithEmailAndPassword} from "../../core/database.js";
+// import db from "../../core/firebase.js";
+import * as firebase from "../../core/firebase.js";
 
-const auth = db.auth;
-const database = db.database;
+const auth = firebase.auth;
+const database = firebase.database;
 
 document.addEventListener('DOMContentLoaded', () => {
   let form = document.getElementById('signUpForm');
@@ -54,6 +55,6 @@ function createUserData(name, email){
 }
 
 async function writeData(path, userdata){
-  const dbref=ref(database, path);
+  const dbref=ref(firebase.database, path);
   return set(dbref, userdata);
 }

@@ -1,9 +1,9 @@
-import {ref, onValue, update, push, remove} from "../../../core/database.js";
-import db from "../../../core/database.js";
+import {ref, onValue, update, push, remove} from "../../../core/firebase.js";
+import * as firebase from "../../../core/firebase.js";
 import * as contactsHTML from './contactsHTML.js';
 export * from './contacts.js';
 
-const database = db.database;
+const database = firebase.database;
 
 /**
  * Adds a new contact and shows a success message.
@@ -60,7 +60,7 @@ function createUserData(){
  */
 
 async function postNewContact(newUserData){
-  let contactsRef = ref(database, 'kanban/sharedBoard/contacts');
+  let contactsRef = ref(firebase.database, 'kanban/sharedBoard/contacts');
   let newContactKey = push(contactsRef).key;
   let contactWithId = {
     ...newUserData,
@@ -69,7 +69,7 @@ async function postNewContact(newUserData){
   let updates = {};
   updates[`contacts/${newContactKey}`] = contactWithId;
   try {
-    await update(ref(database, 'kanban/sharedBoard'), updates);
+    await update(ref(firebase.database, 'kanban/sharedBoard'), updates);
     console.log('Kontakt erfolgreich gespeichert');
   } catch(error) {
     console.error('Fehler beim Speichern des Kontakts: ', error);
@@ -78,7 +78,7 @@ async function postNewContact(newUserData){
 
 export async function getAllContacts(){
   return new Promise((resolve, reject) => {
-    let contactsRef = ref(database, 'kanban/sharedBoard/contacts');
+    let contactsRef = ref(firebase.database, 'kanban/sharedBoard/contacts');
     onValue(
       contactsRef,
       (snapshot) => {
@@ -96,7 +96,7 @@ export async function getAllContacts(){
 
 export async function deleteContact(contactId){
   try {
-    let contactRef = ref(database, `kanban/sharedBoard/contacts/${contactId}`);
+    let contactRef = ref(firebase.database, `kanban/sharedBoard/contacts/${contactId}`);
     await remove(contactRef);
     console.log(`Kontakt mit ID ${contactId} wurde erfolgreich gelöscht.`);
   } catch(error){
@@ -107,7 +107,7 @@ export async function deleteContact(contactId){
 
 export async function editContact(contactId, updateData){
   try {
-    let contactRef = ref(database, `kanban/sharedBoard/contacts/${contactId}`);
+    let contactRef = ref(firebase.database, `kanban/sharedBoard/contacts/${contactId}`);
     await update(contactRef, updateData);
     console.log(`Kontakt mit ID ${contactId} wurde erfolgreich aktualisiert.`);
   } catch(error){

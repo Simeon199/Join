@@ -1,8 +1,10 @@
-import {signInWithEmailAndPassword, signInAnonymously } from "../../core/database.js"; // database.js
-import db from "../../core/database.js"; // database.js
+// import {signInWithEmailAndPassword, signInAnonymously } from "../../core/database.js"; 
+// import db from "../../core/database.js"; 
 
-const auth = db.auth;
-const database = db.database;
+import * as firebase from "../../core/firebase.js";
+
+const auth = firebase.auth;
+const database = firebase.database;
 
 /**
  * This function updates the visibility of the password field identified by the provided variable.
@@ -37,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 document.getElementById('guestLogIn').addEventListener('click', () => {
-  signInAnonymously(auth).then(result => {
+  firebase.signInAnonymously(auth).then(result => {
     const user = result.user;
     console.log(`Als Gast eingeloggt! UID: ${user.uid}`);
     window.location.href="../summary/summary.html";
@@ -51,7 +53,7 @@ function loginFunction(event){
   event.preventDefault();
   let email = document.getElementById('loginEmail').value;
   let password = document.getElementById('loginPassword').value;
-  signInWithEmailAndPassword(auth, email, password).then((userCredential) => {
+  firebase.signInWithEmailAndPassword(auth, email, password).then((userCredential) => {
     const user = userCredential.user;
     console.log("Login erfolgreich: ", user.email);
     window.location.href="summary.html";
