@@ -27,8 +27,10 @@ function handleEventsFunction(){
 }
 
 async function init() {
-  // allContacts = await contacts.getAllContacts();
-  console.log('all contacts are: ', data.contactsData);
+  data.contactsData.onChange((data) => {
+    allContacts = Object.values(data || {});
+    console.log('allContacts:', allContacts);
+  });
 }
 
 function handleAllClickEvents(){
@@ -105,8 +107,8 @@ function changeToInputfield() {
 function showDropDownAssignedTo() {
   let contact = document.getElementById("assignedToDropDown");
   contact.innerHTML = "";
-  for (let i = 0; i < allContacts.length; i++) {
-    let user = allContacts[i];
+  for (let i = 0; i < allContacts.length; i++) { // allContacts
+    let user = allContacts[i]; // allContacts
     renderAssignedToHTML(user, i);
     if (assignedContacts != 0) {
       if (checkAssignedContactsStatus(user.name) === true) {
@@ -124,10 +126,10 @@ function showDropDownAssignedTo() {
 
 function searchContacts() {
   document.getElementById("assignedToDropDown").innerHTML = "";
-  search = document.getElementById("searchField");
-  text = search.value.toLowerCase();
+  let search = document.getElementById("searchField");
+  let text = search.value.toLowerCase();
   if (text.length >= 1) {
-    searchResults = [];
+    let searchResults = [];
     for (let i = 0; i < allContacts.length; i++) {
       aU = allContacts[i].name.toLowerCase();
       if (aU.includes(text)) {
@@ -136,7 +138,7 @@ function searchContacts() {
     }
     showDropDownAssignedToOnlyResult();
   } else {
-    searchResults = [];
+    let searchResults = [];
     showDropDownAssignedTo();
   }
 }
@@ -242,7 +244,7 @@ function showDropDownAssignedToOnlyResult() {
   let contact = document.getElementById("assignedToDropDown");
   contact.innerHTML = "";
   for (let i = 0; i < searchResults.length; i++) {
-    user = searchResults[i];
+    let user = searchResults[i];
     renderAssignedToHTML(user, i);
   }
   contact.classList.remove("d-none");
@@ -404,8 +406,7 @@ function getInputValue(elementId) {
   return document.getElementById(elementId).value;
 }
 
-function checkDropDown(id) {
-  debugger;
+function checkDropDown(id) { // arrowb wird hier überhaupt nicht abgeprüft --> Abgleichen mit originalem Join-Code!
   let rot = document.getElementById(id);
   if (rot.classList.contains("rotate")) {
     if (id == "arrowa") {
@@ -433,7 +434,7 @@ function hideAllAddTaskPopups() {
 }
 
 function checkDate() {
-  animation = document.getElementById("dateAnimation");
+  let animation = document.getElementById("dateAnimation");
   let dateInput = document.getElementById("date");
   const dateString = dateInput.value;
   const dateObject = new Date(dateString);
@@ -498,7 +499,7 @@ function createSubtaskJson(value) {
 }
 
 function rendersubtask() {
-  subtask = document.getElementById("sowSubtasks");
+  let subtask = document.getElementById("showSubtasks");
   subtask.innerHTML = "";
   if (subArray.length >= 1) {
     for (let i = 0; i < subArray.length; i++) {
@@ -512,12 +513,12 @@ function rendersubtask() {
 }
 
 async function renderSubtaskHTML(){
-  let templateHTML = await shared.initHTMLContent('/add_tasks/templates/render-subtask-html.tpl', 'sowSubtasks');
+  let templateHTML = await shared.initHTMLContent('/add_tasks/templates/render-subtask-html.tpl', 'showSubtasks');
   return templateHTML;
 }
 
 function clearSubtask() {
-  let subtask = document.getElementById("sowSubtasks");
+  let subtask = document.getElementById("showSubtasks");
   subArray = [];
   subtask.innerHTML = "";
   i = 0;
@@ -530,15 +531,16 @@ function clearSubtaskInput() {
 }
 
 function hideOrShowEditButtons() {
-  cont = document.getElementById("testForFunction");
-  plus = document.getElementById("plusSymbole");
-  subtask = document.getElementById("subtaskInputButtons");
+  // debugger;
+  let cont = document.getElementById("testForFunction");
+  let plus = document.getElementById("plusSymbole");
+  let subtask = document.getElementById("subtaskInputButtons");
   plus.classList.add("d-none");
   subtask.classList.remove("d-none");
 }
 
 function showsubtaskIsEmptyError() {
-  emptySub = document.getElementById("emptySubtask");
+  let emptySub = document.getElementById("emptySubtask");
   emptySub.classList.remove("d-none");
   setTimeout(function () {
     document.getElementById("emptySubtask").classList.add("d-none");
@@ -547,7 +549,7 @@ function showsubtaskIsEmptyError() {
 
 function addSubtaskByEnterClick() {
   let text = document.getElementById(`testForFunction`);
-  suby = document.getElementById("subtask");
+  let suby = document.getElementById("subtask");
   text.addEventListener("keyup", (e) => {
     if (e.key === "Enter" && document.hasFocus()) {
       e.preventDefault();
