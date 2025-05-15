@@ -2,16 +2,20 @@ import * as contactsHTML from '../../contacts/javascript/contactsHTML.js';
 import * as shared from '../../shared/javascript/shared.js';
 import * as data from '../../core/downloadData.js';
 
-let assignedTo = document.getElementById("assignedTo"); // ehemals assignetTo
-let category = document.getElementById("category");
-let priority;
+// ehemals assignetTo
+
+// let assignedTo = document.getElementById("assignedTo"); 
+// let category = document.getElementById("category");
+// let priority;
+// let standardContainer = "to-do-container";
+// let userCredicals;
+// let isSelect;
+
 let subArray = [];
 let assignedContacts = [];
 let allContacts = [];
-let standardContainer = "to-do-container";
-let userCredicals;
-let isSelect;
 let searchResults = [];
+let isAssignedFieldClicked = false;
 
 // Das noch irgendwo verarbeiten (es geht ums Plussymbol svg): onclick="stopEvent(event); focusInput()"
 
@@ -35,10 +39,18 @@ async function init() {
   });
 }
 
+function toggleIsAssignedFieldClicked(){
+  isAssignedFieldClicked = !isAssignedFieldClicked;
+}
+
 function handleAllClickEvents(){
   document.addEventListener('click', (event) => {
-    if(event.target.matches('#arrowa')){
+    if(event.target.matches('#arrowa') && isAssignedFieldClicked === false){ //  || assignedTo
       checkDropDown('arrowa');
+      toggleIsAssignedFieldClicked();
+    } else if(event.target.matches('#arrowa') && isAssignedFieldClicked === true){
+      hideDropDownAssignedTo();
+      toggleIsAssignedFieldClicked();
     } else if(event.target.matches('#addTaskBody')){
       hideAllAddTaskPopups()
     } else if(event.target.matches('#changeTo')){
@@ -72,7 +84,10 @@ function handleAllClickEvents(){
     } else if(event.target.matches('#subButton')){
       checkRequiredFields('addTask');
       return false;
-    }
+    } 
+    // else {
+    //   hideAllAddTaskPopups();
+    // }
   });
 }
 
@@ -112,12 +127,12 @@ function changeToInputfield() {
   });
 }
 
-function showDropDownAssignedTo() {
+async function showDropDownAssignedTo() {
   let contact = document.getElementById("assignedToDropDown");
-  contact.innerHTML = "";
-  for (let i = 0; i < allContacts.length; i++) { // allContacts
-    let user = allContacts[i]; // allContacts
-    renderAssignedToHTML(user, i);
+  // contact.innerHTML = "";
+  for (let i = 0; i < allContacts.length; i++) {
+    let user = allContacts[i];
+    await renderAssignedToHTML(user, i); // Problem sitzt hier, da mehrfache Iteration
     if (assignedContacts != 0) {
       if (checkAssignedContactsStatus(user.name) === true) {
         document.getElementById(`user${i}`).classList.add("contactIsSelect");
@@ -130,6 +145,18 @@ function showDropDownAssignedTo() {
   }
   contact.classList.remove("d-none");
   document.getElementById("arrowa").classList.add("rotate");
+}
+
+async function renderAssignedToHTML(user, i) {
+  let templateHTML = await shared.initHTMLContent('/add_tasks/templates/render-assigned-to-html.tpl', 'assignedToDropDown');
+  if(templateHTML){
+    templateHTML.id=`user${i}`;
+    try {
+      showContactsAndMakeThemSelectable(user, i);
+    } catch(error){
+      console.error('Something didnt work out with loading the template', error);
+    }
+  }
 }
 
 function searchContacts() {
@@ -148,18 +175,6 @@ function searchContacts() {
   } else {
     let searchResults = [];
     showDropDownAssignedTo();
-  }
-}
-
-async function renderAssignedToHTML(user, i) {
-  let templateHTML = await shared.initHTMLContent('/add_tasks/templates/render-assigned-to-html.tpl', 'assignedToDropDown');
-  if(templateHTML){
-    templateHTML.id=`user${i}`;
-    try {
-      showContactsAndMakeThemSelectable(user, i);
-    } catch(error){
-      console.error('Something didnt work out with loading the template', error);
-    }
   }
 }
 
@@ -267,7 +282,7 @@ function showplusSVG() {
 
 function showDropDownAssignedToOnlyResult() {
   let contact = document.getElementById("assignedToDropDown");
-  contact.innerHTML = "";
+  // contact.innerHTML = "";
   for (let i = 0; i < searchResults.length; i++) {
     let user = searchResults[i];
     renderAssignedToHTML(user, i);
@@ -426,7 +441,6 @@ function hideRequiredText() {
   });
 }
 
-
 // function getInputValue(elementId) {
 //   return document.getElementById(elementId).value;
 // }
@@ -483,7 +497,7 @@ function hideDropDownAssignedTo() {
   document.getElementById("arrowa").classList.remove("rotate");
   let contact = document.getElementById("assignedToDropDown");
   contact.classList.add("d-none");
-  contact.innerHTML = "";
+  // contact.innerHTML = "";
 }
 
 function clearAssignedTo() {

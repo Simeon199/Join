@@ -1,6 +1,6 @@
 <template>
     <div class=assignedDropDownField>
-      <div class="circle" id=`assignetToLetters${i}`></div>
+      <div class="circle"></div>
       <div class="DropDownUser">
         <span></span>
         <div class="checkboxesSVG">
