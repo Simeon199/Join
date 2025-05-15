@@ -32,7 +32,7 @@ export async function initHTMLContent(path, parentId){
   // taskMarker() --> Bei Sidebar;
 }
 
-function taskMarker() {
+export function taskMarker() {
   document.getElementById("contacts").classList.add("currentSection");
 }
 
@@ -50,7 +50,8 @@ function taskMarker() {
  *  Toggles the dropdown menu and updates its content
  *
  */
-function openDropDownMenu() {
+
+export function openDropDownMenu() {
   document.getElementById("dropDown").classList.toggle("translate-100-header");
   dt = document.getElementById("dropDown");
   dt.innerHTML = /*html*/ `
@@ -69,7 +70,8 @@ function openDropDownMenu() {
  * Redirects the user to the privacy policy page
  *
  */
-function goToPrivacyPolicy() {
+
+export function goToPrivacyPolicy() {
   window.location.href = "privacy_policy_en.html";
 }
 
@@ -77,7 +79,8 @@ function goToPrivacyPolicy() {
  * Redirects the user to the legal notice page
  *
  */
-function goToLegalNotice() {
+
+export function goToLegalNotice() {
   window.location.href = "legal_notice.html";
 }
 
@@ -85,7 +88,8 @@ function goToLegalNotice() {
  * Redirects the user to the help page
  *
  */
-function goToHelpPage() {
+
+export function goToHelpPage() {
   window.location.href = "help.html";
 }
 
@@ -96,9 +100,9 @@ function goToHelpPage() {
  * @param {string} username - The username to process
  */
 
-function showUserLetters(id, username) {
-  span = document.getElementById(id);
-  un = firstLetterFirstTwoWords(username);
+export function showUserLetters(id, username) {
+  let span = document.getElementById(id);
+  let un = firstLetterFirstTwoWords(username);
   span.innerHTML = /*html*/ `
     <span>${un}</span>
   `;
@@ -109,7 +113,8 @@ function showUserLetters(id, username) {
  *
  * @param {string} text - The input text to process
  */
-function firstLetterFirstTwoWords(text) {
+
+export function firstLetterFirstTwoWords(text) {
   const words = text.split(" ");
   const firstLetters = words.map((word) => word.charAt(0));
   const result = firstLetters.slice(0, 2).join("");
@@ -121,7 +126,7 @@ function firstLetterFirstTwoWords(text) {
  *
  */
 
-function hideCurrentPageFormDropdown() {
+export function hideCurrentPageFormDropdown() {
   if (window.location.pathname.includes("privacy_policy_en.html")) {
     document.getElementById("dropDown-privacy-policy").classList.add("d-none");
   } else if (window.location.pathname.includes("legal_notice.html")) {

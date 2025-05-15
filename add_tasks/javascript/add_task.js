@@ -2,7 +2,7 @@ import * as contactsHTML from '../../contacts/javascript/contactsHTML.js';
 import * as shared from '../../shared/javascript/shared.js';
 import * as data from '../../core/downloadData.js';
 
-let assignetTo = document.getElementById("assignetTo");
+let assignedTo = document.getElementById("assignedTo"); // ehemals assignetTo
 let category = document.getElementById("category");
 let priority;
 let subArray = [];
@@ -12,6 +12,8 @@ let standardContainer = "to-do-container";
 let userCredicals;
 let isSelect;
 let searchResults = [];
+
+// Das noch irgendwo verarbeiten (es geht ums Plussymbol svg): onclick="stopEvent(event); focusInput()"
 
 document.addEventListener('DOMContentLoaded', () => {
   if(window.location.pathname.endsWith('/add_tasks/add_task.html')){
@@ -52,6 +54,12 @@ function handleAllClickEvents(){
     } else if(event.target.matches('#category')){
       checkDropDown('arrowb');
       shared.stopEvent(event);
+    } else if(event.target.matches('#techTask')) {
+      hideDropDownCategory();
+      changeCategory('Technical Task');
+    } else if(event.target.matches('#userStory')){
+      hideDropDownCategory();
+      changeCategory('User Story');
     } else if(event.target.matches('#subtask')){
       hideOrShowEditButtons();
       shared.stopEvent(event);
@@ -168,7 +176,7 @@ function prepareSingleContactForSelection(user, i){
   let dropdownUser = parentDiv.querySelectorAll('div')[1];
   let checkboxesSVG = dropdownUser.querySelector('.checkboxesSVG');
   let contactInitials = contactsHTML.getContactInitials(user.name);
-  assignedToLetters.id = `assignetToLetters${i}`;
+  assignedToLetters.id = `assignedToLetters${i}`; // ehemals assignetToLetters
   assignedToLetters.style.backgroundColor = user.color;
   assignedToLetters.innerHTML = contactInitials;
   dropdownUser.querySelector('span').innerHTML = user.name; 
@@ -189,47 +197,64 @@ function checkAssignedContacts(name, color, i) {
     document.getElementById(`checked${i}`).classList.remove("d-none");
     selUser.classList.add("contactIsSelect");
     x.selected = true;
-    // addUserToTask(x);
+    addUserToTask(x);
   }
+}
+
+function addUserToTask(u) {
+  let userCredicals = {
+    name: u.name,
+    color: u.color,
+    isSelected: u.selected,
+  };
+  assignedContacts.push(userCredicals);
+  assignedToContacts();
 }
 
 function removeAssignedToContects(name, index) {
   for (let i = 0; i < assignedContacts.length; i++) {
-    indexOfName = assignedContacts[i].name.includes(name);
+    let indexOfName = assignedContacts[i].name.includes(name);
     if (indexOfName == true) {
       document.getElementById(`user${index}`).classList.remove("contactIsSelect");
       assignedContacts.splice(i, 1);
     }
   }
-  assignetToContects();
+  assignedToContacts();
 }
 
-function assignetToContects() {
-  let circleCont = document.getElementById("userCircles");
-  circleCont.innerHTML = "";
+function assignedToContacts() {
   for (let i = 0; i < assignedContacts.length; i++) {
-    renderAssignedToCircle(i, assignedContacts[i].name, assignedContacts[i].color, circleCont);
+    renderAssignedToCircle(i, assignedContacts[i].name, assignedContacts[i].color);
   }
 }
 
-function renderAssignedToCircle(i, user, color, circleCont) {
+function renderAssignedToCircle(i, user, color) {
+  let circleCont = document.getElementById("userCircles");
+  circleCont.innerHTML = "";
   if (i <= 3) {
-    circleCont.innerHTML += `
-      <div class="assignetToDiv circle" id="showCircle${i}"></div>
-    `;
-    circle = document.getElementById(`showCircle${i}`).style;
-    circle.backgroundColor = color;
-    circle.border = "2px solid rgba(255, 255, 255, 1)";
-    if (assignedContacts.length >= 1) {
-      if (assignedContacts[0].name != user) {
-        circle.marginLeft = "-24px";
-      }
-    }
-    // showUserLetters(`showCircle${i}`, user);
+    loadTemplateAndAddStyling(i, user, color);
   } else if (i == 4) {
     circleCont.innerHTML += showplusSVG();
   } else {
     showplusSVG();
+  }
+}
+
+async function loadTemplateAndAddStyling(i, user, color){
+  let templateHTML = await shared.initHTMLContent('/add_tasks/templates/assigned-to-div-circle.tpl', 'userCircles'); 
+  templateHTML.id = `showCircle${i}`;
+  getCircleAndStyleIt(i, color, user);
+  shared.showUserLetters(`showCircle${i}`, user);
+}
+
+function getCircleAndStyleIt(i, color, user){
+  let circle = document.getElementById(`showCircle${i}`).style;
+  circle.backgroundColor = color;
+  circle.border = "2px solid rgba(255, 255, 255, 1)";
+  if (assignedContacts.length >= 1) {
+    if (assignedContacts[0].name != user) {
+      circle.marginLeft = "-24px";
+    }
   }
 }
 
@@ -301,7 +326,7 @@ function clearTask() {
 async function showDropDownCategory() {
   document.getElementById("categoryDropDown").classList.remove("d-none");
   document.getElementById("arrowb").classList.add("rotate");
-  let templateHTML = await shared.initHTMLContent('/add_tasks/templates/show-dropdown-category.tpl', 'categoryDropdown');
+  let templateHTML = await shared.initHTMLContent('/add_tasks/templates/show-dropdown-category.tpl', 'categoryDropDown'); 
   return templateHTML;
 }
 
@@ -380,18 +405,18 @@ async function checkRequiredFields(side) {
   checkAndPrepareUploadOfNewTask();
 }
 
-function createNewTask() {
-  return {
-    title: getInputValue("inputTitle"),
-    description: getInputValue("inputDescription"),
-    assigned: assignedContacts,
-    date: getInputValue("date"),
-    priority: priority,
-    category: document.getElementById("categoryText").textContent,
-    subtask: subArray,
-    container: standardContainer
-  };
-}
+// function createNewTask() {
+//   return {
+//     title: getInputValue("inputTitle"),
+//     description: getInputValue("inputDescription"),
+//     assigned: assignedContacts,
+//     date: getInputValue("date"),
+//     priority: priority,
+//     category: document.getElementById("categoryText").textContent,
+//     subtask: subArray,
+//     container: standardContainer
+//   };
+// }
 
 function hideRequiredText() {
   let ids = ["requiredTitle", "requiredDate", "requiredCatergory"];
@@ -402,9 +427,9 @@ function hideRequiredText() {
 }
 
 
-function getInputValue(elementId) {
-  return document.getElementById(elementId).value;
-}
+// function getInputValue(elementId) {
+//   return document.getElementById(elementId).value;
+// }
 
 function checkDropDown(id) { // arrowb wird hier überhaupt nicht abgeprüft --> Abgleichen mit originalem Join-Code!
   let rot = document.getElementById(id);
@@ -583,16 +608,6 @@ function addSubtaskByEnterClick() {
 //   hideOrShowEditButtons();
 //   let activSubtask = document.getElementById("subtask");
 //   activSubtask.focus();
-// }
-
-// function addUserToTask(u) {
-//   userCredicals = {
-//     name: u.name,
-//     color: u.color,
-//     isSelected: u.selected,
-//   };
-//   assignedContacts.push(userCredicals);
-//   assignetToContects();
 // }
 
 // function startAnimation() {
