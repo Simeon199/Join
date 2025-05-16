@@ -15,6 +15,11 @@ let subArray = [];
 let assignedContacts = [];
 let allContacts = [];
 let searchResults = [];
+let isAssignedDropdownOpen = false;
+
+function toggleIsAssignedDropdownOpenFlag(){
+  isAssignedDropdownOpen = !isAssignedDropdownOpen;
+}
 
 // Das noch irgendwo verarbeiten (es geht ums Plussymbol svg): onclick="stopEvent(event); focusInput()"
 
@@ -36,6 +41,7 @@ async function init() {
 function handleEventsFunction(){
   handleAllClickEvents();
   handleKeyAndInputEvents();
+  // handleRemainingEvents();
 }
 
 function handleAllClickEvents(){
@@ -49,11 +55,43 @@ function handleAllClickEvents(){
   });
 }
 
+function handleKeyAndInputEvents(){
+  document.addEventListener('input', (event) => {
+    if(event.target.matches('#searchField')){
+      searchContacts();
+    }
+  });
+  document.addEventListener('keyup', (event) => {
+    if(event.target.matches('#subtask')){
+      addSubtaskByEnterClick();
+    }
+  });
+}
+
+function addSubtaskByEnterClick() {
+  let text = document.getElementById(`subtask-div`);
+  let suby = document.getElementById("subtask");
+  text.addEventListener("keyup", (event) => {
+    if (event.key === "Enter" && document.hasFocus()) {
+      event.preventDefault();
+      event.stopPropagation();
+      document.getElementById("enterClick").click();
+    }
+  });
+}
+
+// async function handleRemainingEvents(){
+//   let templateHTML = await renderSubtaskHTML();
+//   templateHTML.id = `yyy${i}`;
+// }
+
 function hidePopUpsWhenBodyClicked(event){
   if(event.target.matches('#addTaskBody')){
       hideAllAddTaskPopups()
   } 
 }
+
+// --- Subtask Logic Starts Here ---
 
 function bundleSubtaskClickEvents(event){
   if(event.target.matches('#subtask')){
@@ -65,6 +103,122 @@ function bundleSubtaskClickEvents(event){
     addSubtask();
   } 
 }
+
+function addSubtask() {
+  let text = document.getElementById(`subtask`);
+  if (text.value.length <= 0) {
+    showsubtaskIsEmptyError();
+  } else {
+    let subtaskJson = createSubtaskJson(text.value);
+    subArray.push(subtaskJson);
+    text.value = "";
+    rendersubtask();
+    hideOrShowEditButtons();
+  }
+}
+
+function rendersubtask() {
+  let subtask = document.getElementById("showSubtasks");
+  subtask.innerHTML = "";
+  if (subArray.length >= 1) {
+    for (let i = 0; i < subArray.length; i++) {
+      let content = subArray[i]["task-description"];
+      subtask.innerHTML += renderSubtaskHTML(i, content);
+    }
+    subtask.classList.remove("d-none");
+  } else {
+    subtask.classList.add("d-none");
+  }
+}
+
+async function renderSubtaskHTML(i, content){
+  let templateHTML = await shared.initHTMLContent('/add_tasks/templates/render-subtask-html.tpl', 'showSubtasks');
+  templateHTML.id = `yyy${i}`;
+  let wrapperDiv = document.getElementById(`yyy${i}`);
+  wrapperDiv.addEventListener('mouseover', () => {
+    toggleDNone(i);
+  });
+  wrapperDiv.addEventListener('mouseout', () => {
+    toggleDNone(i);
+  });
+  wrapperDiv.addEventListener('dblclick', () => {
+    editSubtask(i);
+  });
+  templateHTML.querySelector('li').innerHTML = `${content}`;
+  templateHTML.querySelector('div').id = `subBTN${i}`;
+  let subBTN = document.getElementById(`subBTN${i}`);
+  subBTN.querySelectorAll('svg')[0].addEventListener('click', (event) => {
+    editSubtask(i);
+    shared.stopEvent(event);
+  });
+  subBTN.querySelectorAll('svg')[1].addEventListener('click', (event) => {
+    deleteSubtask(i);
+    shared.stopEvent(event);
+  })
+  return templateHTML;
+}
+
+function toggleDNone(id) {
+  document.getElementById(`subBTN${id}`).classList.toggle("d-none");
+}
+
+function editSubtask(i) {
+  editSubtaskInput(i);
+}
+
+function editSubtaskInput(i) {
+  let container = document.getElementById(`yyy${i}`);
+  container.onmouseover = null;
+  container.onmouseout = null;
+  container.ondblclick = null;
+  let templateHTML = shared.initHTMLContent('/add_tasks/templates/edit-subtask-inputHTML.tpl', `yyy${i}`);
+  templateHTML.querySelector('input').value = `${subArray[i]["task-description"]}`; // input id hier war 'subtaskEdited'
+  templateHTML.querySelector('.inputButtons').querySelectorAll('img')[0].addEventListener('click', (event) => {
+    deleteSubtask(i);
+    shared.stopEvent(event);
+  });
+  templateHTML.querySelector('.inputButtons').querySelectorAll('img')[0].addEventListener('click', (event) => {
+    saveEditedSubtask(i);
+    shared.stopEvent(event);
+  })
+  // container.innerHTML = returnEditSubtaskInputHTML(i);
+  let edit = document.getElementById(`subtaskEdited`);
+  subtask[i] = edit.value;
+  return templateHTML;
+}
+
+function saveEditedSubtask(i) {
+  let text = document.getElementById(`subtaskEdited`).value;
+  if (text.length > 0) {
+    subArray[i]["task-description"] = text;
+    rendersubtask();
+  } else {
+    showsubtaskIsEmptyError();
+  }
+}
+
+function showsubtaskIsEmptyError() {
+  let emptySub = document.getElementById("emptySubtask");
+  emptySub.classList.remove("d-none");
+  setTimeout(function () {
+    document.getElementById("emptySubtask").classList.add("d-none");
+  }, 5000);
+}
+
+function deleteSubtask(i) {
+  subArray.splice(i, 1);
+  rendersubtask();
+}
+
+function hideOrShowEditButtons() {
+  let cont = document.getElementById("subtask-div");
+  let plus = document.getElementById("plusSymbole");
+  let subtask = document.getElementById("subtaskInputButtons");
+  plus.classList.add("d-none");
+  subtask.classList.remove("d-none");
+}
+
+// --- Subtask Logic Ends Here ---
 
 function bundleClearAndAddTaskClickEvents(event){
   if(event.target.matches('#clearTaskDiv')){
@@ -98,32 +252,68 @@ function bundleChangePriorityClickEvents(event){
   } 
 }
 
-function bundleAssignedToClickEvents(event){
-  if(event.target.matches('#assignedTo')){
-    checkDropDown('arrowa');
-  } else if(event.target.matches('#searchField')){ 
-    hideDropDownAssignedTo();
-  } else if(event.target.matches('#changeTo')){
-    changeToInputfield();
-  } 
+function isAssignedToAreaClicked(event){
+  return event.target.matches('#changeTo') || event.target.matches('standartValue') ||  event.target.matches('arrowa');
 }
 
-function changeToInputfield() { // Diese Funktion muss vereinfacht und verbessert werden
+function bundleAssignedToClickEvents(event){
+  if(isAssignedToAreaClicked(event) && !isAssignedDropdownOpen){
+    checkDropDown('arrowa');
+    toggleIsAssignedDropdownOpenFlag();
+  } else if(isAssignedToAreaClicked(event) && isAssignedDropdownOpen){ 
+    hideDropDownAssignedTo();
+    toggleIsAssignedDropdownOpenFlag();
+  }
+  // changeToInputfield();
+  // else if(event.target.matches('#searchField')){ 
+  //   hideDropDownAssignedTo();
+  // }
+  // else if(event.target.matches('#changeTo')){
+  //   changeToInputfield();
+  // } 
+}
+
+function checkDropDown(id) {
+  let rot = document.getElementById(id);
+  if (rot.classList.contains("rotate")) {
+    hidingDropdownAndCategory(id)
+  } else {
+    showingDropdownCategory(id);
+  }
+}
+
+function hidingDropdownAndCategory(id){
+  if (id == "arrowa") {
+    hideDropDownAssignedTo();
+  } else {
+    hideDropDownCategory();
+  }
+}
+
+function showingDropdownCategory(id){
+  if (id == "arrowa") {
+    showDropDownAssignedTo();
+  } else {
+    showDropDownCategory();
+  }
+}
+
+function changeToInputfield() { 
   let changecont = document.getElementById("changeTo");
-  let search = document.getElementById("searchArea").classList;
+  let search = document.getElementById("searchArea");
   let input = document.getElementById("searchField");
-  let stV = document.getElementById("standartValue").classList;
-  window.addEventListener("click", function (e) {
-    if (changecont.contains(e.target)) {
-      search.remove("d-none");
+  let standardValue = document.getElementById("standartValue");
+  window.addEventListener("click", (event) => {
+    if (changecont.contains(event.target)) {
+      search.classList.remove("d-none");
       input.classList.remove("d-none");
-      stV.add("d-none");
+      standardValue.classList.add("d-none");
       input.focus();
       showDropDownAssignedTo();
     } else {
-      search.add("d-none");
+      search.classList.add("d-none");
       input.classList.add("d-none");
-      stV.remove("d-none");
+      standardValue.classList.remove("d-none");
       input.value = "";
     }
   });
@@ -134,19 +324,6 @@ function hideDropDownAssignedTo() {
   let contact = document.getElementById("assignedToDropDown");
   contact.classList.add("d-none");
   contact.innerHTML = "";
-}
-
-function handleKeyAndInputEvents(){
-  document.addEventListener('input', (event) => {
-    if(event.target.matches('#searchField')){
-      searchContacts();
-    }
-  })
-  document.addEventListener('keyup', (event) => {
-    if(event.target.matches('#subtask')){
-      addSubtaskByEnterClick();
-    }
-  })
 }
 
 // Hier beginnt die Funktionenkette, die die Zuweisung der Kontakte zur Aufgabe verwaltet
@@ -268,11 +445,11 @@ function checkAssignedContacts(name, color, i) {
   }
 }
 
-function addUserToTask(u) {
+function addUserToTask(user) {
   let userCredicals = {
-    name: u.name,
-    color: u.color,
-    isSelected: u.selected,
+    name: user.name,
+    color: user.color,
+    isSelected: user.selected,
   };
   assignedContacts.push(userCredicals);
   assignedToContacts();
@@ -497,23 +674,6 @@ function hideRequiredText() {
 //   return document.getElementById(elementId).value;
 // }
 
-function checkDropDown(id) { // arrowb wird hier überhaupt nicht abgeprüft --> Abgleichen mit originalem Join-Code!
-  let rot = document.getElementById(id);
-  if (rot.classList.contains("rotate")) {
-    if (id == "arrowa") {
-      hideDropDownAssignedTo();
-    } else {
-      hideDropDownCategory();
-    }
-  } else {
-    if (id == "arrowa") {
-      showDropDownAssignedTo();
-    } else {
-      showDropDownCategory();
-    }
-  }
-}
-
 function hideAllAddTaskPopups() {
   hideDropDownAssignedTo();
   hideDropDownCategory();
@@ -565,40 +725,8 @@ function checkAssignedContactsStatus(un) {
   }
 }
 
-function addSubtask() {
-  let text = document.getElementById(`subtask`);
-  if (text.value.length <= 0) {
-    showsubtaskIsEmptyError();
-  } else {
-    let subtaskJson = createSubtaskJson(text.value);
-    subArray.push(subtaskJson);
-    text.value = "";
-    rendersubtask();
-    hideOrShowEditButtons();
-  }
-}
-
 function createSubtaskJson(value) {
   return { "task-description": value, "is-tasked-checked": false };
-}
-
-function rendersubtask() {
-  let subtask = document.getElementById("showSubtasks");
-  subtask.innerHTML = "";
-  if (subArray.length >= 1) {
-    for (let i = 0; i < subArray.length; i++) {
-      // let content = subArray[i]["task-description"];
-      subtask.innerHTML += renderSubtaskHTML(); // i, content
-    }
-    subtask.classList.remove("d-none");
-  } else {
-    subtask.classList.add("d-none");
-  }
-}
-
-async function renderSubtaskHTML(){
-  let templateHTML = await shared.initHTMLContent('/add_tasks/templates/render-subtask-html.tpl', 'showSubtasks');
-  return templateHTML;
 }
 
 function clearSubtask() {
@@ -614,54 +742,7 @@ function clearSubtaskInput() {
   document.getElementById("subtask").value = "";
 }
 
-function hideOrShowEditButtons() {
-  // debugger;
-  let cont = document.getElementById("testForFunction");
-  let plus = document.getElementById("plusSymbole");
-  let subtask = document.getElementById("subtaskInputButtons");
-  plus.classList.add("d-none");
-  subtask.classList.remove("d-none");
-}
-
-function showsubtaskIsEmptyError() {
-  let emptySub = document.getElementById("emptySubtask");
-  emptySub.classList.remove("d-none");
-  setTimeout(function () {
-    document.getElementById("emptySubtask").classList.add("d-none");
-  }, 5000);
-}
-
-function addSubtaskByEnterClick() {
-  let text = document.getElementById(`testForFunction`);
-  let suby = document.getElementById("subtask");
-  text.addEventListener("keyup", (e) => {
-    if (e.key === "Enter" && document.hasFocus()) {
-      e.preventDefault();
-      e.stopPropagation();
-      document.getElementById("enterClick").click();
-    }
-  });
-}
-
 // All unused functions are lying here
-
-// function saveEditedSubtask(i) {
-//   let text = document.getElementById(`subtaskEdited`).value;
-//   if (text.length > 0) {
-//     subArray[i]["task-description"] = text;
-//     rendersubtask();
-//   } else {
-//     showsubtaskIsEmptyError();
-//   }
-// }
-
-// function toggleDNone(id) {
-//   document.getElementById(`subBTN${id}`).classList.toggle("d-none");
-// }
-
-// function editSubtask(i) {
-//   editSubtaskInput(i);
-// }
 
 // function focusInput() {
 //   hideOrShowEditButtons();
@@ -675,23 +756,6 @@ function addSubtaskByEnterClick() {
 //   document.getElementById("addedAnimation").classList.add("erase-in");
 //   document.getElementById("addTaskBody").classList.add("overflow-hidden");
 //   setTimeout(goToBoard, 1500);
-// }
-
-// function deleteSubtask(i) {
-//   subArray.splice(i, 1);
-//   rendersubtask();
-// }
-
-// function editSubtaskInput(i) {
-//   container = document.getElementById(`yyy${i}`);
-//   container.onmouseover = null;
-//   container.onmouseout = null;
-//   container.ondblclick = null;
-//   let templateHTML = shared.initHTMLContent('/add_tasks/templates/edit-subtask-inputHTML.tpl', `yyy${i}`);
-//   container.innerHTML = returnEditSubtaskInputHTML(i);
-//   edit = document.getElementById(`subtaskEdited`);
-//   subtask[i] = edit.value;
-//   return templateHTML;
 // }
 
 // function showRequiredText() {
