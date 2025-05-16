@@ -6,7 +6,7 @@ import * as data from '../../core/downloadData.js';
 
 // let assignedTo = document.getElementById("assignedTo"); 
 // let category = document.getElementById("category");
-// let priority;
+let priority = changePriority('medium');
 // let standardContainer = "to-do-container";
 // let userCredicals;
 // let isSelect;
@@ -15,7 +15,6 @@ let subArray = [];
 let assignedContacts = [];
 let allContacts = [];
 let searchResults = [];
-let isAssignedFieldClicked = false;
 
 // Das noch irgendwo verarbeiten (es geht ums Plussymbol svg): onclick="stopEvent(event); focusInput()"
 
@@ -27,11 +26,6 @@ document.addEventListener('DOMContentLoaded', () => {
   changePriority(medium);
 });
 
-function handleEventsFunction(){
-  handleAllClickEvents();
-  handleKeyAndInputEvents();
-}
-
 async function init() {
   data.contactsData.onChange((data) => {
     allContacts = Object.values(data || {});
@@ -39,74 +33,82 @@ async function init() {
   });
 }
 
-function toggleIsAssignedFieldClicked(){
-  isAssignedFieldClicked = !isAssignedFieldClicked;
+function handleEventsFunction(){
+  handleAllClickEvents();
+  handleKeyAndInputEvents();
 }
 
 function handleAllClickEvents(){
   document.addEventListener('click', (event) => {
-    if(event.target.matches('#arrowa') && isAssignedFieldClicked === false){ //  || assignedTo
-      checkDropDown('arrowa');
-      toggleIsAssignedFieldClicked();
-    } else if(event.target.matches('#arrowa') && isAssignedFieldClicked === true){
-      hideDropDownAssignedTo();
-      toggleIsAssignedFieldClicked();
-    } else if(event.target.matches('#addTaskBody')){
-      hideAllAddTaskPopups()
-    } else if(event.target.matches('#changeTo')){
-      changeToInputfield();
-    } else if(event.target.matches('#assignedToDropDown')){
-      shared.stopEvent(event);
-    } else if(event.target.matches('#urgent')){
-      changePriority('urgent');
-    } else if(event.target.matches('#medium')){
-      changePriority('medium');
-    } else if(event.target.matches('#low')){
-      changePriority('low');
-    } else if(event.target.matches('#category')){
-      checkDropDown('arrowb');
-      shared.stopEvent(event);
-    } else if(event.target.matches('#techTask')) {
-      hideDropDownCategory();
-      changeCategory('Technical Task');
-    } else if(event.target.matches('#userStory')){
-      hideDropDownCategory();
-      changeCategory('User Story');
-    } else if(event.target.matches('#subtask')){
-      hideOrShowEditButtons();
-      shared.stopEvent(event);
-    } else if(event.target.matches('#subtaskInputButtons')){
-      clearSubtaskInput();
-    } else if(event.target.matches('#enterClick')){
-      addSubtask();
-    } else if(event.target.matches('#clearTaskDiv')){
-      clearTask();
-    } else if(event.target.matches('#subButton')){
-      checkRequiredFields('addTask');
-      return false;
-    } 
-    // else {
-    //   hideAllAddTaskPopups();
-    // }
+    bundleAssignedToClickEvents(event);
+    bundleChangePriorityClickEvents(event);
+    bundleTaskCategoryClickEvents(event);
+    bundleSubtaskClickEvents(event);
+    bundleClearAndAddTaskClickEvents(event);
+    hidePopUpsWhenBodyClicked(event);
   });
 }
 
-function handleKeyAndInputEvents(){
-  document.addEventListener('input', (event) => {
-    if(event.target.matches('#searchField')){
-      searchContacts();
-    }
-  })
-  document.addEventListener('keyup', (event) => {
-    if(event.target.matches('#subtask')){
-      addSubtaskByEnterClick();
-    }
-  })
+function hidePopUpsWhenBodyClicked(event){
+  if(event.target.matches('#addTaskBody')){
+      hideAllAddTaskPopups()
+  } 
 }
 
-// Hier beginnt die Funktionenkette, die die Zuweisung der Kontakte zur Aufgabe verwaltet
+function bundleSubtaskClickEvents(event){
+  if(event.target.matches('#subtask')){
+    hideOrShowEditButtons();
+    shared.stopEvent(event);
+  } else if(event.target.matches('#subtaskInputButtons')){
+    clearSubtaskInput();
+  } else if(event.target.matches('#enterClick')){
+    addSubtask();
+  } 
+}
 
-function changeToInputfield() {
+function bundleClearAndAddTaskClickEvents(event){
+  if(event.target.matches('#clearTaskDiv')){
+    clearTask();
+  } else if(event.target.matches('#subButton')){
+    checkRequiredFields('addTask');
+    return false;
+  } 
+}
+
+function bundleTaskCategoryClickEvents(event){
+  if(event.target.matches('#techTask')) {
+    hideDropDownCategory();
+    changeCategory('Technical Task');
+  } else if(event.target.matches('#userStory')){
+    hideDropDownCategory();
+    changeCategory('User Story');
+  } 
+}
+
+function bundleChangePriorityClickEvents(event){
+  if(event.target.matches('#category')){
+    checkDropDown('arrowb');
+    shared.stopEvent(event);
+  } else if(event.target.matches('#urgent')){
+    changePriority('urgent');
+  } else if(event.target.matches('#medium')){
+    changePriority('medium');
+  } else if(event.target.matches('#low')){
+    changePriority('low');
+  } 
+}
+
+function bundleAssignedToClickEvents(event){
+  if(event.target.matches('#assignedTo')){
+    checkDropDown('arrowa');
+  } else if(event.target.matches('#searchField')){ 
+    hideDropDownAssignedTo();
+  } else if(event.target.matches('#changeTo')){
+    changeToInputfield();
+  } 
+}
+
+function changeToInputfield() { // Diese Funktion muss vereinfacht und verbessert werden
   let changecont = document.getElementById("changeTo");
   let search = document.getElementById("searchArea").classList;
   let input = document.getElementById("searchField");
@@ -127,24 +129,75 @@ function changeToInputfield() {
   });
 }
 
-async function showDropDownAssignedTo() {
+function hideDropDownAssignedTo() {
+  document.getElementById("arrowa").classList.remove("rotate");
   let contact = document.getElementById("assignedToDropDown");
-  // contact.innerHTML = "";
-  for (let i = 0; i < allContacts.length; i++) {
-    let user = allContacts[i];
-    await renderAssignedToHTML(user, i); // Problem sitzt hier, da mehrfache Iteration
-    if (assignedContacts != 0) {
-      if (checkAssignedContactsStatus(user.name) === true) {
-        document.getElementById(`user${i}`).classList.add("contactIsSelect");
-        document.getElementById(`checked${i}`).classList.remove("d-none");
-      } else {
-        document.getElementById(`user${i}`).classList.remove("contactIsSelect");
-        document.getElementById(`checked${i}`).classList.add("d-none");
-      }
+  contact.classList.add("d-none");
+  contact.innerHTML = "";
+}
+
+function handleKeyAndInputEvents(){
+  document.addEventListener('input', (event) => {
+    if(event.target.matches('#searchField')){
+      searchContacts();
     }
+  })
+  document.addEventListener('keyup', (event) => {
+    if(event.target.matches('#subtask')){
+      addSubtaskByEnterClick();
+    }
+  })
+}
+
+// Hier beginnt die Funktionenkette, die die Zuweisung der Kontakte zur Aufgabe verwaltet
+
+async function showDropDownAssignedTo() {
+  getContactContainerAndClearContentForRendering();
+  showAllContactsInDropdownMenu();
+  showDropdownAndRotateArrow();
+}
+
+function getContactContainerAndClearContentForRendering(){
+  let contact = document.getElementById("assignedToDropDown");
+  contact.innerHTML = "";
+}
+
+function showAllContactsInDropdownMenu(){
+  for (let i = 0; i < allContacts.length; i++) {
+    showSingleContactsInDropdownMenu(i);
   }
+}
+
+async function showSingleContactsInDropdownMenu(i){
+  let user = allContacts[i];
+  await renderAssignedToHTML(user, i);
+  if (assignedContacts != 0) {
+    manageIsContactSelectedVisibility(user, i);
+  }
+}
+
+function showDropdownAndRotateArrow(){
+  let contact = document.getElementById("assignedToDropDown");
   contact.classList.remove("d-none");
   document.getElementById("arrowa").classList.add("rotate");
+}
+
+function manageIsContactSelectedVisibility(user, i){
+  if (checkAssignedContactsStatus(user.name) === true) {
+    highlightSelectedContact(i);
+  } else {
+    hideHighlightingOnSelectedContact(i);
+  }
+}
+
+function hideHighlightingOnSelectedContact(i){
+  document.getElementById(`user${i}`).classList.remove("contactIsSelect");
+  document.getElementById(`checked${i}`).classList.add("d-none");
+}
+
+function highlightSelectedContact(i){
+  document.getElementById(`user${i}`).classList.add("contactIsSelect");
+  document.getElementById(`checked${i}`).classList.remove("d-none");
 }
 
 async function renderAssignedToHTML(user, i) {
@@ -163,8 +216,8 @@ function searchContacts() {
   document.getElementById("assignedToDropDown").innerHTML = "";
   let search = document.getElementById("searchField");
   let text = search.value.toLowerCase();
+  let searchResults = [];
   if (text.length >= 1) {
-    let searchResults = [];
     for (let i = 0; i < allContacts.length; i++) {
       aU = allContacts[i].name.toLowerCase();
       if (aU.includes(text)) {
@@ -173,7 +226,6 @@ function searchContacts() {
     }
     showDropDownAssignedToOnlyResult();
   } else {
-    let searchResults = [];
     showDropDownAssignedTo();
   }
 }
@@ -491,13 +543,6 @@ function checkDate() {
   } else {
     return null;
   }
-}
-
-function hideDropDownAssignedTo() {
-  document.getElementById("arrowa").classList.remove("rotate");
-  let contact = document.getElementById("assignedToDropDown");
-  contact.classList.add("d-none");
-  // contact.innerHTML = "";
 }
 
 function clearAssignedTo() {
