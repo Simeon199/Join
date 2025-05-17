@@ -2,15 +2,8 @@ import * as contactsHTML from '../../contacts/javascript/contactsHTML.js';
 import * as shared from '../../shared/javascript/shared.js';
 import * as data from '../../core/downloadData.js';
 
-// ehemals assignetTo
-
-// let assignedTo = document.getElementById("assignedTo"); 
-// let category = document.getElementById("category");
-let priority = changePriority('medium');
-// let standardContainer = "to-do-container";
-// let userCredicals;
-// let isSelect;
-
+let priority = 'medium';
+let standardContainer = "to-do-container";
 let subArray = [];
 let assignedContacts = [];
 let allContacts = [];
@@ -20,8 +13,6 @@ let isAssignedDropdownOpen = false;
 function toggleIsAssignedDropdownOpenFlag(){
   isAssignedDropdownOpen = !isAssignedDropdownOpen;
 }
-
-// Das noch irgendwo verarbeiten (es geht ums Plussymbol svg): onclick="stopEvent(event); focusInput()"
 
 document.addEventListener('DOMContentLoaded', () => {
   if(window.location.pathname.endsWith('/add_tasks/add_task.html')){
@@ -68,7 +59,8 @@ function handleKeyAndInputEvents(){
 
 function addSubtaskByEnterClick() {
   let text = document.getElementById(`subtask-div`);
-  let suby = document.getElementById("subtask");
+  let subtask = document.getElementById("subtask");
+  console.log('subtask: ', subtask);
   text.addEventListener("keyup", (event) => {
     if (event.key === "Enter" && document.hasFocus()) {
       event.preventDefault();
@@ -325,6 +317,56 @@ function bundleAssignedToClickEvents(event){
   }
 }
 
+function checkRequiredFields() {
+  manageDateAndTitleInputStyles();
+  checkDateAndCategory();
+  checkAndPrepareUploadOfNewTask();
+}
+
+function manageDateAndTitleInputStyles(){
+  let title = document.getElementById("inputTitle").value;
+  let date = document.getElementById("date").value;
+  toggleStyleDependingOnId(title, 'requiredTitle');
+  toggleStyleDependingOnId(date, 'requiredDate');
+}
+
+function checkDateAndCategory(){
+  handleCheckCategory();
+  handleCheckDate();
+}
+
+function checkAndPrepareUploadOfNewTask(){
+  if (isAddTaskFormCorrectlyFilled()) {
+    let newTask = createNewTask();
+    showBoardLoadScreen();
+    uploadToAllTasks(newTask);
+    hideBoardLoadScreen();
+  }
+}
+
+function uploadToAllTasks(newTask){
+  console.log('new task created, namely: ', newTask);
+  return null;
+}
+
+function createNewTask() {
+  return {
+    title: getInputValue("inputTitle"),
+    description: getInputValue("inputDescription"),
+    assigned: assignedContacts,
+    date: getInputValue("date"),
+    priority: priority,
+    category: document.getElementById("categoryText").textContent,
+    subtask: subArray,
+    container: standardContainer
+  };
+}
+
+function getInputValue(elementId) {
+  console.log('Does input value exist: ', elementId);
+  return document.getElementById(elementId).value;
+}
+
 function checkDropDown(id) {
   let rot = document.getElementById(id);
   if (rot.classList.contains("rotate")) {
@@ -472,7 +514,7 @@ function prepareSingleContactForSelection(user, i){
   let dropdownUser = parentDiv.querySelectorAll('div')[1];
   let checkboxesSVG = dropdownUser.querySelector('.checkboxesSVG');
   let contactInitials = contactsHTML.getContactInitials(user.name);
-  assignedToLetters.id = `assignedToLetters${i}`; // ehemals assignetToLetters
+  assignedToLetters.id = `assignedToLetters${i}`;
   assignedToLetters.style.backgroundColor = user.color;
   assignedToLetters.innerHTML = contactInitials;
   dropdownUser.querySelector('span').innerHTML = user.name; 
@@ -612,13 +654,6 @@ function checkCategory() {
   }
 }
 
-function manageDateAndTitleInputStyles(){
-  let title = document.getElementById("inputTitle").value;
-  let date = document.getElementById("date").value;
-  toggleStyleDependingOnId(title, 'requiredTitle');
-  toggleStyleDependingOnId(date, 'requiredDate');
-}
-
 function toggleStyleDependingOnId(inputValue, targetId){
   if(inputValue.length <= 1){
     document.getElementById(`${targetId}`).classList.remove("d-none");
@@ -644,28 +679,8 @@ function handleCheckDate(){
   }
 }
 
-function checkDateAndCategory(){
-  handleCheckCategory();
-  handleCheckDate();
-}
-
-function checkAndPrepareUploadOfNewTask(){
-  if (isAddTaskFormCorrectlyFilled()) {
-    showBoardLoadScreen();
-    // let newTask = createNewTask();
-    // await uploadToAllTasks(newTask);
-    hideBoardLoadScreen();
-  }
-}
-
 function isAddTaskFormCorrectlyFilled(){
   return title.length > 1 && date.length > 1 && checkCategory() == true && checkDate() === true
-}
-
-async function checkRequiredFields(side) {
-  manageDateAndTitleInputStyles();
-  checkDateAndCategory();
-  checkAndPrepareUploadOfNewTask();
 }
 
 function hideRequiredText() {
