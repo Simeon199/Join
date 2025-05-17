@@ -34,14 +34,12 @@ document.addEventListener('DOMContentLoaded', () => {
 async function init() {
   data.contactsData.onChange((data) => {
     allContacts = Object.values(data || {});
-    console.log('allContacts:', allContacts);
   });
 }
 
 function handleEventsFunction(){
   handleAllClickEvents();
   handleKeyAndInputEvents();
-  // handleRemainingEvents();
 }
 
 function handleAllClickEvents(){
@@ -129,20 +127,34 @@ function rendersubtask() {
 // Beginne mit der Vereinfachung der folgenden untenstehenden Funktionen 
 
 async function renderSubtaskHTML(i, content){ 
+  let templateHTML = await createSubtaskDivAndAssignIdNames(i, content);
+  handleEventListeningOnSubtaskContainer(i);
+  handleEventListeningOnSubBTN(i)
+  return templateHTML;
+}
+
+async function createSubtaskDivAndAssignIdNames(i, content){
   let templateHTML = await shared.initHTMLContent('/add_tasks/templates/render-subtask-html.tpl', 'showSubtasks');
   templateHTML.id = `yyy${i}`;
-  let wrapperDiv = document.getElementById(`yyy${i}`);
-  wrapperDiv.addEventListener('mouseover', () => {
-    toggleDNone(i);
-  });
-  wrapperDiv.addEventListener('mouseout', () => {
-    toggleDNone(i);
-  });
-  wrapperDiv.addEventListener('dblclick', () => {
-    editSubtask(i);
-  });
   templateHTML.querySelector('li').innerHTML = `${content}`;
   templateHTML.querySelector('div').id = `subBTN${i}`;
+  return templateHTML;
+}
+
+function handleEventListeningOnSubtaskContainer(i){
+  let subtaskWrapper = document.getElementById(`yyy${i}`);
+  subtaskWrapper.addEventListener('mouseover', () => {
+    toggleDNone(i);
+  });
+  subtaskWrapper.addEventListener('mouseout', () => {
+    toggleDNone(i);
+  });
+  subtaskWrapper.addEventListener('dblclick', () => {
+    editSubtask(i);
+  });
+}
+
+function handleEventListeningOnSubBTN(i){
   let subBTN = document.getElementById(`subBTN${i}`);
   subBTN.querySelectorAll('svg')[0].addEventListener('click', (event) => {
     editSubtask(i);
@@ -151,8 +163,7 @@ async function renderSubtaskHTML(i, content){
   subBTN.querySelectorAll('svg')[1].addEventListener('click', (event) => {
     deleteSubtask(i);
     shared.stopEvent(event);
-  })
-  return templateHTML;
+  });
 }
 
 function toggleDNone(id) {
@@ -165,25 +176,44 @@ function editSubtask(i) {
 
 async function editSubtaskInput(i) {
   let templateHTML = await shared.initHTMLContent('/add_tasks/templates/edit-subtask-inputHTML.tpl', 'showSubtasks');
-  let container = document.getElementById(`yyy${i}`);
-  container.onmouseover = null;
-  container.onmouseout = null;
-  container.ondblclick = null;
-  let editInput = templateHTML.querySelector('input')
-  editInput.value = `${subArray[i]["task-description"]}`; // input id hier war 'subtaskEdited'
-  templateHTML.querySelector('.inputButtons').querySelectorAll('img')[0].addEventListener('click', (event) => {
-    deleteSubtask(i);
-    shared.stopEvent(event);
-  });
-  templateHTML.querySelector('.inputButtons').querySelectorAll('img')[1].addEventListener('click', (event) => {
-    saveEditedSubtask(i);
-    shared.stopEvent(event);
-  });
+  templateHTML.id = `input-buttons-wrapper${i}`;
+  disableEventsOnSubtaskContainer(i);
+  handleEventListeningOnInputButtons(i);
+  insertContentIntoInputField(i);
+  return templateHTML;
+}
+
+function insertContentIntoInputField(i){
+  let subtaskContainer = document.getElementById(`input-buttons-wrapper${i}`);
+  let editInput = subtaskContainer.querySelector('input');
+  editInput.id = `subtask_input${i}`;
+  editInput.value = `${subArray[i]["task-description"]}`;
   subtask[i] = editInput.value;
 }
 
-function saveEditedSubtask(i) {
-  let text = document.getElementById(`subtaskEdited`).value;
+function disableEventsOnSubtaskContainer(i){
+  let subtaskContainer = document.getElementById(`yyy${i}`);
+  subtaskContainer.onmouseover = null;
+  subtaskContainer.onmouseout = null;
+  subtaskContainer.ondblclick = null;
+}
+
+function handleEventListeningOnInputButtons(i){
+  let subtaskContainer = document.getElementById(`input-buttons-wrapper${i}`);
+  let editButton = subtaskContainer.querySelector('.inputButtons').querySelectorAll('img')[0];
+  let deleteButton = subtaskContainer.querySelector('.inputButtons').querySelectorAll('img')[1];
+  editButton.addEventListener('click', (event) => {
+    deleteSubtask(i);
+    shared.stopEvent(event);
+  });
+  deleteButton.addEventListener('click', (event) => {
+    saveEditedSubtask(i);
+    shared.stopEvent(event);
+  });
+}
+
+function saveEditedSubtask(i) { 
+  let text = document.getElementById(`subtask_input${i}`).value;
   if (text.length > 0) {
     subArray[i]["task-description"] = text;
     rendersubtask();
@@ -245,6 +275,40 @@ function bundleChangePriorityClickEvents(event){
   } else if(event.target.matches('#low')){
     changePriority('low');
   } 
+}
+
+function changePriority(id) {
+  removeBackground(id);
+  addNewPriorityBackground(id);
+}
+
+function addNewPriorityBackground(id){
+  if (id === 'urgent') {
+    let urgent = document.getElementById('urgent');
+    urgent.classList.add("backgroundUrgent");
+    priority = "urgent";
+  } else if (id === 'medium') {
+    let medium = document.getElementById('medium');
+    medium.classList.add("backgroundMedium");
+    priority = "medium";
+  } else if (id === 'low') {
+    let low = document.getElementById('low');
+    low.classList.add("backgroundLow");
+    priority = "low";
+  }
+}
+
+function removeBackground(id) {
+  if (id === 'urgent') {
+    medium.classList.remove("backgroundMedium");
+    low.classList.remove("backgroundLow");
+  } else if (id === 'medium') {
+    urgent.classList.remove("backgroundUrgent");
+    low.classList.remove("backgroundLow");
+  } else if (id === 'low') {
+    urgent.classList.remove("backgroundUrgent");
+    medium.classList.remove("backgroundMedium");
+  }
 }
 
 function isAssignedToAreaClicked(event){
@@ -507,37 +571,6 @@ function showDropDownAssignedToOnlyResult() {
 }
 
 // Hier endet die Funktionenkette, die die Zuweisung der Kontakte zur Aufgabe verwaltet
-
-function changePriority(id) {
-  removeBackground(id);
-  if (id == urgent) {
-    urgent.classList.add("backgroundUrgent");
-    priority = "urgent";
-  }
-  if (id == medium) {
-    medium.classList.add("backgroundMedium");
-    priority = "medium";
-  }
-  if (id == low) {
-    low.classList.add("backgroundLow");
-    priority = "low";
-  }
-}
-
-function removeBackground(id) {
-  if (id == urgent) {
-    medium.classList.remove("backgroundMedium");
-    low.classList.remove("backgroundLow");
-  }
-  if (id == medium) {
-    urgent.classList.remove("backgroundUrgent");
-    low.classList.remove("backgroundLow");
-  }
-  if (id == low) {
-    urgent.classList.remove("backgroundUrgent");
-    medium.classList.remove("backgroundMedium");
-  }
-}
 
 function clearTask() {
   let inputTitle = document.getElementById("inputTitle");
