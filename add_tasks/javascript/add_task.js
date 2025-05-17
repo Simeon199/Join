@@ -80,11 +80,6 @@ function addSubtaskByEnterClick() {
   });
 }
 
-// async function handleRemainingEvents(){
-//   let templateHTML = await renderSubtaskHTML();
-//   templateHTML.id = `yyy${i}`;
-// }
-
 function hidePopUpsWhenBodyClicked(event){
   if(event.target.matches('#addTaskBody')){
       hideAllAddTaskPopups()
@@ -131,7 +126,9 @@ function rendersubtask() {
   }
 }
 
-async function renderSubtaskHTML(i, content){
+// Beginne mit der Vereinfachung der folgenden untenstehenden Funktionen 
+
+async function renderSubtaskHTML(i, content){ 
   let templateHTML = await shared.initHTMLContent('/add_tasks/templates/render-subtask-html.tpl', 'showSubtasks');
   templateHTML.id = `yyy${i}`;
   let wrapperDiv = document.getElementById(`yyy${i}`);
@@ -166,25 +163,23 @@ function editSubtask(i) {
   editSubtaskInput(i);
 }
 
-function editSubtaskInput(i) {
+async function editSubtaskInput(i) {
+  let templateHTML = await shared.initHTMLContent('/add_tasks/templates/edit-subtask-inputHTML.tpl', 'showSubtasks');
   let container = document.getElementById(`yyy${i}`);
   container.onmouseover = null;
   container.onmouseout = null;
   container.ondblclick = null;
-  let templateHTML = shared.initHTMLContent('/add_tasks/templates/edit-subtask-inputHTML.tpl', `yyy${i}`);
-  templateHTML.querySelector('input').value = `${subArray[i]["task-description"]}`; // input id hier war 'subtaskEdited'
+  let editInput = templateHTML.querySelector('input')
+  editInput.value = `${subArray[i]["task-description"]}`; // input id hier war 'subtaskEdited'
   templateHTML.querySelector('.inputButtons').querySelectorAll('img')[0].addEventListener('click', (event) => {
     deleteSubtask(i);
     shared.stopEvent(event);
   });
-  templateHTML.querySelector('.inputButtons').querySelectorAll('img')[0].addEventListener('click', (event) => {
+  templateHTML.querySelector('.inputButtons').querySelectorAll('img')[1].addEventListener('click', (event) => {
     saveEditedSubtask(i);
     shared.stopEvent(event);
-  })
-  // container.innerHTML = returnEditSubtaskInputHTML(i);
-  let edit = document.getElementById(`subtaskEdited`);
-  subtask[i] = edit.value;
-  return templateHTML;
+  });
+  subtask[i] = editInput.value;
 }
 
 function saveEditedSubtask(i) {
@@ -264,13 +259,6 @@ function bundleAssignedToClickEvents(event){
     hideDropDownAssignedTo();
     toggleIsAssignedDropdownOpenFlag();
   }
-  // changeToInputfield();
-  // else if(event.target.matches('#searchField')){ 
-  //   hideDropDownAssignedTo();
-  // }
-  // else if(event.target.matches('#changeTo')){
-  //   changeToInputfield();
-  // } 
 }
 
 function checkDropDown(id) {
@@ -504,14 +492,12 @@ function getCircleAndStyleIt(i, color, user){
 
 function showplusSVG() {
   let moreNumber = assignedContacts.length - 4;
-  return `
-    <span class="contactsMoreNumber">+ ${moreNumber}</span>
-  `;
+  // insert + ${moreNumber}
+  return moreNumber;
 }
 
 function showDropDownAssignedToOnlyResult() {
   let contact = document.getElementById("assignedToDropDown");
-  // contact.innerHTML = "";
   for (let i = 0; i < searchResults.length; i++) {
     let user = searchResults[i];
     renderAssignedToHTML(user, i);
@@ -649,19 +635,6 @@ async function checkRequiredFields(side) {
   checkAndPrepareUploadOfNewTask();
 }
 
-// function createNewTask() {
-//   return {
-//     title: getInputValue("inputTitle"),
-//     description: getInputValue("inputDescription"),
-//     assigned: assignedContacts,
-//     date: getInputValue("date"),
-//     priority: priority,
-//     category: document.getElementById("categoryText").textContent,
-//     subtask: subArray,
-//     container: standardContainer
-//   };
-// }
-
 function hideRequiredText() {
   let ids = ["requiredTitle", "requiredDate", "requiredCatergory"];
   ids.forEach(function (id) {
@@ -669,10 +642,6 @@ function hideRequiredText() {
     element.classList.add("d-none");
   });
 }
-
-// function getInputValue(elementId) {
-//   return document.getElementById(elementId).value;
-// }
 
 function hideAllAddTaskPopups() {
   hideDropDownAssignedTo();
@@ -741,35 +710,3 @@ function clearSubtask() {
 function clearSubtaskInput() {
   document.getElementById("subtask").value = "";
 }
-
-// All unused functions are lying here
-
-// function focusInput() {
-//   hideOrShowEditButtons();
-//   let activSubtask = document.getElementById("subtask");
-//   activSubtask.focus();
-// }
-
-// function startAnimation() {
-//   scrollTo(0, 0);
-//   document.getElementById("addedAnimation").classList.remove("d-none");
-//   document.getElementById("addedAnimation").classList.add("erase-in");
-//   document.getElementById("addTaskBody").classList.add("overflow-hidden");
-//   setTimeout(goToBoard, 1500);
-// }
-
-// function showRequiredText() {
-//   let ids = ["requiredTitle", "requiredDate", "requiredCatergory"];
-//   ids.forEach(function (id) {
-//     let element = document.getElementById(id);
-//     element.classList.remove("d-none");
-//   });
-// }
-
-// function taskMarker() {
-//   document.getElementById("addTask").classList.add("currentSection");
-// }
-
-// function goToBoard() {
-//   window.location.href = "board.html";
-// }
