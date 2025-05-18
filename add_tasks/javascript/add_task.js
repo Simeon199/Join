@@ -59,8 +59,6 @@ function handleKeyAndInputEvents(){
 
 function addSubtaskByEnterClick() {
   let text = document.getElementById(`subtask-div`);
-  let subtask = document.getElementById("subtask");
-  console.log('subtask: ', subtask);
   text.addEventListener("keyup", (event) => {
     if (event.key === "Enter" && document.hasFocus()) {
       event.preventDefault();
@@ -79,7 +77,7 @@ function hidePopUpsWhenBodyClicked(event){
 // --- Subtask Logic Starts Here ---
 
 function bundleSubtaskClickEvents(event){
-  if(event.target.matches('#subtask')){
+  if(event.target.matches('#subtask')){ 
     hideOrShowEditButtons();
     shared.stopEvent(event);
   } else if(event.target.matches('#subtaskInputButtons')){
@@ -240,9 +238,9 @@ function hideOrShowEditButtons() {
 function bundleClearAndAddTaskClickEvents(event){
   if(event.target.matches('#clearTaskDiv')){
     clearTask();
-  } else if(event.target.matches('#subButton')){
+  } else if(event.target.matches('#subButton') || event.target.matches('span')){
     checkRequiredFields('addTask');
-    return false;
+    // return false;
   } 
 }
 
@@ -338,9 +336,9 @@ function checkDateAndCategory(){
 function checkAndPrepareUploadOfNewTask(){
   if (isAddTaskFormCorrectlyFilled()) {
     let newTask = createNewTask();
-    showBoardLoadScreen();
+    // showBoardLoadScreen();
     uploadToAllTasks(newTask);
-    hideBoardLoadScreen();
+    // hideBoardLoadScreen();
   }
 }
 
@@ -680,6 +678,8 @@ function handleCheckDate(){
 }
 
 function isAddTaskFormCorrectlyFilled(){
+  let date = getInputValue('date');
+  let title = document.getElementById('inputTitle').value;
   return title.length > 1 && date.length > 1 && checkCategory() == true && checkDate() === true
 }
 

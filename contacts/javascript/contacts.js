@@ -102,7 +102,7 @@ export async function deleteContact(contactId){
   } catch(error){
     console.error('Fehler beim Löschen des Kontakts: ', error);
   }
-  window.location.reload();
+  // window.location.reload();
 }
 
 export async function editContact(contactId, updateData){
