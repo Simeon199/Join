@@ -1,6 +1,7 @@
 import * as contactsHTML from '../../contacts/javascript/contactsHTML.js';
 import * as shared from '../../shared/javascript/shared.js';
 import * as data from '../../core/downloadData.js';
+import * as firebase from '../../core/firebase.js';
 
 let priority = 'medium';
 let standardContainer = "to-do-container";
@@ -342,9 +343,29 @@ function checkAndPrepareUploadOfNewTask(){
   }
 }
 
-function uploadToAllTasks(newTask){
+async function uploadToAllTasks(newTask){
+  await uploadNewTask(newTask);
   console.log('new task created, namely: ', newTask);
   return null;
+}
+
+// Diese Funktion sollte in eine spezielle Datei ausgelagert werden 
+
+async function uploadNewTask(newTask){
+  let taskRef = firebase.ref(firebase.database, 'kanban/sharedBoard/tasks');
+  let newTaskKey = firebase.push(taskRef).key;
+  let taskWithId = {
+    ...newTask,
+    id: newTaskKey
+  };
+  let updates = {};
+  updates[`tasks/${newTaskKey}`] = taskWithId;
+  try {
+    await firebase.update(firebase.ref(firebase.database, 'kanban/sharedBoard'), updates);
+    console.log('Task erfolgreich gespeichert');
+  } catch(error) {
+    console.error('Fehler beim Speichern des Tasks: ', error);
+  }
 }
 
 function createNewTask() {

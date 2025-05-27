@@ -1,5 +1,6 @@
 import * as shared from '../../shared/javascript/shared.js';
 import * as feedbackAndUrgency from './feedbackAndUrgencyTemplate.js';
+import * as firebase from '../../core/firebase.js';
 
 let tasks = [];
 let categories = [];
@@ -21,8 +22,8 @@ let currentOpenDropdown = null;
 document.addEventListener('DOMContentLoaded', async () => {
   shared.bundleLoadingHTMLTemplates();
   // init();
-  // init_task();
-  updateHTML();
+  init_task();
+  // updateHTML();
 });
 
 /**
@@ -46,7 +47,8 @@ async function init_task() {
  */
 
 async function getTasksFromDatabase() {
-  tasks = await loadTasksFromDatabase();
+  tasks = loadTasksFromDatabase();
+  // tasks = await loadTasksFromDatabase();
   updateCategories();
   updateHTML();
 }
@@ -73,15 +75,41 @@ function updateCategories() {
  */
 
 async function loadTasksFromDatabase() {
-  let response = await loadRelevantData();
-  if (response && response.testRealTasks) {
-    for (index = 0; index < response.testRealTasks.length; index++) {
-      tasks.push(response.testRealTasks[index]);
-    }
-    return tasks;
-  }
-  return [];
+    let allTask = await getAllTasks()
+    console.log('all tasks: ', allTask);
+  // let response = await loadRelevantData();
+  // if (response && response.testRealTasks) {
+  //   for (index = 0; index < response.testRealTasks.length; index++) {
+  //     tasks.push(response.testRealTasks[index]);
+  //   }
+  //   return tasks;
+  // }
+  // return [];
 }
+
+// function loadRelevantData(){
+//   console.log('all tasks: ', data.allTask);
+// }
+
+// Diese Funktion sollte in eine zentrale Datei reinkommen:
+
+async function getAllTasks(){
+  return new Promise((resolve, reject) => {
+    let taskRef = firebase.ref(firebase.database, 'kanban/sharedBoard/tasks');
+    firebase.onValue(
+      taskRef,
+      (snapshot) => {
+        let taskData = snapshot.val();
+        resolve(Object.values(taskData));
+        console.log('contacts: ', Object.values(taskData));
+      },
+    ),
+    (error) => {
+      console.error('Fehler beim Laden der Kontakte: ', error);
+      reject(error);
+    }
+  });
+} 
 
 /**
  * This function removes the `d-none` class from the HTML element with the ID `board-add_task-load-screen`, which makes the loading screen visible.
