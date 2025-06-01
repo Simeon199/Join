@@ -1,29 +1,35 @@
 import * as shared from '../../shared/javascript/shared.js';
 import * as feedbackAndUrgency from './feedbackAndUrgencyTemplate.js';
 import * as firebase from '../../core/firebase.js';
+// import * as boardEdit from './board_edit.js';
 
 let tasks = [];
 let categories = [];
-let searchedTasks = [];
-let allCategories = ["to-do-container", "await-feedback-container", "done-container", "in-progress-container"];
+// let searchedTasks = [];
+
+let allCategories = [
+  "to-do-container", 
+  "await-feedback-container", 
+  "done-container", 
+  "in-progress-container"
+];
+
 let elementDraggedOver;
-let priorityValue = "";
-let searchedInput = document.getElementById("search-input");
-let isBigTaskPopUpOpen = false;
-let assignedToContactsBigContainer = [];
-let isSaveIconClicked = false;
-let subtaskArray = [];
-let checkBoxCheckedJson = {};
-let emptyList = [];
-let renderCurrentTaskId;
-let touchTime;
-let currentOpenDropdown = null;
+// let priorityValue = "";
+// let searchedInput = document.getElementById("search-input");
+// let isBigTaskPopUpOpen = false;
+// let assignedToContactsBigContainer = [];
+// let isSaveIconClicked = false;
+// let subtaskArray = [];
+// let checkBoxCheckedJson = {};
+// let emptyList = [];
+// let renderCurrentTaskId;
+// let touchTime;
+// let currentOpenDropdown = null;
 
 document.addEventListener('DOMContentLoaded', async () => {
   shared.bundleLoadingHTMLTemplates();
-  // init();
   init_task();
-  // updateHTML();
 });
 
 /**
@@ -35,7 +41,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 async function init_task() {
   await getTasksFromDatabase();
-  updateHTML();
 }
 
 /**
@@ -48,12 +53,6 @@ async function init_task() {
 
 async function getTasksFromDatabase() {
   tasks = await loadTasksFromDatabase();
-  console.log('tasks in getTasksFromDatabase: ', tasks);
-  // tasks = await loadTasksFromDatabase();
-  // setTimeout(() => {
-  //   updateCategories();
-  // }, 100);
-  // updateHTML();
 }
 
 /**
@@ -64,7 +63,6 @@ async function getTasksFromDatabase() {
  */
 
 function updateCategories() {
-  console.log('tasks in updateCategories: ', tasks);
   categories = [...new Set(tasks.map((task) => task.container))];
 }
 
@@ -80,22 +78,9 @@ function updateCategories() {
 
 async function loadTasksFromDatabase() {
   tasks = await getAllTasks()
-  console.log('tasks in loadTasksFromDatabase: ', tasks);
   updateCategories();
   updateHTML();
-  // let response = await loadRelevantData();
-  // if (response && response.testRealTasks) {
-  //   for (index = 0; index < response.testRealTasks.length; index++) {
-  //     tasks.push(response.testRealTasks[index]);
-  //   }
-  //   return tasks;
-  // }
-  // return [];
 }
-
-// function loadRelevantData(){
-//   console.log('all tasks: ', data.allTask);
-// }
 
 // Diese Funktion sollte in eine zentrale Datei reinkommen:
 
@@ -363,10 +348,14 @@ function generateTaskHTML(element, contactsHTML, oppositeCategory, rightIcon, js
  */
 
 function iterateThroughSubArray(taskArray, htmlElement) {
-  for (let i = 0; i < taskArray.length; i++) {
-    let task = taskArray[i];
-    htmlElement.innerHTML += createToDoHTML(task);
+  console.log('taskArray', taskArray);
+  if(taskArray){
+    for (let i = 0; i < taskArray.length; i++) {
+      let task = taskArray[i];
+      htmlElement.innerHTML += createToDoHTML(task);
+    }
   }
+  return null;
 }
 
 /**

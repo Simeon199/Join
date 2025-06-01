@@ -1,3 +1,5 @@
+// export * as boardEdit from './board_edit.js';
+
 /**
  * Clears the content of the popup container.
  *
@@ -46,24 +48,24 @@ function renderContact(contact, contactIndex, taskIndex, isAssigned) {
  * @returns {Promise<void>} A promise that resolves when the task changes have been successfully saved.
  */
 
-async function saveTaskChanges(id) {
-  let newTitle = getInputValue("big-edit-task-title-input");
-  let newDescription = getInputValue("big-edit-task-description-input");
-  let newDate = getInputValue("big-edit-task-due-date-input");
-  if (validateInputs(newTitle, newDate)) {
-    showBoardLoadScreen();
-    removeInputErrors();
-    let taskForEditing = createTaskObject(newTitle, newDescription, newDate);
-    try {
-      await processTaskEditing(id, taskForEditing);
-    } catch (error) {
-      console.error("Fehler beim Speichern der Änderungen: ", error);
-    }
-    resetSubtasks();
-    updateHTML();
-    hideBoardLoadScreen();
-  }
-}
+// async function saveTaskChanges(id) {
+//   let newTitle = getInputValue("big-edit-task-title-input");
+//   let newDescription = getInputValue("big-edit-task-description-input");
+//   let newDate = getInputValue("big-edit-task-due-date-input");
+//   if (validateInputs(newTitle, newDate)) {
+//     showBoardLoadScreen();
+//     removeInputErrors();
+//     let taskForEditing = createTaskObject(newTitle, newDescription, newDate);
+//     try {
+//       await processTaskEditing(id, taskForEditing);
+//     } catch (error) {
+//       console.error("Fehler beim Speichern der Änderungen: ", error);
+//     }
+//     resetSubtasks();
+//     updateHTML();
+//     hideBoardLoadScreen();
+//   }
+// }
 
 /**
  * Retrieves the value of an input field by its element ID.
@@ -160,12 +162,12 @@ function createTaskObject(title, description, date) {
  * @param {Object} task - An object representing the task with updated details.
  */
 
-async function processTaskEditing(id, task) {
-  let newTaskReady = await updateTasksThroughEditing(id, task);
-  let newJsonElement = JSON.stringify(newTaskReady);
-  let newJsontextElement = encodeURIComponent(newJsonElement);
-  renderBigTask(newJsontextElement);
-}
+// async function processTaskEditing(id, task) {
+//   let newTaskReady = await updateTasksThroughEditing(id, task);
+//   let newJsonElement = JSON.stringify(newTaskReady);
+//   let newJsontextElement = encodeURIComponent(newJsonElement);
+//   renderBigTask(newJsontextElement);
+// }
 
 /**
  * Creates a task object formatted for editing from the provided task details.
@@ -196,12 +198,12 @@ function createTaskForEditing(task) {
  * @param {Object} taskForEditing - An object containing the updated task details.
  */
 
-async function processTaskEditing(id, taskForEditing) {
-  let newTaskReady = await updateTasksThroughEditing(id, taskForEditing);
-  let newJsonElement = JSON.stringify(newTaskReady);
-  let newJsontextElement = encodeURIComponent(newJsonElement);
-  renderBigTask(newJsontextElement);
-}
+// async function processTaskEditing(id, taskForEditing) {
+//   let newTaskReady = await updateTasksThroughEditing(id, taskForEditing);
+//   let newJsonElement = JSON.stringify(newTaskReady);
+//   let newJsontextElement = encodeURIComponent(newJsonElement);
+//   renderBigTask(newJsontextElement);
+// }
 
 /**
  * This function updates the visual representation of task priorities by adding or removing active classes based on the provided priority level. 

@@ -7,7 +7,7 @@ import * as shared from '../../shared/javascript/shared.js';
  */
 
 export function generateHTMLUrgencyLow() {
-    console.log('Hier wird das Template geladen.');
+    shared.initHTMLContent('../../board/templates/feedback_templates/html_urgency_low.tpl', 'section-await-feedback');
 }
 
 /**
@@ -18,7 +18,7 @@ export function generateHTMLUrgencyLow() {
  */
 
 export function generateHTMLUrgencyMedium() {
-    console.log('Hier wird das Template geladen.');
+    shared.initHTMLContent('../../board/templates/feedback_templates/html_urgency_medium.tpl', 'section-await-feedback');
 }
 
 /**
@@ -29,7 +29,7 @@ export function generateHTMLUrgencyMedium() {
  */
 
 export function generateHTMLUrgencyUrgent() {
-    console.log('Hier wird das Template geladen.');
+    shared.initHTMLContent('../../board/templates/feedback_templates/html_urgency_urgent.tpl', 'section-await-feedback');
 }
 
 /**
@@ -69,5 +69,5 @@ export function returnHtmlNoToDoContainer() {
  */
 
 export function returnHtmlNoDoneContainer() {
-    console.log('../../board/templates/board_container_templates/no_to_do_container.tpl', 'section-done');
+    shared.initHTMLContent('../../board/templates/board_container_templates/no_done_container.tpl', 'section-done');
 }
