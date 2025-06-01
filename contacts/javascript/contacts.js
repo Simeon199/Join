@@ -5,13 +5,6 @@ export * from './contacts.js';
 
 const database = firebase.database;
 
-/**
- * Adds a new contact and shows a success message.
- *
- * @param {string} bgColor - Background color for the contact.
- * @param {string} action - Action message to display.
- */
-
 async function addNewContact(action) { // bgColor=randomColor()
   let newUserData = createUserData();
   contactsHTML.showLoadScreen();
@@ -51,13 +44,6 @@ function createUserData(){
   }
   return userObject;
 }
-
-/**
- * Posts new contact data to the specified path.
- *
- * @param {string} path - The path for the API request.
- * @param {Object} data - The contact data to be posted.
- */
 
 async function postNewContact(newUserData){
   let contactsRef = ref(firebase.database, 'kanban/sharedBoard/contacts');

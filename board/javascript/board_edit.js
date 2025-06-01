@@ -1,11 +1,12 @@
-// export * as boardEdit from './board_edit.js';
+import * as feedbackAndUrgency from './feedbackAndUrgencyTemplate.js';
+export * from './board_edit.js';
 
 /**
  * Clears the content of the popup container.
  *
  */
 
-function clearPopUp() {
+export function clearPopUp() {
   document.getElementById("big-edit-task-assigned-to-pop-up").innerHTML = "";
 }
 
@@ -17,7 +18,7 @@ function clearPopUp() {
  * @returns {boolean} True if the contact is assigned to the task, otherwise false.
  */
 
-function checkIfAssigned(contact, taskIndex) {
+export function checkIfAssigned(contact, taskIndex) {
   return tasks[taskIndex].assigned.some((assignedContact) => assignedContact.name === contact.name);
 }
 
@@ -31,7 +32,7 @@ function checkIfAssigned(contact, taskIndex) {
  * @param {boolean} isAssigned - Indicates whether the contact is assigned to the task.
  */
 
-function renderContact(contact, contactIndex, taskIndex, isAssigned) {
+export function renderContact(contact, contactIndex, taskIndex, isAssigned) {
   let contactObject = JSON.stringify({ name: contact.name, color: contact.color, isSelected: isAssigned });
   if (isAssigned) {
     renderOnlyActiveAssignedToPopUp(contact, contactObject, contactIndex, taskIndex);
@@ -74,7 +75,7 @@ function renderContact(contact, contactIndex, taskIndex, isAssigned) {
  * @returns {string} The current value of the input field.
  */
 
-function getInputValue(elementId) {
+export function getInputValue(elementId) {
   return document.getElementById(elementId).value;
 }
 
@@ -88,7 +89,7 @@ function getInputValue(elementId) {
  * @returns {boolean} `true` if both the title and date inputs are non-empty; `false` otherwise.
  */
 
-function validateInputs(title, date) {
+export function validateInputs(title, date) {
   if (title === "" && date === "") {
     addInputError("big-task-pop-up-title");
     addInputError("big-task-pop-up-due-date-container");
@@ -130,7 +131,7 @@ function removeInputError(elementId) {
  * 
  */
 
-function removeInputErrors() {
+export function removeInputErrors() {
   removeInputError("big-task-pop-up-title");
   removeInputError("big-task-pop-up-due-date-container");
 }
@@ -144,7 +145,7 @@ function removeInputErrors() {
  * @returns {Object} An object representing the task with the following properties:
  */
 
-function createTaskObject(title, description, date) {
+export function createTaskObject(title, description, date) {
   return {
     newTitle: title,
     newDescription: description,
@@ -156,27 +157,13 @@ function createTaskObject(title, description, date) {
 }
 
 /**
- * Processes the editing of a task and updates the user interface with the edited task.
- * 
- * @param {string} id - The ID of the task to be edited.
- * @param {Object} task - An object representing the task with updated details.
- */
-
-// async function processTaskEditing(id, task) {
-//   let newTaskReady = await updateTasksThroughEditing(id, task);
-//   let newJsonElement = JSON.stringify(newTaskReady);
-//   let newJsontextElement = encodeURIComponent(newJsonElement);
-//   renderBigTask(newJsontextElement);
-// }
-
-/**
  * Creates a task object formatted for editing from the provided task details.
  *
  * @param {Object} task - The task object to format for editing.
  * @returns {Object} A new task object formatted for editing.
  */
 
-function createTaskForEditing(task) {
+export function createTaskForEditing(task) {
   let { title, description, date, priority, subtask, assigned } = task;
   let taskForEditing = {
     newTitle: title,
@@ -198,12 +185,12 @@ function createTaskForEditing(task) {
  * @param {Object} taskForEditing - An object containing the updated task details.
  */
 
-// async function processTaskEditing(id, taskForEditing) {
-//   let newTaskReady = await updateTasksThroughEditing(id, taskForEditing);
-//   let newJsonElement = JSON.stringify(newTaskReady);
-//   let newJsontextElement = encodeURIComponent(newJsonElement);
-//   renderBigTask(newJsontextElement);
-// }
+export async function processTaskEditing(id, taskForEditing) {
+  let newTaskReady = await updateTasksThroughEditing(id, taskForEditing);
+  let newJsonElement = JSON.stringify(newTaskReady);
+  let newJsontextElement = encodeURIComponent(newJsonElement);
+  renderBigTask(newJsontextElement);
+}
 
 /**
  * This function updates the visual representation of task priorities by adding or removing active classes based on the provided priority level. 
@@ -212,7 +199,7 @@ function createTaskForEditing(task) {
  * @returns {string} The priority value that was saved.
  */
 
-function checkBigEditTaskPriority(priority) {
+export function checkBigEditTaskPriority(priority) {
   if (priority == "urgent") {
     document.getElementById("big-edit-task-urgent-priority").classList.add("big-edit-task-urgent-priority-aktiv");
     document.getElementById("big-edit-task-medium-priority").classList.remove("big-edit-task-medium-priority-aktiv");
@@ -236,7 +223,7 @@ function checkBigEditTaskPriority(priority) {
  * @returns {string} The priority value that was saved.
  */
 
-function savePriorityValue(priority) {
+export function savePriorityValue(priority) {
   priorityValue = priority;
   return priorityValue;
 }
@@ -249,7 +236,7 @@ function savePriorityValue(priority) {
  * @returns {Promise<Object>} A promise that resolves to the updated task object.
  */
 
-async function updateTasksThroughEditing(taskId, objectForEditing) {
+export async function updateTasksThroughEditing(taskId, objectForEditing) {
   let task = tasks[taskId];
   let updatedTask = await updateTask(task, taskId, objectForEditing);
   checkBoxCheckedJson = {};
@@ -265,7 +252,7 @@ async function updateTasksThroughEditing(taskId, objectForEditing) {
  * @returns {Promise<Object>} A promise that resolves to the updated task object after saving.
  */
 
-async function updateTask(task, taskId, objectForEditing) {
+export async function updateTask(task, taskId, objectForEditing) {
   let container = task.container;
   let category = task.category;
   tasks[taskId] =
@@ -282,7 +269,7 @@ async function updateTask(task, taskId, objectForEditing) {
  * @param {Object} task - The task object to be saved to Firebase. The task object should contain all the necessary properties required by Firebase.
  */
 
-async function saveTaskWithCatch(task) {
+export async function saveTaskWithCatch(task) {
   try {
     await saveTaskToFirebase(task);
   } catch (error) {
@@ -297,7 +284,7 @@ async function saveTaskWithCatch(task) {
  * @returns {Promise<Object>} A promise that resolves to the JSON response from the DELETE request.
  */
 
-async function deleteData(path = "") {
+export async function deleteData(path = "") {
   let response = await fetch(BASE_URL + path + ".json", {
     method: "DELETE",
   });
@@ -311,7 +298,7 @@ async function deleteData(path = "") {
  * @returns {string} The color code associated with the given category. 
  */
 
-function checkCategoryColor(category) {
+export function checkCategoryColor(category) {
   if (category === "User Story") {
     return "#0038FF";
   } else if (category === "Technical Task") {
@@ -328,13 +315,13 @@ function checkCategoryColor(category) {
  * @returns {string} The HTML string representing the icon for the given priority level.
 */
 
-function checkPriorityIcon(priorityText) {
+export function checkPriorityIcon(priorityText) {
   if (priorityText === "urgent") {
-    return generateHTMLUrgencyUrgent();
+    return feedbackAndUrgency.generateHTMLUrgencyUrgent();
   } else if (priorityText === "medium") {
-    return generateHTMLUrgencyMedium();
+    return feedbackAndUrgency.generateHTMLUrgencyMedium();
   } else if (priorityText === "low") {
-    return generateHTMLUrgencyLow();
+    return feedbackAndUrgency.generateHTMLUrgencyLow();
   }
 }
 
@@ -344,7 +331,7 @@ function checkPriorityIcon(priorityText) {
  * @param {string} categoryContainer - The ID of the category container element whose content will be cleared.
  */
 
-function clearCategoryContainer(categoryContainer) {
+export function clearCategoryContainer(categoryContainer) {
   document.getElementById(categoryContainer).innerHTML = "";
 }
 
@@ -355,7 +342,7 @@ function clearCategoryContainer(categoryContainer) {
  * @param {string} categoryContainer - The ID of the category container where no tasks were found.
  */
 
-function handleNoTasksInCategory(categoryContainer) {
+export function handleNoTasksInCategory(categoryContainer) {
   let oppositeElementName = "no-" + categoryContainer;
   let oppositeElement = getRightOppositeElement(oppositeElementName);
   document.getElementById(categoryContainer).innerHTML = oppositeElement;
@@ -371,7 +358,7 @@ function handleNoTasksInCategory(categoryContainer) {
  * @returns {string} - The generated HTML string for displaying assigned contacts.
  */
 
-function generateContactsHTML(task) {
+export function generateContactsHTML(task) {
   let contactsHTML = "";
   if (task.assigned) {
     let lengthOfAssignedTo = task.assigned.length;
@@ -393,7 +380,7 @@ function generateContactsHTML(task) {
  * 
  */
 
-function taskMarker() {
+export function taskMarker() {
   document.getElementById("board").classList.add("currentSection");
 }
 
@@ -405,7 +392,7 @@ function taskMarker() {
  * @returns {string} The initials of the name, with each initial capitalized.
  */
 
-function getInitials(name) {
+export function getInitials(name) {
   let nameArray = name.trim().split(" ");
   let initials = nameArray.map((word) => word.charAt(0).toUpperCase()).join("");
   return initials;
