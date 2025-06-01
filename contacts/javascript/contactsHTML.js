@@ -60,8 +60,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 export async function getAllContactsAndRenderThem(){
-  // debugger;
-  console.log('allContacts: ', allContacts);
   allContacts = await contacts.getAllContacts();
   allContacts.forEach((element) => {
     firstContactsNameLetter.push(element.initials);

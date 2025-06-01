@@ -47,10 +47,13 @@ async function init_task() {
  */
 
 async function getTasksFromDatabase() {
-  tasks = loadTasksFromDatabase();
+  tasks = await loadTasksFromDatabase();
+  console.log('tasks in getTasksFromDatabase: ', tasks);
   // tasks = await loadTasksFromDatabase();
-  updateCategories();
-  updateHTML();
+  // setTimeout(() => {
+  //   updateCategories();
+  // }, 100);
+  // updateHTML();
 }
 
 /**
@@ -61,6 +64,7 @@ async function getTasksFromDatabase() {
  */
 
 function updateCategories() {
+  console.log('tasks in updateCategories: ', tasks);
   categories = [...new Set(tasks.map((task) => task.container))];
 }
 
@@ -75,8 +79,10 @@ function updateCategories() {
  */
 
 async function loadTasksFromDatabase() {
-    let allTask = await getAllTasks()
-    console.log('all tasks: ', allTask);
+  tasks = await getAllTasks()
+  console.log('tasks in loadTasksFromDatabase: ', tasks);
+  updateCategories();
+  updateHTML();
   // let response = await loadRelevantData();
   // if (response && response.testRealTasks) {
   //   for (index = 0; index < response.testRealTasks.length; index++) {
@@ -166,11 +172,11 @@ function setVariableClass(element) {
 function insertCorrectUrgencyIcon(element) {
   let svgElement;
   if (element["priority"] == "urgent") {
-    svgElement = generateHTMLUrgencyUrgent();
+    svgElement = feedbackAndUrgency.generateHTMLUrgencyUrgent();
   } else if (element["priority"] == "low") {
-    svgElement = generateHTMLUrgencyLow();
+    svgElement = feedbackAndUrgency.generateHTMLUrgencyLow();
   } else if (element["priority"] == "medium") {
-    svgElement = generateHTMLUrgencyMedium();
+    svgElement = feedbackAndUrgency.generateHTMLUrgencyMedium();
   }
   return svgElement;
 }
@@ -197,7 +203,6 @@ function createToDoHTML(element) {
   let oppositeCategory = "no-" + element.container;
   let contactsHTML = generateContactsHTML(element);
   let jsonElement = JSON.stringify(element);
-
   return generateTaskHTML(element, contactsHTML, oppositeCategory, rightIcon, jsonElement);
 }
 
@@ -335,7 +340,7 @@ function generateTaskHTML(element, contactsHTML, oppositeCategory, rightIcon, js
   let jsonTextElement = encodeURIComponent(jsonElement);
   if (element["subtask"] && element["subtask"].length > 0) {
     let numberOfTasksChecked = 0;
-    for (index = 0; index < element["subtask"].length; index++) {
+    for (let index = 0; index < element["subtask"].length; index++) {
       if (element["subtask"][index]["is-tasked-checked"] == true) {
         numberOfTasksChecked += 1;
       }
@@ -358,7 +363,7 @@ function generateTaskHTML(element, contactsHTML, oppositeCategory, rightIcon, js
  */
 
 function iterateThroughSubArray(taskArray, htmlElement) {
-  for (i = 0; i < taskArray.length; i++) {
+  for (let i = 0; i < taskArray.length; i++) {
     let task = taskArray[i];
     htmlElement.innerHTML += createToDoHTML(task);
   }
@@ -469,14 +474,14 @@ function removeEmptyMessage(container, oppositeContainer) {
  */
 
 function getRightOppositeElement(oppositeElementName) {
-  if (oppositeElementName == "no-await-feedback-container") {
-    return feedbackAndUrgency.returnHtmlNoFeedbackContainer();
-  } else if (oppositeElementName == "no-in-progress-container") {
-    return feedbackAndUrgency.returnHtmlNoProgressContainer();
-  } else if (oppositeElementName == "no-to-do-container") {
-    return feedbackAndUrgency.returnHtmlNoToDoContainer();
-  } else if (oppositeElementName == "no-done-container") {
-    return feedbackAndUrgency.returnHtmlNoDoneContainer();
+  if (oppositeElementName === "no-await-feedback-container") {
+    feedbackAndUrgency.returnHtmlNoFeedbackContainer();
+  } else if (oppositeElementName === "no-in-progress-container") {
+    feedbackAndUrgency.returnHtmlNoProgressContainer();
+  } else if (oppositeElementName === "no-to-do-container") {
+    feedbackAndUrgency.returnHtmlNoToDoContainer();
+  } else if (oppositeElementName === "no-done-container") {
+    feedbackAndUrgency.returnHtmlNoDoneContainer();
   }
 }
 

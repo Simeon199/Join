@@ -1,10 +1,12 @@
+import * as shared from '../../shared/javascript/shared.js';
+
 /**
  * This function returns an HTML string containing an SVG icon. The icon is composed of two green arrows, signifying low urgency.
  *
  * @returns {string} - The HTML string containing the SVG icon for low urgency.
  */
 
-function generateHTMLUrgencyLow() {
+export function generateHTMLUrgencyLow() {
     console.log('Hier wird das Template geladen.');
 }
 
@@ -15,7 +17,7 @@ function generateHTMLUrgencyLow() {
  * @returns {string} - The HTML string containing the SVG icon for medium urgency.
  */
 
-function generateHTMLUrgencyMedium() {
+export function generateHTMLUrgencyMedium() {
     console.log('Hier wird das Template geladen.');
 }
 
@@ -26,7 +28,7 @@ function generateHTMLUrgencyMedium() {
  * @returns {string} - The HTML string containing the SVG icon for urgent urgency.
  */
 
-function generateHTMLUrgencyUrgent() {
+export function generateHTMLUrgencyUrgent() {
     console.log('Hier wird das Template geladen.');
 }
 
@@ -36,8 +38,8 @@ function generateHTMLUrgencyUrgent() {
  * @returns {string} - The HTML string for the "No Tasks Await Feedback" container.
  */
 
-function returnHtmlNoFeedbackContainer() {
-    console.log('Hier wird das Template geladen.');
+export function returnHtmlNoFeedbackContainer() {
+    shared.initHTMLContent('../../board/templates/board_container_templates/no_feedback_container.tpl', 'section-await-feedback');
 }
 
 /**
@@ -46,8 +48,8 @@ function returnHtmlNoFeedbackContainer() {
  * @returns {string} - The HTML string for the "No Tasks In Progress" container.
  */
 
-function returnHtmlNoProgressContainer() {
-    console.log('Hier wird das Template geladen.');
+export function returnHtmlNoProgressContainer() {
+    shared.initHTMLContent('../../board/templates/board_container_templates/no_progress_container.tpl', 'section-in-progress');
 }
 
 /**
@@ -56,8 +58,8 @@ function returnHtmlNoProgressContainer() {
  * @returns {string} - The HTML string for the "No Tasks To Do" container.
  */
 
-function returnHtmlNoToDoContainer() {
-    console.log('Hier wird das Template geladen.');
+export function returnHtmlNoToDoContainer() {
+    shared.initHTMLContent('../../board/templates/board_container_templates/no_to_do_container.tpl', 'section-to-do');
 }
 
 /**
@@ -66,6 +68,6 @@ function returnHtmlNoToDoContainer() {
  * @returns {string} - The HTML string for the "No Tasks Done" container.
  */
 
-function returnHtmlNoDoneContainer() {
-    console.log('Hier wird das Template geladen.');
+export function returnHtmlNoDoneContainer() {
+    console.log('../../board/templates/board_container_templates/no_to_do_container.tpl', 'section-done');
 }
