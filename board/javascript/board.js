@@ -70,22 +70,40 @@ async function getAllTasks(){
   });
 } 
 
-function showBoardLoadScreen() {
-  document.getElementById("board-add_task-load-screen").classList.remove("d-none");
+export function updateHTML() {
+  allCategories.forEach((container) => {
+    let element = document.getElementById(container);
+    let oppositeElementName = "no-" + container;
+    let oppositeElement = getRightOppositeElement(oppositeElementName);
+    if (element) {
+      let filteredTasks = tasks.filter((task) => task.container === container);
+      element.innerHTML = "";
+      if (filteredTasks.length > 0) {
+        iterateThroughSubArray(filteredTasks, container);
+      } else {
+        element.innerHTML = oppositeElement;
+      }
+    }
+  });
 }
 
-function hideBoardLoadScreen() {
-  document.getElementById("board-add_task-load-screen").classList.add("d-none");
-}
-
-function setVariableClass(element) {
-  let variableClass = "";
-  if (element["category"] == "user story") {
-    variableClass = "task-category";
-  } else if (element["category"] == "technical task") {
-    variableClass = "technical-task-category";
+function iterateThroughSubArray(taskArray, containerName) {
+  let htmlElement = document.getElementById(containerName);
+  if(taskArray){
+    for (let i = 0; i < taskArray.length; i++) {
+      let task = taskArray[i];
+      htmlElement.innerHTML += createToDoHTML(task);
+    }
   }
-  return variableClass;
+  return null;
+}
+
+function createToDoHTML(taskElement) {
+  let rightIcon = insertCorrectUrgencyIcon(taskElement);
+  let oppositeCategory = "no-" + taskElement.container;
+  let contactsHTML = generateContactsHTML(taskElement);
+  let jsonElement = JSON.stringify(taskElement);
+  return generateTaskHTML(taskElement, contactsHTML, oppositeCategory, rightIcon, jsonElement);
 }
 
 function insertCorrectUrgencyIcon(element) {
@@ -97,16 +115,8 @@ function insertCorrectUrgencyIcon(element) {
   } else if (element["priority"] == "medium") {
     svgElement = feedbackAndUrgency.generateHTMLUrgencyMedium();
   }
+  console.log('svg element: ', svgElement);
   return svgElement;
-}
-
-
-function createToDoHTML(element) {
-  let rightIcon = insertCorrectUrgencyIcon(element);
-  let oppositeCategory = "no-" + element.container;
-  let contactsHTML = generateContactsHTML(element);
-  let jsonElement = JSON.stringify(element);
-  return generateTaskHTML(element, contactsHTML, oppositeCategory, rightIcon, jsonElement);
 }
 
 function generateContactsHTML(element) {
@@ -117,6 +127,78 @@ function generateContactsHTML(element) {
     contactsHTML += generateContactHTML(element, i, lengthOfAssignedTo);
   }
   return contactsHTML;
+}
+
+function generateTaskHTML(taskElement, contactsHTML, oppositeCategory, rightIcon, jsonElement) {
+  let jsonTextElement = encodeURIComponent(jsonElement);
+  if (taskElement["subtask"] && taskElement["subtask"].length > 0) {
+    let numberOfTasksChecked = 0;
+    for (let index = 0; index < taskElement["subtask"].length; index++) {
+      if (taskElement["subtask"][index]["is-tasked-checked"] == true) {
+        numberOfTasksChecked += 1;
+      }
+    }
+    let taskbarWidth = Math.round((numberOfTasksChecked / taskElement["subtask"].length) * 100);
+    returnTaskHtmlWithSubtask(taskElement, contactsHTML, oppositeCategory, rightIcon, jsonTextElement, taskbarWidth, numberOfTasksChecked);
+  } else if (taskElement["subtask"] && taskElement["subtask"].length == 0) {
+    return returnTaskHtmlWithoutSubtask(taskElement, contactsHTML, oppositeCategory, rightIcon, jsonTextElement);
+  } else {
+    return returnTaskHtmlWithoutSubtask(taskElement, contactsHTML, oppositeCategory, rightIcon, jsonTextElement);
+  }
+}
+
+async function returnTaskHtmlWithSubtask(
+  taskElement, 
+  contactsHTML, 
+  oppositeCategory, 
+  rightIcon, 
+  jsonTextElement, 
+  taskbarWidth, 
+  numberOfTasksChecked
+){
+  let template = await shared.initHTMLContent('../../board/templates/board_subtask_templates/taskHtmlWithSubtask.tpl', taskElement['container']);
+  template.id = `task${taskElement['id']}`;
+  let task = document.getElementById(`task${taskElement['id']}`); 
+  template.querySelector('.task-category').style.backgroundColor = boardEdit.checkCategoryColor(taskElement["category"]);
+  template.querySelector('.task-category').innerHTML =  taskElement["category"];
+  template.querySelector('.dropdownSVG').addEventListener('click', (event) => {
+    shared.stopEvent(event);
+    openMobileDropdown(taskIndex);
+  });
+  template.querySelector('.mobileDropdown').id = `mobileDropdown${taskIndex}`;
+  template.querySelector('.task-title').innerHTML = taskElement["title"];
+  template.querySelector('.task-description').innerHTML = taskDescription;
+  template.querySelector('.task-bar-content').style.width = `${taskbarWidth}%`;
+  template.querySelector('.task-bar-text').innerHTML = `${numberOfTasksChecked}/${element["subtask"].length} Subtasks`;
+  template.querySelector('.task-contacts').innerHTML = contactsHTML;
+  template.querySelector('.task-contacts-container').innerHTML += rightIcon;
+  // document.getElementById(`mobileDropdown${taskIndex}`).addEventListener('click', (event) => {
+  //   if(event.target.tagName === 'To Do'){
+  //   }
+  // });
+
+  task.addEventListener('click', () => {
+    showBigTaskPopUp(jsonTextElement);
+  });
+  task.addEventListener('dragstart', (event) => {
+    startDragging(element["tasksIdentity"]);
+    rotateFunction(taskIndex);
+  });
+  task.addEventListener('dragend', () => {
+    checkIfEmpty(element["container"], oppositeCategory);
+  });
+  task.addEventListener('dragover', (event) => {
+    event.preventDefault();
+    allowDrop(event);
+  });
+  task.addEventListener('drop', () => {
+    moveTo(element["container"]);
+  });
+}
+
+async function returnTaskHtmlWithoutSubtask(taskElement, contactsHTML, oppositeCategory, rightIcon, jsonTextElement, taskbarWidth, numberOfTasksChecked){
+  let template = await shared.initHTMLContent('../../board/templates/board_subtask_templates/taskHtmlWithoutSubtask.tpl', taskElement['container']);
+  template.id = `task${taskElement['id']}`;
 }
 
 function generateContactHTML(element, index, lengthOfAssignedTo) {
@@ -164,61 +246,12 @@ function closeAllDropDownPopUps() {
   }
 }
 
-function generateTaskHTML(element, contactsHTML, oppositeCategory, rightIcon, jsonElement) {
-  let jsonTextElement = encodeURIComponent(jsonElement);
-  if (element["subtask"] && element["subtask"].length > 0) {
-    let numberOfTasksChecked = 0;
-    for (let index = 0; index < element["subtask"].length; index++) {
-      if (element["subtask"][index]["is-tasked-checked"] == true) {
-        numberOfTasksChecked += 1;
-      }
-    }
-    let taskbarWidth = Math.round((numberOfTasksChecked / element["subtask"].length) * 100);
-    return returnTaskHtmlWithSubtask(element, contactsHTML, oppositeCategory, rightIcon, jsonTextElement, taskbarWidth, numberOfTasksChecked);
-  } else if (element["subtask"] && element["subtask"].length == 0) {
-    return returnTaskHtmlWithoutSubtask(element, contactsHTML, oppositeCategory, rightIcon, jsonTextElement);
-  } else {
-    return returnTaskHtmlWithoutSubtask(element, contactsHTML, oppositeCategory, rightIcon, jsonTextElement);
-  }
-}
-
-// function returnTaskHtmlWithSubtask(){
-//   shared.initHTMLContent('../../board/templates/big_task_pop_up_templates/big-task-pop-up-priority-container.tpl', 'big-task-pop-up-priority-container');
-// }
-
-function iterateThroughSubArray(taskArray, htmlElement) {
-  if(taskArray){
-    for (let i = 0; i < taskArray.length; i++) {
-      let task = taskArray[i];
-      htmlElement.innerHTML += createToDoHTML(task);
-    }
-  }
-  return null;
-}
-
 function checkIfEmpty(tasksDiv, divWithoutTasks) {
   let tasksDivContainer = document.getElementById(tasksDiv);
   let divWithoutTasksContainer = document.getElementById(divWithoutTasks);
   if (tasksDivContainer.innerHTML == "") {
     divWithoutTasksContainer.classList.remove("d-none");
   }
-}
-
-export function updateHTML() {
-  allCategories.forEach((container) => {
-    let element = document.getElementById(container);
-    let oppositeElementName = "no-" + container;
-    let oppositeElement = getRightOppositeElement(oppositeElementName);
-    if (element) {
-      let filteredTasks = tasks.filter((task) => task.container === container);
-      element.innerHTML = "";
-      if (filteredTasks.length > 0) {
-        iterateThroughSubArray(filteredTasks, element);
-      } else {
-        element.innerHTML = oppositeElement;
-      }
-    }
-  });
 }
 
 function startDragging(elementId) {
@@ -302,4 +335,22 @@ async function moveTasksToCategory(taskIndex, newCategory) {
       console.error("Fehler beim Speichern der tasks in der Firebase-Datenbank:", error);
     }
   }
+}
+
+function hideBoardLoadScreen() {
+  document.getElementById("board-add_task-load-screen").classList.add("d-none");
+}
+
+function showBoardLoadScreen() {
+  document.getElementById("board-add_task-load-screen").classList.remove("d-none");
+}
+
+function setVariableClass(element) {
+  let variableClass = "";
+  if (element["category"] == "user story") {
+    variableClass = "task-category";
+  } else if (element["category"] == "technical task") {
+    variableClass = "technical-task-category";
+  }
+  return variableClass;
 }
