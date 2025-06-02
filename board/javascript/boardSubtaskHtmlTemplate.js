@@ -15,7 +15,7 @@ function returnTaskHtmlWithoutSubtask(element, contactsHTML, oppositeCategory, r
     if (taskDescription.length > 40) {
       taskDescription = element["description"].substring(0, 40) + "...";
     }
-    return /*html*/ `
+    return `
     <div class="task" 
         id=task${taskIndex}
         draggable="true"
@@ -74,7 +74,7 @@ function returnTaskHtmlWithSubtask(element, contactsHTML, oppositeCategory, righ
     if (taskDescription.length > 40) {
       taskDescription = taskDescription.substring(0, 40) + "...";
     }
-    return /*html*/ `
+    return `
         <div class="task" id=task${taskIndex}
             draggable="true" 
             ondragstart="startDragging(${element["tasksIdentity"]}); rotateFunction(${taskIndex})" 
@@ -130,7 +130,7 @@ function returnTaskHtmlWithSubtask(element, contactsHTML, oppositeCategory, righ
  */
 
 function returnSubtaskHTML(correctTaskId, subtask, i) {
-    return /*html*/ `
+    return `
     <div class="big-task-pop-up-subtasks" id="bigSubtaskNo${i}">
       <svg
         id="checkBoxIconUnchecked${i}"
@@ -168,7 +168,7 @@ function returnSubtaskHTML(correctTaskId, subtask, i) {
  */
 
 function returnSubtaskHTMLWithBolean(correctTaskId, subtask, i) {
-    return /*html*/ `
+    return `
     <div class="big-task-pop-up-subtasks" id="bigSubtaskNo${i}">
       <svg
         id="checkBoxIconUnchecked${i}"
@@ -205,7 +205,7 @@ function returnSubtaskHTMLWithBolean(correctTaskId, subtask, i) {
  */
 
 function renderSubtaskInPopUpContainer(i, subtask) {
-    return /*html*/ `
+    return `
       <div ondblclick=" editSubtaskPopUpInput(${i})" onclick='stopEvent(event);' id="subtaskNumber${i}" class="edit-popup-subtasks" >
         <li >${subtask["task-description"]}</li>
         <div id="popUpSubBTN${i}" class="edit-popup-subtask-icon-container">
@@ -228,7 +228,7 @@ function renderSubtaskInPopUpContainer(i, subtask) {
  */
 
 function returnSubtaskInputHTMLPlusIconSVG() {
-    return /*html*/ `
+    return `
         <svg id='big-edit-task-subtask-input-plus-icon' width="15" height="14" viewBox="0 0 15 14" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M6.14453 8H1.14453C0.861198 8 0.623698 7.90417 0.432031 7.7125C0.240365 7.52083 0.144531 7.28333 0.144531 7C0.144531 6.71667 0.240365 6.47917 0.432031 6.2875C0.623698 6.09583 0.861198 6 1.14453 6H6.14453V1C6.14453 0.716667 6.24036 0.479167 6.43203 0.2875C6.6237 0.0958333 6.8612 0 7.14453 0C7.42786 0 7.66536 0.0958333 7.85703 0.2875C8.0487 0.479167 8.14453 0.716667 8.14453 1V6H13.1445C13.4279 6 13.6654 6.09583 13.857 6.2875C14.0487 6.47917 14.1445 6.71667 14.1445 7C14.1445 7.28333 14.0487 7.52083 13.857 7.7125C13.6654 7.90417 13.4279 8 13.1445 8H8.14453V13C8.14453 13.2833 8.0487 13.5208 7.85703 13.7125C7.66536 13.9042 7.42786 14 7.14453 14C6.8612 14 6.6237 13.9042 6.43203 13.7125C6.24036 13.5208 6.14453 13.2833 6.14453 13V8Z" fill="#2A3647"/>
         </svg>
@@ -242,7 +242,7 @@ function returnSubtaskInputHTMLPlusIconSVG() {
  */
 
 function returnSubtaskInputHTMLCloseIcon() {
-    return /*html*/ `
+    return `
       <svg id='big-edit-task-subtask-input-close-icon' onclick='resetSubtaskInput()' width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M7.14434 8.40005L2.24434 13.3C2.061 13.4834 1.82767 13.575 1.54434 13.575C1.261 13.575 1.02767 13.4834 0.844336 13.3C0.661003 13.1167 0.569336 12.8834 0.569336 12.6C0.569336 12.3167 0.661003 12.0834 0.844336 11.9L5.74434 7.00005L0.844336 2.10005C0.661003 1.91672 0.569336 1.68338 0.569336 1.40005C0.569336 1.11672 0.661003 0.883382 0.844336 0.700049C1.02767 0.516715 1.261 0.425049 1.54434 0.425049C1.82767 0.425049 2.061 0.516715 2.24434 0.700049L7.14434 5.60005L12.0443 0.700049C12.2277 0.516715 12.461 0.425049 12.7443 0.425049C13.0277 0.425049 13.261 0.516715 13.4443 0.700049C13.6277 0.883382 13.7193 1.11672 13.7193 1.40005C13.7193 1.68338 13.6277 1.91672 13.4443 2.10005L8.54434 7.00005L13.4443 11.9C13.6277 12.0834 13.7193 12.3167 13.7193 12.6C13.7193 12.8834 13.6277 13.1167 13.4443 13.3C13.261 13.4834 13.0277 13.575 12.7443 13.575C12.461 13.575 12.2277 13.4834 12.0443 13.3L7.14434 8.40005Z" fill="#2A3647"/>
       </svg>
@@ -262,7 +262,7 @@ function returnSubtaskInputHTMLCloseIcon() {
  */
 
 function returnEditSubtaskPopUpInputHTML(i) {
-    return /*html*/ `
+    return `
       <input id="subtaskEditedPopUp" type="text" value="${subtaskArray[i]["task-description"]}">
       <div class="inputButtons">
         <img onclick="deleteSubtaskPopUp(${i}), stopEvent(event)" src="../../assets/img/deletetrash.svg" alt="">

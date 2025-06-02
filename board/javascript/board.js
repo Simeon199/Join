@@ -174,8 +174,7 @@ function generateTaskHTML(element, contactsHTML, oppositeCategory, rightIcon, js
       }
     }
     let taskbarWidth = Math.round((numberOfTasksChecked / element["subtask"].length) * 100);
-    returnTaskHtmlWithSubtask();
-    // return returnTaskHtmlWithSubtask(element, contactsHTML, oppositeCategory, rightIcon, jsonTextElement, taskbarWidth, numberOfTasksChecked);
+    return returnTaskHtmlWithSubtask(element, contactsHTML, oppositeCategory, rightIcon, jsonTextElement, taskbarWidth, numberOfTasksChecked);
   } else if (element["subtask"] && element["subtask"].length == 0) {
     return returnTaskHtmlWithoutSubtask(element, contactsHTML, oppositeCategory, rightIcon, jsonTextElement);
   } else {
@@ -183,9 +182,9 @@ function generateTaskHTML(element, contactsHTML, oppositeCategory, rightIcon, js
   }
 }
 
-function returnTaskHtmlWithSubtask(){
-  shared.initHTMLContent('../../board/templates/big_task_pop_up_templates/big-task-pop-up-priority-container.tpl', 'big-task-pop-up-priority-container');
-}
+// function returnTaskHtmlWithSubtask(){
+//   shared.initHTMLContent('../../board/templates/big_task_pop_up_templates/big-task-pop-up-priority-container.tpl', 'big-task-pop-up-priority-container');
+// }
 
 function iterateThroughSubArray(taskArray, htmlElement) {
   if(taskArray){
