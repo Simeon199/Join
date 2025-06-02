@@ -156,31 +156,52 @@ async function returnTaskHtmlWithSubtask(
   taskbarWidth, 
   numberOfTasksChecked
 ){
+  let taskIndex = taskElement.id;
+  let taskDescription = taskElement.description;
+  if (taskDescription.length > 40) {
+    taskDescription = taskDescription.substring(0, 40) + "...";
+  }
   let template = await shared.initHTMLContent('../../board/templates/board_subtask_templates/taskHtmlWithSubtask.tpl', taskElement['container']);
-  template.id = `task${taskElement['id']}`;
-  let task = document.getElementById(`task${taskElement['id']}`); 
+  template.id = `task${taskIndex}`;
+  let task = document.getElementById(`task${taskIndex}`); 
   template.querySelector('.task-category').style.backgroundColor = boardEdit.checkCategoryColor(taskElement["category"]);
   template.querySelector('.task-category').innerHTML =  taskElement["category"];
+  template.querySelector('.mobileDropdown').id = `mobileDropdown${taskIndex}`;
+  console.log(template.querySelector('.mobileDropdown'));
+  document.getElementById(`mobileDropdown${taskIndex}`).querySelector('a').addEventListener('click', (event) => {
+    if(event.target.tagName === 'To Do'){
+      shared.stopEvent(event);
+      moveTasksToCategory(taskIndex, 'to-do-container');
+    } else if(event.target.tagName === 'In Progress'){
+      shared.stopEvent(event);
+      moveTasksToCategory(taskIndex, 'in-progress-container');
+    } else if(event.target.tagName === 'Await Feedback'){
+      shared.stopEvent(event);
+      moveTasksToCategory(taskIndex, 'await-feedback-container');
+    } else if(event.target.tagName === 'Done'){
+      shared.stopEvent(event);
+      moveTasksToCategory(taskIndex, 'done-container');
+    }
+  });
+  template.querySelector('.task-title').innerHTML = taskElement["title"];
+  template.querySelector('.task-description').innerHTML = taskDescription;
+  template.querySelector('.task-bar-content').style.width = `${taskbarWidth}%`;
+  template.querySelector('.task-bar-text').innerHTML = `${numberOfTasksChecked}/${taskElement["subtask"].length} Subtasks`;
+  template.querySelector('.task-contacts').innerHTML = contactsHTML;
+  template.querySelector('.task-contacts-container').innerHTML += rightIcon;
+  template.querySelectorAll('div')[3].id = oppositeCategory;
+  console.log('taskElement container: ', taskElement.container);
+  document.getElementById(oppositeCategory).innerHTML = `No tasks in ${taskElement['container']}`;
+
+  console.log('complete template: ', template);
   template.querySelector('.dropdownSVG').addEventListener('click', (event) => {
     shared.stopEvent(event);
     openMobileDropdown(taskIndex);
   });
-  template.querySelector('.mobileDropdown').id = `mobileDropdown${taskIndex}`;
-  template.querySelector('.task-title').innerHTML = taskElement["title"];
-  template.querySelector('.task-description').innerHTML = taskDescription;
-  template.querySelector('.task-bar-content').style.width = `${taskbarWidth}%`;
-  template.querySelector('.task-bar-text').innerHTML = `${numberOfTasksChecked}/${element["subtask"].length} Subtasks`;
-  template.querySelector('.task-contacts').innerHTML = contactsHTML;
-  template.querySelector('.task-contacts-container').innerHTML += rightIcon;
-  // document.getElementById(`mobileDropdown${taskIndex}`).addEventListener('click', (event) => {
-  //   if(event.target.tagName === 'To Do'){
-  //   }
-  // });
-
   task.addEventListener('click', () => {
     showBigTaskPopUp(jsonTextElement);
   });
-  task.addEventListener('dragstart', (event) => {
+  task.addEventListener('dragstart', () => {
     startDragging(element["tasksIdentity"]);
     rotateFunction(taskIndex);
   });

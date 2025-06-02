@@ -1,5 +1,5 @@
 <template>
-<div class="task" id=task${taskIndex}> 
+<div class="task"> 
     <div class="task-category-and-dropdown">
         <div class='task-category'></div>
         <div class="dropdownSVG">
@@ -25,8 +25,6 @@
     <div class="task-contacts-container">
         <div class="task-contacts"></div>
     </div>
-</div>
-<div id="${oppositeCategory}" class="no-task d-none">
-    <p>No tasks in ${element["container"]}</p>
+    <div class="no-task d-none"></div>
 </div>
 </template>
