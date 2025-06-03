@@ -29,6 +29,111 @@ let currentOpenDropdown = null;
 document.addEventListener('DOMContentLoaded', async () => {
   shared.bundleLoadingHTMLTemplates();
   init_task();
+
+  // All Event Listeners
+  document.getElementById('big-task-pop-up-bg').addEventListener('mousedown', () => {
+    hideBigTaskPopUp();
+  });
+  document.getElementById('big-task-pop-up').addEventListener('mousedown', (event) => {
+    shared.stopEvent(event);
+  });
+  document.getElementById('big-task-pop-up').addEventListener('click', () => {
+    closeAllSmallPopUpPopUps();
+  });
+  document.getElementById('big-task-pop-up-close-icon').addEventListener('click', () => {
+    hideBigTaskPopUp();
+  });
+  document.getElementById('add-task-button-mobile').addEventListener('click', () => {
+    showAddTaskPopUp(container='to-do-container');
+  });
+  document.getElementById('add-task-button').addEventListener('click', () => {
+    showAddTaskPopUp(container='to-do-container');
+  })
+  document.getElementById('search-input').addEventListener('input', () => {
+    searchForTasks();
+  });
+  document.querySelectorAll('.plus-icon-container')[0].addEventListener('click', () => {
+    showAddTaskPopUp('to-do-container');
+  });
+  document.querySelectorAll('.plus-icon-container')[1].addEventListener('click', () => {
+    showAddTaskPopUp('in-progress-container');  
+  });
+  document.querySelectorAll('.plus-icon-container')[2].addEventListener('click', () => {
+    showAddTaskPopUp('await-feedback-container');
+  });
+  document.getElementById('to-do-container').addEventListener('dragover', (event) => {
+    allowDrop(event);
+  });
+  document.getElementById('to-do-container').addEventListener('drop', (event) => {
+    allowDrop(event);
+  });
+  document.getElementById('in-progress-container').addEventListener('drop', () => {
+    moveTo('in-progress-container');
+  });
+  document.getElementById('in-progress-container').addEventListener('dragover', (event) => {
+    allowDrop(event);
+  });
+  document.getElementById('await-feedback-container').addEventListener('dragover', (event) => {
+    allowDrop(event);
+  });
+  document.getElementById('await-feedback-container').addEventListener('drop', () => {
+    moveTo('await-feedback-container');
+  });
+  document.getElementById('done-container').addEventListener('dragover', (event) => {
+    allowDrop(event);
+  });
+  document.getElementById('done-container').addEventListener('drop', () => {
+    moveTo('done-container');
+  });
+  document.getElementById('add-task-pop-up-bg').addEventListener('click', () => {
+    hideAddTaskPopUp();
+  });
+  document.getElementById('add-task-pop-up').addEventListener('click', (event) => {
+    hideAllAddTaskPopups();
+    shared.stopEvent(event);
+  });
+  document.getElementById('close-add-task-pop-up').addEventListener('click', () => {
+    hideAddTaskPopUp();
+  });
+  document.getElementById('section99').addEventListener('submit', () => {
+    checkRequiredFields('board');
+    return false;
+  });
+  document.getElementById('changeTo').addEventListener('click', () => {
+    changeToInputfield();
+  });
+  document.getElementById('searchField').addEventListener('input', () => {
+    searchContacts();
+  });
+  document.getElementById('assignedToDropDown').addEventListener('click', (event) => {
+    shared.stopEvent(event);
+  });
+  document.getElementById('urgent').addEventListener('click', () => {
+    changePriority(urgent);
+  });
+  document.getElementById('medium').addEventListener('click', () => {
+    changePriority(medium);
+  });
+  document.getElementById('low').addEventListener('click', () => {
+    changePriority(low);
+  });
+  document.getElementById('category').addEventListener('click', (event) => {
+    checkDropDown('arrowb');
+    shared.stopEvent(event);
+  });
+  document.getElementById('subtask').addEventListener('click', (event) => {
+    hideOrShowEditButtons();
+    shared.stopEvent(event);
+  });
+  document.getElementById('clear-subtask-svg').addEventListener('click', () => {
+    clearSubtaskInput();
+  });
+  document.getElementById('add-subtask-svg').addEventListener('click', () => {
+    addSubtask();
+  });
+  document.getElementById('cleartask-div').addEventListener('click', () => {
+    clearTask();
+  });
 });
 
 async function init_task() {
@@ -145,15 +250,7 @@ function generateTaskHTML(taskElement, contactsHTML, oppositeCategory, rightIcon
   }
 }
 
-async function returnTaskHtmlWithSubtask(
-  taskElement, 
-  contactsHTML, 
-  oppositeCategory, 
-  rightIcon, 
-  jsonTextElement, 
-  taskbarWidth, 
-  numberOfTasksChecked
-){
+async function returnTaskHtmlWithSubtask(taskElement, contactsHTML, oppositeCategory, rightIcon, jsonTextElement, taskbarWidth, numberOfTasksChecked){
   let taskIndex = taskElement.id;
   let taskDescription = taskElement.description;
   if (taskDescription.length > 40) {
@@ -563,7 +660,7 @@ function insertSubtasksIntoContainer() {
 
 // board_big_task_related.js
 
-export function showAddTaskPopUp(container = "to-do-container") {
+function showAddTaskPopUp(container = "to-do-container") {
   const screenWidth = window.screen.width;
   if (screenWidth <= 600) {
     window.location = "add_task.html";
@@ -575,13 +672,13 @@ export function showAddTaskPopUp(container = "to-do-container") {
   }
 }
 
-export function hideAddTaskPopUp() {
+function hideAddTaskPopUp() {
   document.body.style.overflow = "unset";
   document.getElementById("add-task-pop-up-bg").classList.add("bg-op-0");
   document.getElementById("add-task-pop-up").classList.add("translate-100");
 }
 
-export function showBigTaskPopUp(jsonTextElement) {
+function showBigTaskPopUp(jsonTextElement) {
   isBigTaskPopUpOpen = true;
   document.getElementById("big-task-pop-up-bg").classList.remove("bg-op-0");
   document.getElementById("big-task-pop-up").classList.remove("translate-100");
@@ -589,30 +686,32 @@ export function showBigTaskPopUp(jsonTextElement) {
   renderBigTask(jsonTextElement);
 }
 
-export function hideBigTaskPopUp() {
+function hideBigTaskPopUp() {
   isBigTaskPopUpOpen = false;
   document.getElementById("big-task-pop-up-title").classList.remove("big-task-pop-up-input-error");
   document.getElementById("big-task-pop-up-due-date-container").classList.remove("big-task-pop-up-input-error");
   document.getElementById("big-task-pop-up-bg").classList.add("bg-op-0");
   document.getElementById("big-task-pop-up").classList.add("translate-100");
   document.body.style.overflow = "unset";
-  if (document.getElementById("big-task-pop-up-title-text")) {
-    let title = document.getElementById("big-task-pop-up-title-text").innerHTML;
-    let id = tasks.findIndex((task) => task.title === title);
-    saveSubtaskChanges(id);
-  }
+  // if (document.getElementById("big-task-pop-up-title-text")) {
+  //   let title = document.getElementById("big-task-pop-up-title-text").innerHTML;
+  //   let id = tasks.findIndex((task) => task.title === title);
+  //   saveSubtaskChanges(id);
+  // }
 }
 
-export function renderBigTask(jsonTextElement) {
+async function renderBigTask(jsonTextElement) {
   let taskJson = JSON.parse(decodeURIComponent(jsonTextElement));
   document.getElementById("big-task-pop-up-priority-container").classList.remove("big-edit-task-pop-up-section-container");
   document.getElementById("big-task-pop-up-due-date-container").classList.remove("big-edit-task-pop-up-section-container");
   document.getElementById("big-task-pop-up-title").innerHTML = /*html*/ `<h1 id='big-task-pop-up-title-text'>${taskJson.title}</h1>`;
   document.getElementById("big-task-pop-up-description").innerHTML = taskJson.description;
-  returnHTMLBigTaskPopUpDueDateContainerContent(taskJson.date);
+  await shared.initHTMLContent('../../board/templates/big_task_pop_up_templates/html-big-task-pop-up-due-date-content.tpl', 'big-task-pop-up-due-date-container');
+  await shared.initHTMLContent('../../board/templates/big_task_pop_up_templates/big-task-pop-up-priority.tpl', 'big-task-pop-up-priority-container');
+  // returnHTMLBigTaskPopUpDueDateContainerContent(taskJson.date);
   document.getElementById("big-task-pop-up-category").innerHTML = taskJson.category;
   document.getElementById("big-task-pop-up-category").style.backgroundColor = checkCategoryColor(taskJson.category);
-  returnHTMLBigTaskPopUpPriorityContainer(taskJson.priority);
+  // returnHTMLBigTaskPopUpPriorityContainer(taskJson.priority);
   document.getElementById("big-task-pop-up-priority-icon").innerHTML = checkPriorityIcon(taskJson.priority);
   document.getElementById("big-task-pop-up-bottom-buttons-container").innerHTML = returnDeleteEditHTML(taskJson.tasksIdentity, jsonTextElement);
   renderCorrectAssignedNamesIntoBigTask(taskJson);
@@ -621,13 +720,23 @@ export function renderBigTask(jsonTextElement) {
   renderSubtask(taskJson);
 }
 
-export function renderAllBigPopUp(oldTitle, oldDescription, oldDate, oldPriority, taskJson, id) {
+function checkPriorityIcon(priorityText) {
+  if (priorityText === "urgent") {
+    return feedbackAndUrgency.generateHTMLUrgencyUrgent();
+  } else if (priorityText === "medium") {
+    return feedbackAndUrgency.generateHTMLUrgencyMedium();
+  } else if (priorityText === "low") {
+    return feedbackAndUrgency.generateHTMLUrgencyLow();
+  }
+}
+
+function renderAllBigPopUp(oldTitle, oldDescription, oldDate, oldPriority, taskJson, id) {
   setupSubtaskArray(taskJson, id);
   renderPopUpElements(oldTitle, oldDescription, oldDate, oldPriority, id);
   renderBigTaskDetails(taskJson, oldPriority, id);
 }
 
-export function renderPopUpElements(oldTitle, oldDescription, oldDate, oldPriority, id) {
+function renderPopUpElements(oldTitle, oldDescription, oldDate, oldPriority, id) {
   returnBigTaskPopUpTitle(oldTitle);
   returnBigTaskPopUpDescription(oldDescription);
   renderBigTaskPopUpSection("big-task-pop-up-due-date-container", oldDate, returnBigTaskPopUpDueDateContainer);
@@ -636,12 +745,12 @@ export function renderPopUpElements(oldTitle, oldDescription, oldDate, oldPriori
   document.getElementById("big-edit-task-" + oldPriority.toLowerCase() + "-priority").classList.add("big-edit-task-" + oldPriority.toLowerCase() + "-priority-aktiv");
 }
 
-export function renderBigTaskPopUpSection(containerId, value, renderFunction) {
+function renderBigTaskPopUpSection(containerId, value, renderFunction) {
   document.getElementById(containerId).classList.add("big-edit-task-pop-up-section-container");
   renderFunction(value);
 }
 
-export function renderBigTaskDetails(taskJson, oldPriority, id) {
+function renderBigTaskDetails(taskJson, oldPriority, id) {
   returnBigTaskPopUpContactAll(id);
   returnBigTaskPopUpSubtasksAll();
   renderBigTaskAssignedContactContainer(taskJson);
@@ -649,7 +758,7 @@ export function renderBigTaskDetails(taskJson, oldPriority, id) {
   returnBigPopUpEditButtons(id);
 }
 
-export function renderTasksInCategory(tasks, categoryContainer) {
+function renderTasksInCategory(tasks, categoryContainer) {
   tasks.forEach((task) => {
     if (categoryContainer === task.container) {
       let jsonElement = JSON.stringify(task);
@@ -761,12 +870,12 @@ function createTaskForEditing(task) {
   return taskForEditing;
 }
 
-async function processTaskEditing(id, taskForEditing) {
-  let newTaskReady = await updateTasksThroughEditing(id, taskForEditing);
-  let newJsonElement = JSON.stringify(newTaskReady);
-  let newJsontextElement = encodeURIComponent(newJsonElement);
-  renderBigTask(newJsontextElement);
-}
+// async function processTaskEditing(id, taskForEditing) {
+//   let newTaskReady = await updateTasksThroughEditing(id, taskForEditing);
+//   let newJsonElement = JSON.stringify(newTaskReady);
+//   let newJsontextElement = encodeURIComponent(newJsonElement);
+//   renderBigTask(newJsontextElement);
+// }
 
 function checkBigEditTaskPriority(priority) {
   if (priority == "urgent") {
@@ -790,31 +899,31 @@ function savePriorityValue(priority) {
   return priorityValue;
 }
 
-async function updateTasksThroughEditing(taskId, objectForEditing) {
-  let task = tasks[taskId];
-  let updatedTask = await updateTask(task, taskId, objectForEditing);
-  checkBoxCheckedJson = {};
-  return updatedTask;
-}
+// async function updateTasksThroughEditing(taskId, objectForEditing) {
+//   let task = tasks[taskId];
+//   let updatedTask = await updateTask(task, taskId, objectForEditing);
+//   checkBoxCheckedJson = {};
+//   return updatedTask;
+// }
 
-async function updateTask(task, taskId, objectForEditing) {
-  let container = task.container;
-  let category = task.category;
-  tasks[taskId] =
-    task.subtask || subtaskArray != null
-      ? saveChangesWithSubtask(taskId, objectForEditing, container, category)
-      : saveChangesWithoutSubtask(taskId, objectForEditing, container, category);
-  await saveTaskWithCatch(tasks[taskId]);
-  return tasks[taskId];
-}
+// async function updateTask(task, taskId, objectForEditing) {
+//   let container = task.container;
+//   let category = task.category;
+//   tasks[taskId] =
+//     task.subtask || subtaskArray != null
+//       ? saveChangesWithSubtask(taskId, objectForEditing, container, category)
+//       : saveChangesWithoutSubtask(taskId, objectForEditing, container, category);
+//   await saveTaskWithCatch(tasks[taskId]);
+//   return tasks[taskId];
+// }
 
-async function saveTaskWithCatch(task) {
-  try {
-    await saveTaskToFirebase(task);
-  } catch (error) {
-    console.error("Fehler beim Hochladen der Daten: ", error);
-  }
-}
+// async function saveTaskWithCatch(task) {
+//   try {
+//     await saveTaskToFirebase(task);
+//   } catch (error) {
+//     console.error("Fehler beim Hochladen der Daten: ", error);
+//   }
+// }
 
 async function deleteData(path = "") {
   let response = await fetch(BASE_URL + path + ".json", {
@@ -830,16 +939,6 @@ function checkCategoryColor(category) {
     return "#1FD7C1";
   } else {
     return "#42526e";
-  }
-}
-
-function checkPriorityIcon(priorityText) {
-  if (priorityText === "urgent") {
-    return feedbackAndUrgency.generateHTMLUrgencyUrgent();
-  } else if (priorityText === "medium") {
-    return feedbackAndUrgency.generateHTMLUrgencyMedium();
-  } else if (priorityText === "low") {
-    return feedbackAndUrgency.generateHTMLUrgencyLow();
   }
 }
 
@@ -907,7 +1006,7 @@ function findUserIndex(contact) {
 function searchForTasks() {
   let searchValue = document.getElementById("search-input").value.trim().toLowerCase();
   searchedTasks = [];
-  for (i = 0; i < tasks.length; i++) {
+  for (let i = 0; i < tasks.length; i++) {
     let task = tasks[i];
     if (task.title.toLowerCase().includes(searchValue) || task.description.toLowerCase().includes(searchValue)) {
       searchedTasks.push(task);
@@ -962,7 +1061,7 @@ function renderNoSubtasksMessage(container) {
 }
 
 async function depositSubtaskChanges(correctTaskId, subtasks) {
-  for (index = 0; index < subtasks.length; index++) {
+  for (let index = 0; index < subtasks.length; index++) {
     if (checkBoxCheckedJson.hasOwnProperty(index)) {
       subtasks[index]["is-tasked-checked"] = checkBoxCheckedJson[index];
     }
@@ -1073,16 +1172,16 @@ function resetSubtasks() {
   checkBoxCheckedJson = {};
 }
 
-async function saveSubtaskChanges(id) {
-  let task = tasks[id];
-  let taskForEditing = createTaskForEditing(task);
-  try {
-    await processTaskEditing(id, taskForEditing);
-  } catch (error) {
-  }
-  resetSubtasks();
-  updateHTML();
-}
+// async function saveSubtaskChanges(id) {
+//   let task = tasks[id];
+//   let taskForEditing = createTaskForEditing(task);
+//   try {
+//     await processTaskEditing(id, taskForEditing);
+//   } catch (error) {
+//   }
+//   resetSubtasks();
+//   updateHTML();
+// }
 
 function saveChangesSingleTaskWithSubtask(taskId, objectForEditing, container, category) {
   tasks[taskId] = {
