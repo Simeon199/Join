@@ -2,6 +2,7 @@ import * as shared from '../../shared/javascript/shared.js';
 import * as feedbackAndUrgency from './feedbackAndUrgencyTemplate.js';
 import * as firebase from '../../core/firebase.js';
 import * as boardEdit from './board_edit.js';
+import * as boardBigTaskRelated from './board_big_task_related.js';
 
 let tasks = [];
 let categories = [];
@@ -17,7 +18,6 @@ let allCategories = [
 let elementDraggedOver;
 // let priorityValue = "";
 // let searchedInput = document.getElementById("search-input");
-// let isBigTaskPopUpOpen = false;
 // let assignedToContactsBigContainer = [];
 // let isSaveIconClicked = false;
 // let subtaskArray = [];
@@ -25,7 +25,7 @@ let elementDraggedOver;
 // let emptyList = [];
 // let renderCurrentTaskId;
 // let touchTime;
-// let currentOpenDropdown = null;
+let currentOpenDropdown = null;
 
 document.addEventListener('DOMContentLoaded', async () => {
   shared.bundleLoadingHTMLTemplates();
@@ -37,7 +37,7 @@ async function init_task() {
 }
 
 async function getTasksFromDatabase() {
-  tasks = await loadTasksFromDatabase();
+  await loadTasksFromDatabase();
 }
 
 function updateCategories() {
@@ -46,7 +46,6 @@ function updateCategories() {
 
 async function loadTasksFromDatabase() {
   tasks = await getAllTasks();
-  console.log('tasks in loadTasksFromDatabase', tasks); // Hier ist tasks ebenfalls definiert
   updateCategories();
   updateHTML();
 }
@@ -77,7 +76,6 @@ export function updateHTML() {
     let oppositeElementName = "no-" + container;
     let oppositeElement = getRightOppositeElement(oppositeElementName);
     if (element) {
-      console.log('tasks in updateHTML: ', tasks); // Hier ist tasks definiert 
       let filteredTasks = tasks.filter((task) => task.container === container);
       element.innerHTML = "";
       if (filteredTasks.length > 0) {
@@ -117,7 +115,6 @@ function insertCorrectUrgencyIcon(element) {
   } else if (element["priority"] == "medium") {
     svgElement = feedbackAndUrgency.generateHTMLUrgencyMedium();
   }
-  console.log('svg element: ', svgElement);
   return svgElement;
 }
 
@@ -174,7 +171,7 @@ async function returnTaskHtmlWithSubtask(
   template.querySelector('.task-bar-content').style.width = `${taskbarWidth}%`;
   template.querySelector('.task-bar-text').innerHTML = `${numberOfTasksChecked}/${taskElement["subtask"].length} Subtasks`;
   template.querySelector('.task-contacts').innerHTML = contactsHTML;
-  template.querySelector('.task-contacts-container').innerHTML += rightIcon;
+  // template.querySelector('.task-contacts-container').innerHTML += rightIcon;
   // template.querySelectorAll('div')[3].id = oppositeCategory;
   // document.getElementById(oppositeCategory).innerHTML = `No tasks in ${taskElement['container']}`;
   document.getElementById(`mobileDropdown${taskIndex}`).querySelector('a').addEventListener('click', (event) => {
@@ -194,11 +191,10 @@ async function returnTaskHtmlWithSubtask(
   });
   template.querySelector('.dropdownSVG').addEventListener('click', (event) => {
     shared.stopEvent(event);
-    console.log('tasks', tasks);
     openMobileDropdown(taskIndex);
   });
   task.addEventListener('click', () => {
-    showBigTaskPopUp(jsonTextElement);
+    boardBigTaskRelated.showBigTaskPopUp(jsonTextElement);
   });
   task.addEventListener('dragstart', () => {
     startDragging(taskIndex);
@@ -227,7 +223,8 @@ function openMobileDropdown(taskIndex) {
   } else {
     currentOpenDropdown = null;
   }
-  for (i = 0; i < dropdownItems.length; i++) {
+  console.log('dropdownItems', dropdownItems);
+  for (let i = 0; i < dropdownItems.length; i++) {
     let category = replaceSpacesWithDashes(dropdownItems[i].textContent.trim().toLowerCase() + "-container");
     if (category === currentCategory.toLowerCase()) {
       dropdownItems[i].style.display = "none";
@@ -237,7 +234,15 @@ function openMobileDropdown(taskIndex) {
   }
 }
 
-async function returnTaskHtmlWithoutSubtask(taskElement, contactsHTML, oppositeCategory, rightIcon, jsonTextElement, taskbarWidth, numberOfTasksChecked){
+async function returnTaskHtmlWithoutSubtask(
+  taskElement, 
+  contactsHTML, 
+  oppositeCategory, 
+  rightIcon, 
+  jsonTextElement, 
+  taskbarWidth, 
+  numberOfTasksChecked
+){
   let template = await shared.initHTMLContent('../../board/templates/board_subtask_templates/taskHtmlWithoutSubtask.tpl', taskElement['container']);
   template.id = `task${taskElement['id']}`;
 }
@@ -343,7 +348,6 @@ function replaceSpacesWithDashes(str) {
 }
 
 async function moveTasksToCategory(taskIndex, newCategory) {
-  console.log('tasks', tasks);
   let task = tasks.find((task) => task.id === taskIndex);
   if (task) {
     task.container = newCategory;
