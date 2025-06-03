@@ -1135,3 +1135,22 @@ function setupSubtaskArray(taskJson) {
   subtaskArray = taskJson.subtask || [];
   taskJson.subtask = subtaskArray;
 }
+
+// Sonstiges 
+
+function returnColorAndAssignedToContacts(contact, index, lengthOfAssignedTo, taskJson) {
+  if (index < 3) {
+    document.getElementById("big-edit-task-assigned-to-contact-container").innerHTML += `
+    <div class='big-edit-task-assigned-to-contact' style='background-color:${contact.color}'>
+      ${firstLetterFirstTwoWords(contact.name)}
+    </div>
+  `;
+  } else if (index === 3) {
+    document.getElementById(
+      "big-edit-task-assigned-to-contact-container"
+    ).innerHTML += `<div class='bigTaskAssignedToNumberContainer'><span>+ ${lengthOfAssignedTo - 3}</span></div>`;
+  } else {
+    updateBigTaskContactsContainerPlus(taskJson, lengthOfAssignedTo);
+    return "";
+  }
+}
