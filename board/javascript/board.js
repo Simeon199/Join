@@ -45,7 +45,8 @@ function updateCategories() {
 }
 
 async function loadTasksFromDatabase() {
-  tasks = await getAllTasks()
+  tasks = await getAllTasks();
+  console.log('tasks in loadTasksFromDatabase', tasks); // Hier ist tasks ebenfalls definiert
   updateCategories();
   updateHTML();
 }
@@ -76,6 +77,7 @@ export function updateHTML() {
     let oppositeElementName = "no-" + container;
     let oppositeElement = getRightOppositeElement(oppositeElementName);
     if (element) {
+      console.log('tasks in updateHTML: ', tasks); // Hier ist tasks definiert 
       let filteredTasks = tasks.filter((task) => task.container === container);
       element.innerHTML = "";
       if (filteredTasks.length > 0) {
@@ -167,7 +169,14 @@ async function returnTaskHtmlWithSubtask(
   template.querySelector('.task-category').style.backgroundColor = boardEdit.checkCategoryColor(taskElement["category"]);
   template.querySelector('.task-category').innerHTML =  taskElement["category"];
   template.querySelector('.mobileDropdown').id = `mobileDropdown${taskIndex}`;
-  console.log(template.querySelector('.mobileDropdown'));
+  template.querySelector('.task-title').innerHTML = taskElement["title"];
+  template.querySelector('.task-description').innerHTML = taskDescription;
+  template.querySelector('.task-bar-content').style.width = `${taskbarWidth}%`;
+  template.querySelector('.task-bar-text').innerHTML = `${numberOfTasksChecked}/${taskElement["subtask"].length} Subtasks`;
+  template.querySelector('.task-contacts').innerHTML = contactsHTML;
+  template.querySelector('.task-contacts-container').innerHTML += rightIcon;
+  // template.querySelectorAll('div')[3].id = oppositeCategory;
+  // document.getElementById(oppositeCategory).innerHTML = `No tasks in ${taskElement['container']}`;
   document.getElementById(`mobileDropdown${taskIndex}`).querySelector('a').addEventListener('click', (event) => {
     if(event.target.tagName === 'To Do'){
       shared.stopEvent(event);
@@ -183,26 +192,16 @@ async function returnTaskHtmlWithSubtask(
       moveTasksToCategory(taskIndex, 'done-container');
     }
   });
-  template.querySelector('.task-title').innerHTML = taskElement["title"];
-  template.querySelector('.task-description').innerHTML = taskDescription;
-  template.querySelector('.task-bar-content').style.width = `${taskbarWidth}%`;
-  template.querySelector('.task-bar-text').innerHTML = `${numberOfTasksChecked}/${taskElement["subtask"].length} Subtasks`;
-  template.querySelector('.task-contacts').innerHTML = contactsHTML;
-  template.querySelector('.task-contacts-container').innerHTML += rightIcon;
-  template.querySelectorAll('div')[3].id = oppositeCategory;
-  console.log('taskElement container: ', taskElement.container);
-  document.getElementById(oppositeCategory).innerHTML = `No tasks in ${taskElement['container']}`;
-
-  console.log('complete template: ', template);
   template.querySelector('.dropdownSVG').addEventListener('click', (event) => {
     shared.stopEvent(event);
+    console.log('tasks', tasks);
     openMobileDropdown(taskIndex);
   });
   task.addEventListener('click', () => {
     showBigTaskPopUp(jsonTextElement);
   });
   task.addEventListener('dragstart', () => {
-    startDragging(element["tasksIdentity"]);
+    startDragging(taskIndex);
     rotateFunction(taskIndex);
   });
   task.addEventListener('dragend', () => {
@@ -215,6 +214,27 @@ async function returnTaskHtmlWithSubtask(
   task.addEventListener('drop', () => {
     moveTo(element["container"]);
   });
+}
+
+function openMobileDropdown(taskIndex) {
+  let dropdown = document.getElementById(`mobileDropdown${taskIndex}`);
+  dropdown.classList.toggle("mobileDropdown-translate-100");
+  let task = tasks.find((task) => task.id === taskIndex);
+  let currentCategory = task.container;
+  let dropdownItems = dropdown.querySelectorAll("a");
+  if (!dropdown.classList.contains("mobileDropdown-translate-100")) {
+    currentOpenDropdown = dropdown;
+  } else {
+    currentOpenDropdown = null;
+  }
+  for (i = 0; i < dropdownItems.length; i++) {
+    let category = replaceSpacesWithDashes(dropdownItems[i].textContent.trim().toLowerCase() + "-container");
+    if (category === currentCategory.toLowerCase()) {
+      dropdownItems[i].style.display = "none";
+    } else {
+      dropdownItems[i].style.display = "block";
+    }
+  }
 }
 
 async function returnTaskHtmlWithoutSubtask(taskElement, contactsHTML, oppositeCategory, rightIcon, jsonTextElement, taskbarWidth, numberOfTasksChecked){
@@ -236,14 +256,14 @@ function generateContactHTML(element, index, lengthOfAssignedTo) {
 }
 
 function updateTaskContactPlusHTML(element, lengthOfAssignedTo) {
-  let container = document.querySelectorAll("taskAssignedToNumberContainer")[element.tasksIdentity];
+  let container = document.querySelectorAll("taskAssignedToNumberContainer")[element.id];
   if (container) {
     container.innerHTML = showTaskContactPlusHTML(lengthOfAssignedTo);
   }
 }
 
 function updateBigTaskContactsContainerPlus(taskJson, lengthOfAssignedTo) {
-  let container = document.querySelectorAll("bigTaskAssignedToNumberContainer")[taskJson.tasksIdentity];
+  let container = document.querySelectorAll("bigTaskAssignedToNumberContainer")[taskJson.id];
   if (container) {
     container.innerHTML = showTaskContactPlusHTML(lengthOfAssignedTo);
   }
@@ -281,7 +301,7 @@ function startDragging(elementId) {
 
 async function moveTo(container) {
   let oppositeContainer = "no-" + container;
-  let task = tasks.find((task) => task.tasksIdentity == elementDraggedOver);
+  let task = tasks.find((task) => task.id == elementDraggedOver);
   if (task) {
     task.container = container;
     updateHTML();
@@ -322,29 +342,9 @@ function replaceSpacesWithDashes(str) {
   return str.replace(/ /g, "-");
 }
 
-function openMobileDropdown(taskIndex) {
-  let dropdown = document.getElementById(`mobileDropdown${taskIndex}`);
-  dropdown.classList.toggle("mobileDropdown-translate-100");
-  let task = tasks.find((task) => task.tasksIdentity == taskIndex);
-  let currentCategory = task.container;
-  let dropdownItems = dropdown.querySelectorAll("a");
-  if (!dropdown.classList.contains("mobileDropdown-translate-100")) {
-    currentOpenDropdown = dropdown;
-  } else {
-    currentOpenDropdown = null;
-  }
-  for (i = 0; i < dropdownItems.length; i++) {
-    let category = replaceSpacesWithDashes(dropdownItems[i].textContent.trim().toLowerCase() + "-container");
-    if (category === currentCategory.toLowerCase()) {
-      dropdownItems[i].style.display = "none";
-    } else {
-      dropdownItems[i].style.display = "block";
-    }
-  }
-}
-
 async function moveTasksToCategory(taskIndex, newCategory) {
-  let task = tasks.find((task) => task.tasksIdentity == taskIndex);
+  console.log('tasks', tasks);
+  let task = tasks.find((task) => task.id === taskIndex);
   if (task) {
     task.container = newCategory;
     updateHTML();
