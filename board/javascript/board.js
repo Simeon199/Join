@@ -678,12 +678,31 @@ function hideAddTaskPopUp() {
   document.getElementById("add-task-pop-up").classList.add("translate-100");
 }
 
-function showBigTaskPopUp(jsonTextElement) {
+async function showBigTaskPopUp(jsonTextElement) {
   isBigTaskPopUpOpen = true;
+  await shared.initHTMLContent('../../board/templates/big_task_pop_up_templates/big_task-pop-up-template.tpl', 'big-task-pop-up-bg');
   document.getElementById("big-task-pop-up-bg").classList.remove("bg-op-0");
   document.getElementById("big-task-pop-up").classList.remove("translate-100");
   document.body.style.overflow = "hidden";
   renderBigTask(jsonTextElement);
+}
+
+async function renderBigTask(jsonTextElement) {
+  let taskJson = JSON.parse(decodeURIComponent(jsonTextElement));
+  console.log('taskJson', taskJson);
+  document.getElementById("big-task-pop-up-priority-container").classList.remove("big-edit-task-pop-up-section-container");
+  document.getElementById("big-task-pop-up-due-date-container").classList.remove("big-edit-task-pop-up-section-container");
+  document.getElementById("big-task-pop-up-title").innerHTML = `<h1 id='big-task-pop-up-title-text'>${taskJson.title}</h1>`;
+  document.getElementById("big-task-pop-up-description").innerHTML = taskJson.description;
+  document.getElementById('big-task-pop-up-priority-text').innerHTML = `${taskJson.priority}`;
+  document.getElementById("big-task-pop-up-category").innerHTML = taskJson.category;
+  document.getElementById("big-task-pop-up-category").style.backgroundColor = checkCategoryColor(taskJson.category);
+  document.getElementById("big-task-pop-up-priority-icon").innerHTML = checkPriorityIcon(taskJson.priority);
+  document.getElementById("big-task-pop-up-bottom-buttons-container").innerHTML = returnDeleteEditHTML(taskJson.tasksIdentity, jsonTextElement);
+  renderCorrectAssignedNamesIntoBigTask(taskJson);
+  returnHTMLBigTaskPopUpSubtaskAll();
+  renderTaskContact(taskJson);
+  renderSubtask(taskJson);
 }
 
 function hideBigTaskPopUp() {
@@ -698,26 +717,6 @@ function hideBigTaskPopUp() {
   //   let id = tasks.findIndex((task) => task.title === title);
   //   saveSubtaskChanges(id);
   // }
-}
-
-async function renderBigTask(jsonTextElement) {
-  let taskJson = JSON.parse(decodeURIComponent(jsonTextElement));
-  document.getElementById("big-task-pop-up-priority-container").classList.remove("big-edit-task-pop-up-section-container");
-  document.getElementById("big-task-pop-up-due-date-container").classList.remove("big-edit-task-pop-up-section-container");
-  document.getElementById("big-task-pop-up-title").innerHTML = /*html*/ `<h1 id='big-task-pop-up-title-text'>${taskJson.title}</h1>`;
-  document.getElementById("big-task-pop-up-description").innerHTML = taskJson.description;
-  await shared.initHTMLContent('../../board/templates/big_task_pop_up_templates/html-big-task-pop-up-due-date-content.tpl', 'big-task-pop-up-due-date-container');
-  await shared.initHTMLContent('../../board/templates/big_task_pop_up_templates/big-task-pop-up-priority.tpl', 'big-task-pop-up-priority-container');
-  // returnHTMLBigTaskPopUpDueDateContainerContent(taskJson.date);
-  document.getElementById("big-task-pop-up-category").innerHTML = taskJson.category;
-  document.getElementById("big-task-pop-up-category").style.backgroundColor = checkCategoryColor(taskJson.category);
-  // returnHTMLBigTaskPopUpPriorityContainer(taskJson.priority);
-  document.getElementById("big-task-pop-up-priority-icon").innerHTML = checkPriorityIcon(taskJson.priority);
-  document.getElementById("big-task-pop-up-bottom-buttons-container").innerHTML = returnDeleteEditHTML(taskJson.tasksIdentity, jsonTextElement);
-  renderCorrectAssignedNamesIntoBigTask(taskJson);
-  returnHTMLBigTaskPopUpSubtaskAll();
-  renderTaskContact(taskJson);
-  renderSubtask(taskJson);
 }
 
 function checkPriorityIcon(priorityText) {

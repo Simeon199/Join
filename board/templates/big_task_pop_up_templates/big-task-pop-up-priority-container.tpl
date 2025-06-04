@@ -1,8 +1,7 @@
 <template>
     <h2 class="big-task-pop-up-label-text">Priority:</h2>
     <div class="big-task-pop-up-value-text">
-        <p id="big-task-pop-up-priority-text">${priority}</p>
-  
+        <p id="big-task-pop-up-priority-text"></p>
         <div id="big-task-pop-up-priority-icon">
           <svg width="17" height="8" viewBox="0 0 17 8" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
