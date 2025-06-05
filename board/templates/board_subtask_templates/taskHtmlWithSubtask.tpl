@@ -9,10 +9,10 @@
         </div>
     </div>
     <div class="mobileDropdown mobileDropdown-translate-100">
-        <a onclick="stopEvent(event); moveTasksToCategory(${taskIndex},'to-do-container')">To Do</a>
-        <a onclick="stopEvent(event); moveTasksToCategory(${taskIndex},'in-progress-container')">In Progress</a>
-        <a onclick="stopEvent(event); moveTasksToCategory(${taskIndex},'await-feedback-container')">Await Feedback</a>
-        <a onclick="stopEvent(event); moveTasksToCategory(${taskIndex},'done-container')">Done</a>
+        <a>To Do</a>
+        <a>In Progress</a>
+        <a>Await Feedback</a>
+        <a>Done</a>
     </div>
     <h3 class="task-title"></h3>
     <p class="task-description"></p>
@@ -24,6 +24,7 @@
     </div>
     <div class="task-contacts-container">
         <div class="task-contacts"></div>
+        <div class="priority-icon"></div>
     </div>
     <div class="no-task d-none"></div>
 </div>

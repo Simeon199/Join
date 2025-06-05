@@ -14,6 +14,7 @@ let allCategories = [
   "in-progress-container"
 ];
 
+let standardContainer = 'to-do-container';
 let elementDraggedOver;
 let priorityValue = "";
 let searchedInput = document.getElementById("search-input");
@@ -34,20 +35,20 @@ document.addEventListener('DOMContentLoaded', async () => {
   document.getElementById('big-task-pop-up-bg').addEventListener('mousedown', () => {
     hideBigTaskPopUp();
   });
-  document.getElementById('big-task-pop-up').addEventListener('mousedown', (event) => {
-    shared.stopEvent(event);
-  });
-  document.getElementById('big-task-pop-up').addEventListener('click', () => {
-    closeAllSmallPopUpPopUps();
-  });
-  document.getElementById('big-task-pop-up-close-icon').addEventListener('click', () => {
-    hideBigTaskPopUp();
-  });
+  // document.getElementById('big-task-pop-up').addEventListener('mousedown', (event) => {
+  //   shared.stopEvent(event);
+  // });
+  // document.getElementById('big-task-pop-up').addEventListener('click', () => {
+  //   closeAllSmallPopUpPopUps();
+  // });
+  // document.getElementById('big-task-pop-up-close-icon').addEventListener('click', () => {
+  //   hideBigTaskPopUp();
+  // });
   document.getElementById('add-task-button-mobile').addEventListener('click', () => {
-    showAddTaskPopUp(container='to-do-container');
+    showAddTaskPopUp('to-do-container');
   });
   document.getElementById('add-task-button').addEventListener('click', () => {
-    showAddTaskPopUp(container='to-do-container');
+    showAddTaskPopUp('to-do-container');
   })
   document.getElementById('search-input').addEventListener('input', () => {
     searchForTasks();
@@ -177,7 +178,7 @@ async function getAllTasks(){
 export function updateHTML() {
   allCategories.forEach((container) => {
     let element = document.getElementById(container);
-    let oppositeElementName = "no-" + container;
+    let oppositeElementName = `no-${container}`;
     let oppositeElement = getRightOppositeElement(oppositeElementName);
     if (element) {
       let filteredTasks = tasks.filter((task) => task.container === container);
@@ -203,11 +204,11 @@ function iterateThroughSubArray(taskArray, containerName) {
 }
 
 function createToDoHTML(taskElement) {
-  let rightIcon = insertCorrectUrgencyIcon(taskElement);
-  let oppositeCategory = "no-" + taskElement.container;
-  let contactsHTML = generateContactsHTML(taskElement);
-  let jsonElement = JSON.stringify(taskElement);
-  return generateTaskHTML(taskElement, contactsHTML, oppositeCategory, rightIcon, jsonElement);
+  // let rightIcon = insertCorrectUrgencyIcon(taskElement);
+  let oppositeCategory = `no-${taskElement.container}`;
+  // let contactsHTML = generateContactsHTML(taskElement);
+  // console.log('task element in createToDoHTML:', taskElement);
+  return generateTaskHTML(taskElement, oppositeCategory); // contactsHTML
 }
 
 function insertCorrectUrgencyIcon(element) {
@@ -222,18 +223,39 @@ function insertCorrectUrgencyIcon(element) {
   return svgElement;
 }
 
-function generateContactsHTML(element) {
-  if (!element.assigned || !Array.isArray(element.assigned)) return "";
+function generateContactsHTML(taskElement) {
+  if (!taskElement.assigned || !Array.isArray(taskElement.assigned)) return "";
   let contactsHTML = "";
-  let lengthOfAssignedTo = element.assigned.length;
+  let lengthOfAssignedTo = taskElement.assigned.length;
   for (let i = 0; i < lengthOfAssignedTo; i++) {
-    contactsHTML += generateContactHTML(element, i, lengthOfAssignedTo);
+    contactsHTML += generateContactHTML(taskElement, i, lengthOfAssignedTo);
   }
+  console.log('contactsHTML invoked in generateContactsHTML', contactsHTML);
   return contactsHTML;
 }
 
-function generateTaskHTML(taskElement, contactsHTML, oppositeCategory, rightIcon, jsonElement) {
-  let jsonTextElement = encodeURIComponent(jsonElement);
+function generateContactHTML(taskElement, index, lengthOfAssignedTo) {
+  if (index < 3) {
+    console.log('task element invoked in generateContactHTML: ', taskElement);
+    let name = taskElement.assigned[index].name;
+    let initials = getInitials(name);
+    return `<div class="task-contact" style='background-color: ${taskElement.assigned[index].color}'>${initials}</div>`;
+  } else if (index === 3) {
+    return `<div class='taskAssignedToNumberContainer'><span>+ ${lengthOfAssignedTo - 3}</span></div>`;
+  } else {
+    updateTaskContactPlusHTML(taskElement, lengthOfAssignedTo);
+    return "";
+  }
+}
+
+function updateTaskContactPlusHTML(taskElement, lengthOfAssignedTo) {
+  let container = document.querySelectorAll("taskAssignedToNumberContainer")[taskElement.id];
+  if (container) {
+    container.innerHTML = showTaskContactPlusHTML(lengthOfAssignedTo);
+  }
+}
+
+function generateTaskHTML(taskElement, contactsHTML, oppositeCategory, rightIcon) {
   if (taskElement["subtask"] && taskElement["subtask"].length > 0) {
     let numberOfTasksChecked = 0;
     for (let index = 0; index < taskElement["subtask"].length; index++) {
@@ -242,35 +264,55 @@ function generateTaskHTML(taskElement, contactsHTML, oppositeCategory, rightIcon
       }
     }
     let taskbarWidth = Math.round((numberOfTasksChecked / taskElement["subtask"].length) * 100);
-    returnTaskHtmlWithSubtask(taskElement, contactsHTML, oppositeCategory, rightIcon, jsonTextElement, taskbarWidth, numberOfTasksChecked);
+    let taskObject = {
+      'taskElement': taskElement,
+      'oppositeCategory': oppositeCategory,
+      'rightIcon': rightIcon,
+      'taskbarWidth': taskbarWidth,
+      'numberOfTasksChecked': numberOfTasksChecked
+    };
+    returnTaskHtmlWithSubtask(taskObject); 
   } else if (taskElement["subtask"] && taskElement["subtask"].length == 0) {
-    return returnTaskHtmlWithoutSubtask(taskElement, contactsHTML, oppositeCategory, rightIcon, jsonTextElement);
+    return returnTaskHtmlWithoutSubtask(taskElement, contactsHTML, oppositeCategory, rightIcon); // jsonTextElement
   } else {
-    return returnTaskHtmlWithoutSubtask(taskElement, contactsHTML, oppositeCategory, rightIcon, jsonTextElement);
+    return returnTaskHtmlWithoutSubtask(taskElement, contactsHTML, oppositeCategory, rightIcon); // jsonTextElement
   }
 }
 
-async function returnTaskHtmlWithSubtask(taskElement, contactsHTML, oppositeCategory, rightIcon, jsonTextElement, taskbarWidth, numberOfTasksChecked){
-  let taskIndex = taskElement.id;
-  let taskDescription = taskElement.description;
+async function returnTaskHtmlWithSubtask(taskObject){
+  let taskIndex = taskObject.taskElement.id;
+  let taskDescription = taskObject.taskElement.description;
   if (taskDescription.length > 40) {
     taskDescription = taskDescription.substring(0, 40) + "...";
   }
-  let template = await shared.initHTMLContent('../../board/templates/board_subtask_templates/taskHtmlWithSubtask.tpl', taskElement['container']);
+  let template = await loadTemplateForTaskOnBoardAndAssignIds(taskObject, taskIndex);
+  return template;
+}
+
+async function loadTemplateForTaskOnBoardAndAssignIds(taskObject, taskIndex){
+  let template = await shared.initHTMLContent('../../board/templates/board_subtask_templates/taskHtmlWithSubtask.tpl', taskObject.taskElement.container);
   template.id = `task${taskIndex}`;
-  let task = document.getElementById(`task${taskIndex}`); 
-  template.querySelector('.task-category').style.backgroundColor = checkCategoryColor(taskElement["category"]);
-  template.querySelector('.task-category').innerHTML =  taskElement["category"];
+  template.querySelector('.task-category').style.backgroundColor = checkCategoryColor(taskObject.taskElement.category);
+  template.querySelector('.task-category').innerHTML =  taskObject.taskElement.category;
+  template.querySelector('.dropdownSVG').id = `dropdown${taskIndex}`;
   template.querySelector('.mobileDropdown').id = `mobileDropdown${taskIndex}`;
-  template.querySelector('.task-title').innerHTML = taskElement["title"];
-  template.querySelector('.task-description').innerHTML = taskDescription;
-  template.querySelector('.task-bar-content').style.width = `${taskbarWidth}%`;
-  template.querySelector('.task-bar-text').innerHTML = `${numberOfTasksChecked}/${taskElement["subtask"].length} Subtasks`;
-  template.querySelector('.task-contacts').innerHTML = contactsHTML;
-  // template.querySelector('.task-contacts-container').innerHTML += rightIcon;
-  // template.querySelectorAll('div')[3].id = oppositeCategory;
-  // document.getElementById(oppositeCategory).innerHTML = `No tasks in ${taskElement['container']}`;
-  document.getElementById(`mobileDropdown${taskIndex}`).querySelector('a').addEventListener('click', (event) => {
+  template.querySelector('.task-title').innerHTML = taskObject.taskElement.title;
+  template.querySelector('.task-description').innerHTML = taskObject.taskElement.description;
+  template.querySelector('.task-bar-content').style.width = `${taskObject.taskbarWidth}%`;
+  template.querySelector('.task-bar-text').innerHTML = `${taskObject.numberOfTasksChecked}/${taskObject.taskElement.subtask.length} Subtasks`;
+  template.querySelector('.task-contacts').innerHTML = generateContactsHTML(taskObject.taskElement);
+  template.querySelector('.prioriy-icon').innerHTML = insertCorrectUrgencyIcon(taskObject.taskElement);
+  manageEventListenersOnTaskDiv(taskObject, taskIndex);
+}
+
+function manageEventListenersOnTaskDiv(taskObject, taskIndex){
+  handleMoveTasksEvents(taskIndex);
+  handleDropEventsForMobileVersion(taskObject, taskIndex);
+}
+
+function handleMoveTasksEvents(taskIndex){
+  let rightMobileDrowdown = document.getElementById(`dropdown${taskIndex}`); // mobileDropdown${taskIndex}
+  rightMobileDrowdown.addEventListener('click', (event) => {
     if(event.target.tagName === 'To Do'){
       shared.stopEvent(event);
       moveTasksToCategory(taskIndex, 'to-do-container');
@@ -285,26 +327,30 @@ async function returnTaskHtmlWithSubtask(taskElement, contactsHTML, oppositeCate
       moveTasksToCategory(taskIndex, 'done-container');
     }
   });
-  template.querySelector('.dropdownSVG').addEventListener('click', (event) => {
+}
+
+function handleDropEventsForMobileVersion(taskObject, taskIndex){
+  let task = document.getElementById(`task${taskIndex}`);
+  task.querySelector('.dropdownSVG').addEventListener('click', (event) => {
     shared.stopEvent(event);
     openMobileDropdown(taskIndex);
   });
   task.addEventListener('click', () => {
-    showBigTaskPopUp(jsonTextElement);
+    showBigTaskPopUp(taskObject.taskElement);
   });
   task.addEventListener('dragstart', () => {
     startDragging(taskIndex);
     rotateFunction(taskIndex);
   });
   task.addEventListener('dragend', () => {
-    checkIfEmpty(element["container"], oppositeCategory);
+    checkIfEmpty(taskObject.taskElement.container, taskObject.oppositeCategory);
   });
   task.addEventListener('dragover', (event) => {
     event.preventDefault();
     allowDrop(event);
   });
   task.addEventListener('drop', () => {
-    moveTo(element["container"]);
+    moveTo(taskObject.taskElement.container);
   });
 }
 
@@ -319,7 +365,6 @@ function openMobileDropdown(taskIndex) {
   } else {
     currentOpenDropdown = null;
   }
-  console.log('dropdownItems', dropdownItems);
   for (let i = 0; i < dropdownItems.length; i++) {
     let category = replaceSpacesWithDashes(dropdownItems[i].textContent.trim().toLowerCase() + "-container");
     if (category === currentCategory.toLowerCase()) {
@@ -341,26 +386,6 @@ async function returnTaskHtmlWithoutSubtask(
 ){
   let template = await shared.initHTMLContent('../../board/templates/board_subtask_templates/taskHtmlWithoutSubtask.tpl', taskElement['container']);
   template.id = `task${taskElement['id']}`;
-}
-
-function generateContactHTML(element, index, lengthOfAssignedTo) {
-  if (index < 3) {
-    let name = element.assigned[index].name;
-    let initials = getInitials(name);
-    return `<div class="task-contact" style='background-color: ${element.assigned[index].color}'>${initials}</div>`;
-  } else if (index === 3) {
-    return `<div class='taskAssignedToNumberContainer'><span>+ ${lengthOfAssignedTo - 3}</span></div>`;
-  } else {
-    updateTaskContactPlusHTML(element, lengthOfAssignedTo);
-    return "";
-  }
-}
-
-function updateTaskContactPlusHTML(element, lengthOfAssignedTo) {
-  let container = document.querySelectorAll("taskAssignedToNumberContainer")[element.id];
-  if (container) {
-    container.innerHTML = showTaskContactPlusHTML(lengthOfAssignedTo);
-  }
 }
 
 function updateBigTaskContactsContainerPlus(taskJson, lengthOfAssignedTo) {
@@ -450,11 +475,11 @@ async function moveTasksToCategory(taskIndex, newCategory) {
     updateHTML();
     let taskElement = document.getElementById("task" + taskIndex);
     taskElement.scrollIntoView({ behavior: "smooth", block: "center" });
-    try {
-      await saveTaskToFirebase(task);
-    } catch (error) {
-      console.error("Fehler beim Speichern der tasks in der Firebase-Datenbank:", error);
-    }
+    // try {
+    //   await saveTaskToFirebase(task);
+    // } catch (error) {
+    //   console.error("Fehler beim Speichern der tasks in der Firebase-Datenbank:", error);
+    // }
   }
 }
 
@@ -532,6 +557,8 @@ function renderTaskContact(taskJson) {
     `;
   }
 }
+
+// Hier jsonTextElement entfernen! Braucht man nicht mehr!
 
 function renderEditTask(jsonTextElement, id) {
   let taskJson = JSON.parse(decodeURIComponent(jsonTextElement));
@@ -684,26 +711,28 @@ async function showBigTaskPopUp(jsonTextElement) {
   document.getElementById("big-task-pop-up-bg").classList.remove("bg-op-0");
   document.getElementById("big-task-pop-up").classList.remove("translate-100");
   document.body.style.overflow = "hidden";
-  renderBigTask(jsonTextElement);
+  
+  document.getElementById('big-edit-task-title-input').value = jsonTextElement.value;
+  // renderBigTask(jsonTextElement);
 }
 
-async function renderBigTask(jsonTextElement) {
-  let taskJson = JSON.parse(decodeURIComponent(jsonTextElement));
-  console.log('taskJson', taskJson);
-  document.getElementById("big-task-pop-up-priority-container").classList.remove("big-edit-task-pop-up-section-container");
-  document.getElementById("big-task-pop-up-due-date-container").classList.remove("big-edit-task-pop-up-section-container");
-  document.getElementById("big-task-pop-up-title").innerHTML = `<h1 id='big-task-pop-up-title-text'>${taskJson.title}</h1>`;
-  document.getElementById("big-task-pop-up-description").innerHTML = taskJson.description;
-  document.getElementById('big-task-pop-up-priority-text').innerHTML = `${taskJson.priority}`;
-  document.getElementById("big-task-pop-up-category").innerHTML = taskJson.category;
-  document.getElementById("big-task-pop-up-category").style.backgroundColor = checkCategoryColor(taskJson.category);
-  document.getElementById("big-task-pop-up-priority-icon").innerHTML = checkPriorityIcon(taskJson.priority);
-  document.getElementById("big-task-pop-up-bottom-buttons-container").innerHTML = returnDeleteEditHTML(taskJson.tasksIdentity, jsonTextElement);
-  renderCorrectAssignedNamesIntoBigTask(taskJson);
-  returnHTMLBigTaskPopUpSubtaskAll();
-  renderTaskContact(taskJson);
-  renderSubtask(taskJson);
-}
+// async function renderBigTask(jsonTextElement) {
+//   let taskJson = JSON.parse(decodeURIComponent(jsonTextElement));
+//   console.log('taskJson', taskJson);
+//   document.getElementById("big-task-pop-up-priority-container").classList.remove("big-edit-task-pop-up-section-container");
+//   document.getElementById("big-task-pop-up-due-date-container").classList.remove("big-edit-task-pop-up-section-container");
+//   document.getElementById("big-task-pop-up-title").innerHTML = `<h1 id='big-task-pop-up-title-text'>${taskJson.title}</h1>`;
+//   document.getElementById("big-task-pop-up-description").innerHTML = taskJson.description; 
+//   document.getElementById('big-task-pop-up-priority-text').innerHTML = `${taskJson.priority}`;
+//   document.getElementById("big-task-pop-up-category").innerHTML = taskJson.category;
+//   document.getElementById("big-task-pop-up-category").style.backgroundColor = checkCategoryColor(taskJson.category);
+//   document.getElementById("big-task-pop-up-priority-icon").innerHTML = checkPriorityIcon(taskJson.priority);
+//   document.getElementById("big-task-pop-up-bottom-buttons-container").innerHTML = returnDeleteEditHTML(taskJson.tasksIdentity, jsonTextElement);
+//   renderCorrectAssignedNamesIntoBigTask(taskJson);
+//   returnHTMLBigTaskPopUpSubtaskAll();
+//   renderTaskContact(taskJson);
+//   renderSubtask(taskJson);
+// }
 
 function hideBigTaskPopUp() {
   isBigTaskPopUpOpen = false;
@@ -762,10 +791,10 @@ function renderTasksInCategory(tasks, categoryContainer) {
     if (categoryContainer === task.container) {
       let jsonElement = JSON.stringify(task);
       let rightIcon = insertCorrectUrgencyIcon(task);
-      let variableClass = setVariableClass(task);
+      // let variableClass = setVariableClass(task);
       let oppositeCategory = "no-" + task.container;
-      let contactsHTML = generateContactsHTML(task);
-      document.getElementById(categoryContainer).innerHTML += generateTaskHTML(task, contactsHTML, oppositeCategory, rightIcon, jsonElement);
+      // let contactsHTML = generateContactsHTML(task);
+      document.getElementById(categoryContainer).innerHTML += generateTaskHTML(task, oppositeCategory, rightIcon, jsonElement); // contactsHTML
     }
   });
 }
@@ -1069,20 +1098,20 @@ async function depositSubtaskChanges(correctTaskId, subtasks) {
   await saveChangedSubtaskToFirebase(correctTaskId);
 }
 
-async function saveChangedSubtaskToFirebase(correctTaskId) {
-  let taskPath = `/testRealTasks/${correctTaskId}/subtask`;
-  let response = await fetch(`${BASE_URL}${taskPath}.json`, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(subtaskArray),
-  });
-  if (!response.ok) {
-    console.error("Fehler beim Speichern der Task in Firebase:", response.status, response.statusText);
-  } else {
-  }
-}
+// async function saveChangedSubtaskToFirebase(correctTaskId) {
+//   let taskPath = `/testRealTasks/${correctTaskId}/subtask`;
+//   let response = await fetch(`${BASE_URL}${taskPath}.json`, {
+//     method: "PUT",
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//     body: JSON.stringify(subtaskArray),
+//   });
+//   if (!response.ok) {
+//     console.error("Fehler beim Speichern der Task in Firebase:", response.status, response.statusText);
+//   } else {
+//   }
+// }
 
 function renderOnlySubtaskContainerPopUp(taskJson) {
   document.getElementById("big-edit-task-subtask-container").innerHTML = "";
