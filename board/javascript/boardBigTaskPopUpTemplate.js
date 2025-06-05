@@ -129,13 +129,6 @@
 //   `;
 // }
 
-// function returnHTMLBigTaskPopUpContactAll(contactsHTML) {
-//   document.getElementById("big-task-pop-up-contact-all").innerHTML = `
-//     <h2 class="big-task-pop-up-label-text">Assigned To:</h2>
-//     <div id="big-task-pop-up-contact-container">${contactsHTML}</div>
-//   `;
-// }
-
 // function returnHTMLBigTaskPopUpSubtaskAll() {
 //   document.getElementById("big-task-pop-up-subtask-all").innerHTML = `
 //     <h2 class="big-task-pop-up-label-text">Subtasks</h2>

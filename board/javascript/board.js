@@ -32,9 +32,9 @@ document.addEventListener('DOMContentLoaded', async () => {
   init_task();
 
   // All Event Listeners
-  document.getElementById('big-task-pop-up-bg').addEventListener('mousedown', () => {
-    hideBigTaskPopUp();
-  });
+  // document.getElementById('big-task-pop-up-bg').addEventListener('mousedown', () => {
+  //   hideBigTaskPopUp();
+  // });
   // document.getElementById('big-task-pop-up').addEventListener('mousedown', (event) => {
   //   shared.stopEvent(event);
   // });
@@ -86,13 +86,13 @@ document.addEventListener('DOMContentLoaded', async () => {
   document.getElementById('done-container').addEventListener('drop', () => {
     moveTo('done-container');
   });
-  document.getElementById('add-task-pop-up-bg').addEventListener('click', () => {
-    hideAddTaskPopUp();
-  });
-  document.getElementById('add-task-pop-up').addEventListener('click', (event) => {
-    hideAllAddTaskPopups();
-    shared.stopEvent(event);
-  });
+  // document.getElementById('add-task-pop-up-bg').addEventListener('click', () => {
+  //   hideAddTaskPopUp();
+  // });
+  // document.getElementById('add-task-pop-up').addEventListener('click', (event) => {
+  //   hideAllAddTaskPopups();
+  //   shared.stopEvent(event);
+  // });
   document.getElementById('close-add-task-pop-up').addEventListener('click', () => {
     hideAddTaskPopUp();
   });
@@ -106,9 +106,9 @@ document.addEventListener('DOMContentLoaded', async () => {
   document.getElementById('searchField').addEventListener('input', () => {
     searchContacts();
   });
-  document.getElementById('assignedToDropDown').addEventListener('click', (event) => {
-    shared.stopEvent(event);
-  });
+  // document.getElementById('assignedToDropDown').addEventListener('click', (event) => {
+  //   shared.stopEvent(event);
+  // });
   document.getElementById('urgent').addEventListener('click', () => {
     changePriority(urgent);
   });
@@ -118,14 +118,14 @@ document.addEventListener('DOMContentLoaded', async () => {
   document.getElementById('low').addEventListener('click', () => {
     changePriority(low);
   });
-  document.getElementById('category').addEventListener('click', (event) => {
-    checkDropDown('arrowb');
-    shared.stopEvent(event);
-  });
-  document.getElementById('subtask').addEventListener('click', (event) => {
-    hideOrShowEditButtons();
-    shared.stopEvent(event);
-  });
+  // document.getElementById('category').addEventListener('click', (event) => {
+  //   checkDropDown('arrowb');
+  //   shared.stopEvent(event);
+  // });
+  // document.getElementById('subtask').addEventListener('click', () => {
+  //   hideOrShowEditButtons();
+  //   shared.stopEvent(event);
+  // });
   document.getElementById('clear-subtask-svg').addEventListener('click', () => {
     clearSubtaskInput();
   });
@@ -211,18 +211,6 @@ function createToDoHTML(taskElement) {
   return generateTaskHTML(taskElement, oppositeCategory); // contactsHTML
 }
 
-function insertCorrectUrgencyIcon(element) {
-  let svgElement;
-  if (element["priority"] == "urgent") {
-    svgElement = feedbackAndUrgency.generateHTMLUrgencyUrgent();
-  } else if (element["priority"] == "low") {
-    svgElement = feedbackAndUrgency.generateHTMLUrgencyLow();
-  } else if (element["priority"] == "medium") {
-    svgElement = feedbackAndUrgency.generateHTMLUrgencyMedium();
-  }
-  return svgElement;
-}
-
 function generateContactsHTML(taskElement) {
   if (!taskElement.assigned || !Array.isArray(taskElement.assigned)) return "";
   let contactsHTML = "";
@@ -301,8 +289,30 @@ async function loadTemplateForTaskOnBoardAndAssignIds(taskObject, taskIndex){
   template.querySelector('.task-bar-content').style.width = `${taskObject.taskbarWidth}%`;
   template.querySelector('.task-bar-text').innerHTML = `${taskObject.numberOfTasksChecked}/${taskObject.taskElement.subtask.length} Subtasks`;
   template.querySelector('.task-contacts').innerHTML = generateContactsHTML(taskObject.taskElement);
-  template.querySelector('.prioriy-icon').innerHTML = insertCorrectUrgencyIcon(taskObject.taskElement);
+  template.querySelector('.priority-icon').appendChild(await insertCorrectUrgencyIcon(taskObject.taskElement));
   manageEventListenersOnTaskDiv(taskObject, taskIndex);
+}
+
+async function insertCorrectUrgencyIcon(element) {
+  let svgElement;
+  if (element["priority"] === "urgent") {
+    svgElement = await feedbackAndUrgency.generateHTMLUrgencyUrgent();
+  } else if (element["priority"] === "low") {
+    svgElement = await feedbackAndUrgency.generateHTMLUrgencyLow();
+  } else if (element["priority"] === "medium") {
+    svgElement = await feedbackAndUrgency.generateHTMLUrgencyMedium();
+  }
+  return svgElement;
+}
+
+async function checkPriorityIcon(priorityText) {
+  if (priorityText === "urgent") {
+    return await feedbackAndUrgency.generateHTMLUrgencyUrgent();
+  } else if (priorityText === "medium") {
+    return await feedbackAndUrgency.generateHTMLUrgencyMedium();
+  } else if (priorityText === "low") {
+    return await feedbackAndUrgency.generateHTMLUrgencyLow();
+  }
 }
 
 function manageEventListenersOnTaskDiv(taskObject, taskIndex){
@@ -372,6 +382,42 @@ function openMobileDropdown(taskIndex) {
     } else {
       dropdownItems[i].style.display = "block";
     }
+  }
+}
+
+async function showBigTaskPopUp(taskElement) { // jsonTextElement
+  isBigTaskPopUpOpen = true;
+  await shared.initHTMLContent('../../board/templates/big_task_pop_up_templates/big_task-pop-up-template.tpl', 'big-task-pop-up-bg');
+  document.getElementById("big-task-pop-up-bg").classList.remove("bg-op-0");
+  document.getElementById("big-task-pop-up").classList.remove("translate-100");
+  document.body.style.overflow = "hidden";
+  await renderBigTask(taskElement);
+}
+
+async function renderBigTask(taskElement) {
+  document.getElementById("big-task-pop-up-priority-container").classList.remove("big-edit-task-pop-up-section-container");
+  document.getElementById("big-task-pop-up-due-date-container").classList.remove("big-edit-task-pop-up-section-container");
+  document.getElementById("big-task-pop-title-text").innerHTML = `${taskElement.title}`;
+  document.getElementById("big-task-pop-up-description").innerHTML = `${taskElement.description}`; 
+  document.getElementById("big-task-pop-up-date").innerHTML = `${taskElement.date}`;
+  document.getElementById('big-task-pop-up-priority-text').innerHTML = `${taskElement.priority}`;
+  document.getElementById("big-task-pop-up-category").innerHTML = taskElement.category;
+  document.getElementById("big-task-pop-up-category").style.backgroundColor = checkCategoryColor(taskElement.category);
+  // document.getElementById("big-task-pop-up-priority-icon").appendChild(await checkPriorityIcon(taskElement.priority));
+  // document.getElementById("big-task-pop-up-bottom-buttons-container").innerHTML = returnDeleteEditHTML(taskJson.tasksIdentity, jsonTextElement);
+  renderCorrectAssignedNamesIntoBigTask(taskElement);
+  // returnHTMLBigTaskPopUpSubtaskAll();
+  // renderTaskContact(taskElement);
+  // renderSubtask(taskElement); 
+}
+
+function checkCategoryColor(category) {
+  if (category === "User Story") {
+    return "#0038FF";
+  } else if (category === "Technical Task") {
+    return "#1FD7C1";
+  } else {
+    return "#42526e";
   }
 }
 
@@ -513,8 +559,15 @@ function renderCorrectAssignedNamesIntoBigTask(taskJson) {
       initials = nameArray.map((word) => word.charAt(0).toUpperCase()).join("");
     }
   }
-  returnHTMLBigTaskPopUpContactAll(contactsHTML);
+  // returnHTMLBigTaskPopUpContactAll(contactsHTML);
 }
+
+// function returnHTMLBigTaskPopUpContactAll(contactsHTML) {
+//   document.getElementById("big-task-pop-up-contact-all").innerHTML = `
+//     <h2 class="big-task-pop-up-label-text">Assigned To:</h2>
+//     <div id="big-task-pop-up-contact-container">${contactsHTML}</div>
+//   `;
+// }
 
 async function addCheckedStatus(i, correctTaskId) {
   let subtasks = tasks[correctTaskId]["subtask"];
@@ -705,35 +758,6 @@ function hideAddTaskPopUp() {
   document.getElementById("add-task-pop-up").classList.add("translate-100");
 }
 
-async function showBigTaskPopUp(jsonTextElement) {
-  isBigTaskPopUpOpen = true;
-  await shared.initHTMLContent('../../board/templates/big_task_pop_up_templates/big_task-pop-up-template.tpl', 'big-task-pop-up-bg');
-  document.getElementById("big-task-pop-up-bg").classList.remove("bg-op-0");
-  document.getElementById("big-task-pop-up").classList.remove("translate-100");
-  document.body.style.overflow = "hidden";
-  
-  document.getElementById('big-edit-task-title-input').value = jsonTextElement.value;
-  // renderBigTask(jsonTextElement);
-}
-
-// async function renderBigTask(jsonTextElement) {
-//   let taskJson = JSON.parse(decodeURIComponent(jsonTextElement));
-//   console.log('taskJson', taskJson);
-//   document.getElementById("big-task-pop-up-priority-container").classList.remove("big-edit-task-pop-up-section-container");
-//   document.getElementById("big-task-pop-up-due-date-container").classList.remove("big-edit-task-pop-up-section-container");
-//   document.getElementById("big-task-pop-up-title").innerHTML = `<h1 id='big-task-pop-up-title-text'>${taskJson.title}</h1>`;
-//   document.getElementById("big-task-pop-up-description").innerHTML = taskJson.description; 
-//   document.getElementById('big-task-pop-up-priority-text').innerHTML = `${taskJson.priority}`;
-//   document.getElementById("big-task-pop-up-category").innerHTML = taskJson.category;
-//   document.getElementById("big-task-pop-up-category").style.backgroundColor = checkCategoryColor(taskJson.category);
-//   document.getElementById("big-task-pop-up-priority-icon").innerHTML = checkPriorityIcon(taskJson.priority);
-//   document.getElementById("big-task-pop-up-bottom-buttons-container").innerHTML = returnDeleteEditHTML(taskJson.tasksIdentity, jsonTextElement);
-//   renderCorrectAssignedNamesIntoBigTask(taskJson);
-//   returnHTMLBigTaskPopUpSubtaskAll();
-//   renderTaskContact(taskJson);
-//   renderSubtask(taskJson);
-// }
-
 function hideBigTaskPopUp() {
   isBigTaskPopUpOpen = false;
   document.getElementById("big-task-pop-up-title").classList.remove("big-task-pop-up-input-error");
@@ -746,16 +770,6 @@ function hideBigTaskPopUp() {
   //   let id = tasks.findIndex((task) => task.title === title);
   //   saveSubtaskChanges(id);
   // }
-}
-
-function checkPriorityIcon(priorityText) {
-  if (priorityText === "urgent") {
-    return feedbackAndUrgency.generateHTMLUrgencyUrgent();
-  } else if (priorityText === "medium") {
-    return feedbackAndUrgency.generateHTMLUrgencyMedium();
-  } else if (priorityText === "low") {
-    return feedbackAndUrgency.generateHTMLUrgencyLow();
-  }
 }
 
 function renderAllBigPopUp(oldTitle, oldDescription, oldDate, oldPriority, taskJson, id) {
@@ -958,16 +972,6 @@ async function deleteData(path = "") {
     method: "DELETE",
   });
   return (responseToJson = await response.json());
-}
-
-function checkCategoryColor(category) {
-  if (category === "User Story") {
-    return "#0038FF";
-  } else if (category === "Technical Task") {
-    return "#1FD7C1";
-  } else {
-    return "#42526e";
-  }
 }
 
 function clearCategoryContainer(categoryContainer) {
