@@ -211,20 +211,21 @@ function createToDoHTML(taskElement) {
   return generateTaskHTML(taskElement, oppositeCategory); // contactsHTML
 }
 
-function generateContactsHTML(taskElement) {
-  if (!taskElement.assigned || !Array.isArray(taskElement.assigned)) return "";
-  let contactsHTML = "";
-  let lengthOfAssignedTo = taskElement.assigned.length;
-  for (let i = 0; i < lengthOfAssignedTo; i++) {
-    contactsHTML += generateContactHTML(taskElement, i, lengthOfAssignedTo);
-  }
-  console.log('contactsHTML invoked in generateContactsHTML', contactsHTML);
-  return contactsHTML;
-}
+// function generateContactsHTML(taskElement) {
+//   console.log('task element invoked in generateContactsHTML: ', taskElement);
+//   if (!taskElement.assigned || !Array.isArray(taskElement.assigned)){
+//     return ""
+//   };
+//   let contactsHTML = "";
+//   let lengthOfAssignedTo = taskElement.assigned.length;
+//   for (let i = 0; i < lengthOfAssignedTo; i++) {
+//     contactsHTML += generateContactHTML(taskElement, i, lengthOfAssignedTo);
+//   }
+//   return contactsHTML;
+// }
 
 function generateContactHTML(taskElement, index, lengthOfAssignedTo) {
   if (index < 3) {
-    console.log('task element invoked in generateContactHTML: ', taskElement);
     let name = taskElement.assigned[index].name;
     let initials = getInitials(name);
     return `<div class="task-contact" style='background-color: ${taskElement.assigned[index].color}'>${initials}</div>`;
@@ -288,6 +289,7 @@ async function loadTemplateForTaskOnBoardAndAssignIds(taskObject, taskIndex){
   template.querySelector('.task-description').innerHTML = taskObject.taskElement.description;
   template.querySelector('.task-bar-content').style.width = `${taskObject.taskbarWidth}%`;
   template.querySelector('.task-bar-text').innerHTML = `${taskObject.numberOfTasksChecked}/${taskObject.taskElement.subtask.length} Subtasks`;
+  // console.log('taskObject.taskElement: ', taskObject.taskElement);
   template.querySelector('.task-contacts').innerHTML = generateContactsHTML(taskObject.taskElement);
   template.querySelector('.priority-icon').appendChild(await insertCorrectUrgencyIcon(taskObject.taskElement));
   manageEventListenersOnTaskDiv(taskObject, taskIndex);
@@ -385,7 +387,7 @@ function openMobileDropdown(taskIndex) {
   }
 }
 
-async function showBigTaskPopUp(taskElement) { // jsonTextElement
+async function showBigTaskPopUp(taskElement) { 
   isBigTaskPopUpOpen = true;
   await shared.initHTMLContent('../../board/templates/big_task_pop_up_templates/big_task-pop-up-template.tpl', 'big-task-pop-up-bg');
   document.getElementById("big-task-pop-up-bg").classList.remove("bg-op-0");
@@ -403,12 +405,53 @@ async function renderBigTask(taskElement) {
   document.getElementById('big-task-pop-up-priority-text').innerHTML = `${taskElement.priority}`;
   document.getElementById("big-task-pop-up-category").innerHTML = taskElement.category;
   document.getElementById("big-task-pop-up-category").style.backgroundColor = checkCategoryColor(taskElement.category);
+  let subtaskContainer = document.getElementById("big-edit-task-subtask-container");
+  for(let i=0; i < taskElement.subtask.length; i++){
+    console.log('taskElement: ', taskElement);
+    subtaskContainer.innerHTML = `<li>${taskElement.subtask[i]['task-description']}</li>`;
+  }
   // document.getElementById("big-task-pop-up-priority-icon").appendChild(await checkPriorityIcon(taskElement.priority));
   // document.getElementById("big-task-pop-up-bottom-buttons-container").innerHTML = returnDeleteEditHTML(taskJson.tasksIdentity, jsonTextElement);
   renderCorrectAssignedNamesIntoBigTask(taskElement);
   // returnHTMLBigTaskPopUpSubtaskAll();
   // renderTaskContact(taskElement);
   // renderSubtask(taskElement); 
+}
+
+function renderCorrectAssignedNamesIntoBigTask(taskElement) {
+  let initials = "";
+  if (taskElement["assigned"] || typeof taskElement["assigned"] == Array) {
+    for (let index = 0; index < taskElement["assigned"].length; index++) {
+      let name = taskElement["assigned"][index]["name"];
+      let nameArray = name.trim().split(" ");
+      initials = nameArray.map((word) => word.charAt(0).toUpperCase()).join("");
+      returnHTMLBigTaskPopUpContactAll(taskElement);
+    }
+  }
+}
+
+function returnHTMLBigTaskPopUpContactAll(taskElement) {
+  let contactsHTML = generateContactsHTML(taskElement);
+  document.getElementById("big-task-pop-up-contact-all").innerHTML = `
+    <h2 class="big-task-pop-up-label-text">Assigned To:</h2>
+    <div id="big-task-pop-up-contact-container">${contactsHTML}</div>
+  `;
+}
+
+function generateContactsHTML(taskElement) {
+  let contactsHTML = "";
+  if (taskElement.assigned) {
+    let lengthOfAssignedTo = taskElement.assigned.length;
+    taskElement.assigned.forEach((assignee, index) => {
+      if (index < 3) {
+        let initials = getInitials(assignee.name);
+        contactsHTML += `<div class="task-contact" style='background-color: ${assignee.color}'>${initials}</div>`;
+      } else if (index === 3) {
+        contactsHTML += `<div class='taskAssignedToNumberContainer'><span>+ ${lengthOfAssignedTo - 3}</span></div>`;
+      }
+    });
+  }
+  return contactsHTML;
 }
 
 function checkCategoryColor(category) {
@@ -548,26 +591,6 @@ function setVariableClass(element) {
 }
 
 // board_assigned_to.js
-
-function renderCorrectAssignedNamesIntoBigTask(taskJson) {
-  let contactsHTML = "";
-  let initials = "";
-  if (taskJson["assigned"] || typeof taskJson["assigned"] == Array) {
-    for (let index = 0; index < taskJson["assigned"].length; index++) {
-      let name = taskJson["assigned"][index]["name"];
-      let nameArray = name.trim().split(" ");
-      initials = nameArray.map((word) => word.charAt(0).toUpperCase()).join("");
-    }
-  }
-  // returnHTMLBigTaskPopUpContactAll(contactsHTML);
-}
-
-// function returnHTMLBigTaskPopUpContactAll(contactsHTML) {
-//   document.getElementById("big-task-pop-up-contact-all").innerHTML = `
-//     <h2 class="big-task-pop-up-label-text">Assigned To:</h2>
-//     <div id="big-task-pop-up-contact-container">${contactsHTML}</div>
-//   `;
-// }
 
 async function addCheckedStatus(i, correctTaskId) {
   let subtasks = tasks[correctTaskId]["subtask"];
@@ -983,22 +1006,6 @@ function handleNoTasksInCategory(categoryContainer) {
   let oppositeElement = getRightOppositeElement(oppositeElementName);
   document.getElementById(categoryContainer).innerHTML = oppositeElement;
 }
-
-// function generateContactsHTML(task) {
-//   let contactsHTML = "";
-//   if (task.assigned) {
-//     let lengthOfAssignedTo = task.assigned.length;
-//     task.assigned.forEach((assignee, index) => {
-//       if (index < 3) {
-//         let initials = getInitials(assignee.name);
-//         contactsHTML += `<div class="task-contact" style='background-color: ${assignee.color}'>${initials}</div>`;
-//       } else if (index === 3) {
-//         contactsHTML += `<div class='taskAssignedToNumberContainer'><span>+ ${lengthOfAssignedTo - 3}</span></div>`;
-//       }
-//     });
-//   }
-//   return contactsHTML;
-// }
 
 function taskMarker() {
   document.getElementById("board").classList.add("currentSection");

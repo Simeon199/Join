@@ -57,8 +57,8 @@
         </div> -->
     </div>
     <div id="big-task-pop-up-contact-all">
-        <h2 class="big-task-pop-up-label-text">Assigned To:</h2>
-        <div id="big-task-pop-up-contact-container">${contactsHTML}</div> 
+        <!-- <h2 class="big-task-pop-up-label-text">Assigned To:</h2>
+        <div id="big-task-pop-up-contact-container">${contactsHTML}</div>  -->
     </div>
     <div id="big-task-pop-up-subtask-all">
         <p class='big-edit-task-section-headline'>Subtasks</p>  
