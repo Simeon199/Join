@@ -29,21 +29,9 @@ let currentOpenDropdown = null;
 
 document.addEventListener('DOMContentLoaded', async () => {
   shared.bundleLoadingHTMLTemplates();
-  init_task();
+  loadTasksFromDatabase();
 
   // All Event Listeners
-  // document.getElementById('big-task-pop-up-bg').addEventListener('mousedown', () => {
-  //   hideBigTaskPopUp();
-  // });
-  // document.getElementById('big-task-pop-up').addEventListener('mousedown', (event) => {
-  //   shared.stopEvent(event);
-  // });
-  // document.getElementById('big-task-pop-up').addEventListener('click', () => {
-  //   closeAllSmallPopUpPopUps();
-  // });
-  // document.getElementById('big-task-pop-up-close-icon').addEventListener('click', () => {
-  //   hideBigTaskPopUp();
-  // });
   document.getElementById('add-task-button-mobile').addEventListener('click', () => {
     showAddTaskPopUp('to-do-container');
   });
@@ -86,13 +74,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   document.getElementById('done-container').addEventListener('drop', () => {
     moveTo('done-container');
   });
-  // document.getElementById('add-task-pop-up-bg').addEventListener('click', () => {
-  //   hideAddTaskPopUp();
-  // });
-  // document.getElementById('add-task-pop-up').addEventListener('click', (event) => {
-  //   hideAllAddTaskPopups();
-  //   shared.stopEvent(event);
-  // });
   document.getElementById('close-add-task-pop-up').addEventListener('click', () => {
     hideAddTaskPopUp();
   });
@@ -106,9 +87,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   document.getElementById('searchField').addEventListener('input', () => {
     searchContacts();
   });
-  // document.getElementById('assignedToDropDown').addEventListener('click', (event) => {
-  //   shared.stopEvent(event);
-  // });
   document.getElementById('urgent').addEventListener('click', () => {
     changePriority(urgent);
   });
@@ -118,14 +96,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   document.getElementById('low').addEventListener('click', () => {
     changePriority(low);
   });
-  // document.getElementById('category').addEventListener('click', (event) => {
-  //   checkDropDown('arrowb');
-  //   shared.stopEvent(event);
-  // });
-  // document.getElementById('subtask').addEventListener('click', () => {
-  //   hideOrShowEditButtons();
-  //   shared.stopEvent(event);
-  // });
   document.getElementById('clear-subtask-svg').addEventListener('click', () => {
     clearSubtaskInput();
   });
@@ -137,22 +107,14 @@ document.addEventListener('DOMContentLoaded', async () => {
   });
 });
 
-async function init_task() {
-  await getTasksFromDatabase();
-}
-
-async function getTasksFromDatabase() {
-  await loadTasksFromDatabase();
-}
-
-function updateCategories() {
-  categories = [...new Set(tasks.map((task) => task.container))];
-}
-
 async function loadTasksFromDatabase() {
   tasks = await getAllTasks();
   updateCategories();
   updateHTML();
+}
+
+function updateCategories() {
+  categories = [...new Set(tasks.map((task) => task.container))];
 }
 
 // Diese Funktion sollte in eine zentrale Datei reinkommen:
@@ -211,39 +173,6 @@ function createToDoHTML(taskElement) {
   return generateTaskHTML(taskElement, oppositeCategory); // contactsHTML
 }
 
-// function generateContactsHTML(taskElement) {
-//   console.log('task element invoked in generateContactsHTML: ', taskElement);
-//   if (!taskElement.assigned || !Array.isArray(taskElement.assigned)){
-//     return ""
-//   };
-//   let contactsHTML = "";
-//   let lengthOfAssignedTo = taskElement.assigned.length;
-//   for (let i = 0; i < lengthOfAssignedTo; i++) {
-//     contactsHTML += generateContactHTML(taskElement, i, lengthOfAssignedTo);
-//   }
-//   return contactsHTML;
-// }
-
-function generateContactHTML(taskElement, index, lengthOfAssignedTo) {
-  if (index < 3) {
-    let name = taskElement.assigned[index].name;
-    let initials = getInitials(name);
-    return `<div class="task-contact" style='background-color: ${taskElement.assigned[index].color}'>${initials}</div>`;
-  } else if (index === 3) {
-    return `<div class='taskAssignedToNumberContainer'><span>+ ${lengthOfAssignedTo - 3}</span></div>`;
-  } else {
-    updateTaskContactPlusHTML(taskElement, lengthOfAssignedTo);
-    return "";
-  }
-}
-
-function updateTaskContactPlusHTML(taskElement, lengthOfAssignedTo) {
-  let container = document.querySelectorAll("taskAssignedToNumberContainer")[taskElement.id];
-  if (container) {
-    container.innerHTML = showTaskContactPlusHTML(lengthOfAssignedTo);
-  }
-}
-
 function generateTaskHTML(taskElement, contactsHTML, oppositeCategory, rightIcon) {
   if (taskElement["subtask"] && taskElement["subtask"].length > 0) {
     let numberOfTasksChecked = 0;
@@ -289,7 +218,6 @@ async function loadTemplateForTaskOnBoardAndAssignIds(taskObject, taskIndex){
   template.querySelector('.task-description').innerHTML = taskObject.taskElement.description;
   template.querySelector('.task-bar-content').style.width = `${taskObject.taskbarWidth}%`;
   template.querySelector('.task-bar-text').innerHTML = `${taskObject.numberOfTasksChecked}/${taskObject.taskElement.subtask.length} Subtasks`;
-  // console.log('taskObject.taskElement: ', taskObject.taskElement);
   template.querySelector('.task-contacts').innerHTML = generateContactsHTML(taskObject.taskElement);
   template.querySelector('.priority-icon').appendChild(await insertCorrectUrgencyIcon(taskObject.taskElement));
   manageEventListenersOnTaskDiv(taskObject, taskIndex);
@@ -305,16 +233,6 @@ async function insertCorrectUrgencyIcon(element) {
     svgElement = await feedbackAndUrgency.generateHTMLUrgencyMedium();
   }
   return svgElement;
-}
-
-async function checkPriorityIcon(priorityText) {
-  if (priorityText === "urgent") {
-    return await feedbackAndUrgency.generateHTMLUrgencyUrgent();
-  } else if (priorityText === "medium") {
-    return await feedbackAndUrgency.generateHTMLUrgencyMedium();
-  } else if (priorityText === "low") {
-    return await feedbackAndUrgency.generateHTMLUrgencyLow();
-  }
 }
 
 function manageEventListenersOnTaskDiv(taskObject, taskIndex){
@@ -405,17 +323,16 @@ async function renderBigTask(taskElement) {
   document.getElementById('big-task-pop-up-priority-text').innerHTML = `${taskElement.priority}`;
   document.getElementById("big-task-pop-up-category").innerHTML = taskElement.category;
   document.getElementById("big-task-pop-up-category").style.backgroundColor = checkCategoryColor(taskElement.category);
-  let subtaskContainer = document.getElementById("big-edit-task-subtask-container");
-  for(let i=0; i < taskElement.subtask.length; i++){
-    console.log('taskElement: ', taskElement);
-    subtaskContainer.innerHTML = `<li>${taskElement.subtask[i]['task-description']}</li>`;
-  }
-  // document.getElementById("big-task-pop-up-priority-icon").appendChild(await checkPriorityIcon(taskElement.priority));
+  // let subtaskContainer = document.getElementById("big-edit-task-subtask-container");
+  // for(let i=0; i < taskElement.subtask.length; i++){
+  //   subtaskContainer.innerHTML = `<li>${taskElement.subtask[i]['task-description']}</li>`;
+  // }
+  document.getElementById("big-task-pop-up-priority-icon").appendChild(await insertCorrectUrgencyIcon(taskElement));
   // document.getElementById("big-task-pop-up-bottom-buttons-container").innerHTML = returnDeleteEditHTML(taskJson.tasksIdentity, jsonTextElement);
   renderCorrectAssignedNamesIntoBigTask(taskElement);
   // returnHTMLBigTaskPopUpSubtaskAll();
   // renderTaskContact(taskElement);
-  // renderSubtask(taskElement); 
+  renderSubtask(taskElement); 
 }
 
 function renderCorrectAssignedNamesIntoBigTask(taskElement) {
@@ -425,17 +342,58 @@ function renderCorrectAssignedNamesIntoBigTask(taskElement) {
       let name = taskElement["assigned"][index]["name"];
       let nameArray = name.trim().split(" ");
       initials = nameArray.map((word) => word.charAt(0).toUpperCase()).join("");
-      returnHTMLBigTaskPopUpContactAll(taskElement);
+      returnContactHTML(taskElement, initials, index);
+      // let contactsHTML = generateContactsHTML(taskElement);
+      // returnHTMLBigTaskPopUpContactAll(taskElement, name);
     }
   }
 }
 
-function returnHTMLBigTaskPopUpContactAll(taskElement) {
-  let contactsHTML = generateContactsHTML(taskElement);
-  document.getElementById("big-task-pop-up-contact-all").innerHTML = `
-    <h2 class="big-task-pop-up-label-text">Assigned To:</h2>
-    <div id="big-task-pop-up-contact-container">${contactsHTML}</div>
-  `;
+function renderSubtask(taskElement) { // Ersetze taskJson durch taskElement
+  let correctTaskId = taskElement.id;
+  if (taskElement.subtask && taskElement.subtask.length > 0) {
+    renderSubtasks(taskElement.subtask, correctTaskId);
+  } else {
+    renderNoSubtasksMessage();
+  }
+}
+
+function renderSubtasks(subtasks, taskId) { 
+  // <!--- Ganz Wichtig ! ---!>
+
+  // returnSubtaskHTMLWithBolean => Lade subtaskHtmlWithBolean.tpl
+  // returnSubtaskHTML => Lade subtaskInPopUpContainer.tpl
+  
+  let container = document.getElementById("big-task-pop-up-subtasks-container");
+  subtasks.forEach((subtask, index) => {
+    container.innerHTML += subtask["is-tasked-checked"]
+      ? returnSubtaskHTMLWithBolean(taskId, subtask, index)
+      : returnSubtaskHTML(taskId, subtask, index);
+  });
+}
+
+function renderNoSubtasksMessage() {
+  let container = document.getElementById("big-task-pop-up-subtasks-container");
+  container.innerHTML = `<p class='big-task-pop-up-value-text'>No Subtasks</p>`;
+}
+
+// function returnHTMLBigTaskPopUpContactAll(taskElement) {
+//   let contactsHTML = generateContactsHTML(taskElement);
+//   document.getElementById("big-task-pop-up-contact-all").innerHTML = `
+//     <h2 class="big-task-pop-up-label-text">Assigned To:</h2>
+//     <div id="big-task-pop-up-contact-container">
+//       <div>${contactsHTML}</div>
+//       <p>${name}</p>
+//     </div>
+//   `;
+// }
+
+function returnContactHTML(taskElement, initials, index){
+  document.getElementById('big-task-pop-up-contact-container').innerHTML += `
+    <div class="big-task-pop-up-contact">
+      <div class="big-task-pop-up-profile-badge" style="background: ${taskElement.assigned[index]['color']}">${initials}</div>
+      <p class="big-task-pop-up-profile-name">${taskElement.assigned[index]["name"]}</p>
+    </div>`
 }
 
 function generateContactsHTML(taskElement) {
@@ -464,42 +422,8 @@ function checkCategoryColor(category) {
   }
 }
 
-async function returnTaskHtmlWithoutSubtask(
-  taskElement, 
-  contactsHTML, 
-  oppositeCategory, 
-  rightIcon, 
-  jsonTextElement, 
-  taskbarWidth, 
-  numberOfTasksChecked
-){
-  let template = await shared.initHTMLContent('../../board/templates/board_subtask_templates/taskHtmlWithoutSubtask.tpl', taskElement['container']);
-  template.id = `task${taskElement['id']}`;
-}
-
-function updateBigTaskContactsContainerPlus(taskJson, lengthOfAssignedTo) {
-  let container = document.querySelectorAll("bigTaskAssignedToNumberContainer")[taskJson.id];
-  if (container) {
-    container.innerHTML = showTaskContactPlusHTML(lengthOfAssignedTo);
-  }
-}
-
-function showTaskContactPlusHTML(lengthOfAssignedTo) {
-  return `
-    <span>+ ${lengthOfAssignedTo - 3}</span>
-  `;
-}
-
 function rotateFunction(id) {
   document.getElementById(`task${id}`).style.transform = "rotate(3deg)";
-}
-
-function closeAllDropDownPopUps() {
-  let AllMobileDropdownPopUps = document.querySelectorAll(".mobileDropdown");
-  for (let i = 0; i < AllMobileDropdownPopUps.length; i++) {
-    let dropdown = document.getElementById(`mobileDropdown${i}`);
-    dropdown.classList.add("mobileDropdown-translate-100");
-  }
 }
 
 function checkIfEmpty(tasksDiv, divWithoutTasks) {
@@ -522,11 +446,11 @@ async function moveTo(container) {
     updateHTML();
     removeEmptyMessage(container, oppositeContainer);
   }
-  try {
-    await saveTaskToFirebase(task);
-  } catch (error) {
-    console.error("Fehler beim Speichern der tasks in der Firebase-Datenbank:", error);
-  }
+  // try {
+  //   await saveTaskToFirebase(task);
+  // } catch (error) {
+  //   console.error("Fehler beim Speichern der tasks in der Firebase-Datenbank:", error);
+  // }
 }
 
 function removeEmptyMessage(container, oppositeContainer) {
@@ -572,197 +496,6 @@ async function moveTasksToCategory(taskIndex, newCategory) {
   }
 }
 
-function hideBoardLoadScreen() {
-  document.getElementById("board-add_task-load-screen").classList.add("d-none");
-}
-
-function showBoardLoadScreen() {
-  document.getElementById("board-add_task-load-screen").classList.remove("d-none");
-}
-
-function setVariableClass(element) {
-  let variableClass = "";
-  if (element["category"] == "user story") {
-    variableClass = "task-category";
-  } else if (element["category"] == "technical task") {
-    variableClass = "technical-task-category";
-  }
-  return variableClass;
-}
-
-// board_assigned_to.js
-
-async function addCheckedStatus(i, correctTaskId) {
-  let subtasks = tasks[correctTaskId]["subtask"];
-  let checkBoxChecked = toggleCheckboxIcons(i);
-  updateCheckboxStatus(i, checkBoxChecked);
-  depositSubtaskChanges(correctTaskId, subtasks);
-}
-
-function toggleCheckboxIcons(i) {
-  let checkBoxIconUnchecked = document.getElementById(`checkBoxIconUnchecked${i}`);
-  let checkBoxIconChecked = document.getElementById(`checkBoxIconChecked${i}`);
-  if (!checkBoxIconUnchecked.classList.contains("d-none") && checkBoxIconChecked.classList.contains("d-none")) {
-    checkBoxIconUnchecked.classList.add("d-none");
-    checkBoxIconChecked.classList.remove("d-none");
-    return true;
-  } else if (!checkBoxIconChecked.classList.contains("d-none") && checkBoxIconUnchecked.classList.contains("d-none")) {
-    checkBoxIconUnchecked.classList.remove("d-none");
-    checkBoxIconChecked.classList.add("d-none");
-    return false;
-  }
-}
-
-function updateCheckboxStatus(i, checkBoxChecked) {
-  checkBoxCheckedJson[i] = checkBoxChecked;
-}
-
-function renderTaskContact(taskJson) {
-  assignedToContactsBigContainer = taskJson.assigned;
-  if (taskJson.assigned && taskJson.assigned.length > 0) {
-    taskJson.assigned.forEach((contact) => {
-      document.getElementById("big-task-pop-up-contact-container").innerHTML += returnAssignedContactHTML(contact);
-    });
-  } else if (taskJson.assigned && taskJson.assigned.length == 0) {
-    document.getElementById("big-task-pop-up-contact-container").innerHTML = /*html*/ `  
-    <p class='big-task-pop-up-value-text'>No One Assigned</p>
-    `;
-  } else {
-    document.getElementById("big-task-pop-up-contact-container").innerHTML = /*html*/ `  
-    <p class='big-task-pop-up-value-text'>No One Assigned</p>
-    `;
-  }
-}
-
-// Hier jsonTextElement entfernen! Braucht man nicht mehr!
-
-function renderEditTask(jsonTextElement, id) {
-  let taskJson = JSON.parse(decodeURIComponent(jsonTextElement));
-  let oldPriority = taskJson.priority;
-  let oldTitle = document.getElementById("big-task-pop-up-title-text").innerHTML;
-  let oldDescription = document.getElementById("big-task-pop-up-description").innerHTML;
-  let oldDate = document.getElementById("big-task-pop-up-date").innerHTML;
-  document.getElementById("big-task-pop-up-category").innerHTML = "";
-  document.getElementById("big-task-pop-up-category").style = "background-color: white;";
-  renderCurrentTaskId = id;
-  renderAllBigPopUp(oldTitle, oldDescription, oldDate, oldPriority, taskJson, id);
-}
-
-function toggleEditTaskAssignedToPopUp() {
-  document.getElementById("big-edit-task-assigned-to-pop-up-container").classList.toggle("height-0");
-  document.getElementById("big-edit-task-assigned-to-pop-up").classList.toggle("box-shadow-none");
-  document.getElementById("big-edit-task-assigned-to-input-arrow").classList.toggle("rotate-90");
-  toggleFocusAssignedToInput();
-}
-
-function closeAllSmallPopUpPopUps() {
-  if (document.getElementById("big-edit-task-title-input")) {
-    document.getElementById("big-edit-task-assigned-to-pop-up-container").classList.add("height-0");
-    document.getElementById("big-edit-task-assigned-to-pop-up").classList.add("box-shadow-none");
-    document.getElementById("big-edit-task-assigned-to-input-arrow").classList.remove("rotate-90");
-    insertSubtasksIntoContainer();
-  }
-}
-
-function toggleFocusAssignedToInput() {
-  if (document.getElementById("big-edit-task-assigned-to-pop-up-container").classList.contains("height-0")) {
-    document.getElementById("big-edit-task-assigned-to-input").blur();
-  } else {
-    document.getElementById("big-edit-task-assigned-to-input").focus();
-  }
-}
-
-function renderBigTaskAssignedContactContainer(taskJson) {
-  let lengthOfAssignedTo = taskJson.assigned.length;
-  document.getElementById("big-edit-task-assigned-to-contact-container").innerHTML = "";
-  if (taskJson.assigned) {
-    for (let i = 0; i < taskJson.assigned.length; i++) {
-      const contact = taskJson.assigned[i];
-      returnColorAndAssignedToContacts(contact, i, lengthOfAssignedTo, taskJson);
-    }
-  } else {
-    taskJson.assigned = [];
-    returnNoOneIsAssignedHTML();
-  }
-}
-
-function renderBigEditTaskAssignedToPopUp(taskJson) {
-  for (let i = 0; i < allUsers.length; i++) {
-    let taskIndex = taskJson.tasksIdentity;
-    const contact = allUsers[i];
-    let allNames = [];
-    for (let j = 0; j < taskJson.assigned.length; j++) {
-      const assignedContact = taskJson.assigned[j];
-      if (contact.name === taskJson.assigned[j].name) {
-        let contactObject = JSON.stringify({ name: contact.name, color: contact.color, isSelected: true });
-        renderOnlyActiveAssignedToPopUp(contact, contactObject, i, taskIndex);
-        allNames.push(contact.name);
-      }
-    }
-    if (!allNames.includes(contact.name)) {
-      let contactObject = JSON.stringify({ name: contact.name, color: contact.color, isSelected: false });
-      renderOnlyAssignedToPopUp(contact, contactObject, i, taskIndex);
-      allNames.push(contact.name);
-    }
-    renderOnlySubtaskContainerPopUp(taskJson);
-  }
-}
-
-function checkBigEditTaskContact(i, contactObject, taskIndex) {
-  if (tasks[taskIndex].assigned) {
-    assignedToContactsBigContainer = tasks[taskIndex].assigned;
-  } else {
-    assignedToContactsBigContainer = [];
-  }
-  HTMLContactContainer = document.querySelectorAll(".big-edit-task-assigned-to-pop-up-contact-container")[i];
-  HTMLContactContainer.classList.toggle("big-edit-task-assigned-to-pop-up-active-contact");
-  if (HTMLContactContainer.classList.contains("big-edit-task-assigned-to-pop-up-active-contact")) {
-    contactObject["isSelected"] = true;
-    addContactToAssigned(contactObject, taskIndex);
-    returnBigEditTaskAssignedToPopUpContactCheckboxIconHTML(i);
-  } else {
-    contactObject["isSelected"] = false;
-    deleteContactToAssigned(contactObject, taskIndex);
-    returnBigEditTaskAssignedToPopUpContactCheckboxSecondIconHTML(i);
-  }
-}
-
-function addContactToAssigned(contactObject, taskIndex) {
-  let taskJson = tasks[taskIndex];
-  assignedToContactsBigContainer.push(contactObject);
-  taskJson.assigned = assignedToContactsBigContainer;
-  renderBigTaskAssignedContactContainer(taskJson);
-}
-
-function deleteContactToAssigned(contactObject, taskIndex) {
-  let taskJson = tasks[taskIndex];
-  let contactObjectIndex = assignedToContactsBigContainer.findIndex((jsonObject) => jsonObject.name === contactObject.name);
-  assignedToContactsBigContainer.splice(contactObjectIndex, 1);
-  renderBigTaskAssignedContactContainer(taskJson);
-}
-
-function changeSaveIconClickedOnStatus() {
-  if (isSaveIconClicked == false) {
-    isSaveIconClicked = true;
-  }
-}
-
-function insertSubtasksIntoContainer() {
-  document.getElementById("big-edit-task-subtask-container").innerHTML = "";
-  document.getElementById("big-edit-task-subtask-container").innerHTML = "";
-  if (subtaskArray && subtaskArray.length >= 1) {
-    for (let i = 0; i < subtaskArray.length; i++) {
-      let subtask = subtaskArray[i];
-      document.getElementById("big-edit-task-subtask-container").innerHTML += renderSubtaskInPopUpContainer(i, subtask);
-    }
-  } else if (subtaskArray && subtaskArray.length == 0 && tasks[renderCurrentTaskId]["subtask"]) {
-  } else if (!subtaskArray && !tasks[renderCurrentTaskId]["subtask"]) {
-    document.getElementById("big-edit-task-subtask-container").innerHTML += "";
-  }
-}
-
-// board_big_task_related.js
-
 function showAddTaskPopUp(container = "to-do-container") {
   const screenWidth = window.screen.width;
   if (screenWidth <= 600) {
@@ -781,222 +514,6 @@ function hideAddTaskPopUp() {
   document.getElementById("add-task-pop-up").classList.add("translate-100");
 }
 
-function hideBigTaskPopUp() {
-  isBigTaskPopUpOpen = false;
-  document.getElementById("big-task-pop-up-title").classList.remove("big-task-pop-up-input-error");
-  document.getElementById("big-task-pop-up-due-date-container").classList.remove("big-task-pop-up-input-error");
-  document.getElementById("big-task-pop-up-bg").classList.add("bg-op-0");
-  document.getElementById("big-task-pop-up").classList.add("translate-100");
-  document.body.style.overflow = "unset";
-  // if (document.getElementById("big-task-pop-up-title-text")) {
-  //   let title = document.getElementById("big-task-pop-up-title-text").innerHTML;
-  //   let id = tasks.findIndex((task) => task.title === title);
-  //   saveSubtaskChanges(id);
-  // }
-}
-
-function renderAllBigPopUp(oldTitle, oldDescription, oldDate, oldPriority, taskJson, id) {
-  setupSubtaskArray(taskJson, id);
-  renderPopUpElements(oldTitle, oldDescription, oldDate, oldPriority, id);
-  renderBigTaskDetails(taskJson, oldPriority, id);
-}
-
-function renderPopUpElements(oldTitle, oldDescription, oldDate, oldPriority, id) {
-  returnBigTaskPopUpTitle(oldTitle);
-  returnBigTaskPopUpDescription(oldDescription);
-  renderBigTaskPopUpSection("big-task-pop-up-due-date-container", oldDate, returnBigTaskPopUpDueDateContainer);
-  renderBigTaskPopUpSection("big-task-pop-up-priority-container", oldPriority, returnBigTaskPopUpPriorityContainer);
-  priorityValue = oldPriority;
-  document.getElementById("big-edit-task-" + oldPriority.toLowerCase() + "-priority").classList.add("big-edit-task-" + oldPriority.toLowerCase() + "-priority-aktiv");
-}
-
-function renderBigTaskPopUpSection(containerId, value, renderFunction) {
-  document.getElementById(containerId).classList.add("big-edit-task-pop-up-section-container");
-  renderFunction(value);
-}
-
-function renderBigTaskDetails(taskJson, oldPriority, id) {
-  returnBigTaskPopUpContactAll(id);
-  returnBigTaskPopUpSubtasksAll();
-  renderBigTaskAssignedContactContainer(taskJson);
-  renderBigEditTaskAssignedToPopUp(taskJson);
-  returnBigPopUpEditButtons(id);
-}
-
-function renderTasksInCategory(tasks, categoryContainer) {
-  tasks.forEach((task) => {
-    if (categoryContainer === task.container) {
-      let jsonElement = JSON.stringify(task);
-      let rightIcon = insertCorrectUrgencyIcon(task);
-      // let variableClass = setVariableClass(task);
-      let oppositeCategory = "no-" + task.container;
-      // let contactsHTML = generateContactsHTML(task);
-      document.getElementById(categoryContainer).innerHTML += generateTaskHTML(task, oppositeCategory, rightIcon, jsonElement); // contactsHTML
-    }
-  });
-}
-
-// board_edit.js file
-
-
-function clearPopUp() {
-  document.getElementById("big-edit-task-assigned-to-pop-up").innerHTML = "";
-}
-
-function checkIfAssigned(contact, taskIndex) {
-  return tasks[taskIndex].assigned.some((assignedContact) => assignedContact.name === contact.name);
-}
-
-function renderContact(contact, contactIndex, taskIndex, isAssigned) {
-  let contactObject = JSON.stringify({ name: contact.name, color: contact.color, isSelected: isAssigned });
-  if (isAssigned) {
-    renderOnlyActiveAssignedToPopUp(contact, contactObject, contactIndex, taskIndex);
-  } else {
-    renderOnlyAssignedToPopUp(contact, contactObject, contactIndex, taskIndex);
-  }
-}
-
-// async function saveTaskChanges(id) {
-//   let newTitle = getInputValue("big-edit-task-title-input");
-//   let newDescription = getInputValue("big-edit-task-description-input");
-//   let newDate = getInputValue("big-edit-task-due-date-input");
-//   if (validateInputs(newTitle, newDate)) {
-//     showBoardLoadScreen();
-//     removeInputErrors();
-//     let taskForEditing = createTaskObject(newTitle, newDescription, newDate);
-//     try {
-//       await processTaskEditing(id, taskForEditing);
-//     } catch (error) {
-//       console.error("Fehler beim Speichern der Änderungen: ", error);
-//     }
-//     resetSubtasks();
-//     updateHTML();
-//     hideBoardLoadScreen();
-//   }
-// }
-
-function getInputValue(elementId) {
-  return document.getElementById(elementId).value;
-}
-
-function validateInputs(title, date) {
-  if (title === "" && date === "") {
-    addInputError("big-task-pop-up-title");
-    addInputError("big-task-pop-up-due-date-container");
-    return false;
-  } else if (title === "") {
-    addInputError("big-task-pop-up-title");
-    removeInputError("big-task-pop-up-due-date-container");
-    return false;
-  } else if (date === "") {
-    addInputError("big-task-pop-up-due-date-container");
-    removeInputError("big-task-pop-up-title");
-    return false;
-  }
-  return true;
-}
-
-function addInputError(elementId) {
-  document.getElementById(elementId).classList.add("big-task-pop-up-input-error");
-}
-
-function removeInputError(elementId) {
-  document.getElementById(elementId).classList.remove("big-task-pop-up-input-error");
-}
-
-function removeInputErrors() {
-  removeInputError("big-task-pop-up-title");
-  removeInputError("big-task-pop-up-due-date-container");
-}
-
-function createTaskObject(title, description, date) {
-  return {
-    newTitle: title,
-    newDescription: description,
-    newDate: date,
-    newPriority: priorityValue,
-    newAssignedTo: assignedToContactsBigContainer,
-    newSubtaskArray: subtaskArray,
-  };
-}
-
-function createTaskForEditing(task) {
-  let { title, description, date, priority, subtask, assigned } = task;
-  let taskForEditing = {
-    newTitle: title,
-    newDescription: description,
-    newDate: date,
-    newPriority: priority,
-    newSubtaskArray: subtask,
-  };
-  if (assigned) {
-    taskForEditing.newAssignedTo = assigned;
-  }
-  return taskForEditing;
-}
-
-// async function processTaskEditing(id, taskForEditing) {
-//   let newTaskReady = await updateTasksThroughEditing(id, taskForEditing);
-//   let newJsonElement = JSON.stringify(newTaskReady);
-//   let newJsontextElement = encodeURIComponent(newJsonElement);
-//   renderBigTask(newJsontextElement);
-// }
-
-function checkBigEditTaskPriority(priority) {
-  if (priority == "urgent") {
-    document.getElementById("big-edit-task-urgent-priority").classList.add("big-edit-task-urgent-priority-aktiv");
-    document.getElementById("big-edit-task-medium-priority").classList.remove("big-edit-task-medium-priority-aktiv");
-    document.getElementById("big-edit-task-low-priority").classList.remove("big-edit-task-low-priority-aktiv");
-  } else if (priority == "medium") {
-    document.getElementById("big-edit-task-medium-priority").classList.add("big-edit-task-medium-priority-aktiv");
-    document.getElementById("big-edit-task-low-priority").classList.remove("big-edit-task-low-priority-aktiv");
-    document.getElementById("big-edit-task-urgent-priority").classList.remove("big-edit-task-urgent-priority-aktiv");
-  } else if (priority == "low") {
-    document.getElementById("big-edit-task-low-priority").classList.add("big-edit-task-low-priority-aktiv");
-    document.getElementById("big-edit-task-medium-priority").classList.remove("big-edit-task-medium-priority-aktiv");
-    document.getElementById("big-edit-task-urgent-priority").classList.remove("big-edit-task-urgent-priority-aktiv");
-  }
-  return savePriorityValue(priority);
-}
-
-function savePriorityValue(priority) {
-  priorityValue = priority;
-  return priorityValue;
-}
-
-// async function updateTasksThroughEditing(taskId, objectForEditing) {
-//   let task = tasks[taskId];
-//   let updatedTask = await updateTask(task, taskId, objectForEditing);
-//   checkBoxCheckedJson = {};
-//   return updatedTask;
-// }
-
-// async function updateTask(task, taskId, objectForEditing) {
-//   let container = task.container;
-//   let category = task.category;
-//   tasks[taskId] =
-//     task.subtask || subtaskArray != null
-//       ? saveChangesWithSubtask(taskId, objectForEditing, container, category)
-//       : saveChangesWithoutSubtask(taskId, objectForEditing, container, category);
-//   await saveTaskWithCatch(tasks[taskId]);
-//   return tasks[taskId];
-// }
-
-// async function saveTaskWithCatch(task) {
-//   try {
-//     await saveTaskToFirebase(task);
-//   } catch (error) {
-//     console.error("Fehler beim Hochladen der Daten: ", error);
-//   }
-// }
-
-async function deleteData(path = "") {
-  let response = await fetch(BASE_URL + path + ".json", {
-    method: "DELETE",
-  });
-  return (responseToJson = await response.json());
-}
-
 function clearCategoryContainer(categoryContainer) {
   document.getElementById(categoryContainer).innerHTML = "";
 }
@@ -1007,39 +524,10 @@ function handleNoTasksInCategory(categoryContainer) {
   document.getElementById(categoryContainer).innerHTML = oppositeElement;
 }
 
-function taskMarker() {
-  document.getElementById("board").classList.add("currentSection");
-}
-
 function getInitials(name) {
   let nameArray = name.trim().split(" ");
   let initials = nameArray.map((word) => word.charAt(0).toUpperCase()).join("");
   return initials;
-}
-
-// board_filter_and_search.js file
-
-function editPopUpSearchContacts(taskIndex) {
-  let searchValue = getSearchValue();
-  let searchedUsers = filterUsersByName(searchValue);
-  clearPopUp();
-  searchedUsers.forEach((contact) => {
-    let contactIndex = findUserIndex(contact);
-    let isAssigned = checkIfAssigned(contact, taskIndex);
-    renderContact(contact, contactIndex, taskIndex, isAssigned);
-  });
-}
-
-function getSearchValue() {
-  return document.getElementById("big-edit-task-assigned-to-input").value.trim().toLowerCase();
-}
-
-function filterUsersByName(searchValue) {
-  return allUsers.filter((user) => user.name.toLowerCase().startsWith(searchValue));
-}
-
-function findUserIndex(contact) {
-  return allUsers.findIndex((user) => user.name === contact.name);
 }
 
 function searchForTasks() {
@@ -1070,225 +558,4 @@ function renderSearchedTasks() {
 
 function filterTasksByCategory(categoryContainer, tasks) {
   return tasks.filter((task) => task.container === categoryContainer);
-}
-
-// manageSubtask.js file
-
-function renderSubtask(taskJson) {
-  let correctTaskId = taskJson.tasksIdentity;
-  let container = document.getElementById("big-task-pop-up-subtasks-container");
-
-  if (taskJson.subtask && taskJson.subtask.length > 0) {
-    renderSubtasks(taskJson.subtask, correctTaskId, container);
-  } else {
-    renderNoSubtasksMessage(container);
-  }
-}
-
-function renderSubtasks(subtasks, taskId, container) {
-  subtasks.forEach((subtask, index) => {
-    container.innerHTML += subtask["is-tasked-checked"]
-      ? returnSubtaskHTMLWithBolean(taskId, subtask, index)
-      : returnSubtaskHTML(taskId, subtask, index);
-  });
-}
-
-function renderNoSubtasksMessage(container) {
-  container.innerHTML = `
-    <p class='big-task-pop-up-value-text'>No Subtasks</p>
-  `;
-}
-
-async function depositSubtaskChanges(correctTaskId, subtasks) {
-  for (let index = 0; index < subtasks.length; index++) {
-    if (checkBoxCheckedJson.hasOwnProperty(index)) {
-      subtasks[index]["is-tasked-checked"] = checkBoxCheckedJson[index];
-    }
-  }
-  subtaskArray = subtasks;
-  await saveChangedSubtaskToFirebase(correctTaskId);
-}
-
-// async function saveChangedSubtaskToFirebase(correctTaskId) {
-//   let taskPath = `/testRealTasks/${correctTaskId}/subtask`;
-//   let response = await fetch(`${BASE_URL}${taskPath}.json`, {
-//     method: "PUT",
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//     body: JSON.stringify(subtaskArray),
-//   });
-//   if (!response.ok) {
-//     console.error("Fehler beim Speichern der Task in Firebase:", response.status, response.statusText);
-//   } else {
-//   }
-// }
-
-function renderOnlySubtaskContainerPopUp(taskJson) {
-  document.getElementById("big-edit-task-subtask-container").innerHTML = "";
-  subtaskArray = taskJson.subtask;
-  if (taskJson.subtask) {
-    for (let i = 0; i < taskJson.subtask.length; i++) {
-      let subtask = taskJson.subtask[i];
-      document.getElementById("big-edit-task-subtask-container").innerHTML += renderSubtaskInPopUpContainer(i, subtask);
-    }
-  }
-}
-
-function focusSubtaskInput() {
-  document.getElementById("big-edit-task-subtask-input").focus();
-}
-
-function changeSubtaskInputIcons() {
-  let subtaskInputIconContainer = document.getElementById("big-edit-task-subtask-input-icon-container");
-  let subtaskInputValue = document.getElementById("big-edit-task-subtask-input");
-  if (subtaskInputValue.value === "") {
-    subtaskInputIconContainer.innerHTML = returnSubtaskInputHTMLPlusIconSVG();
-  } else {
-    subtaskInputIconContainer.innerHTML = returnSubtaskInputHTMLCloseIcon();
-  }
-}
-
-function resetSubtaskInput() {
-  document.getElementById("big-edit-task-subtask-input").value = "";
-  changeSubtaskInputIcons();
-}
-
-function buildSubtaskArrayForUpload() {
-  if (!subtaskArray) {
-    subtaskArray = emptyList;
-  }
-  let subtaskInput = document.getElementById("big-edit-task-subtask-input");
-  if (subtaskInput.value.trim().length > 0) {
-    let subtaskJson = createSubtaskJson(subtaskInput.value);
-
-    subtaskArray.push(subtaskJson);
-    insertSubtasksIntoContainer();
-    subtaskInput.value = "";
-  }
-}
-
-function editSubtaskPopUpInput(i) {
-  insertSubtasksIntoContainer();
-  container = document.getElementById(`subtaskNumber${i}`);
-  container.onmouseover = null;
-  container.onmouseout = null;
-  container.innerHTML = returnSubtaskEditedPopUpHTMLContainer(i);
-}
-
-function saveEditedSubtaskPopUp(i) {
-  let text = document.getElementById(`subtaskEditedPopUp`).value;
-  if (text == "") {
-    markFalseEditSubtaskInput(`subtaskEditedPopUp`, i);
-  } else {
-    subtaskArray[i]["task-description"] = text;
-    insertSubtasksIntoContainer();
-  }
-}
-
-function markFalseEditSubtaskInput(inputString, i) {
-  let subtaskContainer = document.getElementById(`big-task-pop-up-subtask-all`);
-  subtaskContainer.innerHTML += returnMessageFalseInputValueHTML();
-}
-
-function deleteSubtaskPopUp(i) {
-  subtaskArray.splice(i, 1);
-  insertSubtasksIntoContainer();
-}
-
-async function getSubtaskFromDataBase(id) {
-  let oldTaskAll = await loadRelevantData(`/testRealTasks/${id}`);
-  if (oldTaskAll.subtask) {
-    return oldTaskAll.subtask;
-  } else {
-    let subtaskArray = [];
-    return subtaskArray;
-  }
-}
-
-function resetSubtasks() {
-  subtaskArray = [];
-  checkBoxCheckedJson = {};
-}
-
-// async function saveSubtaskChanges(id) {
-//   let task = tasks[id];
-//   let taskForEditing = createTaskForEditing(task);
-//   try {
-//     await processTaskEditing(id, taskForEditing);
-//   } catch (error) {
-//   }
-//   resetSubtasks();
-//   updateHTML();
-// }
-
-function saveChangesSingleTaskWithSubtask(taskId, objectForEditing, container, category) {
-  tasks[taskId] = {
-    assigned: objectForEditing["newAssignedTo"],
-    category: category,
-    container: container,
-    date: objectForEditing["newDate"],
-    description: objectForEditing["newDescription"],
-    priority: objectForEditing["newPriority"],
-    tasksIdentity: taskId,
-    title: objectForEditing["newTitle"],
-    subtask: objectForEditing["newSubtaskArray"],
-  };
-  let newTask = tasks[taskId];
-  assignedToContactsBigContainer = [];
-  return newTask;
-}
-
-function saveChangesSingleTaskWithoutSubtask(taskId, objectForEditing, container, category) {
-  tasks[taskId] = {
-    assigned: objectForEditing["newAssignedTo"],
-    category: category,
-    container: container,
-    date: objectForEditing["newDate"],
-    description: objectForEditing["newDescription"],
-    priority: objectForEditing["newPriority"],
-    tasksIdentity: taskId,
-    title: objectForEditing["newTitle"],
-  };
-  let newTask = tasks[taskId];
-  assignedToContactsBigContainer = [];
-  return newTask;
-}
-
-function saveChangesWithSubtask(taskId, objectForEditing, container, category) {
-  return saveChangesSingleTaskWithSubtask(taskId, objectForEditing, container, category);
-}
-
-function saveChangesWithoutSubtask(taskId, objectForEditing, container, category) {
-  return saveChangesSingleTaskWithoutSubtask(taskId, objectForEditing, container, category);
-}
-
-function bigEditTaskSubtaskInputCheckEnter(event) {
-  if (event.key === "Enter") {
-    buildSubtaskArrayForUpload();
-  }
-}
-
-function setupSubtaskArray(taskJson) {
-  subtaskArray = taskJson.subtask || [];
-  taskJson.subtask = subtaskArray;
-}
-
-// Sonstiges 
-
-function returnColorAndAssignedToContacts(contact, index, lengthOfAssignedTo, taskJson) {
-  if (index < 3) {
-    document.getElementById("big-edit-task-assigned-to-contact-container").innerHTML += `
-    <div class='big-edit-task-assigned-to-contact' style='background-color:${contact.color}'>
-      ${firstLetterFirstTwoWords(contact.name)}
-    </div>
-  `;
-  } else if (index === 3) {
-    document.getElementById(
-      "big-edit-task-assigned-to-contact-container"
-    ).innerHTML += `<div class='bigTaskAssignedToNumberContainer'><span>+ ${lengthOfAssignedTo - 3}</span></div>`;
-  } else {
-    updateBigTaskContactsContainerPlus(taskJson, lengthOfAssignedTo);
-    return "";
-  }
 }
