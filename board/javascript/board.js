@@ -358,18 +358,26 @@ function renderSubtask(taskElement) { // Ersetze taskJson durch taskElement
   }
 }
 
-function renderSubtasks(subtasks, taskId) { 
+async function renderSubtasks(subtasks, taskId) { 
   // <!--- Ganz Wichtig ! ---!>
 
   // returnSubtaskHTMLWithBolean => Lade subtaskHtmlWithBolean.tpl
   // returnSubtaskHTML => Lade subtaskInPopUpContainer.tpl
   
-  let container = document.getElementById("big-task-pop-up-subtasks-container");
-  subtasks.forEach((subtask, index) => {
-    container.innerHTML += subtask["is-tasked-checked"]
-      ? returnSubtaskHTMLWithBolean(taskId, subtask, index)
-      : returnSubtaskHTML(taskId, subtask, index);
+  console.log('Are subtasks defined: ', subtasks);
+  // let container = document.getElementById("big-task-pop-up-subtasks-container");
+  let template = await shared.initHTMLContent('../../board/templates/board_subtask_templates/subtaskInPopUpContainer.tpl','big-task-pop-up-subtasks-container');
+  template.id = `subtaskInPopUp${taskId}`;
+  subtasks.forEach(subtask => {
+      template.querySelector('li').innerHTML += subtask["task-description"];
   });
+  // document.getElementById(`subtaskNumber${taskId}`);
+  // shared.initHTMLContent();
+  // subtasks.forEach((subtask, index) => {
+  //   container.innerHTML += subtask["is-tasked-checked"]
+  //     ? returnSubtaskHTMLWithBolean(taskId, subtask, index)
+  //     : returnSubtaskHTML(taskId, subtask, index);
+  // });
 }
 
 function renderNoSubtasksMessage() {
