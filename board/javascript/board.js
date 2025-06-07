@@ -312,6 +312,42 @@ async function showBigTaskPopUp(taskElement) {
   document.getElementById("big-task-pop-up").classList.remove("translate-100");
   document.body.style.overflow = "hidden";
   await renderBigTask(taskElement);
+  assignEventListenersToBigTask(taskElement);
+}
+
+function assignEventListenersToBigTask(taskElement){
+  document.getElementById('big-task-pop-up-delete-button').addEventListener('click', () => {
+    hideBigTaskPopUp();
+    deleteTask('big-task-pop-up');
+  });
+  document.getElementById('big-task-pop-up-edit-button').addEventListener('click', () => {
+    renderEditTask(taskElement, id);
+  })
+}
+
+function hideBigTaskPopUp() {
+  isBigTaskPopUpOpen = false;
+  document.getElementById("big-task-pop-up-title").classList.remove("big-task-pop-up-input-error");
+  document.getElementById("big-task-pop-up-due-date-container").classList.remove("big-task-pop-up-input-error");
+  document.getElementById("big-task-pop-up-bg").classList.add("bg-op-0");
+  document.getElementById("big-task-pop-up").classList.add("translate-100");
+  document.body.style.overflow = "unset";
+  if (document.getElementById("big-task-pop-up-title-text")) {
+    let title = document.getElementById("big-task-pop-up-title-text").innerHTML;
+    let id = tasks.findIndex((task) => task.title === title);
+    saveSubtaskChanges(id);
+  }
+}
+
+function renderEditTask(taskElement, id) {
+  let oldPriority = taskElement.priority;
+  let oldTitle = document.getElementById("big-task-pop-up-title-text").innerHTML;
+  let oldDescription = document.getElementById("big-task-pop-up-description").innerHTML;
+  let oldDate = document.getElementById("big-task-pop-up-date").innerHTML;
+  document.getElementById("big-task-pop-up-category").innerHTML = "";
+  document.getElementById("big-task-pop-up-category").style = "background-color: white;";
+  renderCurrentTaskId = id;
+  renderAllBigPopUp(oldTitle, oldDescription, oldDate, oldPriority, taskElement, id);
 }
 
 async function renderBigTask(taskElement) {
@@ -350,51 +386,56 @@ function renderCorrectAssignedNamesIntoBigTask(taskElement) {
 }
 
 function renderSubtask(taskElement) { // Ersetze taskJson durch taskElement
-  let correctTaskId = taskElement.id;
   if (taskElement.subtask && taskElement.subtask.length > 0) {
-    renderSubtasks(taskElement.subtask, correctTaskId);
+    renderSubtasks(taskElement.subtask); // correctTaskId
   } else {
     renderNoSubtasksMessage();
   }
 }
 
-async function renderSubtasks(subtasks, taskId) { 
-  // <!--- Ganz Wichtig ! ---!>
+function renderSubtasks(subtasks) { 
+  subtasks.forEach(async (subtask, index) => {
+    let template = await shared.initHTMLContent('../../board/templates/board_subtask_templates/subtaskHtmlWithBolean.tpl', 'big-task-pop-up-subtasks-container');
+    template.id = `subtaskInPopUp${index}`;
+    template.querySelectorAll('svg')[0].id = `checkBoxIconUnchecked${index}`;
+    template.querySelectorAll('svg')[1].id = `checkBoxIconChecked${index}`;
+    template.querySelector('p').innerHTML = subtask['task-description'];
 
-  // returnSubtaskHTMLWithBolean => Lade subtaskHtmlWithBolean.tpl
-  // returnSubtaskHTML => Lade subtaskInPopUpContainer.tpl
-  
-  console.log('Are subtasks defined: ', subtasks);
-  // let container = document.getElementById("big-task-pop-up-subtasks-container");
-  let template = await shared.initHTMLContent('../../board/templates/board_subtask_templates/subtaskInPopUpContainer.tpl','big-task-pop-up-subtasks-container');
-  template.id = `subtaskInPopUp${taskId}`;
-  subtasks.forEach(subtask => {
-      template.querySelector('li').innerHTML += subtask["task-description"];
+    document.getElementById(`checkBoxIconUnchecked${index}`).addEventListener('click', () => {
+      addCheckedStatus(index, correctTaskId); // correctTaskId => Id für die übergeordnete Task ?
+    });
+    document.getElementById(`checkBoxIconChecked${index}`).addEventListener('click', () => {
+      addCheckedStatus(i, correctTaskId);
+    })
   });
-  // document.getElementById(`subtaskNumber${taskId}`);
-  // shared.initHTMLContent();
-  // subtasks.forEach((subtask, index) => {
-  //   container.innerHTML += subtask["is-tasked-checked"]
-  //     ? returnSubtaskHTMLWithBolean(taskId, subtask, index)
-  //     : returnSubtaskHTML(taskId, subtask, index);
-  // });
 }
+
+// function insertSubtasksIntoContainer() {
+//   document.getElementById("big-edit-task-subtask-container").innerHTML = "";
+//   document.getElementById("big-edit-task-subtask-container").innerHTML = "";
+//   if (subtaskArray && subtaskArray.length >= 1) {
+//     for (let i = 0; i < subtaskArray.length; i++) {
+//       let subtask = subtaskArray[i];
+//       document.getElementById("big-edit-task-subtask-container").innerHTML += renderSubtaskInPopUpContainer(i, subtask);
+//     }
+//   } else if (subtaskArray && subtaskArray.length == 0 && tasks[renderCurrentTaskId]["subtask"]) {
+//   } else if (!subtaskArray && !tasks[renderCurrentTaskId]["subtask"]) {
+//     document.getElementById("big-edit-task-subtask-container").innerHTML += "";
+//   }
+// }
+
+// function editSubtaskPopUpInput(i) {
+//   insertSubtasksIntoContainer();
+//   container = document.getElementById(`subtaskNumber${i}`);
+//   container.onmouseover = null;
+//   container.onmouseout = null;
+//   container.innerHTML = returnSubtaskEditedPopUpHTMLContainer(i);
+// }
 
 function renderNoSubtasksMessage() {
   let container = document.getElementById("big-task-pop-up-subtasks-container");
   container.innerHTML = `<p class='big-task-pop-up-value-text'>No Subtasks</p>`;
 }
-
-// function returnHTMLBigTaskPopUpContactAll(taskElement) {
-//   let contactsHTML = generateContactsHTML(taskElement);
-//   document.getElementById("big-task-pop-up-contact-all").innerHTML = `
-//     <h2 class="big-task-pop-up-label-text">Assigned To:</h2>
-//     <div id="big-task-pop-up-contact-container">
-//       <div>${contactsHTML}</div>
-//       <p>${name}</p>
-//     </div>
-//   `;
-// }
 
 function returnContactHTML(taskElement, initials, index){
   document.getElementById('big-task-pop-up-contact-container').innerHTML += `
@@ -446,7 +487,7 @@ function startDragging(elementId) {
   elementDraggedOver = elementId;
 }
 
-async function moveTo(container) {
+async function moveTo(container) { 
   let oppositeContainer = "no-" + container;
   let task = tasks.find((task) => task.id == elementDraggedOver);
   if (task) {
@@ -454,11 +495,6 @@ async function moveTo(container) {
     updateHTML();
     removeEmptyMessage(container, oppositeContainer);
   }
-  // try {
-  //   await saveTaskToFirebase(task);
-  // } catch (error) {
-  //   console.error("Fehler beim Speichern der tasks in der Firebase-Datenbank:", error);
-  // }
 }
 
 function removeEmptyMessage(container, oppositeContainer) {
@@ -496,11 +532,6 @@ async function moveTasksToCategory(taskIndex, newCategory) {
     updateHTML();
     let taskElement = document.getElementById("task" + taskIndex);
     taskElement.scrollIntoView({ behavior: "smooth", block: "center" });
-    // try {
-    //   await saveTaskToFirebase(task);
-    // } catch (error) {
-    //   console.error("Fehler beim Speichern der tasks in der Firebase-Datenbank:", error);
-    // }
   }
 }
 
