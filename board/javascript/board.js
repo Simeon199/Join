@@ -2,6 +2,7 @@ import * as shared from '../../shared/javascript/shared.js';
 import * as feedbackAndUrgency from './feedbackAndUrgencyTemplate.js';
 import * as firebase from '../../core/firebase.js';
 
+let boardTemplatePrefix = '../../board/templates';
 let tasks = [];
 let categories = [];
 let searchedTasks = [];
@@ -166,35 +167,56 @@ function iterateThroughSubArray(taskArray, containerName) {
 }
 
 function createToDoHTML(taskElement) {
-  // let rightIcon = insertCorrectUrgencyIcon(taskElement);
   let oppositeCategory = `no-${taskElement.container}`;
-  // let contactsHTML = generateContactsHTML(taskElement);
-  // console.log('task element in createToDoHTML:', taskElement);
-  return generateTaskHTML(taskElement, oppositeCategory); // contactsHTML
+  return generateTaskHTML(taskElement, oppositeCategory); 
 }
 
-function generateTaskHTML(taskElement, contactsHTML, oppositeCategory, rightIcon) {
-  if (taskElement["subtask"] && taskElement["subtask"].length > 0) {
-    let numberOfTasksChecked = 0;
-    for (let index = 0; index < taskElement["subtask"].length; index++) {
-      if (taskElement["subtask"][index]["is-tasked-checked"] == true) {
-        numberOfTasksChecked += 1;
-      }
-    }
-    let taskbarWidth = Math.round((numberOfTasksChecked / taskElement["subtask"].length) * 100);
-    let taskObject = {
-      'taskElement': taskElement,
-      'oppositeCategory': oppositeCategory,
-      'rightIcon': rightIcon,
-      'taskbarWidth': taskbarWidth,
-      'numberOfTasksChecked': numberOfTasksChecked
-    };
-    returnTaskHtmlWithSubtask(taskObject); 
-  } else if (taskElement["subtask"] && taskElement["subtask"].length == 0) {
-    return returnTaskHtmlWithoutSubtask(taskElement, contactsHTML, oppositeCategory, rightIcon); // jsonTextElement
+function generateTaskHTML(taskElement, oppositeCategory) { // contactsHTML oppositeCategory rightIcon
+  if (doesSubtaskObjectExistWithPositiveLength(taskElement)) {
+    prepareTaskWithSubtaskAndCreateIt(taskElement, oppositeCategory);
+  } else if (doesSubtaskObjectExistWithLengthEqualsNull(taskElement)) {
+    return returnTaskHtmlWithoutSubtask(taskElement); // rightIcon contactsHTML oppositeCategory
   } else {
-    return returnTaskHtmlWithoutSubtask(taskElement, contactsHTML, oppositeCategory, rightIcon); // jsonTextElement
+    return returnTaskHtmlWithoutSubtask(taskElement); // rightIcon contactsHTML oppositeCategory
   }
+}
+
+function prepareTaskWithSubtaskAndCreateIt(taskElement, oppositeCategory){
+  let numberOfTasksChecked = 0;
+  let taskObject = calculateNumberOfCheckedSubtasksAndCreateTaskObject(taskElement, oppositeCategory, numberOfTasksChecked); 
+  returnTaskHtmlWithSubtask(taskObject);
+}
+
+function calculateNumberOfCheckedSubtasksAndCreateTaskObject(taskElement, oppositeCategory, numberOfTasksChecked){
+  computeNumberOfSubtasksChecked(numberOfTasksChecked, taskElement);
+  let taskbarWidth = Math.round((numberOfTasksChecked / taskElement["subtask"].length) * 100);
+  let taskObject = {
+    'taskElement': taskElement,
+    'oppositeCategory': oppositeCategory,
+    'taskbarWidth': taskbarWidth,
+    'numberOfTasksChecked': numberOfTasksChecked
+  };
+  return taskObject;
+}
+
+function computeNumberOfSubtasksChecked(numberOfTasksChecked, taskElement){
+  for (let index = 0; index < taskElement["subtask"].length; index++) {
+    if (isSubtaskChecked(taskElement, index)) {
+      numberOfTasksChecked += 1;
+    }
+  }
+}
+
+function doesSubtaskObjectExistWithPositiveLength(taskElement){
+  return taskElement["subtask"] && taskElement["subtask"].length > 0
+}
+
+function doesSubtaskObjectExistWithLengthEqualsNull(taskElement){
+  return taskElement["subtask"] && taskElement["subtask"].length === 0;
+}
+
+function isSubtaskChecked(taskElement, index){
+  return taskElement["subtask"][index]["is-tasked-checked"] === true
 }
 
 async function returnTaskHtmlWithSubtask(taskObject){
@@ -207,8 +229,13 @@ async function returnTaskHtmlWithSubtask(taskObject){
   return template;
 }
 
+async function returnTaskHtmlWithoutSubtask(taskElement){
+  let template = await shared.initHTMLContent(`${boardTemplatePrefix}/board_subtask_templates/taskHtmlWithoutSubtask.tpl`, taskElement['container']);
+  template.id = `task${taskElement['id']}`;
+}
+
 async function loadTemplateForTaskOnBoardAndAssignIds(taskObject, taskIndex){
-  let template = await shared.initHTMLContent('../../board/templates/board_subtask_templates/taskHtmlWithSubtask.tpl', taskObject.taskElement.container);
+  let template = await shared.initHTMLContent(`${boardTemplatePrefix}/board_subtask_templates/taskHtmlWithSubtask.tpl`, taskObject.taskElement.container);
   template.id = `task${taskIndex}`;
   template.querySelector('.task-category').style.backgroundColor = checkCategoryColor(taskObject.taskElement.category);
   template.querySelector('.task-category').innerHTML =  taskObject.taskElement.category;
@@ -307,7 +334,7 @@ function openMobileDropdown(taskIndex) {
 
 async function showBigTaskPopUp(taskElement) { 
   isBigTaskPopUpOpen = true;
-  await shared.initHTMLContent('../../board/templates/big_task_pop_up_templates/big_task-pop-up-template.tpl', 'big-task-pop-up-bg');
+  await shared.initHTMLContent(`${boardTemplatePrefix}/big_task_pop_up_templates/big_task-pop-up-template.tpl`, 'big-task-pop-up-bg');
   document.getElementById("big-task-pop-up-bg").classList.remove("bg-op-0");
   document.getElementById("big-task-pop-up").classList.remove("translate-100");
   document.body.style.overflow = "hidden";
@@ -385,9 +412,9 @@ function renderCorrectAssignedNamesIntoBigTask(taskElement) {
   }
 }
 
-function renderSubtask(taskElement) { // Ersetze taskJson durch taskElement
+function renderSubtask(taskElement) {
   if (taskElement.subtask && taskElement.subtask.length > 0) {
-    renderSubtasks(taskElement.subtask); // correctTaskId
+    renderSubtasks(taskElement.subtask); 
   } else {
     renderNoSubtasksMessage();
   }
@@ -395,19 +422,57 @@ function renderSubtask(taskElement) { // Ersetze taskJson durch taskElement
 
 function renderSubtasks(subtasks) { 
   subtasks.forEach(async (subtask, index) => {
-    let template = await shared.initHTMLContent('../../board/templates/board_subtask_templates/subtaskHtmlWithBolean.tpl', 'big-task-pop-up-subtasks-container');
-    template.id = `subtaskInPopUp${index}`;
-    template.querySelectorAll('svg')[0].id = `checkBoxIconUnchecked${index}`;
-    template.querySelectorAll('svg')[1].id = `checkBoxIconChecked${index}`;
-    template.querySelector('p').innerHTML = subtask['task-description'];
-
+    await loadSubtasksTemplateAndAssignIds(subtask, index);
     document.getElementById(`checkBoxIconUnchecked${index}`).addEventListener('click', () => {
-      addCheckedStatus(index, correctTaskId); // correctTaskId => Id für die übergeordnete Task ?
+      addCheckedStatus(index); 
     });
     document.getElementById(`checkBoxIconChecked${index}`).addEventListener('click', () => {
-      addCheckedStatus(i, correctTaskId);
-    })
+      addCheckedStatus(index); 
+    });
   });
+}
+
+async function loadSubtasksTemplateAndAssignIds(subtask, index){  
+  let template = await shared.initHTMLContent(`${boardTemplatePrefix}/board_subtask_templates/subtaskHtmlWithBolean.tpl`, 'big-task-pop-up-subtasks-container');
+  template.id = `subtaskInPopUp${index}`;
+  template.querySelectorAll('svg')[0].id = `checkBoxIconUnchecked${index}`;
+  template.querySelectorAll('svg')[1].id = `checkBoxIconChecked${index}`;
+  template.querySelector('p').innerHTML = subtask['task-description'];
+}
+
+async function addCheckedStatus(index) {
+  let subtasks = tasks[index]["subtask"]; 
+  let checkBoxChecked = toggleCheckboxIcons(index);
+  updateCheckboxStatus(index, checkBoxChecked);
+  depositSubtaskChanges(subtasks); 
+}
+
+function updateCheckboxStatus(index, checkBoxChecked) {
+  checkBoxCheckedJson[index] = checkBoxChecked;
+}
+
+function toggleCheckboxIcons(index) {
+  let checkBoxIconUnchecked = document.getElementById(`checkBoxIconUnchecked${index}`);
+  let checkBoxIconChecked = document.getElementById(`checkBoxIconChecked${index}`);
+  if (!checkBoxIconUnchecked.classList.contains("d-none") && checkBoxIconChecked.classList.contains("d-none")) {
+    checkBoxIconUnchecked.classList.add("d-none");
+    checkBoxIconChecked.classList.remove("d-none");
+    return true;
+  } else if (!checkBoxIconChecked.classList.contains("d-none") && checkBoxIconUnchecked.classList.contains("d-none")) {
+    checkBoxIconUnchecked.classList.remove("d-none");
+    checkBoxIconChecked.classList.add("d-none");
+    return false;
+  }
+}
+
+async function depositSubtaskChanges(subtasks) { // correctTaskId
+  for (let index = 0; index < subtasks.length; index++) {
+    if (checkBoxCheckedJson.hasOwnProperty(index)) {
+      subtasks[index]["is-tasked-checked"] = checkBoxCheckedJson[index];
+    }
+  }
+  subtaskArray = subtasks;
+  // await saveChangedSubtaskToFirebase(correctTaskId);
 }
 
 // function insertSubtasksIntoContainer() {
