@@ -175,9 +175,9 @@ function generateTaskHTML(taskElement, oppositeCategory) { // contactsHTML oppos
   if (doesSubtaskObjectExistWithPositiveLength(taskElement)) {
     prepareTaskWithSubtaskAndCreateIt(taskElement, oppositeCategory);
   } else if (doesSubtaskObjectExistWithLengthEqualsNull(taskElement)) {
-    return returnTaskHtmlWithoutSubtask(taskElement); // rightIcon contactsHTML oppositeCategory
+    return returnTaskHtmlWithoutSubtask(taskElement, oppositeCategory); // rightIcon contactsHTML oppositeCategory
   } else {
-    return returnTaskHtmlWithoutSubtask(taskElement); // rightIcon contactsHTML oppositeCategory
+    return returnTaskHtmlWithoutSubtask(taskElement, oppositeCategory); // rightIcon contactsHTML oppositeCategory
   }
 }
 
@@ -230,13 +230,46 @@ async function returnTaskHtmlWithSubtask(taskObject){
 }
 
 async function returnTaskHtmlWithoutSubtask(taskElement){
+  let id = `task${taskElement['id']}`;
   let template = await shared.initHTMLContent(`${boardTemplatePrefix}/board_subtask_templates/taskHtmlWithoutSubtask.tpl`, taskElement['container']);
-  template.id = `task${taskElement['id']}`;
+  template.id = id;
+  let taskRef = document.getElementById(id);
+  taskRef.querySelector('.task-category').style = `background: ${checkCategoryColor(taskElement.category)}`;
+  taskRef.querySelector('.task-category').innerHTML = taskElement.category;
+  taskRef.setAttribute('draggable', 'true');
+  template.querySelector('.mobileDropdown').id = `dropdown${taskElement.id}`;
+  taskRef.querySelector('.task-title').innerHTML = `${taskElement.title}`;
+  taskRef.querySelector('.task-description').innerHTML = `${taskElement.description}`;
+  taskRef.querySelector('.task-contacts').innerHTML = generateContactsHTML(taskElement);
+  taskRef.querySelector('.priority-icon').appendChild(await insertCorrectUrgencyIcon(taskElement));
+
+  handleMoveTasksEvents(taskElement.id);
+  taskRef.addEventListener('dragstart', () => {
+    startDragging(taskElement.id);
+    rotateFunction(taskElement.id);
+  });
+  taskRef.addEventListener('dragend', () => {
+    checkIfEmpty(taskElement.container, oppositeCategory);
+  });
+  taskRef.addEventListener('dragover', (event) => {
+    allowDrop(event);
+  });
+  taskRef.addEventListener('drop', () => {
+    moveTo(taskElement.container);
+  });
+  taskRef.addEventListener('click', () => {
+    showBigTaskPopUp(taskElement);
+  });
+  taskRef.querySelector('.dropdownSVG').addEventListener('click', (event) => {
+    openMobileDropdown(taskElement.id);
+    shared.stopEvent(event);
+  });
 }
 
 async function loadTemplateForTaskOnBoardAndAssignIds(taskObject, taskIndex){
   let template = await shared.initHTMLContent(`${boardTemplatePrefix}/board_subtask_templates/taskHtmlWithSubtask.tpl`, taskObject.taskElement.container);
   template.id = `task${taskIndex}`;
+  document.getElementById(`task${taskIndex}`).setAttribute('draggable', 'true');
   template.querySelector('.task-category').style.backgroundColor = checkCategoryColor(taskObject.taskElement.category);
   template.querySelector('.task-category').innerHTML =  taskObject.taskElement.category;
   template.querySelector('.dropdownSVG').id = `dropdown${taskIndex}`;
@@ -312,7 +345,7 @@ function handleDropEventsForMobileVersion(taskObject, taskIndex){
 }
 
 function openMobileDropdown(taskIndex) {
-  let dropdown = document.getElementById(`mobileDropdown${taskIndex}`);
+  let dropdown = document.getElementById(`dropdown${taskIndex}`); // mobileDropdown${taskIndex}
   dropdown.classList.toggle("mobileDropdown-translate-100");
   let task = tasks.find((task) => task.id === taskIndex);
   let currentCategory = task.container;
