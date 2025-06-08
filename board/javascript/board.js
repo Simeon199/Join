@@ -139,20 +139,24 @@ async function getAllTasks(){
 } 
 
 export function updateHTML() {
-  allCategories.forEach((container) => {
+  console.log('tasks', tasks);
+  allCategories.forEach((container, index) => { // Problem: Schleife geht nicht durch das komplette allCategories-Array durch
+    // console.log('container and index: ', container, index);
+    console.log('container in loop: ', tasks[index]['container'], index);
     let element = document.getElementById(container);
     let oppositeElementName = `no-${container}`;
-    let oppositeElement = getRightOppositeElement(oppositeElementName);
-    if (element) {
+    let oppositeElement = feedbackAndUrgency.getRightOppositeElement(oppositeElementName);
+    if (element && tasks[index]['container'] === container) { // Diese If-Schleife wird fälschlicherweise nicht ausgeführt
       let filteredTasks = tasks.filter((task) => task.container === container);
       element.innerHTML = "";
       if (filteredTasks.length > 0) {
         iterateThroughSubArray(filteredTasks, container);
-      } else {
+      } 
+    } else if(tasks[index]['container'] !== container) { // Diese Bedingung muss über anderen Weg geprüft werden!
         element.innerHTML = oppositeElement;
       }
-    }
-  });
+  }
+);
 }
 
 function iterateThroughSubArray(taskArray, containerName) {
@@ -171,13 +175,13 @@ function createToDoHTML(taskElement) {
   return generateTaskHTML(taskElement, oppositeCategory); 
 }
 
-function generateTaskHTML(taskElement, oppositeCategory) { // contactsHTML oppositeCategory rightIcon
+function generateTaskHTML(taskElement, oppositeCategory) {
   if (doesSubtaskObjectExistWithPositiveLength(taskElement)) {
     prepareTaskWithSubtaskAndCreateIt(taskElement, oppositeCategory);
   } else if (doesSubtaskObjectExistWithLengthEqualsNull(taskElement)) {
-    return returnTaskHtmlWithoutSubtask(taskElement, oppositeCategory); // rightIcon contactsHTML oppositeCategory
+    return returnTaskHtmlWithoutSubtask(taskElement, oppositeCategory); 
   } else {
-    return returnTaskHtmlWithoutSubtask(taskElement, oppositeCategory); // rightIcon contactsHTML oppositeCategory
+    return returnTaskHtmlWithoutSubtask(taskElement, oppositeCategory); 
   }
 }
 
@@ -301,7 +305,7 @@ function manageEventListenersOnTaskDiv(taskObject, taskIndex){
 }
 
 function handleMoveTasksEvents(taskIndex){
-  let rightMobileDrowdown = document.getElementById(`dropdown${taskIndex}`); // mobileDropdown${taskIndex}
+  let rightMobileDrowdown = document.getElementById(`dropdown${taskIndex}`); 
   rightMobileDrowdown.addEventListener('click', (event) => {
     if(event.target.tagName === 'To Do'){
       shared.stopEvent(event);
@@ -345,7 +349,7 @@ function handleDropEventsForMobileVersion(taskObject, taskIndex){
 }
 
 function openMobileDropdown(taskIndex) {
-  let dropdown = document.getElementById(`dropdown${taskIndex}`); // mobileDropdown${taskIndex}
+  let dropdown = document.getElementById(`dropdown${taskIndex}`);
   dropdown.classList.toggle("mobileDropdown-translate-100");
   let task = tasks.find((task) => task.id === taskIndex);
   let currentCategory = task.container;
@@ -603,18 +607,6 @@ function removeEmptyMessage(container, oppositeContainer) {
   }
 }
 
-function getRightOppositeElement(oppositeElementName) {
-  if (oppositeElementName === "no-await-feedback-container") {
-    feedbackAndUrgency.returnHtmlNoFeedbackContainer();
-  } else if (oppositeElementName === "no-in-progress-container") {
-    feedbackAndUrgency.returnHtmlNoProgressContainer();
-  } else if (oppositeElementName === "no-to-do-container") {
-    feedbackAndUrgency.returnHtmlNoToDoContainer();
-  } else if (oppositeElementName === "no-done-container") {
-    feedbackAndUrgency.returnHtmlNoDoneContainer();
-  }
-}
-
 function allowDrop(event) {
   event.preventDefault();
 }
@@ -657,7 +649,7 @@ function clearCategoryContainer(categoryContainer) {
 
 function handleNoTasksInCategory(categoryContainer) {
   let oppositeElementName = "no-" + categoryContainer;
-  let oppositeElement = getRightOppositeElement(oppositeElementName);
+  let oppositeElement = feedbackAndUrgency.getRightOppositeElement(oppositeElementName);
   document.getElementById(categoryContainer).innerHTML = oppositeElement;
 }
 

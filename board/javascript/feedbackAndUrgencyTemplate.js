@@ -34,3 +34,15 @@ export async function returnHtmlNoDoneContainer() {
     let template = await shared.initHTMLContent('../../board/templates/board_container_templates/no_done_container.tpl', 'section-done');
     return template;
 }
+
+export function getRightOppositeElement(oppositeElementName) {
+  if (oppositeElementName === "no-await-feedback-container") {
+    returnHtmlNoFeedbackContainer();
+  } else if (oppositeElementName === "no-in-progress-container") {
+    returnHtmlNoProgressContainer();
+  } else if (oppositeElementName === "no-to-do-container") {
+    returnHtmlNoToDoContainer();
+  } else if (oppositeElementName === "no-done-container") {
+    returnHtmlNoDoneContainer();
+  }
+}
