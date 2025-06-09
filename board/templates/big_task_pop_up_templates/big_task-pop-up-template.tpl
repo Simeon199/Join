@@ -7,7 +7,7 @@
         </svg>
     </div>
     <div id="big-task-pop-up-title">
-        <h1 id="big-task-pop-title-text"></h1>
+        <h1 id="big-task-pop-up-title-text"></h1>
     </div>
     <div id="big-task-pop-up-description"></div>
     <div class="big-task-pop-up-info-container" id="big-task-pop-up-due-date-container">
