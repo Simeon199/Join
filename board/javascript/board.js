@@ -29,8 +29,8 @@ let touchTime;
 let currentOpenDropdown = null;
 
 document.addEventListener('DOMContentLoaded', async () => {
-  shared.bundleLoadingHTMLTemplates();
-  loadTasksFromDatabase();
+  await shared.bundleLoadingHTMLTemplates();
+  await loadTasksFromDatabase();
 
   // All Event Listeners
   document.getElementById('add-task-button-mobile').addEventListener('click', () => {
@@ -111,7 +111,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 async function loadTasksFromDatabase() {
   tasks = await getAllTasks();
   updateCategories();
-  updateHTML();
+  await updateHTML();
 }
 
 function updateCategories() {
@@ -128,7 +128,7 @@ async function getAllTasks(){
       (snapshot) => {
         let taskData = snapshot.val();
         resolve(Object.values(taskData));
-        console.log('contacts: ', Object.values(taskData));
+        console.log('tasks: ', Object.values(taskData));
       },
     ),
     (error) => {
@@ -138,57 +138,72 @@ async function getAllTasks(){
   });
 } 
 
-export function updateHTML() {
-  console.log('tasks', tasks);
-  allCategories.forEach((container, index) => { // Problem: Schleife geht nicht durch das komplette allCategories-Array durch
-    // console.log('container and index: ', container, index);
-    console.log('container in loop: ', tasks[index]['container'], index);
+export async function updateHTML() {
+  for (const container of allCategories) {
     let element = document.getElementById(container);
-    let oppositeElementName = `no-${container}`;
-    let oppositeElement = feedbackAndUrgency.getRightOppositeElement(oppositeElementName);
-    if (element && tasks[index]['container'] === container) { // Diese If-Schleife wird fälschlicherweise nicht ausgeführt
+    if (element) { 
       let filteredTasks = tasks.filter((task) => task.container === container);
+      let remainingTasks = tasks.filter((task) => task.container !== container);
       element.innerHTML = "";
       if (filteredTasks.length > 0) {
-        iterateThroughSubArray(filteredTasks, container);
-      } 
-    } else if(tasks[index]['container'] !== container) { // Diese Bedingung muss über anderen Weg geprüft werden!
-        element.innerHTML = oppositeElement;
+        await iterateThroughSubArray(filteredTasks, container);
+      } else if(remainingTasks.length > 0){
+        let oppositeElementName = `no-${container}`;
+        element.appendChild(await feedbackAndUrgency.getRightOppositeElement(oppositeElementName));
       }
+    }
   }
-);
 }
 
-function iterateThroughSubArray(taskArray, containerName) {
+// export async function updateHTML() {
+//   allCategories.forEach(async (container, index) => {
+//     let element = document.getElementById(container);
+//     let oppositeElementName = `no-${container}`;
+//     let oppositeElement = feedbackAndUrgency.getRightOppositeElement(oppositeElementName);
+//     if (element) { 
+//       let filteredTasks = tasks.filter((task) => task.container === container);
+//       element.innerHTML = "";
+//       if (filteredTasks.length > 0) {
+//         return await iterateThroughSubArray(filteredTasks, container);
+//       } 
+//       else if(tasks[index]['container'] !== container) { 
+//         element.innerHTML = oppositeElement;
+//       } 
+//     }
+//   }
+// );
+// }
+
+async function iterateThroughSubArray(taskArray, containerName) {
   let htmlElement = document.getElementById(containerName);
   if(taskArray){
     for (let i = 0; i < taskArray.length; i++) {
       let task = taskArray[i];
-      htmlElement.innerHTML += createToDoHTML(task);
+      htmlElement.appendChild(await createToDoHTML(task));
     }
   }
   return null;
 }
 
-function createToDoHTML(taskElement) {
+async function createToDoHTML(taskElement) {
   let oppositeCategory = `no-${taskElement.container}`;
-  return generateTaskHTML(taskElement, oppositeCategory); 
+  return await generateTaskHTML(taskElement, oppositeCategory); 
 }
 
-function generateTaskHTML(taskElement, oppositeCategory) {
+async function generateTaskHTML(taskElement, oppositeCategory) {
   if (doesSubtaskObjectExistWithPositiveLength(taskElement)) {
-    prepareTaskWithSubtaskAndCreateIt(taskElement, oppositeCategory);
+    return await prepareTaskWithSubtaskAndCreateIt(taskElement, oppositeCategory);
   } else if (doesSubtaskObjectExistWithLengthEqualsNull(taskElement)) {
-    return returnTaskHtmlWithoutSubtask(taskElement, oppositeCategory); 
+    return await returnTaskHtmlWithoutSubtask(taskElement, oppositeCategory); 
   } else {
-    return returnTaskHtmlWithoutSubtask(taskElement, oppositeCategory); 
+    return await returnTaskHtmlWithoutSubtask(taskElement, oppositeCategory); 
   }
 }
 
-function prepareTaskWithSubtaskAndCreateIt(taskElement, oppositeCategory){
+async function prepareTaskWithSubtaskAndCreateIt(taskElement, oppositeCategory){
   let numberOfTasksChecked = 0;
   let taskObject = calculateNumberOfCheckedSubtasksAndCreateTaskObject(taskElement, oppositeCategory, numberOfTasksChecked); 
-  returnTaskHtmlWithSubtask(taskObject);
+  return await returnTaskHtmlWithSubtask(taskObject);
 }
 
 function calculateNumberOfCheckedSubtasksAndCreateTaskObject(taskElement, oppositeCategory, numberOfTasksChecked){
@@ -233,6 +248,25 @@ async function returnTaskHtmlWithSubtask(taskObject){
   return template;
 }
 
+
+async function loadTemplateForTaskOnBoardAndAssignIds(taskObject, taskIndex){
+  let template = await shared.initHTMLContent(`${boardTemplatePrefix}/board_subtask_templates/taskHtmlWithSubtask.tpl`, taskObject.taskElement.container);
+  template.id = `task${taskIndex}`;
+  document.getElementById(`task${taskIndex}`).setAttribute('draggable', 'true');
+  template.querySelector('.task-category').style.backgroundColor = checkCategoryColor(taskObject.taskElement.category);
+  template.querySelector('.task-category').innerHTML =  taskObject.taskElement.category;
+  template.querySelector('.dropdownSVG').id = `dropdown${taskIndex}`;
+  template.querySelector('.mobileDropdown').id = `mobileDropdown${taskIndex}`;
+  template.querySelector('.task-title').innerHTML = taskObject.taskElement.title;
+  template.querySelector('.task-description').innerHTML = taskObject.taskElement.description;
+  template.querySelector('.task-bar-content').style.width = `${taskObject.taskbarWidth}%`;
+  template.querySelector('.task-bar-text').innerHTML = `${taskObject.numberOfTasksChecked}/${taskObject.taskElement.subtask.length} Subtasks`;
+  template.querySelector('.task-contacts').innerHTML = generateContactsHTML(taskObject.taskElement);
+  template.querySelector('.priority-icon').appendChild(await insertCorrectUrgencyIcon(taskObject.taskElement));
+  manageEventListenersOnTaskDiv(taskObject, taskIndex);
+  return template;
+}
+
 async function returnTaskHtmlWithoutSubtask(taskElement){
   let id = `task${taskElement['id']}`;
   let template = await shared.initHTMLContent(`${boardTemplatePrefix}/board_subtask_templates/taskHtmlWithoutSubtask.tpl`, taskElement['container']);
@@ -268,23 +302,7 @@ async function returnTaskHtmlWithoutSubtask(taskElement){
     openMobileDropdown(taskElement.id);
     shared.stopEvent(event);
   });
-}
-
-async function loadTemplateForTaskOnBoardAndAssignIds(taskObject, taskIndex){
-  let template = await shared.initHTMLContent(`${boardTemplatePrefix}/board_subtask_templates/taskHtmlWithSubtask.tpl`, taskObject.taskElement.container);
-  template.id = `task${taskIndex}`;
-  document.getElementById(`task${taskIndex}`).setAttribute('draggable', 'true');
-  template.querySelector('.task-category').style.backgroundColor = checkCategoryColor(taskObject.taskElement.category);
-  template.querySelector('.task-category').innerHTML =  taskObject.taskElement.category;
-  template.querySelector('.dropdownSVG').id = `dropdown${taskIndex}`;
-  template.querySelector('.mobileDropdown').id = `mobileDropdown${taskIndex}`;
-  template.querySelector('.task-title').innerHTML = taskObject.taskElement.title;
-  template.querySelector('.task-description').innerHTML = taskObject.taskElement.description;
-  template.querySelector('.task-bar-content').style.width = `${taskObject.taskbarWidth}%`;
-  template.querySelector('.task-bar-text').innerHTML = `${taskObject.numberOfTasksChecked}/${taskObject.taskElement.subtask.length} Subtasks`;
-  template.querySelector('.task-contacts').innerHTML = generateContactsHTML(taskObject.taskElement);
-  template.querySelector('.priority-icon').appendChild(await insertCorrectUrgencyIcon(taskObject.taskElement));
-  manageEventListenersOnTaskDiv(taskObject, taskIndex);
+  return template;
 }
 
 async function insertCorrectUrgencyIcon(element) {

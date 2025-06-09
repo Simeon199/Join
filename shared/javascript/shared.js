@@ -1,6 +1,6 @@
-export function bundleLoadingHTMLTemplates(){
-  initHTMLContent('/shared/templates/header.tpl', 'headerForm');
-  initHTMLContent('/shared/templates/sidebar.tpl', 'sidebar');
+export async function bundleLoadingHTMLTemplates(){
+  await initHTMLContent('/shared/templates/header.tpl', 'headerForm');
+  await initHTMLContent('/shared/templates/sidebar.tpl', 'sidebar');
 }
 
 export async function initHTMLContent(path, parentId){

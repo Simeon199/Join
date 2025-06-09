@@ -51,7 +51,7 @@ let firstContactsNameLetter = [];
 
 document.addEventListener('DOMContentLoaded', async () => {
   if(window.location.pathname.endsWith('/contacts/contacts.html')){
-    shared.bundleLoadingHTMLTemplates();
+    await shared.bundleLoadingHTMLTemplates();
     await getAllContactsAndRenderThem();
     loadAllContactsTemplateFunctions();
     triggerAllClickEventFunctions();

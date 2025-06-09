@@ -35,14 +35,14 @@ export async function returnHtmlNoDoneContainer() {
     return template;
 }
 
-export function getRightOppositeElement(oppositeElementName) {
+export async function getRightOppositeElement(oppositeElementName) {
   if (oppositeElementName === "no-await-feedback-container") {
-    returnHtmlNoFeedbackContainer();
+    return await returnHtmlNoFeedbackContainer();
   } else if (oppositeElementName === "no-in-progress-container") {
-    returnHtmlNoProgressContainer();
+    return await returnHtmlNoProgressContainer();
   } else if (oppositeElementName === "no-to-do-container") {
-    returnHtmlNoToDoContainer();
+    return await returnHtmlNoToDoContainer();
   } else if (oppositeElementName === "no-done-container") {
-    returnHtmlNoDoneContainer();
+    return await returnHtmlNoDoneContainer();
   }
 }
