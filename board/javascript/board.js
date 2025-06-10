@@ -1,21 +1,28 @@
 import * as shared from '../../shared/javascript/shared.js';
 import * as feedback from './feedbackTemplates.js';
-import * as data from '../../core/reactiveData.js';
 import * as eventlistener from './eventlistener.js';
-import * as boardShared from './shared.js';
+import * as boardShared from './init.js';
+import * as data from '../../core/downloadData.js';
+
+let tasks = [];
 
 document.addEventListener('DOMContentLoaded', async () => {
-  await shared.bundleLoadingHTMLTemplates();
-  await loadTasksFromDatabase();
-  eventlistener.handleEventListenersAfterDOMLoaded();
+  if(window.location.pathname.endsWith('/board/board.html')){
+    await shared.bundleLoadingHTMLTemplates();
+    await loadTasksFromDatabase();
+    console.log('getAllTasks Object: ', data.allTask);
+    eventlistener.handleEventListenersAfterDOMLoaded();
+  }
 });
 
 function updateCategories() {
-  shared.categories = [...new Set(boardShared.tasks.map((task) => task.container))];
+  shared.categories = [...new Set(tasks.map((task) => task.container))];
 }
 
 async function loadTasksFromDatabase() {
-  boardShared.tasks = await data.getAllTasks(); // Lade dies in der entsprechenden shared.js-Datei
+  let taskObject = data.allTask.get();
+  tasks = Object.values(taskObject || {});
+  console.log('tasks invoked in loadTasksFromDatabase: ', tasks);
   updateCategories();
   await updateHTML();
 }
@@ -24,8 +31,8 @@ export async function updateHTML() {  // Diese Funktion noch verkleinern und les
   for (const container of allCategories) {
     let element = document.getElementById(container);
     if (element) { 
-      let filteredTasks = boardShared.tasks.filter((task) => task.container === container);
-      let remainingTasks = boardShared.tasks.filter((task) => task.container !== container);
+      let filteredTasks = tasks.filter((task) => task.container === container);
+      let remainingTasks = tasks.filter((task) => task.container !== container);
       element.innerHTML = "";
       if (filteredTasks.length > 0) {
         await iterateThroughSubArray(filteredTasks, container);

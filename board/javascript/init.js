@@ -1,4 +1,4 @@
-export * from './shared.js';
+export * from './init.js';
 
 export let searchedTasks = [];
 export let isBigTaskPopUpOpen = false;
@@ -17,7 +17,6 @@ export let touchTime;
 export let currentOpenDropdown = null;
 
 export let boardTemplatePrefix = '../../board/templates';
-export let tasks = [];
 export let categories = [];
 
 export let allCategories = [
