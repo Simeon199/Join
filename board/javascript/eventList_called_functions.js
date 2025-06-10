@@ -1,11 +1,17 @@
 export * from './eventList_called_functions.js';
+import * as eventlistener from './eventlistener.js';
 import * as feedback from './feedbackTemplates.js'; 
+import * as shared from '../../shared/javascript/shared.js';
+import * as sharedBoard from './shared_board.js';
+import * as mainBoard from './board.js';
 
+// let isBigTaskPopUpOpen = false;
+let boardTemplatePrefix = '../../board/templates';
 
 export function openMobileDropdown(taskIndex) {
   let dropdown = document.getElementById(`dropdown${taskIndex}`);
   dropdown.classList.toggle("mobileDropdown-translate-100");
-  let task = tasks.find((task) => task.id === taskIndex);
+  let task = sharedBoard.tasks.find((task) => task.id === taskIndex);
   let currentCategory = task.container;
   let dropdownItems = dropdown.querySelectorAll("a");
   if (!dropdown.classList.contains("mobileDropdown-translate-100")) {
@@ -30,7 +36,7 @@ export async function showBigTaskPopUp(taskElement) {
   document.getElementById("big-task-pop-up").classList.remove("translate-100");
   document.body.style.overflow = "hidden";
   await renderBigTask(taskElement);
-  assignEventListenersToBigTask(taskElement);
+  eventlistener.assignEventListenersToBigTask(taskElement);
 }
 
 export function hideBigTaskPopUp() {
@@ -42,7 +48,7 @@ export function hideBigTaskPopUp() {
   document.body.style.overflow = "unset";
   if (document.getElementById("big-task-pop-up-title-text")) {
     let title = document.getElementById("big-task-pop-up-title-text").innerHTML;
-    let id = tasks.findIndex((task) => task.title === title);
+    let id = sharedBoard.tasks.findIndex((task) => task.title === title);
     saveSubtaskChanges(id);
   }
 }
@@ -99,16 +105,9 @@ export async function renderBigTask(taskElement) {
   document.getElementById("big-task-pop-up-date").innerHTML = `${taskElement.date}`;
   document.getElementById('big-task-pop-up-priority-text').innerHTML = `${taskElement.priority}`;
   document.getElementById("big-task-pop-up-category").innerHTML = taskElement.category;
-  document.getElementById("big-task-pop-up-category").style.backgroundColor = checkCategoryColor(taskElement.category);
-  // let subtaskContainer = document.getElementById("big-edit-task-subtask-container");
-  // for(let i=0; i < taskElement.subtask.length; i++){
-  //   subtaskContainer.innerHTML = `<li>${taskElement.subtask[i]['task-description']}</li>`;
-  // }
-  document.getElementById("big-task-pop-up-priority-icon").appendChild(await insertCorrectUrgencyIcon(taskElement));
-  // document.getElementById("big-task-pop-up-bottom-buttons-container").innerHTML = returnDeleteEditHTML(taskJson.tasksIdentity, jsonTextElement);
+  document.getElementById("big-task-pop-up-category").style.backgroundColor = sharedBoard.checkCategoryColor(taskElement.category);
+  document.getElementById("big-task-pop-up-priority-icon").appendChild(await sharedBoard.insertCorrectUrgencyIcon(taskElement));
   renderCorrectAssignedNamesIntoBigTask(taskElement);
-  // returnHTMLBigTaskPopUpSubtaskAll();
-  // renderTaskContact(taskElement);
   renderSubtask(taskElement); 
 }
 
@@ -120,8 +119,6 @@ export function renderCorrectAssignedNamesIntoBigTask(taskElement) {
       let nameArray = name.trim().split(" ");
       initials = nameArray.map((word) => word.charAt(0).toUpperCase()).join("");
       returnContactHTML(taskElement, initials, index);
-      // let contactsHTML = generateContactsHTML(taskElement);
-      // returnHTMLBigTaskPopUpContactAll(taskElement, name);
     }
   }
 }
@@ -155,7 +152,7 @@ export async function loadSubtasksTemplateAndAssignIds(subtask, index){
 }
 
 export async function addCheckedStatus(index) {
-  let subtasks = tasks[index]["subtask"]; 
+  let subtasks = sharedBoard.tasks[index]["subtask"]; 
   let checkBoxChecked = toggleCheckboxIcons(index);
   updateCheckboxStatus(index, checkBoxChecked);
   depositSubtaskChanges(subtasks); 
@@ -186,16 +183,15 @@ export async function depositSubtaskChanges(subtasks) { // correctTaskId
     }
   }
   subtaskArray = subtasks;
-  // await saveChangedSubtaskToFirebase(correctTaskId);
 }
 
 export function searchForTasks() {
   let searchValue = document.getElementById("search-input").value.trim().toLowerCase();
-  searchedTasks = [];
-  for (let i = 0; i < tasks.length; i++) {
-    let task = tasks[i];
+  sharedBoard.searchedTasks = [];
+  for (let i = 0; i < sharedBoard.tasks.length; i++) {
+    let task = sharedBoard.tasks[i];
     if (task.title.toLowerCase().includes(searchValue) || task.description.toLowerCase().includes(searchValue)) {
-      searchedTasks.push(task);
+      sharedBoard.searchedTasks.push(task);
     }
   }
   renderSearchedTasks();
@@ -204,13 +200,13 @@ export function searchForTasks() {
 export function renderSearchedTasks() {
   allCategories.forEach((categoryContainer) => {
     clearCategoryContainer(categoryContainer);
-    let tasksInCategory = filterTasksByCategory(categoryContainer, searchedTasks);
+    let tasksInCategory = filterTasksByCategory(categoryContainer, sharedBoard.searchedTasks);
     if (tasksInCategory.length === 0) {
       handleNoTasksInCategory(categoryContainer);
-    } else if (searchedTasks.length < tasks.length) {
+    } else if (sharedBoard.searchedTasks.length < sharedBoard.tasks.length) {
       renderTasksInCategory(tasksInCategory, categoryContainer);
     } else {
-      updateHTML();
+      mainBoard.updateHTML();
     }
   });
 }
@@ -224,10 +220,10 @@ export function replaceSpacesWithDashes(str) {
 }
 
 export async function moveTasksToCategory(taskIndex, newCategory) {
-  let task = tasks.find((task) => task.id === taskIndex);
+  let task = sharedBoard.tasks.find((task) => task.id === taskIndex);
   if (task) {
     task.container = newCategory;
-    updateHTML();
+    mainBoard.updateHTML();
     let taskElement = document.getElementById("task" + taskIndex);
     taskElement.scrollIntoView({ behavior: "smooth", block: "center" });
   }
@@ -241,7 +237,7 @@ export function showAddTaskPopUp(container = "to-do-container") {
     document.body.style.overflow = "hidden";
     document.getElementById("add-task-pop-up-bg").classList.remove("bg-op-0");
     document.getElementById("add-task-pop-up").classList.remove("translate-100");
-    standardContainer = container;
+    sharedBoard.standardContainer = container;
   }
 }
 
@@ -295,10 +291,10 @@ export function startDragging(elementId) {
 
 export async function moveTo(container) { 
   let oppositeContainer = "no-" + container;
-  let task = tasks.find((task) => task.id == elementDraggedOver);
+  let task = sharedBoard.tasks.find((task) => task.id == elementDraggedOver);
   if (task) {
     task.container = container;
-    updateHTML();
+    mainBoard.updateHTML();
     removeEmptyMessage(container, oppositeContainer);
   }
 }

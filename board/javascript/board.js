@@ -1,46 +1,63 @@
 import * as shared from '../../shared/javascript/shared.js';
+import * as sharedBoard from './shared_board.js';
 import * as feedback from './feedbackTemplates.js';
 import * as eventlistener from './eventlistener.js';
-import * as boardShared from './init.js';
-import * as data from '../../core/downloadData.js';
 
-let tasks = [];
+let boardTemplatePrefix = '../../board/templates';
+let allCategories = [
+  "to-do-container", 
+  "await-feedback-container", 
+  "done-container", 
+  "in-progress-container"
+];
 
 document.addEventListener('DOMContentLoaded', async () => {
   if(window.location.pathname.endsWith('/board/board.html')){
     await shared.bundleLoadingHTMLTemplates();
-    await loadTasksFromDatabase();
-    console.log('getAllTasks Object: ', data.allTask);
+    await sharedBoard.getTasksData();
+    sharedBoard.updateCategories();
+    await updateHTML();
     eventlistener.handleEventListenersAfterDOMLoaded();
   }
 });
 
-function updateCategories() {
-  shared.categories = [...new Set(tasks.map((task) => task.container))];
-}
+// export async function updateHTML() { 
+//   for (const container of allCategories) {
+//     let element = document.getElementById(container);
+//     if (element) { 
+//       let filteredTasks = sharedBoard.tasks.filter((task) => task.container === container);
+//       let remainingTasks = sharedBoard.tasks.filter((task) => task.container !== container);
+//       element.innerHTML = "";
+//       if (filteredTasks.length > 0) {
+//         await iterateThroughSubArray(filteredTasks, container);
+//       } else if(remainingTasks.length > 0){
+//         let oppositeElementName = `no-${container}`;
+//         element.appendChild(await feedback.getRightOppositeElement(oppositeElementName));
+//       }
+//     }
+//   }
+// }
 
-async function loadTasksFromDatabase() {
-  let taskObject = data.allTask.get();
-  tasks = Object.values(taskObject || {});
-  console.log('tasks invoked in loadTasksFromDatabase: ', tasks);
-  updateCategories();
-  await updateHTML();
-}
-
-export async function updateHTML() {  // Diese Funktion noch verkleinern und lesbarer machen!
+export async function updateHTML() { // updateHTML wird innerhalb verschiedener Dateien aufgerufen! 
   for (const container of allCategories) {
+    console.log('value of tasks: ', sharedBoard.tasks);
     let element = document.getElementById(container);
     if (element) { 
-      let filteredTasks = tasks.filter((task) => task.container === container);
-      let remainingTasks = tasks.filter((task) => task.container !== container);
-      element.innerHTML = "";
-      if (filteredTasks.length > 0) {
-        await iterateThroughSubArray(filteredTasks, container);
-      } else if(remainingTasks.length > 0){
-        let oppositeElementName = `no-${container}`;
-        element.appendChild(await feedback.getRightOppositeElement(oppositeElementName));
-      }
+      let filteredTasks = sharedBoard.tasks.filter((task) => task.container === container);
+      let remainingTasks = sharedBoard.tasks.filter((task) => task.container !== container);
+      await testFunction(filteredTasks, remainingTasks, container);
     }
+  }
+}
+
+async function testFunction(filteredTasks, remainingTasks, container){ // Hier Funktionenkette entkoppeln !
+  let element = document.getElementById(container);
+  element.innerHTML = "";
+  if (filteredTasks.length > 0) {
+    await iterateThroughSubArray(filteredTasks, container);
+  } else if(remainingTasks.length > 0){
+    let oppositeElementName = `no-${container}`;
+    element.appendChild(await feedback.getRightOppositeElement(oppositeElementName));
   }
 }
 
@@ -116,7 +133,7 @@ async function returnTaskHtmlWithSubtask(taskObject){
 }
 
 async function loadTemplateForTaskOnBoardAndAssignIds(taskObject, taskIndex){
-  let templateObject = await shared.initHTMLContent(`${boardShared.boardTemplatePrefix}/board_subtask_templates/taskHtmlWithSubtask.tpl`, taskObject.taskElement.container);
+  let templateObject = await shared.initHTMLContent(`${boardTemplatePrefix}/board_subtask_templates/taskHtmlWithSubtask.tpl`, taskObject.taskElement.container);
   let templateIdentity = `task${taskIndex}`;
   templateObject.id = templateIdentity;
   let template = await assignIdsToTemplate(templateIdentity, taskObject, taskIndex);  
@@ -127,7 +144,7 @@ async function loadTemplateForTaskOnBoardAndAssignIds(taskObject, taskIndex){
 async function assignIdsToTemplate(templateIdentity, taskObject, taskIndex){ // Diese Funktion eventuell in zwei separate Funktionen aufteilen
   let template = document.getElementById(templateIdentity);
   template.setAttribute('draggable', 'true');
-  template.querySelector('.task-category').style.backgroundColor = checkCategoryColor(taskObject.taskElement.category);
+  template.querySelector('.task-category').style.backgroundColor = sharedBoard.checkCategoryColor(taskObject.taskElement.category);
   template.querySelector('.task-category').innerHTML =  taskObject.taskElement.category;
   template.querySelector('.dropdownSVG').id = `dropdown${taskIndex}`;
   template.querySelector('.mobileDropdown').id = `mobileDropdown${taskIndex}`;
@@ -136,18 +153,8 @@ async function assignIdsToTemplate(templateIdentity, taskObject, taskIndex){ // 
   template.querySelector('.task-bar-content').style.width = `${taskObject.taskbarWidth}%`;
   template.querySelector('.task-bar-text').innerHTML = `${taskObject.numberOfTasksChecked}/${taskObject.taskElement.subtask.length} Subtasks`;
   template.querySelector('.task-contacts').innerHTML = generateContactsHTML(taskObject.taskElement);
-  template.querySelector('.priority-icon').appendChild(await insertCorrectUrgencyIcon(taskObject.taskElement));
+  template.querySelector('.priority-icon').appendChild(await sharedBoard.insertCorrectUrgencyIcon(taskObject.taskElement));
   return template;
-}
-
-function checkCategoryColor(category) {
-  if (category === "User Story") {
-    return "#0038FF";
-  } else if (category === "Technical Task") {
-    return "#1FD7C1";
-  } else {
-    return "#42526e";
-  }
 }
 
 function generateContactsHTML(taskElement) {
@@ -166,25 +173,13 @@ function generateContactsHTML(taskElement) {
   return contactsHTML;
 }
 
-async function insertCorrectUrgencyIcon(element) {
-  let svgElement;
-  if (element["priority"] === "urgent") {
-    svgElement = await feedback.generateHTMLUrgencyUrgent();
-  } else if (element["priority"] === "low") {
-    svgElement = await feedback.generateHTMLUrgencyLow();
-  } else if (element["priority"] === "medium") {
-    svgElement = await feedback.generateHTMLUrgencyMedium();
-  }
-  return svgElement;
-}
-
 function doesSubtaskObjectExistWithLengthEqualsNull(taskElement){
   return taskElement["subtask"] && taskElement["subtask"].length === 0;
 }
 
 async function returnTaskHtmlWithoutSubtask(taskElement, oppositeCategory){
   let id = `task${taskElement['id']}`;
-  let templateObject = await shared.initHTMLContent(`${boardShared.boardTemplatePrefix}/board_subtask_templates/taskHtmlWithoutSubtask.tpl`, taskElement['container']);
+  let templateObject = await shared.initHTMLContent(`${boardTemplatePrefix}/board_subtask_templates/taskHtmlWithoutSubtask.tpl`, taskElement['container']);
   templateObject.id = id;
   let template = await assignIdsAndContentToTaskWithoutSubtask(id, taskElement);
   eventlistener.handleTaskWithoutSubtaskEventlisteners(id, taskElement, oppositeCategory);
@@ -194,14 +189,14 @@ async function returnTaskHtmlWithoutSubtask(taskElement, oppositeCategory){
 
 async function assignIdsAndContentToTaskWithoutSubtask(id, taskElement){ // Diese Funktion eventuell noch verkleinern!
   let taskRef = document.getElementById(id);
-  taskRef.querySelector('.task-category').style = `background: ${checkCategoryColor(taskElement.category)}`;
+  taskRef.querySelector('.task-category').style = `background: ${sharedBoard.checkCategoryColor(taskElement.category)}`;
   taskRef.querySelector('.task-category').innerHTML = taskElement.category;
   taskRef.setAttribute('draggable', 'true');
   taskRef.querySelector('.mobileDropdown').id = `dropdown${taskElement.id}`;
   taskRef.querySelector('.task-title').innerHTML = `${taskElement.title}`;
   taskRef.querySelector('.task-description').innerHTML = `${taskElement.description}`;
   taskRef.querySelector('.task-contacts').innerHTML = generateContactsHTML(taskElement);
-  taskRef.querySelector('.priority-icon').appendChild(await insertCorrectUrgencyIcon(taskElement));
+  taskRef.querySelector('.priority-icon').appendChild(await sharedBoard.insertCorrectUrgencyIcon(taskElement));
   return taskRef;
 }
 
