@@ -8,9 +8,6 @@ export function createReactiveDataSource(path){
     onValue(dbRef, (snapshot) => {
         const val = snapshot.val() || {};
         currentData = val;
-        if(path === 'kanban/sharedBoard/tasks'){
-            console.log('tasks werden geladen und zwar in createReactiveDataSource: ', currentData);
-        }
         notify(listeners, currentData);
     }, (error) => {
         console.error(`Fehler beim Hören auf ${path}`, error);
@@ -45,23 +42,3 @@ export function returnReactiveDataObject(listeners, getCurrentData){
         }
     };
 }
-
-// Diese Funktion ist noch nicht perfekt => Provisorische Lösung
-
-// export async function getAllTasks(){
-//   return new Promise((resolve, reject) => {
-//     let taskRef = firebase.ref(firebase.database, 'kanban/sharedBoard/tasks');
-//     firebase.onValue(
-//       taskRef,
-//       (snapshot) => {
-//         let taskData = snapshot.val();
-//         resolve(Object.values(taskData));
-//         console.log('tasks aufgerufen in getAllTasks: ', Object.values(taskData));
-//       },
-//     ),
-//     (error) => {
-//       console.error('Fehler beim Laden der Kontakte: ', error);
-//       reject(error);
-//     }
-//   });
-// } 

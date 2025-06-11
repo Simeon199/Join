@@ -2,16 +2,16 @@ export * from './eventList_called_functions.js';
 import * as eventlistener from './eventlistener.js';
 import * as feedback from './feedbackTemplates.js'; 
 import * as shared from '../../shared/javascript/shared.js';
-import * as sharedBoard from './shared_board.js';
 import * as mainBoard from './board.js';
+import * as data from '../../core/downloadData.js';
 
-// let isBigTaskPopUpOpen = false;
+let elementDraggedOver = false;
 let boardTemplatePrefix = '../../board/templates';
 
 export function openMobileDropdown(taskIndex) {
   let dropdown = document.getElementById(`dropdown${taskIndex}`);
   dropdown.classList.toggle("mobileDropdown-translate-100");
-  let task = sharedBoard.tasks.find((task) => task.id === taskIndex);
+  let task = mainBoard.tasks.find((task) => task.id === taskIndex);
   let currentCategory = task.container;
   let dropdownItems = dropdown.querySelectorAll("a");
   if (!dropdown.classList.contains("mobileDropdown-translate-100")) {
@@ -30,7 +30,6 @@ export function openMobileDropdown(taskIndex) {
 }
 
 export async function showBigTaskPopUp(taskElement) { 
-  isBigTaskPopUpOpen = true;
   await shared.initHTMLContent(`${boardTemplatePrefix}/big_task_pop_up_templates/big_task-pop-up-template.tpl`, 'big-task-pop-up-bg');
   document.getElementById("big-task-pop-up-bg").classList.remove("bg-op-0");
   document.getElementById("big-task-pop-up").classList.remove("translate-100");
@@ -40,7 +39,6 @@ export async function showBigTaskPopUp(taskElement) {
 }
 
 export function hideBigTaskPopUp() {
-  isBigTaskPopUpOpen = false;
   document.getElementById("big-task-pop-up-title").classList.remove("big-task-pop-up-input-error");
   document.getElementById("big-task-pop-up-due-date-container").classList.remove("big-task-pop-up-input-error");
   document.getElementById("big-task-pop-up-bg").classList.add("bg-op-0");
@@ -48,7 +46,7 @@ export function hideBigTaskPopUp() {
   document.body.style.overflow = "unset";
   if (document.getElementById("big-task-pop-up-title-text")) {
     let title = document.getElementById("big-task-pop-up-title-text").innerHTML;
-    let id = sharedBoard.tasks.findIndex((task) => task.title === title);
+    let id = mainBoard.tasks.findIndex((task) => task.title === title);
     saveSubtaskChanges(id);
   }
 }
@@ -105,8 +103,8 @@ export async function renderBigTask(taskElement) {
   document.getElementById("big-task-pop-up-date").innerHTML = `${taskElement.date}`;
   document.getElementById('big-task-pop-up-priority-text').innerHTML = `${taskElement.priority}`;
   document.getElementById("big-task-pop-up-category").innerHTML = taskElement.category;
-  document.getElementById("big-task-pop-up-category").style.backgroundColor = sharedBoard.checkCategoryColor(taskElement.category);
-  document.getElementById("big-task-pop-up-priority-icon").appendChild(await sharedBoard.insertCorrectUrgencyIcon(taskElement));
+  document.getElementById("big-task-pop-up-category").style.backgroundColor = mainBoard.checkCategoryColor(taskElement.category);
+  document.getElementById("big-task-pop-up-priority-icon").appendChild(await mainBoard.insertCorrectUrgencyIcon(taskElement));
   renderCorrectAssignedNamesIntoBigTask(taskElement);
   renderSubtask(taskElement); 
 }
@@ -151,11 +149,19 @@ export async function loadSubtasksTemplateAndAssignIds(subtask, index){
   template.querySelector('p').innerHTML = subtask['task-description'];
 }
 
-export async function addCheckedStatus(index) {
-  let subtasks = sharedBoard.tasks[index]["subtask"]; 
-  let checkBoxChecked = toggleCheckboxIcons(index);
-  updateCheckboxStatus(index, checkBoxChecked);
-  depositSubtaskChanges(subtasks); 
+export async function addCheckedStatus(index) { 
+  if(data.tasks){
+    data.tasks.onChange(() => {
+      let tasks = Object.values(data.tasks.get());
+      let subtasks = tasks[index]["subtask"];
+      console.log('subtasks:', subtasks);
+      toggleCheckboxIcons(index);
+    });
+    // let subtasks = mainBoard.tasks[index]["subtask"]; 
+    // let checkBoxChecked = toggleCheckboxIcons(index);
+    // updateCheckboxStatus(index, checkBoxChecked);
+    // depositSubtaskChanges(subtasks); 
+  }
 }
 
 export function updateCheckboxStatus(index, checkBoxChecked) {
@@ -163,20 +169,29 @@ export function updateCheckboxStatus(index, checkBoxChecked) {
 }
 
 export function toggleCheckboxIcons(index) {
-  let checkBoxIconUnchecked = document.getElementById(`checkBoxIconUnchecked${index}`);
-  let checkBoxIconChecked = document.getElementById(`checkBoxIconChecked${index}`);
-  if (!checkBoxIconUnchecked.classList.contains("d-none") && checkBoxIconChecked.classList.contains("d-none")) {
-    checkBoxIconUnchecked.classList.add("d-none");
-    checkBoxIconChecked.classList.remove("d-none");
-    return true;
-  } else if (!checkBoxIconChecked.classList.contains("d-none") && checkBoxIconUnchecked.classList.contains("d-none")) {
-    checkBoxIconUnchecked.classList.remove("d-none");
-    checkBoxIconChecked.classList.add("d-none");
-    return false;
-  }
+  const unchecked = document.getElementById(`checkBoxIconUnchecked${index}`);
+  const checked = document.getElementById(`checkBoxIconChecked${index}`);
+  const isChecked = unchecked.classList.contains("d-none");
+  unchecked.classList.toggle("d-none");
+  checked.classList.toggle("d-none");
+  return !isChecked;
 }
 
-export async function depositSubtaskChanges(subtasks) { // correctTaskId
+// export function toggleCheckboxIcons(index) {
+//   let checkBoxIconUnchecked = document.getElementById(`checkBoxIconUnchecked${index}`);
+//   let checkBoxIconChecked = document.getElementById(`checkBoxIconChecked${index}`);
+//   if (!checkBoxIconUnchecked.classList.contains("d-none") && checkBoxIconChecked.classList.contains("d-none")) {
+//     checkBoxIconUnchecked.classList.add("d-none");
+//     checkBoxIconChecked.classList.remove("d-none");
+//     return true;
+//   } else if (!checkBoxIconChecked.classList.contains("d-none") && checkBoxIconUnchecked.classList.contains("d-none")) {
+//     checkBoxIconUnchecked.classList.remove("d-none");
+//     checkBoxIconChecked.classList.add("d-none");
+//     return false;
+//   }
+// }
+
+export async function depositSubtaskChanges(subtasks) {
   for (let index = 0; index < subtasks.length; index++) {
     if (checkBoxCheckedJson.hasOwnProperty(index)) {
       subtasks[index]["is-tasked-checked"] = checkBoxCheckedJson[index];
@@ -187,11 +202,11 @@ export async function depositSubtaskChanges(subtasks) { // correctTaskId
 
 export function searchForTasks() {
   let searchValue = document.getElementById("search-input").value.trim().toLowerCase();
-  sharedBoard.searchedTasks = [];
-  for (let i = 0; i < sharedBoard.tasks.length; i++) {
-    let task = sharedBoard.tasks[i];
+  mainBoard.searchedTasks = [];
+  for (let i = 0; i < mainBoard.tasks.length; i++) {
+    let task = mainBoard.tasks[i];
     if (task.title.toLowerCase().includes(searchValue) || task.description.toLowerCase().includes(searchValue)) {
-      sharedBoard.searchedTasks.push(task);
+      mainBoard.searchedTasks.push(task);
     }
   }
   renderSearchedTasks();
@@ -200,10 +215,10 @@ export function searchForTasks() {
 export function renderSearchedTasks() {
   allCategories.forEach((categoryContainer) => {
     clearCategoryContainer(categoryContainer);
-    let tasksInCategory = filterTasksByCategory(categoryContainer, sharedBoard.searchedTasks);
+    let tasksInCategory = filterTasksByCategory(categoryContainer, mainBoard.searchedTasks);
     if (tasksInCategory.length === 0) {
       handleNoTasksInCategory(categoryContainer);
-    } else if (sharedBoard.searchedTasks.length < sharedBoard.tasks.length) {
+    } else if (mainBoard.searchedTasks.length < mainBoard.tasks.length) {
       renderTasksInCategory(tasksInCategory, categoryContainer);
     } else {
       mainBoard.updateHTML();
@@ -220,7 +235,7 @@ export function replaceSpacesWithDashes(str) {
 }
 
 export async function moveTasksToCategory(taskIndex, newCategory) {
-  let task = sharedBoard.tasks.find((task) => task.id === taskIndex);
+  let task = mainBoard.tasks.find((task) => task.id === taskIndex);
   if (task) {
     task.container = newCategory;
     mainBoard.updateHTML();
@@ -237,7 +252,7 @@ export function showAddTaskPopUp(container = "to-do-container") {
     document.body.style.overflow = "hidden";
     document.getElementById("add-task-pop-up-bg").classList.remove("bg-op-0");
     document.getElementById("add-task-pop-up").classList.remove("translate-100");
-    sharedBoard.standardContainer = container;
+    mainBoard.standardContainer = container;
   }
 }
 
@@ -291,7 +306,7 @@ export function startDragging(elementId) {
 
 export async function moveTo(container) { 
   let oppositeContainer = "no-" + container;
-  let task = sharedBoard.tasks.find((task) => task.id == elementDraggedOver);
+  let task = mainBoard.tasks.find((task) => task.id == elementDraggedOver);
   if (task) {
     task.container = container;
     mainBoard.updateHTML();
