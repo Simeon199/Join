@@ -54,7 +54,13 @@ export function hideBigTaskPopUp() {
 export async function renderEditTask(taskElement) {
   setBigTaskPopUpEmptyIfItsNotEmpty();
   let template = await shared.initHTMLContent(`${boardTemplatePrefix}/big_task_pop_up_templates/big_task_edit_template.tpl`, 'big-task-pop-up-bg');
-  document.getElementById("big-task-pop-up").addEventListener("click", () => {
+  assignEventListenersToEditTaskPopUp();
+  assignContentToEditTaskPopUp(taskElement);
+  return template; 
+}
+
+function assignEventListenersToEditTaskPopUp(){
+   document.getElementById("big-task-pop-up").addEventListener("click", () => {
     closeAllSmallPopUpPopUps();
   });
   document.getElementById("big-task-pop-up").addEventListener("mousedown", (event) => {
@@ -71,6 +77,9 @@ export async function renderEditTask(taskElement) {
   });
   document.getElementById("big-edit-task-assigned-to-input-container").addEventListener("click", (event) => {
     shared.stopEvent(event);
+  });
+  document.getElementById("big-edit-task-assigned-to-input-arrow").addEventListener("click", () => {
+    toggleEditTaskAssignedToPopUp();
   });
   document.getElementById("big-edit-task-assigned-to-input").addEventListener("click", () => {
     toggleEditTaskAssignedToPopUp();
@@ -93,16 +102,13 @@ export async function renderEditTask(taskElement) {
   document.getElementById("big-edit-task-pop-up-save-button").addEventListener("click", () => {
     saveTaskChanges(taskElement.id);
   });
-  return template; 
-  // let oldPriority = taskElement.priority;
-  // let oldTitle = document.getElementById("big-task-pop-up-title-text").innerHTML;
-  // let oldDescription = document.getElementById("big-task-pop-up-description").innerHTML;
-  // let oldDate = document.getElementById("big-task-pop-up-date").innerHTML;
-  // document.getElementById("big-task-pop-up-category").innerHTML = "";
-  // document.getElementById("big-task-pop-up-category").style = "background-color: white;";
-  // renderCurrentTaskId = taskElement.id;
-  // renderAllBigPopUp(oldTitle, oldDescription, oldDate, oldPriority, taskElement);
-}  
+}
+
+function assignContentToEditTaskPopUp(taskElement){
+  document.getElementById("big-edit-task-title-input").value = taskElement.title;
+  document.getElementById("big-edit-task-description-input").innerHTML = taskElement.description;
+  document.getElementById("big-edit-task-due-date-input").value = taskElement.date;
+}
  
 function setBigTaskPopUpEmptyIfItsNotEmpty(){
   let bigTaskPopUp = document.getElementById("big-task-pop-up");

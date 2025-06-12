@@ -2,17 +2,17 @@
 <div id="big-task-pop-up" class="big-task-pop-up">
     <div id="big-task-pop-up-title">
         <p class='big-edit-task-section-headline'>Title</p>
-        <input type="text" id='big-edit-task-title-input' value='${oldTitle}' placeholder='Enter a title'>
+        <input type="text" id='big-edit-task-title-input' placeholder='Enter a title'>
     </div>
 
     <div id="big-task-pop-up-description">
         <p class='big-edit-task-section-headline'>Description</p>
-        <textarea id="big-edit-task-description-input" placeholder='Enter a Description'>${oldDescription}</textarea>
+        <textarea id="big-edit-task-description-input" placeholder='Enter a Description'></textarea>
     </div>
 
     <div id="big-task-pop-up-due-date-container" class="big-task-pop-up-info-container big-edit-task-pop-up-section-container">
         <p class='big-edit-task-section-headline'>Due Date</p>
-        <input type="text" id='big-edit-task-due-date-input' value='${oldDueDate}' placeholder='Enter a due date'>
+        <input type="text" id='big-edit-task-due-date-input' placeholder='Enter a due date'>
     </div>
 
     <div id="big-task-pop-up-priority-container" class="big-task-pop-up-info-container big-edit-task-pop-up-section-container">
@@ -47,7 +47,7 @@
             <p class='big-edit-task-section-headline'>Assigned to</p>
             <div id='big-edit-task-assigned-to-input-container'>
                 <input type='text' id='big-edit-task-assigned-to-input' placeholder='Select contacts to assign'>
-                <svg onclick=' toggleEditTaskAssignedToPopUp()' id='big-edit-task-assigned-to-input-arrow' class='big-edit-task-assigned-to-input-arrow' width="8" height="5" viewBox="0 0 8 5" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg id='big-edit-task-assigned-to-input-arrow' class='big-edit-task-assigned-to-input-arrow' width="8" height="5" viewBox="0 0 8 5" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M3.44451 4.3L0.844506 1.7C0.52784 1.38333 0.457006 1.02083 0.632006 0.6125C0.807006 0.204167 1.11951 0 1.56951 0H6.71951C7.16951 0 7.48201 0.204167 7.65701 0.6125C7.83201 1.02083 7.76117 1.38333 7.44451 1.7L4.84451 4.3C4.74451 4.4 4.63617 4.475 4.51951 4.525C4.40284 4.575 4.27784 4.6 4.14451 4.6C4.01117 4.6 3.88617 4.575 3.76951 4.525C3.65284 4.475 3.54451 4.4 3.44451 4.3Z" fill="#2A3647"/>
                 </svg>
             </div>
