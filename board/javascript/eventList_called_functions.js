@@ -51,15 +51,64 @@ export function hideBigTaskPopUp() {
   }
 }
 
-export function renderEditTask(taskElement) {
-  let oldPriority = taskElement.priority;
-  let oldTitle = document.getElementById("big-task-pop-up-title-text").innerHTML;
-  let oldDescription = document.getElementById("big-task-pop-up-description").innerHTML;
-  let oldDate = document.getElementById("big-task-pop-up-date").innerHTML;
-  document.getElementById("big-task-pop-up-category").innerHTML = "";
-  document.getElementById("big-task-pop-up-category").style = "background-color: white;";
-  renderCurrentTaskId = taskElement.id;
-  renderAllBigPopUp(oldTitle, oldDescription, oldDate, oldPriority, taskElement); // id
+export async function renderEditTask(taskElement) {
+  setBigTaskPopUpEmptyIfItsNotEmpty();
+  let template = await shared.initHTMLContent(`${boardTemplatePrefix}/big_task_pop_up_templates/big_task_edit_template.tpl`, 'big-task-pop-up-bg');
+  document.getElementById("big-task-pop-up").addEventListener("click", () => {
+    closeAllSmallPopUpPopUps();
+  });
+  document.getElementById("big-task-pop-up").addEventListener("mousedown", (event) => {
+    shared.stopEvent(event);
+  });
+  document.getElementById("big-edit-task-urgent-priority").addEventListener("click", () => {
+    checkBigEditTaskPriority("urgent");
+  });
+  document.getElementById("big-edit-task-medium-priority").addEventListener("click", () => {
+    checkBigEditTaskPriority("medium");
+  });
+  document.getElementById("big-edit-task-low-priority").addEventListener("click", ()=> {
+    checkBigEditTaskPriority("low");
+  });
+  document.getElementById("big-edit-task-assigned-to-input-container").addEventListener("click", (event) => {
+    shared.stopEvent(event);
+  });
+  document.getElementById("big-edit-task-assigned-to-input").addEventListener("click", () => {
+    toggleEditTaskAssignedToPopUp();
+  });
+  document.getElementById("big-edit-task-assigned-to-input").addEventListener("keyup", () => {
+    editPopUpSearchContacts(taskElement.id);
+  });
+  document.getElementById("big-edit-task-assigned-to-pop-up").addEventListener("click", (event) => {
+    shared.stopEvent(event);
+  });
+  document.getElementById("big-edit-task-subtask-input-container").addEventListener("click", () => {
+    focusSubtaskInput();
+  });
+  document.getElementById("big-edit-task-subtask-input-container").addEventListener("keyup", () => {
+    changeSubtaskInputIcons();
+  });
+  document.getElementById("big-edit-task-subtask-input").addEventListener("keyup", (event) => {
+    bigEditTaskSubtaskInputCheckEnter(event);
+  });
+  document.getElementById("big-edit-task-pop-up-save-button").addEventListener("click", () => {
+    saveTaskChanges(taskElement.id);
+  });
+  return template; 
+  // let oldPriority = taskElement.priority;
+  // let oldTitle = document.getElementById("big-task-pop-up-title-text").innerHTML;
+  // let oldDescription = document.getElementById("big-task-pop-up-description").innerHTML;
+  // let oldDate = document.getElementById("big-task-pop-up-date").innerHTML;
+  // document.getElementById("big-task-pop-up-category").innerHTML = "";
+  // document.getElementById("big-task-pop-up-category").style = "background-color: white;";
+  // renderCurrentTaskId = taskElement.id;
+  // renderAllBigPopUp(oldTitle, oldDescription, oldDate, oldPriority, taskElement);
+}  
+ 
+function setBigTaskPopUpEmptyIfItsNotEmpty(){
+  let bigTaskPopUp = document.getElementById("big-task-pop-up");
+  if(bigTaskPopUp.innerHTML !== ""){
+    bigTaskPopUp.innerHTML = "";
+  }
 }
 
 export function renderAllBigPopUp(oldTitle, oldDescription, oldDate, oldPriority, taskElement) { // id
@@ -93,6 +142,15 @@ export function renderBigTaskDetails(taskElement) { // taskElement id
   renderBigTaskAssignedContactContainer(taskElement);
   renderBigEditTaskAssignedToPopUp(taskElement);
   returnBigPopUpEditButtons(taskElement.id);
+}
+
+function closeAllSmallPopUpPopUps() {
+  if (document.getElementById("big-edit-task-title-input")) {
+    document.getElementById("big-edit-task-assigned-to-pop-up-container").classList.add("height-0");
+    document.getElementById("big-edit-task-assigned-to-pop-up").classList.add("box-shadow-none");
+    document.getElementById("big-edit-task-assigned-to-input-arrow").classList.remove("rotate-90");
+    insertSubtasksIntoContainer();
+  }
 }
 
 export async function renderBigTask(taskElement) {
