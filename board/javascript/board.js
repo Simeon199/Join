@@ -256,12 +256,24 @@ export async function insertSubtasksIntoContainer() {
   document.getElementById("big-edit-task-subtask-container").innerHTML = "";
   if (subtaskArray && subtaskArray.length >= 1) {
     let template = await shared.initHTMLContent(`${boardTemplatePrefix}/board_subtask_templates/subtaskInPopUpContainer.tpl`, 'big-edit-task-subtask-container');
+    
+    // Weitere Zuweisungen, auch wenn noch nicht ganz funktionstüchtig => Gesamte Funktion insertSubtasksIntoContainer muss umgeschrieben werden !!!
+    
     template.querySelector('.edit-popup-subtasks').addEventListener('click', (event) => {
       shared.stopEvent(event);
     });
     for (let i = 0; i < subtaskArray.length; i++) {
       template.querySelector('.edit-popup-subtasks').addEventListener('dblclick', () => {
         editSubtaskPopUpInput(i);
+      template.querySelector('.edit-popup-subtask-icon-container').id = `popUpSubBTN${i}`;
+      document.getElementById(`popUpSubBTN${i}`).querySelectorAll('svg')[0].addEventListener('click', (event) => {
+        shared.stopEvent(event);
+        editSubtaskPopUpInput(i);
+      });
+      document.getElementById(`popUpSubBTN${i}`).querySelectorAll('svg')[1].addEventListener('click', (event) => {
+        shared.stopEvent(event);
+        deleteSubtaskPopUp(i);
+      });
     });
   };  
   } else if (subtaskArray && subtaskArray.length == 0 && tasks[renderCurrentTaskId]["subtask"]) {
