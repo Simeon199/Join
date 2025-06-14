@@ -1,7 +1,8 @@
 // This file displays all Eventlistener functions with all methods related to them
 
-export * from './eventlistener.js';
 import * as calledFunctions from './eventList_called_functions.js'; 
+import * as shared from '../../shared/javascript/shared.js';
+export * from './eventlistener.js';
 
 export function handleEventListenersAfterDOMLoaded(){ // EventListeners in mehrere separate Funktionen aufteilen!
   document.getElementById('add-task-button-mobile').addEventListener('click', () => {
@@ -99,7 +100,7 @@ export function handleTaskWithoutSubtaskEventlisteners(id, taskElement, opposite
     calledFunctions.showBigTaskPopUp(taskElement);
   });
   taskRef.querySelector('.dropdownSVG').addEventListener('click', (event) => {
-    calledFunctions.openMobileDropdown(taskElement.id);
+    calledFunctions.openMobileDropdown(taskElement); // taskElement.id
     shared.stopEvent(event);
   });
 }
@@ -113,7 +114,7 @@ export function handleDropEventsForMobileVersion(taskObject, taskIndex){
   let task = document.getElementById(`task${taskIndex}`);
   task.querySelector('.dropdownSVG').addEventListener('click', (event) => {
     shared.stopEvent(event);
-    calledFunctions.openMobileDropdown(taskIndex);
+    calledFunctions.openMobileDropdown(taskObject.taskElement);
   });
   task.addEventListener('click', () => {
     calledFunctions.showBigTaskPopUp(taskObject.taskElement);
