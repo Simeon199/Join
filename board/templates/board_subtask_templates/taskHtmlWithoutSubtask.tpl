@@ -21,7 +21,4 @@
         <div class="priority-icon"></div>
     </div>
 </div>
-<!-- <div id="${oppositeCategory}" class="no-task d-none">
-    <p>No tasks in ${element["container"]}</p>
-</div> -->
 </template>

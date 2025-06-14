@@ -2,7 +2,18 @@ import * as shared from '../../shared/javascript/shared.js';
 import * as feedback from './feedbackTemplates.js';
 import * as eventlistener from './eventlistener.js';
 import * as data from '../../core/downloadData.js';
+import { editSubtaskPopUpInput } from './eventList_called_functions.js';
 
+// export let elementDraggedOver;
+// export let priorityValue = "";
+// export let searchedInput = document.getElementById("search-input");
+// export let assignedToContactsBigContainer = [];
+// export let isSaveIconClicked = false;
+// export let checkBoxCheckedJson = {};
+// export let emptyList = [];
+// export let renderCurrentTaskId;
+// export let touchTime;
+// export let currentOpenDropdown = null;
 
 export let searchedTasks = [];
 export let standardContainer = 'to-do-container';
@@ -137,7 +148,7 @@ async function loadTemplateForTaskOnBoardAndAssignIds(taskObject, taskIndex){
   return template;
 }
 
-async function assignIdsToTemplate(templateIdentity, taskObject, taskIndex){ // Diese Funktion eventuell in zwei separate Funktionen aufteilen
+async function assignIdsToTemplate(templateIdentity, taskObject, taskIndex){ 
   let template = document.getElementById(templateIdentity);
   template.setAttribute('draggable', 'true');
   template.querySelector('.task-category').style.backgroundColor = checkCategoryColor(taskObject.taskElement.category);
@@ -205,7 +216,7 @@ async function returnTaskHtmlWithoutSubtask(taskElement, oppositeCategory){
   return template;
 }
 
-async function assignIdsAndContentToTaskWithoutSubtask(id, taskElement){ // Diese Funktion eventuell noch verkleinern!
+async function assignIdsAndContentToTaskWithoutSubtask(id, taskElement){ 
   let taskRef = document.getElementById(id);
   taskRef.querySelector('.task-category').style = `background: ${checkCategoryColor(taskElement.category)}`;
   taskRef.querySelector('.task-category').innerHTML = taskElement.category;
@@ -244,10 +255,15 @@ export async function insertSubtasksIntoContainer() {
   document.getElementById("big-edit-task-subtask-container").innerHTML = "";
   document.getElementById("big-edit-task-subtask-container").innerHTML = "";
   if (subtaskArray && subtaskArray.length >= 1) {
+    let template = await shared.initHTMLContent(`${boardTemplatePrefix}/board_subtask_templates/subtaskInPopUpContainer.tpl`, 'big-edit-task-subtask-container');
+    template.querySelector('.edit-popup-subtasks').addEventListener('click', (event) => {
+      shared.stopEvent(event);
+    });
     for (let i = 0; i < subtaskArray.length; i++) {
-      let template = await  shared.initHTMLContent(`${boardTemplatePrefix}/board_subtask_templates/subtaskInPopUpContainer.tpl`, 'big-edit-task-subtask-container'); // document.getElementById("big-edit-task-subtask-container").innerHTML += renderSubtaskInPopUpContainer(i, subtask)
-      return template;    
-    }
+      template.querySelector('.edit-popup-subtasks').addEventListener('dblclick', () => {
+        editSubtaskPopUpInput(i);
+    });
+  };  
   } else if (subtaskArray && subtaskArray.length == 0 && tasks[renderCurrentTaskId]["subtask"]) {
   } else if (!subtaskArray && !tasks[renderCurrentTaskId]["subtask"]) {
     document.getElementById("big-edit-task-subtask-container").innerHTML += "";

@@ -26,6 +26,5 @@
         <div class="task-contacts"></div>
         <div class="priority-icon"></div>
     </div>
-    <!-- <div class="no-task d-none"></div> -->
 </div>
 </template>
