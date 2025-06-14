@@ -9,12 +9,9 @@ let elementDraggedOver = false;
 let currentOpenDropdown = null;
 let boardTemplatePrefix = '../../board/templates';
 
-export function openMobileDropdown(taskElement) { // taskIndex
+export function openMobileDropdown(taskElement) {
   let dropdown = document.getElementById(`dropdown${taskElement.id}`); 
-  // dropdown.classList.toggle("mobileDropdown-translate-100");
-  console.log('tasks: ', taskElement);
-  // let task = taskElement.find((task) => task.id === taskIndex);
-  let currentCategory = taskElement.container; // task.container
+  let currentCategory = taskElement.container; 
   let dropdownItems = dropdown.querySelectorAll("a");
   if (!dropdown.classList.contains("mobileDropdown-translate-100")) {
     currentOpenDropdown = dropdown;
@@ -32,6 +29,7 @@ export function openMobileDropdown(taskElement) { // taskIndex
 }
 
 export async function showBigTaskPopUp(taskElement) { 
+  removeDivFromDOMIfExists("big-task-pop-up");
   await shared.initHTMLContent(`${boardTemplatePrefix}/big_task_pop_up_templates/big_task-pop-up-template.tpl`, 'big-task-pop-up-bg');
   document.getElementById("big-task-pop-up-bg").classList.remove("bg-op-0");
   document.getElementById("big-task-pop-up").classList.remove("translate-100");
@@ -40,21 +38,23 @@ export async function showBigTaskPopUp(taskElement) {
   eventlistener.assignEventListenersToBigTask(taskElement);
 }
 
+function removeDivFromDOMIfExists(divId) {
+  let div = document.getElementById(divId);
+  if (div) {
+    div.remove();
+  }
+}
+
 export function hideBigTaskPopUp() {
   document.getElementById("big-task-pop-up-title").classList.remove("big-task-pop-up-input-error");
   document.getElementById("big-task-pop-up-due-date-container").classList.remove("big-task-pop-up-input-error");
   document.getElementById("big-task-pop-up-bg").classList.add("bg-op-0");
   document.getElementById("big-task-pop-up").classList.add("translate-100");
   document.body.style.overflow = "unset";
-  if (document.getElementById("big-task-pop-up-title-text")) {
-    let title = document.getElementById("big-task-pop-up-title-text").innerHTML;
-    let id = mainBoard.tasks.findIndex((task) => task.title === title);
-    saveSubtaskChanges(id);
-  }
 }
 
 export async function renderEditTask(taskElement) {
-  setBigTaskPopUpEmptyIfItsNotEmpty();
+  removeDivFromDOMIfExists('big-task-pop-up');
   let template = await shared.initHTMLContent(`${boardTemplatePrefix}/big_task_pop_up_templates/big_task_edit_template.tpl`, 'big-task-pop-up-bg');
   assignEventListenersToEditTaskPopUp();
   assignContentToEditTaskPopUp(taskElement);
@@ -95,11 +95,11 @@ function assignEventListenersToEditTaskPopUp(){
   document.getElementById("big-edit-task-subtask-input-container").addEventListener("click", () => {
     focusSubtaskInput(); 
   });
-  document.getElementById("big-edit-task-subtask-input-container").addEventListener("keyup", () => {
-    changeSubtaskInputIcons();
+  document.getElementById("big-edit-task-subtask-input-container").addEventListener("keyup", async () => {
+    await changeSubtaskInputIcons();
   });
   document.getElementById("big-edit-task-subtask-input").addEventListener("keyup", (event) => {
-    bigEditTaskSubtaskInputCheckEnter(event); // Nicht vorhanden
+    bigEditTaskSubtaskInputCheckEnter(event);
   });
   document.getElementById("big-edit-task-pop-up-save-button").addEventListener("click", () => {
     saveTaskChanges(taskElement.id);
@@ -112,34 +112,21 @@ function focusSubtaskInput() {
   document.getElementById("big-edit-task-subtask-input").focus();
 }
 
-function changeSubtaskInputIcons() {
+async function changeSubtaskInputIcons() {
   let subtaskInputIconContainer = document.getElementById("big-edit-task-subtask-input-icon-container");
   let subtaskInputValue = document.getElementById("big-edit-task-subtask-input");
+  subtaskInputIconContainer.innerHTML = "";
   if (subtaskInputValue.value === "") {
-    subtaskInputIconContainer.innerHTML = returnSubtaskInputHTMLPlusIconSVG();
+    await shared.initHTMLContent(`${boardTemplatePrefix}/board_subtask_templates/subtaskInputHTMLPlusIcon.tpl`, 'big-edit-task-subtask-input-icon-container');
+    document.getElementById("big-edit-task-subtask-input-save-icon").addEventListener("click", () => {
+      buildSubtaskArrayForUpload();
+    });    
   } else {
-    subtaskInputIconContainer.innerHTML = returnSubtaskInputHTMLCloseIcon();
+    await shared.initHTMLContent(`${boardTemplatePrefix}/board_subtask_templates/subtaskInputHTMLCloseIcon.tpl`, 'big-edit-task-subtask-input-icon-container');
+    document.getElementById("big-edit-task-subtask-input-close-icon").addEventListener("click", () => {
+      resetSubtaskInput();
+    });  
   }
-}
-
-function returnSubtaskInputHTMLPlusIconSVG() {
-  return /*html*/ `
-      <svg id='big-edit-task-subtask-input-plus-icon' width="15" height="14" viewBox="0 0 15 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M6.14453 8H1.14453C0.861198 8 0.623698 7.90417 0.432031 7.7125C0.240365 7.52083 0.144531 7.28333 0.144531 7C0.144531 6.71667 0.240365 6.47917 0.432031 6.2875C0.623698 6.09583 0.861198 6 1.14453 6H6.14453V1C6.14453 0.716667 6.24036 0.479167 6.43203 0.2875C6.6237 0.0958333 6.8612 0 7.14453 0C7.42786 0 7.66536 0.0958333 7.85703 0.2875C8.0487 0.479167 8.14453 0.716667 8.14453 1V6H13.1445C13.4279 6 13.6654 6.09583 13.857 6.2875C14.0487 6.47917 14.1445 6.71667 14.1445 7C14.1445 7.28333 14.0487 7.52083 13.857 7.7125C13.6654 7.90417 13.4279 8 13.1445 8H8.14453V13C8.14453 13.2833 8.0487 13.5208 7.85703 13.7125C7.66536 13.9042 7.42786 14 7.14453 14C6.8612 14 6.6237 13.9042 6.43203 13.7125C6.24036 13.5208 6.14453 13.2833 6.14453 13V8Z" fill="#2A3647"/>
-      </svg>
-    `;
-}
-
-function returnSubtaskInputHTMLCloseIcon() {
-  return /*html*/ `
-    <svg id='big-edit-task-subtask-input-close-icon' onclick='resetSubtaskInput()' width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M7.14434 8.40005L2.24434 13.3C2.061 13.4834 1.82767 13.575 1.54434 13.575C1.261 13.575 1.02767 13.4834 0.844336 13.3C0.661003 13.1167 0.569336 12.8834 0.569336 12.6C0.569336 12.3167 0.661003 12.0834 0.844336 11.9L5.74434 7.00005L0.844336 2.10005C0.661003 1.91672 0.569336 1.68338 0.569336 1.40005C0.569336 1.11672 0.661003 0.883382 0.844336 0.700049C1.02767 0.516715 1.261 0.425049 1.54434 0.425049C1.82767 0.425049 2.061 0.516715 2.24434 0.700049L7.14434 5.60005L12.0443 0.700049C12.2277 0.516715 12.461 0.425049 12.7443 0.425049C13.0277 0.425049 13.261 0.516715 13.4443 0.700049C13.6277 0.883382 13.7193 1.11672 13.7193 1.40005C13.7193 1.68338 13.6277 1.91672 13.4443 2.10005L8.54434 7.00005L13.4443 11.9C13.6277 12.0834 13.7193 12.3167 13.7193 12.6C13.7193 12.8834 13.6277 13.1167 13.4443 13.3C13.261 13.4834 13.0277 13.575 12.7443 13.575C12.461 13.575 12.2277 13.4834 12.0443 13.3L7.14434 8.40005Z" fill="#2A3647"/>
-    </svg>
-    <div class='big-edit-task-subtask-icon-line'></div>
-    <svg id='big-edit-task-subtask-input-save-icon' onclick='buildSubtaskArrayForUpload()' width="16" height="12" viewBox="0 0 16 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M5.69474 9.15L14.1697 0.675C14.3697 0.475 14.6072 0.375 14.8822 0.375C15.1572 0.375 15.3947 0.475 15.5947 0.675C15.7947 0.875 15.8947 1.1125 15.8947 1.3875C15.8947 1.6625 15.7947 1.9 15.5947 2.1L6.39474 11.3C6.19474 11.5 5.96141 11.6 5.69474 11.6C5.42807 11.6 5.19474 11.5 4.99474 11.3L0.694738 7C0.494738 6.8 0.398905 6.5625 0.407238 6.2875C0.415572 6.0125 0.519738 5.775 0.719738 5.575C0.919738 5.375 1.15724 5.275 1.43224 5.275C1.70724 5.275 1.94474 5.375 2.14474 5.575L5.69474 9.15Z" fill="#2A3647"/>
-    </svg> 
-    `;
 }
 
 function bigEditTaskSubtaskInputCheckEnter(event) {
@@ -151,35 +138,11 @@ function bigEditTaskSubtaskInputCheckEnter(event) {
 // buildSubtaskArrayForUpload !== buildSubtaskArrayForUpload
 
 function buildSubtaskArrayForUpload() {
-  if (!subtaskArray) {
-    subtaskArray = emptyList;
-  }
+  mainBoard.clearArray(mainBoard.subtaskArray);
   let subtaskInput = document.getElementById("big-edit-task-subtask-input");
   if (subtaskInput.value.trim().length > 0) {
-    let subtaskJson = createSubtaskJson(subtaskInput.value);
-    subtaskArray.push(subtaskJson);
-    insertSubtasksIntoContainer();
+    mainBoard.insertSubtasksIntoContainer();
     subtaskInput.value = "";
-  }
-}
-
-function createSubtaskJson(value) {
-  return { "task-description": value, "is-tasked-checked": false };
-}
-
-async function insertSubtasksIntoContainer() {
-  document.getElementById("big-edit-task-subtask-container").innerHTML = "";
-  document.getElementById("big-edit-task-subtask-container").innerHTML = "";
-  if (subtaskArray && subtaskArray.length >= 1) {
-    for (let i = 0; i < subtaskArray.length; i++) {
-      let subtask = subtaskArray[i];
-      console.log('Does subtask exist?', subtask);
-      let template = await  shared.initHTMLContent(`${boardTemplatePrefix}/board_subtask_templates/subtaskInPopUpContainer.tpl`, 'big-edit-task-subtask-container'); // document.getElementById("big-edit-task-subtask-container").innerHTML += renderSubtaskInPopUpContainer(i, subtask)
-      return template;    
-    }
-  } else if (subtaskArray && subtaskArray.length == 0 && tasks[renderCurrentTaskId]["subtask"]) {
-  } else if (!subtaskArray && !tasks[renderCurrentTaskId]["subtask"]) {
-    document.getElementById("big-edit-task-subtask-container").innerHTML += "";
   }
 }
 
@@ -189,13 +152,6 @@ function assignContentToEditTaskPopUp(taskElement){
   document.getElementById("big-edit-task-title-input").value = taskElement.title;
   document.getElementById("big-edit-task-description-input").innerHTML = taskElement.description;
   document.getElementById("big-edit-task-due-date-input").value = taskElement.date;
-}
- 
-function setBigTaskPopUpEmptyIfItsNotEmpty(){
-  let bigTaskPopUp = document.getElementById("big-task-pop-up");
-  if(bigTaskPopUp.innerHTML !== ""){
-    bigTaskPopUp.innerHTML = "";
-  }
 }
 
 export function renderAllBigPopUp(oldTitle, oldDescription, oldDate, oldPriority, taskElement) { // id
@@ -223,7 +179,7 @@ export function renderBigTaskPopUpSection(containerId, value, renderFunction) {
   renderFunction(value); // Sackgasse
 }
 
-export function renderBigTaskDetails(taskElement) { // taskElement id
+export function renderBigTaskDetails(taskElement) {
   returnBigTaskPopUpContactAll(taskElement.id);
   returnBigTaskPopUpSubtasksAll();
   renderBigTaskAssignedContactContainer(taskElement);
@@ -236,7 +192,7 @@ function closeAllSmallPopUpPopUps() {
     document.getElementById("big-edit-task-assigned-to-pop-up-container").classList.add("height-0");
     document.getElementById("big-edit-task-assigned-to-pop-up").classList.add("box-shadow-none");
     document.getElementById("big-edit-task-assigned-to-input-arrow").classList.remove("rotate-90");
-    insertSubtasksIntoContainer();
+    mainBoard.insertSubtasksIntoContainer();
   }
 }
 
@@ -397,7 +353,7 @@ export function showAddTaskPopUp(container = "to-do-container") {
     document.body.style.overflow = "hidden";
     document.getElementById("add-task-pop-up-bg").classList.remove("bg-op-0");
     document.getElementById("add-task-pop-up").classList.remove("translate-100");
-    mainBoard.standardContainer = container;
+    mainBoard.setContainer(container);
   }
 }
 

@@ -143,18 +143,15 @@ export function assignEventListenersToBigTask(taskElement){
   document.getElementById('big-task-pop-up-edit-button').addEventListener('click', () => {
     calledFunctions.renderEditTask(taskElement); // id
   });  
-  // document.getElementById('big-task-pop-up-bg').addEventListener('mousedown', () => {
-  //   hideBigTaskPopUp();
-  // });
-  // document.getElementById('big-task-pop-up').addEventListener('mousedown', (event) => {
-  //   shared.stopEvent(event);
-  // });
-  // document.getElementById('big-task-pop-up').addEventListener('click', () => {
-  //   closeAllSmallPopUpPopUps();
-  // });
-  // document.getElementById('big-task-pop-up-close-icon').addEventListener('click', () => {
-  //   hideBigTaskPopUp();
-  // });
+  document.getElementById('big-task-pop-up-bg').addEventListener('mousedown', () => {
+    calledFunctions.hideBigTaskPopUp(); 
+  });
+  document.getElementById('big-task-pop-up').addEventListener('mousedown', (event) => {
+    shared.stopEvent(event);
+  });
+  document.getElementById('big-task-pop-up-close-icon').addEventListener('click', () => {
+    calledFunctions.hideBigTaskPopUp();
+  });
 }
 
 export function handleMoveTasksEvents(taskIndex){

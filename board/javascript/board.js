@@ -7,6 +7,7 @@ import * as data from '../../core/downloadData.js';
 export let searchedTasks = [];
 export let standardContainer = 'to-do-container';
 export let categories = [];
+export let subtaskArray = [];
 
 let tasks = [];
 
@@ -34,7 +35,7 @@ function updateCategories() {
   categories = [...new Set(tasks.map((task) => task.container))];
 }
 
-async function updateHTML() { // updateHTML wird innerhalb verschiedener Dateien aufgerufen! 
+async function updateHTML() { 
   for (const container of allCategories) {
     let element = document.getElementById(container);
     if (element) { 
@@ -45,7 +46,7 @@ async function updateHTML() { // updateHTML wird innerhalb verschiedener Dateien
   }
 }
 
-async function testFunction(filteredTasks, remainingTasks, container){ // Hier Funktionenkette entkoppeln !
+async function testFunction(filteredTasks, remainingTasks, container){ 
   let element = document.getElementById(container);
   element.innerHTML = "";
   if (filteredTasks.length > 0) {
@@ -221,4 +222,38 @@ function getInitials(name) {
   let nameArray = name.trim().split(" ");
   let initials = nameArray.map((word) => word.charAt(0).toUpperCase()).join("");
   return initials;
+}
+
+export function setContainer(container){
+  if(container){
+    standardContainer = container;
+  }
+}
+
+export function clearArray(array){
+  if(array){
+    array = [];
+  }
+}
+
+export async function insertSubtasksIntoContainer() {
+  let subtaskInput = document.getElementById("big-edit-task-subtask-input");
+  let subtaskJson = createSubtaskJson(subtaskInput.value);
+  subtaskArray.push(subtaskJson);
+  console.log('subtaskArray:', subtaskArray);
+  document.getElementById("big-edit-task-subtask-container").innerHTML = "";
+  document.getElementById("big-edit-task-subtask-container").innerHTML = "";
+  if (subtaskArray && subtaskArray.length >= 1) {
+    for (let i = 0; i < subtaskArray.length; i++) {
+      let template = await  shared.initHTMLContent(`${boardTemplatePrefix}/board_subtask_templates/subtaskInPopUpContainer.tpl`, 'big-edit-task-subtask-container'); // document.getElementById("big-edit-task-subtask-container").innerHTML += renderSubtaskInPopUpContainer(i, subtask)
+      return template;    
+    }
+  } else if (subtaskArray && subtaskArray.length == 0 && tasks[renderCurrentTaskId]["subtask"]) {
+  } else if (!subtaskArray && !tasks[renderCurrentTaskId]["subtask"]) {
+    document.getElementById("big-edit-task-subtask-container").innerHTML += "";
+  }
+}
+
+export function createSubtaskJson(value) {
+  return { "task-description": value, "is-tasked-checked": false };
 }
