@@ -16,7 +16,6 @@
   border: unset;
   width: 70px !important;
   padding: 0px 10px;
-  /* justify-content: center; */
   gap: 10px;
 
   display: flex;
@@ -63,9 +62,7 @@
     margin: 0px;
     width: 68px;
   }
-  /* .subBtn1 svg:hover {
-      cursor: pointer;
-    } */
+  
   li {
     padding-left: 15px;
     width: 100%;
