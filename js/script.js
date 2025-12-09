@@ -1,6 +1,8 @@
 checkWebsiteLocation();
 checkIfUserIsLoggedIn();
 
+/* test comment */
+
 /**
  * Stops the propagation of an event through the DOM.
  * 
