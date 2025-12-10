@@ -10,46 +10,95 @@
  */
 
 function returnTaskHtmlWithoutSubtask(element, contactsHTML, oppositeCategory, rightIcon, jsonTextElement) {
-    let taskIndex = element.tasksIdentity;
-    let taskDescription = element["description"];
-    if (taskDescription.length > 40) {
-      taskDescription = element["description"].substring(0, 40) + "...";
-    }
+    return generateTaskHtml(element, contactsHTML, oppositeCategory, rightIcon, jsonTextElement, false);
+}
+
+/**
+ * Generates the HTML for the mobile dropdown menu for a task.
+ *
+ * @param {number} taskIndex - The index of the task.
+ * @returns {string} The HTML string for the mobile dropdown.
+ */
+
+function generateMobileDropdown(taskIndex) {
     return /*html*/ `
-    <div class="task" 
-        id=task${taskIndex}
-        draggable="true"
-        ondragstart="startDragging(${element["tasksIdentity"]}); rotateFunction(${taskIndex})"
-        ondragend="checkIfEmpty('${element["container"]}', '${oppositeCategory}')"
-        ondragover="allowDrop(event)"
-        ondrop="moveTo('${element["container"]}')"
-        onclick="showBigTaskPopUp('${jsonTextElement}')"
-    > <div class="task-category-and-dropdown">
-        <div class='task-category' style='background-color: ${checkCategoryColor(element["category"])}'>
-          ${element["category"]}
-        </div>
-        <div class="dropdownSVG" onclick="stopEvent(event); openMobileDropdown(${taskIndex})">
-          ${dropdownArrowSVG}
-        </div>
-      </div>
       <div id="mobileDropdown${taskIndex}" class="mobileDropdown mobileDropdown-translate-100">
         <a onclick="stopEvent(event); moveTasksToCategory(${taskIndex},'to-do-container')">To Do</a>
         <a onclick="stopEvent(event); moveTasksToCategory(${taskIndex},'in-progress-container')">In Progress</a>
         <a onclick="stopEvent(event); moveTasksToCategory(${taskIndex},'await-feedback-container')">Await Feedback</a>
         <a onclick="stopEvent(event); moveTasksToCategory(${taskIndex},'done-container')">Done</a>
       </div>
+    `;
+}
+
+/**
+ * This function generates HTML for a task element.
+ *
+ * @param {Object} element - The task element object containing task details.
+ * @param {string} contactsHTML - The HTML string representing the contacts associated with the task.
+ * @param {string} oppositeCategory - The name of the opposite category for drag-and-drop functionality.
+ * @param {string} rightIcon - The HTML string for the icon to be displayed on the right side of the task.
+ * @param {string} jsonTextElement - The JSON string representation of the task, which will be used for displaying the task popup.
+ * @param {boolean} hasSubtasks - Whether the task has subtasks.
+ * @param {number} taskbarWidth - The width of the task bar (if hasSubtasks).
+ * @param {number} numberOfTasksChecked - The number of checked subtasks (if hasSubtasks).
+ * @returns {string} The HTML string representing the task element.
+ */
+
+function generateTaskHtml(element, contactsHTML, oppositeCategory, rightIcon, jsonTextElement, hasSubtasks = false, taskbarWidth = 0, numberOfTasksChecked = 0) {
+    const taskIndex = element.tasksIdentity ?? element["tasksIdentity"];
+    const dragId = element["tasksIdentity"] ?? taskIndex;
+    const descriptionFull = element["description"] || element.description || "";
+    const taskDescription = descriptionFull.length > 40 ? descriptionFull.substring(0, 40) + "..." : descriptionFull;
+
+    const middleContent = hasSubtasks ? /*html*/ `
+      <div class="task-bar-container">
+        <div class="task-bar">
+          <div class="task-bar-content" style="width: ${taskbarWidth}%"></div>
+        </div>
+        <p class="task-bar-text">${numberOfTasksChecked}/${(element["subtask"] || []).length} Subtasks</p>
+      </div>` : "";
+    return buildTaskTemplate({
+      element,
+      contactsHTML,
+      oppositeCategory,
+      rightIcon,
+      jsonTextElement,
+      taskIndex,
+      taskDescription,
+      middleContent,
+      dragId
+    });
+}
+
+/**
+ * Build the HTML template for a task. Receives precomputed values to keep caller small.
+ */
+function buildTaskTemplate({element, contactsHTML, oppositeCategory, rightIcon, jsonTextElement, taskIndex, taskDescription, middleContent, dragId}) {
+  return /*html*/ `
+    <div class="task" id=task${taskIndex} draggable="true"
+      ondragstart="startDragging(${dragId}); rotateFunction(${taskIndex})"
+      ondragend="checkIfEmpty('${element["container"]}', '${oppositeCategory}')"
+      ondragover="allowDrop(event)" ondrop="moveTo('${element["container"]}')"
+      onclick="showBigTaskPopUp('${jsonTextElement}')">
+
+      <div class="task-category-and-dropdown">
+        <div class='task-category' style='background-color: ${checkCategoryColor(element["category"]) }'>${element["category"]}</div>
+        <div class="dropdownSVG" onclick="stopEvent(event); openMobileDropdown(${taskIndex})">${dropdownArrowSVG}</div>
+      </div>
+
+      ${generateMobileDropdown(taskIndex)}
       <h3 class="task-title">${element["title"]}</h3>
       <p class="task-description">${taskDescription}</p>
+      ${middleContent}
+
       <div class="task-contacts-container">
-        <div class="task-contacts">
-          ${contactsHTML}
-        </div>
+        <div class="task-contacts">${contactsHTML}</div>
         ${rightIcon}
       </div>
     </div>
-    <div id="${oppositeCategory}" class="no-task d-none">
-      <p>No tasks in ${element["container"]}</p>
-    </div>
+
+    <div id="${oppositeCategory}" class="no-task d-none"><p>No tasks in ${element["container"]}</p></div>
   `;
 }
 
@@ -67,51 +116,7 @@ function returnTaskHtmlWithoutSubtask(element, contactsHTML, oppositeCategory, r
  */
 
 function returnTaskHtmlWithSubtask(element, contactsHTML, oppositeCategory, rightIcon, jsonTextElement, taskbarWidth, numberOfTasksChecked) {
-    let taskIndex = element.tasksIdentity;
-    let taskDescription = element["description"];
-    if (taskDescription.length > 40) {
-      taskDescription = taskDescription.substring(0, 40) + "...";
-    }
-    return /*html*/ `
-        <div class="task" id=task${taskIndex}
-            draggable="true" 
-            ondragstart="startDragging(${element["tasksIdentity"]}); rotateFunction(${taskIndex})" 
-            ondragend="checkIfEmpty('${element["container"]}', '${oppositeCategory}')" 
-            ondragover="allowDrop(event)"
-            ondrop="moveTo('${element["container"]}')"
-            onclick="showBigTaskPopUp('${jsonTextElement}')"
-        > <div class="task-category-and-dropdown">
-            <div class='task-category' style='background-color: ${checkCategoryColor(element["category"])}'>
-              ${element["category"]}
-            </div>
-            <div class="dropdownSVG" onclick="stopEvent(event); openMobileDropdown(${taskIndex})">
-              ${dropdownArrowSVG}
-            </div>
-          </div>
-          <div id="mobileDropdown${taskIndex}" class="mobileDropdown mobileDropdown-translate-100">
-            <a onclick="stopEvent(event); moveTasksToCategory(${taskIndex},'to-do-container')">To Do</a>
-            <a onclick="stopEvent(event); moveTasksToCategory(${taskIndex},'in-progress-container')">In Progress</a>
-            <a onclick="stopEvent(event); moveTasksToCategory(${taskIndex},'await-feedback-container')">Await Feedback</a>
-            <a onclick="stopEvent(event); moveTasksToCategory(${taskIndex},'done-container')">Done</a>
-          </div>
-          <h3 class="task-title">${element["title"]}</h3>
-          <p class="task-description">${taskDescription}</p>
-          <div class="task-bar-container">
-            <div class="task-bar">
-              <div class="task-bar-content" style="width: ${taskbarWidth}%"></div>
-            </div>
-            <p class="task-bar-text">${numberOfTasksChecked}/${element["subtask"].length} Subtasks</p>
-          </div>
-          <div class="task-contacts-container">
-            <div class="task-contacts">
-              ${contactsHTML}
-            </div>
-            ${rightIcon}
-          </div>
-        </div>
-        <div id="${oppositeCategory}" class="no-task d-none">
-          <p>No tasks in ${element["container"]}</p>
-        </div>`;
+    return generateTaskHtml(element, contactsHTML, oppositeCategory, rightIcon, jsonTextElement, true, taskbarWidth, numberOfTasksChecked);
 }
 
 /**
@@ -126,29 +131,7 @@ function returnTaskHtmlWithSubtask(element, contactsHTML, oppositeCategory, righ
  */
 
 function returnSubtaskHTML(correctTaskId, subtask, i) {
-    return /*html*/ `
-    <div class="big-task-pop-up-subtasks" id="bigSubtaskNo${i}">
-      <svg
-        id="checkBoxIconUnchecked${i}"
-        onclick="addCheckedStatus(${i}, ${correctTaskId})"
-        class="big-task-pop-up-subtask-checkbox-icon"
-        width="18"
-        height="18"
-        viewBox="0 0 18 18"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >   
-        ${boardSubtaskUncheckedCheckboxSVG}
-      </svg>
-      <svg 
-        id="checkBoxIconChecked${i}"
-        onclick="addCheckedStatus(${i}, ${correctTaskId})"
-        class="big-task-pop-up-subtask-checkbox-icon d-none" width="18" height="19" viewBox="0 0 18 19" fill="none" xmlns="http://www.w3.org/2000/svg">
-        ${boardSubtaskCheckedCheckboxSVG}
-      </svg>
-      <p>${subtask["task-description"]}</p>
-    </div>
-  `;
+    return buildSubtaskCheckboxHTML(correctTaskId, subtask, i, false);
 }
 
 /**
@@ -163,27 +146,19 @@ function returnSubtaskHTML(correctTaskId, subtask, i) {
  */
 
 function returnSubtaskHTMLWithBolean(correctTaskId, subtask, i) {
+    return buildSubtaskCheckboxHTML(correctTaskId, subtask, i, true);
+}
+
+/**
+ * Helper to build subtask checkbox HTML. `checked` toggles which svg is visible.
+ */
+function buildSubtaskCheckboxHTML(correctTaskId, subtask, i, checked) {
+    const uncheckedClass = checked ? "big-task-pop-up-subtask-checkbox-icon d-none" : "big-task-pop-up-subtask-checkbox-icon";
+    const checkedClass = checked ? "big-task-pop-up-subtask-checkbox-icon" : "big-task-pop-up-subtask-checkbox-icon d-none";
     return /*html*/ `
     <div class="big-task-pop-up-subtasks" id="bigSubtaskNo${i}">
-      <svg
-        id="checkBoxIconUnchecked${i}"
-        onclick="addCheckedStatus(${i}, ${correctTaskId})"
-        class="big-task-pop-up-subtask-checkbox-icon d-none"
-        width="18"
-        height="18"
-        viewBox="0 0 18 18"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >   
-        ${boardSubtaskUncheckedCheckboxSVG}
-      </svg>
-      <svg 
-        id="checkBoxIconChecked${i}"
-        onclick="addCheckedStatus(${i}, ${correctTaskId})"
-        class="big-task-pop-up-subtask-checkbox-icon" width="18" height="19" viewBox="0 0 18 19" fill="none" xmlns="http://www.w3.org/2000/svg"
-      >
-        ${boardSubtaskCheckedCheckboxSVG}
-      </svg>
+      <svg id="checkBoxIconUnchecked${i}" onclick="addCheckedStatus(${i}, ${correctTaskId})" class="${uncheckedClass}" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">${boardSubtaskUncheckedCheckboxSVG}</svg>
+      <svg id="checkBoxIconChecked${i}" onclick="addCheckedStatus(${i}, ${correctTaskId})" class="${checkedClass}" width="18" height="19" viewBox="0 0 18 19" fill="none" xmlns="http://www.w3.org/2000/svg">${boardSubtaskCheckedCheckboxSVG}</svg>
       <p>${subtask["task-description"]}</p>
     </div>
   `;
@@ -286,7 +261,6 @@ function returnSubtaskEditedPopUpHTMLContainer(i) {
           <svg onclick="saveEditedSubtaskPopUp(${i}), stopEvent(event)" width="16" height="12" viewBox="0 0 16 12" fill="none" xmlns="http://www.w3.org/2000/svg">
             ${saveIconSVG}
           </svg>
-  
         </div>
       `;
 }
