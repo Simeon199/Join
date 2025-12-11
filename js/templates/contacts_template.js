@@ -49,7 +49,14 @@ function returnContactHTML(j, user) {
  * @param {number} i - An index or identifier for the user.
  * @param {string} userColor - The color associated with the user.
  */
-function returnBigContactIconContainerHTML(userName, userEmail, userNumber, userID, i, userColor) {
+function returnBigContactIconContainerHTML(
+  userName,
+  userEmail,
+  userNumber,
+  userID,
+  i,
+  userColor
+) {
   return /*html*/ `
     <div id="edit-contact" onclick='showPopUp(),renderEditContactPopUp("${userID}","${userName}","${userEmail}","${userNumber}","${i}","${userColor}")'>
       ${editIconSVG}
@@ -80,7 +87,7 @@ function returnAddContactPopUpHeadlineHTML() {
  */
 function returnAddContactPopUpContactLogoHTML() {
   return /*html*/ `
-    ${contactPersonIconSVG}
+    ${personIconSVG}
   `;
 }
 
@@ -100,7 +107,7 @@ function returnAddContactPopUpFormHTML() {
           type="text"
           placeholder="Name"
           required />
-        ${contactPersonIconSVG}
+        ${personIconSVG}
       </div>
 
       <div class="pop-up-input-container">
@@ -111,7 +118,7 @@ function returnAddContactPopUpFormHTML() {
           type="email"
           placeholder="Email"
         />
-        ${contactEnvelopeIconSVG}
+        ${envelopeIconSVG}
       </div>
 
       <div class="pop-up-input-container">
@@ -125,7 +132,7 @@ function returnAddContactPopUpFormHTML() {
           minlength="12"
           maxlength="14"
         />
-        ${contactPhoneIconSVG}
+        ${phoneIconSVG}
       </div>
 
       <div id="pop-up-buttons-container">
@@ -136,7 +143,7 @@ function returnAddContactPopUpFormHTML() {
 
         <button id="pop-up-create-contact-button" type='submit'>
           Create contact
-          ${contactCheckmarkIconSVG}
+          ${checkmarkIconSVG}
         </button>
       </div>
     </form>
@@ -149,19 +156,19 @@ function returnAddContactPopUpFormHTML() {
  */
 
 function returnEditContactPopUpHeadlineHTML() {
-    return /*html*/ `
+  return /*html*/ `
       <h1 id="pop-up-headline">Edit contact</h1>
     `;
 }
-  
+
 /**
-* Returns HTML string for contact popup logo with user's initials.
-*
-* @param {string} userName - The name of the user.
-*/
+ * Returns HTML string for contact popup logo with user's initials.
+ *
+ * @param {string} userName - The name of the user.
+ */
 
 function returnEditContactPopUpLogoHTML(userName) {
-    return /*html*/ `
+  return /*html*/ `
     ${firstLetterFirstTwoWords(userName)}
       `;
 }
@@ -175,7 +182,7 @@ function returnEditContactPopUpLogoHTML(userName) {
  */
 
 function returnEditContactPopUpFormHTML(userID, i, userColor) {
-    return /*html*/ `
+  return /*html*/ `
       <form onsubmit='editContact("${userID}","${i}","${userColor}"); return false;'>
         <div class="pop-up-input-container">
           <input
