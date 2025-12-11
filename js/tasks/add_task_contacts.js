@@ -29,7 +29,7 @@ function showDropDownAssignedTo() {
  * hide Drop down
  */
 function hideDropDownAssignedTo() {
-  document.getElementById("arrowa").classList.remove("rotate");
+  // document.getElementById("arrowa").classList.remove("rotate");
   contact = document.getElementById("assignedToDropDown");
   contact.classList.add("d-none");
   contact.innerHTML = "";

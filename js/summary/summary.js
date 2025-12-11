@@ -262,3 +262,13 @@ function earliestDate(task) {
   const earliestdate = new Date(Math.min(...date));
   return earliestdate;
 }
+
+/**
+ * Initializes the summary page icons.
+ */
+function initSummaryIcons() {
+  document.getElementById('to-do-icon').innerHTML = summaryToDoSVG;
+  document.getElementById('to-do-mobile-icon').innerHTML = summaryToDoMobileSVG;
+  document.getElementById('done-icon').innerHTML = summaryDoneSVG;
+  document.getElementById('urgent-icon').innerHTML = summaryUrgentSVG;
+}

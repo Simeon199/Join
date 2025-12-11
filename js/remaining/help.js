@@ -38,3 +38,10 @@ function headerHTML() {
 function previousPage() {
   window.history.back();
 }
+
+/**
+ * Initializes the help page icons.
+ */
+function initHelpIcons() {
+  document.getElementById('arrow-icon').innerHTML = helpArrowSVG;
+}

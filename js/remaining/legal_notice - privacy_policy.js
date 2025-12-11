@@ -11,3 +11,17 @@ function taskMarker() {}
 function previousPage() {
   window.history.back();
 }
+
+/**
+ * Initializes the legal notice page icons.
+ */
+function initLegalNoticeIcons() {
+  document.getElementById('arrow-icon').innerHTML = legalNoticeArrowSVG;
+}
+
+/**
+ * Initializes the privacy policy page icons.
+ */
+function initPrivacyPolicyIcons() {
+  document.getElementById('arrow-icon').innerHTML = privacyPolicyArrowSVG;
+}
