@@ -42,6 +42,7 @@ async function initContact() {
   firstUsersNameLetter = [];
   await getAllContacts();
   await renderContactList();
+  insertContactIcons();
 }
 
 /**
@@ -328,4 +329,16 @@ function afterAddingNewContactShowBigContact(nameInputValue) {
   document.getElementById("show-icon-container-button").classList.add("animation");
   activeContactIndex = index;
   document.querySelectorAll(".contact")[index].scrollIntoView({ behavior: "smooth", block: "nearest" });
+}
+
+/**
+ * Inserts SVG icons into the contact page placeholders.
+ */
+function insertContactIcons() {
+  document.getElementById('contact-add-button-icon').innerHTML = contactAddButtonIconSVG;
+  document.getElementById('contact-mobile-add-button-icon').innerHTML = contactMobileAddButtonIconSVG;
+  document.getElementById('contact-arrow-icon').innerHTML = contactArrowIconSVG;
+  document.getElementById('contact-three-dots-icon').innerHTML = contactThreeDotsIconSVG;
+  document.getElementById('contact-close-icon').innerHTML = cancelIconSVG;
+  document.getElementById('contact-logo-icon').innerHTML = contactLogoIconSVG;
 }

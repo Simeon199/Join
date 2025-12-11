@@ -5,9 +5,7 @@
  */
 
 function generateHTMLUrgencyLow() {
-    return /*html*/ `
-        ${lowUrgencySVG}
-        `;
+    return /*html*/ `${lowUrgencySVG}`;
 }
 
 /**
@@ -18,9 +16,7 @@ function generateHTMLUrgencyLow() {
  */
 
 function generateHTMLUrgencyMedium() {
-    return /*html*/ `
-        ${mediumUrgencySVG}
-        `;
+    return /*html*/ `${mediumUrgencySVG}`;
 }
 
 /**
@@ -31,9 +27,7 @@ function generateHTMLUrgencyMedium() {
  */
 
 function generateHTMLUrgencyUrgent() {
-    return /*html*/ `
-        ${urgentUrgencySVG}
-        `;
+    return /*html*/ `${urgentUrgencySVG}`;
 }
 
 /**

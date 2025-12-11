@@ -24,6 +24,7 @@ let touchTime;
 async function init_task() {
   await getTasksFromDatabase();
   updateHTML();
+  insertBoardIcons();
 }
 
 /**
@@ -347,4 +348,25 @@ function generateTaskHTML(element, contactsHTML, oppositeCategory, rightIcon, js
   } else {
     return returnTaskHtmlWithoutSubtask(element, contactsHTML, oppositeCategory, rightIcon, jsonTextElement);
   }
+}
+
+/**
+ * Inserts SVG icons into the board HTML elements.
+ */
+function insertBoardIcons() {
+  document.getElementById('board-add-task-icon').innerHTML = boardAddTaskIconSVG;
+  document.getElementById('board-add-task-mobile-icon').innerHTML = boardAddTaskIconSVG;
+  document.getElementById('board-search-icon').innerHTML = boardSearchIconSVG;
+  document.getElementById('board-section-plus-to-do').innerHTML = boardSectionPlusIconSVG;
+  document.getElementById('board-section-plus-in-progress').innerHTML = boardSectionPlusIconSVG;
+  document.getElementById('board-section-plus-await-feedback').innerHTML = boardSectionPlusIconSVG;
+  document.getElementById('board-close-add-task-popup').innerHTML = boardCloseIconSVG;
+  document.getElementById('board-dropdown-arrow-category').innerHTML = boardDropdownArrowIconSVG;
+  document.getElementById('board-subtask-plus-icon').innerHTML = boardSubtaskPlusIconSVG; 
+  document.getElementById('board-clear-icon').innerHTML = boardClearIconSVG;
+  document.getElementById('board-urgent-icon').innerHTML = boardUrgentIconSVG;
+  document.getElementById('board-medium-icon').innerHTML = boardMediumIconSVG;
+  document.getElementById('board-low-icon').innerHTML = boardLowIconSVG;
+  document.getElementById('board-create-task-icon').innerHTML = boardCreateTaskIconSVG;
+  document.getElementById('board-big-task-close-icon').innerHTML = boardBigTaskCloseIconSVG;
 }
