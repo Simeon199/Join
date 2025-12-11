@@ -36,7 +36,12 @@ function returnBigTaskPopUpContactAll(id) {
           <p class='big-edit-task-section-headline'>Assigned to</p>
           
           <div onclick='stopEvent(event);' id='big-edit-task-assigned-to-input-container'>
-            <input  onclick=' toggleEditTaskAssignedToPopUp()' type='text' id='big-edit-task-assigned-to-input' onkeyup='editPopUpSearchContacts("${id}")' placeholder='Select contacts to assign'>
+            <input 
+              onclick='toggleEditTaskAssignedToPopUp()' 
+              type='text' id='big-edit-task-assigned-to-input' 
+              onkeyup='editPopUpSearchContacts("${id}")' 
+              placeholder='Select contacts to assign'
+            >
               ${assignedToArrowSVG}
           </div>
         </div>
@@ -111,9 +116,15 @@ function renderOnlyAssignedToPopUp(contact, contactObject, i, taskIndex) {
 
 function renderOnlyActiveAssignedToPopUp(contact, contactObject, i, taskIndex) {
     document.getElementById("big-edit-task-assigned-to-pop-up").innerHTML += /*html*/ `
-        <div onclick='checkBigEditTaskContact(${i}, ${contactObject},${taskIndex})' class='big-edit-task-assigned-to-pop-up-contact-container big-edit-task-assigned-to-pop-up-active-contact'>
+        <div 
+          onclick='checkBigEditTaskContact(${i}, ${contactObject},${taskIndex})' 
+          class='big-edit-task-assigned-to-pop-up-contact-container big-edit-task-assigned-to-pop-up-active-contact'
+        >
           <div class='big-edit-task-assigned-to-pop-up-contact' >
-            <div class='big-edit-task-assigned-to-pop-up-contact-badge' style='background-color: ${contact.color}'>
+            <div 
+              class='big-edit-task-assigned-to-pop-up-contact-badge' 
+              style='background-color: ${contact.color}'
+            >
               ${firstLetterFirstTwoWords(contact.name)}
             </div>
             <p class='big-edit-task-assigned-to-pop-up-contact-name'>${contact.name}</p>
