@@ -250,7 +250,7 @@ function returnEditSubtaskPopUpInputHTML(i) {
  */
 
 function returnSubtaskEditedPopUpHTMLContainer(i) {
-    return `<input id="subtaskEditedPopUp" type="text" value="${subtaskArray[i]["task-description"]}">
+    return /*html*/ `<input id="subtaskEditedPopUp" type="text" value="${subtaskArray[i]["task-description"]}">
         <div class="edit-popup-subtask-icon-container">
           <svg  onclick="deleteSubtaskPopUp(${i}), stopEvent(event)" width="17" height="18" viewBox="0 0 17 18" fill="none" xmlns="http://www.w3.org/2000/svg">
            ${boardSubtaskDeleteIconSVG}

@@ -107,3 +107,45 @@ const checkmarkIconSVG = /*html*/ `
     />
   </svg>
 `;
+
+// SVG constants for contact edit popup icons
+const contactAddButtonIconSVG = `
+<svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M12.5 6.25V18.75M18.75 12.5H6.25" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+`;
+
+const contactMobileAddButtonIconSVG = `
+<svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M12.5 6.25V18.75M18.75 12.5H6.25" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+`;
+
+const contactArrowIconSVG = `
+<svg width="8" height="5" viewBox="0 0 8 5" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M3.3 4.3L0.7 1.7C0.383333 1.38333 0.3125 1.02083 0.4875 0.6125C0.6625 0.204167 0.975 0 1.425 0H6.575C7.025 0 7.3375 0.204167 7.5125 0.6125C7.6875 1.02083 7.616667 1.38333 7.3 1.7L4.7 4.3C4.6 4.4 4.491667 4.475 4.375 4.525C4.258333 4.575 4.133333 4.6 4 4.6C3.866667 4.6 3.741667 4.575 3.625 4.525C3.508333 4.475 3.4 4.4 3.3 4.3Z" fill="#2A3647"/>
+</svg>
+`;
+
+const contactThreeDotsIconSVG = `
+<svg width="20" height="5" viewBox="0 0 20 5" fill="none" xmlns="http://www.w3.org/2000/svg">
+<circle cx="2.5" cy="2.5" r="2.5" fill="#2A3647"/>
+<circle cx="10" cy="2.5" r="2.5" fill="#2A3647"/>
+<circle cx="17.5" cy="2.5" r="2.5" fill="#2A3647"/>
+</svg>
+`;
+
+const cancelIconSVG = `
+<svg width="13" height="14" viewBox="0 0 13 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M6.25 7L11.49 12.24M1.01 12.24L6.25 7L1.01 12.24ZM11.49 1.76L6.25 7L11.49 1.76ZM6.25 7L1.01 1.76L6.25 7Z" stroke="#2A3647" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+`;
+
+const contactLogoIconSVG = `
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M16 2L28 8V24L16 30L4 24V8L16 2Z" stroke="#2A3647" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M16 16L28 8" stroke="#2A3647" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M16 16L4 8" stroke="#2A3647" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M16 16V30" stroke="#2A3647" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+`;
