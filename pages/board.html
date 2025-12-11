@@ -145,7 +145,7 @@
                             placeholder="Search Contact.." />
                         </div>
                       </div>
-                      <span id="board-dropdown-arrow-assigned" onclick="checkDropDown('arrowa'); stopEvent(event)"></span>
+                      <span id="arrowa" onclick="checkDropDown('arrowa'); stopEvent(event)"></span>
                     </div>
                     <div id="assignedToDropDown" class="drop-bg d-none" onclick="stopEvent(event)"></div>
                     <div id="userCircles"></div>
@@ -170,15 +170,15 @@
                     <div>
                       <div onclick="changePriority(urgent)" id="urgent" class="center">
                         Urgent
-                        <span id="board-urgent-icon"></span>
+                        <span id="imgUrgent"></span>
                       </div>
                       <div onclick="changePriority(medium)" id="medium" class="center">
                         Medium
-                        <span id="board-medium-icon"></span>
+                        <span id="imgMedium"></span>
                       </div>
                       <div onclick="changePriority(low)" id="low" class="center">
                         Low
-                        <span id="board-low-icon"></span>
+                        <span id="imgLow"></span>
                       </div>
                     </div>
                   </div>
@@ -187,7 +187,7 @@
                     <div id="category" class="select" onclick="stopEvent(event) ,checkDropDown('arrowb')"
                       aria-required="true">
                       <span id="categoryText">Select task category</span>
-                      <span id="board-dropdown-arrow-category"></span>
+                      <span id="arrowb"></span>
                     </div>
                     <div id="categoryDropDown" class="drop-bg d-none"></div>
                     <span id="requiredCatergory" class="required-text d-none">This field is required</span>
@@ -202,7 +202,7 @@
                         <div class="subtaskBorder"></div>
                         <img onclick="addSubtask()" src="../assets/img/checksubmit.svg" alt="" />
                       </div>
-                      <span id="board-subtask-plus-icon"></span>
+                      <span id="plusSymbole"></span>
                     </div>
                     <div id="sowSubtasks" class="subtask d-none"></div>
                   </div>
@@ -254,16 +254,27 @@
   </div>
 
   <!-- All JavaScript imports  -->
+  <script src="../js/svg_icon_files/desktopIcons.js"></script>
+  <script src="../js/svg_icon_files/addTaskIcons.js"></script>
+  <script src="../js/svg_icon_files/boardHtmlTemplateIcons.js"></script>
+  <script src="../js/svg_icon_files/boardSubtaskHtmlTemplateIcons.js"></script>
+  <script src="../js/svg_icon_files/feedbackAndUrgencyIcons.js"></script>
+  <script src="../js/svg_icon_files/boardBigTaskPopUpIcons.js"></script>
+
+  <script src="../js/js_html_templates/desktop-template.js"></script>
+  <script src="../js/js_html_templates/boardHtmlTemplate.js"></script>
+  <script src="../js/js_html_templates/boardSubtaskHtmlTemplate.js"></script>
+  <script src="../js/js_html_templates/feedbackAndUrgencyTemplate.js"></script>
+  <script src="../js/js_html_templates/boardBigTaskPopUpTemplate.js"></script>
+  <script src="../js/js_html_templates/contactEditTemplate.js"></script>
+
+
   <script src="../config/database.js"></script>
   <script src="../js/contacts/contacts.js"></script>
   <script src="../js/tasks/add_task_database.js"></script>
   <script src="../js/tasks/add_task.js"></script>
   <script src="../js/script.js"></script>
-  <script src="../js/svg_icon_files/desktopIcons.js"></script>
-  <script src="../js/js_html_templates/desktop-template.js"></script>
   <script src="../js/contacts/contacts_database.js"></script>
-  <script src="../js/svg_icon_files/boardHtmlTemplateIcons.js"></script>
-  <script src="../js/js_html_templates/boardHtmlTemplate.js"></script>
   <script src="../js/tasks/add_task_contacts.js"></script>
   <script src="../js/tasks/add_task_subtask.js"></script>
   <script src="../js/board/board.js"></script>
@@ -273,13 +284,6 @@
   <script src="../js/board/manageSubtask.js"></script>
   <script src="../js/board/board_filter_and_search.js"></script>
   <script src="../js/board/drag_and_drop_mobile.js"></script>
-  <script src="../js/svg_icon_files/boardSubtaskHtmlTemplateIcons.js"></script>
-  <script src="../js/js_html_templates/boardSubtaskHtmlTemplate.js"></script>
-  <script src="../js/svg_icon_files/feedbackAndUrgencyIcons.js"></script>
-  <script src="../js/js_html_templates/feedbackAndUrgencyTemplate.js"></script>
-  <script src="../js/svg_icon_files/boardBigTaskPopUpIcons.js"></script>
-  <script src="../js/js_html_templates/boardBigTaskPopUpTemplate.js"></script>
-  <script src="../js/js_html_templates/contactEditTemplate.js"></script>
 </body>
 
 </html>

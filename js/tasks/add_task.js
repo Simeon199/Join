@@ -6,6 +6,23 @@ let assignedContacts = [];
 let standardContainer = "to-do-container";
 
 /**
+ * Initializes the SVG icons for the add task page
+ */
+function initAddTaskIcons() {
+  document.getElementById('arrowa').innerHTML = addTaskDropdownArrowSVG;
+  document.getElementById('imgUrgent').innerHTML = addTaskUrgentSVG;
+  document.getElementById('imgMedium').innerHTML = addTaskMediumSVG;
+  document.getElementById('imgLow').innerHTML = addTaskLowSVG;
+  document.getElementById('arrowb').innerHTML = addTaskDropdownArrowSVG;
+  document.getElementById('plusSymbole').innerHTML = addTaskPlusSVG;
+  // For clear button and create button, they don't have ids, so need to select differently
+  const clearBtn = document.querySelector('.btn span:last-child');
+  if (clearBtn) clearBtn.innerHTML = addTaskClearSVG;
+  const createBtn = document.querySelector('.darkBTN span:last-child');
+  if (createBtn) createBtn.innerHTML = addTaskCheckmarkSVG;
+}
+
+/**
  * Marks the current Position in the Sidebar
  */
 function taskMarker() {
