@@ -30,7 +30,6 @@ function returnContactHTML(j, user) {
             <div class="profile-badge" style='background-color: ${userColor}'>
               <p>${firstLetterFirstTwoWords(userName)}</p>
             </div>
-            
             <div class="name-and-email-container">
               <p class="name">${userName}</p>
               <p class="email">${user["email"]}</p>
@@ -62,7 +61,6 @@ function returnBigContactIconContainerHTML(
       ${editIconSVG}
       <p>Edit</p>
     </div>
-
     <div id="delete-contact" onclick='deleteContact("${userID}")'>
       ${deleteIconSVG}
       <p>Delete</p>
@@ -109,7 +107,6 @@ function returnAddContactPopUpFormHTML() {
           required />
         ${personIconSVG}
       </div>
-
       <div class="pop-up-input-container">
         <input
           required
@@ -120,7 +117,6 @@ function returnAddContactPopUpFormHTML() {
         />
         ${envelopeIconSVG}
       </div>
-
       <div class="pop-up-input-container">
         <input
           required
@@ -134,13 +130,11 @@ function returnAddContactPopUpFormHTML() {
         />
         ${phoneIconSVG}
       </div>
-
       <div id="pop-up-buttons-container">
         <button id="pop-up-cancel-button" onclick="hidePopUp()">
           Cancel
           ${cancelIconSVG}
         </button>
-
         <button id="pop-up-create-contact-button" type='submit'>
           Create contact
           ${checkmarkIconSVG}
@@ -194,7 +188,6 @@ function returnEditContactPopUpFormHTML(userID, i, userColor) {
             required />
           ${personIconSVG}
         </div>
-
         <div class="pop-up-input-container">
           <input
             required
@@ -205,7 +198,6 @@ function returnEditContactPopUpFormHTML(userID, i, userColor) {
           />
           ${envelopeIconSVG}
         </div>
-
         <div class="pop-up-input-container">
           <input
             required
@@ -219,12 +211,10 @@ function returnEditContactPopUpFormHTML(userID, i, userColor) {
           />
           ${phoneIconSVG}
         </div>
-
         <div id="pop-up-buttons-container">
           <button id="pop-up-cancel-button" type="button" onclick="deleteContact('${userID}'), hidePopUp()">
             Delete
           </button>
-
           <button id="pop-up-create-contact-button" type='submit'>
             Save
             ${checkmarkIconSVG}

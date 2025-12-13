@@ -8,21 +8,48 @@ let searchResults = [];
 function showDropDownAssignedTo() {
   contact = document.getElementById("assignedToDropDown");
   contact.innerHTML = "";
-  for (let i = 0; i < allUsers.length; i++) {
-    user = allUsers[i];
-    renderAssignedToHTML(user, contact, i);
-    if (assignedContacts != 0) {
-      if (checkAssignedContactsStatus(user.name) === true) {
-        document.getElementById(`user${i}`).classList.add("contactIsSelect");
-        document.getElementById(`checked${i}`).classList.remove("d-none");
-      } else {
-        document.getElementById(`user${i}`).classList.remove("contactIsSelect");
-        document.getElementById(`checked${i}`).classList.add("d-none");
-      }
-    }
-  }
+  renderAllUsers(contact);
   contact.classList.remove("d-none");
   document.getElementById("arrowa").classList.add("rotate");
+}
+
+/**
+ * Renders all users in the dropdown.
+ * @param {Element} contact - The dropdown container
+ */
+function renderAllUsers(contact) {
+  for (let i = 0; i < allUsers.length; i++) {
+    user = allUsers[i];
+    renderUser(user, contact, i);
+    updateUserSelection(i, user);
+  }
+}
+
+/**
+ * Renders a single user in the dropdown.
+ * @param {Object} user - The user object
+ * @param {Element} contact - The dropdown container
+ * @param {number} i - The index
+ */
+function renderUser(user, contact, i) {
+  renderAssignedToHTML(user, contact, i);
+}
+
+/**
+ * Updates the selection status for a user.
+ * @param {number} i - The index
+ * @param {Object} user - The user object
+ */
+function updateUserSelection(i, user) {
+  if (assignedContacts != 0) {
+    if (checkAssignedContactsStatus(user.name) === true) {
+      document.getElementById(`user${i}`).classList.add("contactIsSelect");
+      document.getElementById(`checked${i}`).classList.remove("d-none");
+    } else {
+      document.getElementById(`user${i}`).classList.remove("contactIsSelect");
+      document.getElementById(`checked${i}`).classList.add("d-none");
+    }
+  }
 }
 
 /**
@@ -79,19 +106,41 @@ function assignetToContects() {
  */
 function renderAssignedToCircle(i, user, color, circleCont) {
   if (i <= 3) {
-    circleCont.innerHTML += /*html*/ `
-      <div class="assignetToDiv circle" id="showCircle${i}"></div>
-    `;
-    circle = document.getElementById(`showCircle${i}`).style;
-    circle.backgroundColor = color;
-    circle.border = "2px solid rgba(255, 255, 255, 1)";
-    if (assignedContacts.length >= 1) {
-      if (assignedContacts[0].name != user) {
-        circle.marginLeft = "-24px";
-      }
+    renderCircle(i, user, color, circleCont);
+  } else {
+    handleExtraContacts(i, circleCont);
+  }
+}
+
+/**
+ * Renders a circle for a contact.
+ * @param {number} i - The index
+ * @param {string} user - The user name
+ * @param {string} color - The color
+ * @param {Element} circleCont - The container
+ */
+function renderCircle(i, user, color, circleCont) {
+  circleCont.innerHTML += /*html*/ `
+    <div class="assignetToDiv circle" id="showCircle${i}"></div>
+  `;
+  circle = document.getElementById(`showCircle${i}`).style;
+  circle.backgroundColor = color;
+  circle.border = "2px solid rgba(255, 255, 255, 1)";
+  if (assignedContacts.length >= 1) {
+    if (assignedContacts[0].name != user) {
+      circle.marginLeft = "-24px";
     }
-    sowUserLetters(`showCircle${i}`, user);
-  } else if (i == 4) {
+  }
+  sowUserLetters(`showCircle${i}`, user);
+}
+
+/**
+ * Handles extra contacts beyond the first 4.
+ * @param {number} i - The index
+ * @param {Element} circleCont - The container
+ */
+function handleExtraContacts(i, circleCont) {
+  if (i == 4) {
     circleCont.innerHTML += showplusSVG();
   } else {
     showplusSVG();
@@ -131,15 +180,38 @@ function addUserToTask(u) {
 function checkAssignedContacts(name, color, i) {
   x = { name: name, color: color, selected: false };
   selUser = document.getElementById(`user${i}`);
-  if (selUser.classList.contains("contactIsSelect") == true) {
+  let isSelected = selUser.classList.contains("contactIsSelect");
+  toggleSelection(i, isSelected);
+  handleSelection(isSelected, i, x);
+}
+
+/**
+ * Toggles the selection UI.
+ * @param {number} i - The index
+ * @param {boolean} isSelected - Current selection state
+ */
+function toggleSelection(i, isSelected) {
+  if (isSelected) {
     document.getElementById(`none_checked${i}`).classList.remove("d-none");
     document.getElementById(`checked${i}`).classList.add("d-none");
     selUser.classList.remove("contactIsSelect");
-    removeAssignedToContects(x.name, i);
   } else {
     document.getElementById(`none_checked${i}`).classList.add("d-none");
     document.getElementById(`checked${i}`).classList.remove("d-none");
     selUser.classList.add("contactIsSelect");
+  }
+}
+
+/**
+ * Handles the selection logic.
+ * @param {boolean} isSelected - Selection state
+ * @param {number} i - The index
+ * @param {Object} x - The user object
+ */
+function handleSelection(isSelected, i, x) {
+  if (isSelected) {
+    removeAssignedToContects(x.name, i);
+  } else {
     x.selected = true;
     addUserToTask(x);
   }
@@ -190,20 +262,50 @@ function changeToInputfield() {
   search = document.getElementById("searchArea").classList;
   input = document.getElementById("searchField");
   stV = document.getElementById("standartValue").classList;
-  window.addEventListener("click", function (e) {
-    if (changecont.contains(e.target)) {
-      search.remove("d-none");
-      input.classList.remove("d-none");
-      stV.add("d-none");
-      input.focus();
-      showDropDownAssignedTo();
-    } else {
-      search.add("d-none");
-      input.classList.add("d-none");
-      stV.remove("d-none");
-      input.value = "";
-    }
-  });
+  window.addEventListener("click", (e) => handleClick(e, changecont, search, input, stV));
+}
+
+/**
+ * Handles the click event for input field toggle.
+ * @param {Event} e - The event
+ * @param {Element} changecont - The container
+ * @param {DOMTokenList} search - Search class list
+ * @param {Element} input - Input element
+ * @param {DOMTokenList} stV - Standard value class list
+ */
+function handleClick(e, changecont, search, input, stV) {
+  if (changecont.contains(e.target)) {
+    showInput(search, input, stV);
+  } else {
+    hideInput(search, input, stV);
+  }
+}
+
+/**
+ * Shows the input field.
+ * @param {DOMTokenList} search - Search class list
+ * @param {Element} input - Input element
+ * @param {DOMTokenList} stV - Standard value class list
+ */
+function showInput(search, input, stV) {
+  search.remove("d-none");
+  input.classList.remove("d-none");
+  stV.add("d-none");
+  input.focus();
+  showDropDownAssignedTo();
+}
+
+/**
+ * Hides the input field.
+ * @param {DOMTokenList} search - Search class list
+ * @param {Element} input - Input element
+ * @param {DOMTokenList} stV - Standard value class list
+ */
+function hideInput(search, input, stV) {
+  search.add("d-none");
+  input.classList.add("d-none");
+  stV.remove("d-none");
+  input.value = "";
 }
 
 /**
@@ -214,17 +316,25 @@ function searchContacts() {
   search = document.getElementById("searchField");
   text = search.value.toLowerCase();
   if (text.length >= 1) {
-    searchResults = [];
-    for (let i = 0; i < allUsers.length; i++) {
-      aU = allUsers[i].name.toLowerCase();
-      if (aU.includes(text)) {
-        searchResults.push(allUsers[i]);
-      }
-    }
+    performSearch(text);
     showDropDownAssignedToOnlyResult();
   } else {
     searchResults = [];
     showDropDownAssignedTo();
+  }
+}
+
+/**
+ * Performs the search for matching contacts.
+ * @param {string} text - The search text
+ */
+function performSearch(text) {
+  searchResults = [];
+  for (let i = 0; i < allUsers.length; i++) {
+    aU = allUsers[i].name.toLowerCase();
+    if (aU.includes(text)) {
+      searchResults.push(allUsers[i]);
+    }
   }
 }
 

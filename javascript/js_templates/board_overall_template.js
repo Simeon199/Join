@@ -56,7 +56,6 @@ function generateTaskHTMLForSearch(
           ${rightIcon}
         </div>
       </div>
-      
       <div id="${oppositeCategory}" class="no-task d-none">
         <p>No tasks in ${category}</p>
       </div>

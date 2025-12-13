@@ -34,7 +34,6 @@ function returnBigTaskPopUpContactAll(id) {
     document.getElementById("big-task-pop-up-contact-all").innerHTML = /*html*/ `
         <div id='big-edit-task-assigned-to-top-container'>
           <p class='big-edit-task-section-headline'>Assigned to</p>
-          
           <div onclick='stopEvent(event);' id='big-edit-task-assigned-to-input-container'>
             <input 
               onclick='toggleEditTaskAssignedToPopUp()' 
@@ -60,10 +59,8 @@ function returnBigTaskPopUpContactAll(id) {
 function returnBigTaskPopUpSubtasksAll() {
     document.getElementById("big-task-pop-up-subtask-all").innerHTML = /*html*/ `
       <p class='big-edit-task-section-headline'>Subtasks</p>
-  
       <div id='big-edit-task-subtask-input-container' onkeyup='changeSubtaskInputIcons()' onclick='focusSubtaskInput()'>
         <input onkeyup='bigEditTaskSubtaskInputCheckEnter(event)' type="text" id='big-edit-task-subtask-input' placeholder='Add new Subtask'>
-        
         <div id='big-edit-task-subtask-input-icon-container'>
           ${subtaskPlusSVG}
         </div>
@@ -93,7 +90,6 @@ function renderOnlyAssignedToPopUp(contact, contactObject, i, taskIndex) {
             </div>
             <p class='big-edit-task-assigned-to-pop-up-contact-name'>${contact.name}</p>
           </div>
-  
           <div class='big-edit-task-assigned-to-pop-up-contact-checkbox-icon-container'>
             ${uncheckedCheckboxSVG}
           </div>
@@ -129,7 +125,6 @@ function renderOnlyActiveAssignedToPopUp(contact, contactObject, i, taskIndex) {
             </div>
             <p class='big-edit-task-assigned-to-pop-up-contact-name'>${contact.name}</p>
           </div>
-  
           <div class='big-edit-task-assigned-to-pop-up-contact-checkbox-icon-container'>
             ${checkedCheckboxSVG}
           </div>
@@ -161,7 +156,6 @@ function returnHTMLBigTaskPopUpPriorityContainer(priority) {
       <h2 class="big-task-pop-up-label-text">Priority:</h2>
       <div class="big-task-pop-up-value-text">
         <p id="big-task-pop-up-priority-text">${priority}</p>
-  
         <div id="big-task-pop-up-priority-icon">
           ${priorityDisplaySVG}
         </div>

@@ -81,17 +81,14 @@ function buildTaskTemplate({element, contactsHTML, oppositeCategory, rightIcon, 
       ondragend="checkIfEmpty('${element["container"]}', '${oppositeCategory}')"
       ondragover="allowDrop(event)" ondrop="moveTo('${element["container"]}')"
       onclick="showBigTaskPopUp('${jsonTextElement}')">
-
       <div class="task-category-and-dropdown">
         <div class='task-category' style='background-color: ${checkCategoryColor(element["category"]) }'>${element["category"]}</div>
         <div class="dropdownSVG" onclick="stopEvent(event); openMobileDropdown(${taskIndex})">${dropdownArrowSVG}</div>
       </div>
-
       ${generateMobileDropdown(taskIndex)}
       <h3 class="task-title">${element["title"]}</h3>
       <p class="task-description">${taskDescription}</p>
       ${middleContent}
-
       <div class="task-contacts-container">
         <div class="task-contacts">${contactsHTML}</div>
         ${rightIcon}
@@ -255,9 +252,7 @@ function returnSubtaskEditedPopUpHTMLContainer(i) {
           <svg  onclick="deleteSubtaskPopUp(${i}), stopEvent(event)" width="17" height="18" viewBox="0 0 17 18" fill="none" xmlns="http://www.w3.org/2000/svg">
            ${boardSubtaskDeleteIconSVG}
           </svg>
-  
           <div class="subtaskBorder"></div>
-  
           <svg onclick="saveEditedSubtaskPopUp(${i}), stopEvent(event)" width="16" height="12" viewBox="0 0 16 12" fill="none" xmlns="http://www.w3.org/2000/svg">
             ${saveIconSVG}
           </svg>

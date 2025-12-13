@@ -47,41 +47,22 @@ function renderContact(contact, contactIndex, taskIndex, isAssigned) {
  */
 
 async function saveTaskChanges(id) {
-  let inputs = collectTaskInputs();
-  if (validateInputs(inputs.newTitle, inputs.newDate)) {
+  let newTitle = getInputValue("big-edit-task-title-input");
+  let newDescription = getInputValue("big-edit-task-description-input");
+  let newDate = getInputValue("big-edit-task-due-date-input");
+  if (validateInputs(newTitle, newDate)) {
     showBoardLoadScreen();
     removeInputErrors();
-    let taskForEditing = createTaskObject(inputs.newTitle, inputs.newDescription, inputs.newDate);
-    await performTaskSave(id, taskForEditing);
+    let taskForEditing = createTaskObject(newTitle, newDescription, newDate);
+    try {
+      await processTaskEditing(id, taskForEditing);
+    } catch (error) {
+      console.error("Fehler beim Speichern der Änderungen: ", error);
+    }
+    resetSubtasks();
+    updateHTML();
+    hideBoardLoadScreen();
   }
-}
-
-/**
- * Collects input values for task editing.
- * @returns {Object} Object with newTitle, newDescription, newDate
- */
-function collectTaskInputs() {
-  return {
-    newTitle: getInputValue("big-edit-task-title-input"),
-    newDescription: getInputValue("big-edit-task-description-input"),
-    newDate: getInputValue("big-edit-task-due-date-input")
-  };
-}
-
-/**
- * Performs the task saving process.
- * @param {string} id - Task ID
- * @param {Object} taskForEditing - Task object
- */
-async function performTaskSave(id, taskForEditing) {
-  try {
-    await processTaskEditing(id, taskForEditing);
-  } catch (error) {
-    console.error("Fehler beim Speichern der Änderungen: ", error);
-  }
-  resetSubtasks();
-  updateHTML();
-  hideBoardLoadScreen();
 }
 
 /**
@@ -106,25 +87,20 @@ function getInputValue(elementId) {
  */
 
 function validateInputs(title, date) {
-  const titleId = "big-task-pop-up-title";
-  const dateId = "big-task-pop-up-due-date-container";
-  let isValid = true;
-
-  if (title === "") {
-    addInputError(titleId);
-    isValid = false;
-  } else {
-    removeInputError(titleId);
+  if (title === "" && date === "") {
+    addInputError("big-task-pop-up-title");
+    addInputError("big-task-pop-up-due-date-container");
+    return false;
+  } else if (title === "") {
+    addInputError("big-task-pop-up-title");
+    removeInputError("big-task-pop-up-due-date-container");
+    return false;
+  } else if (date === "") {
+    addInputError("big-task-pop-up-due-date-container");
+    removeInputError("big-task-pop-up-title");
+    return false;
   }
-
-  if (date === "") {
-    addInputError(dateId);
-    isValid = false;
-  } else {
-    removeInputError(dateId);
-  }
-
-  return isValid;
+  return true;
 }
 
 /**
@@ -235,23 +211,19 @@ async function processTaskEditing(id, taskForEditing) {
  */
 
 function checkBigEditTaskPriority(priority) {
-  const priorities = {
-    urgent: { id: "big-edit-task-urgent-priority", class: "big-edit-task-urgent-priority-aktiv" },
-    medium: { id: "big-edit-task-medium-priority", class: "big-edit-task-medium-priority-aktiv" },
-    low: { id: "big-edit-task-low-priority", class: "big-edit-task-low-priority-aktiv" }
-  };
-
-  // Remove active class from all priority elements
-  Object.values(priorities).forEach(({ id, class: cls }) => {
-    document.getElementById(id).classList.remove(cls);
-  });
-
-  // Add active class to the selected priority element
-  if (priorities[priority]) {
-    const { id, class: cls } = priorities[priority];
-    document.getElementById(id).classList.add(cls);
+  if (priority == "urgent") {
+    document.getElementById("big-edit-task-urgent-priority").classList.add("big-edit-task-urgent-priority-aktiv");
+    document.getElementById("big-edit-task-medium-priority").classList.remove("big-edit-task-medium-priority-aktiv");
+    document.getElementById("big-edit-task-low-priority").classList.remove("big-edit-task-low-priority-aktiv");
+  } else if (priority == "medium") {
+    document.getElementById("big-edit-task-medium-priority").classList.add("big-edit-task-medium-priority-aktiv");
+    document.getElementById("big-edit-task-low-priority").classList.remove("big-edit-task-low-priority-aktiv");
+    document.getElementById("big-edit-task-urgent-priority").classList.remove("big-edit-task-urgent-priority-aktiv");
+  } else if (priority == "low") {
+    document.getElementById("big-edit-task-low-priority").classList.add("big-edit-task-low-priority-aktiv");
+    document.getElementById("big-edit-task-medium-priority").classList.remove("big-edit-task-medium-priority-aktiv");
+    document.getElementById("big-edit-task-urgent-priority").classList.remove("big-edit-task-urgent-priority-aktiv");
   }
-
   return savePriorityValue(priority);
 }
 
@@ -404,9 +376,9 @@ function generateContactsHTML(task) {
     task.assigned.forEach((assignee, index) => {
       if (index < 3) {
         let initials = getInitials(assignee.name);
-        contactsHTML += /*html*/ `<div class="task-contact" style='background-color: ${assignee.color}'>${initials}</div>`;
+        contactsHTML += `<div class="task-contact" style='background-color: ${assignee.color}'>${initials}</div>`;
       } else if (index === 3) {
-        contactsHTML += /*html*/ `<div class='taskAssignedToNumberContainer'><span>+ ${lengthOfAssignedTo - 3}</span></div>`;
+        contactsHTML += `<div class='taskAssignedToNumberContainer'><span>+ ${lengthOfAssignedTo - 3}</span></div>`;
       }
     });
   }

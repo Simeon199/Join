@@ -17,32 +17,42 @@ async function initSidebar() {
  *
  */
 async function sidebarHTML() {
+  const menuItems = [
+    { href: "summary.html", img: "../../assets/img/Vector1.svg", alt: "", text: "Summary", id: "summary" },
+    { href: "add_task.html", img: "../../assets/img/edit_square.svg", alt: "", text: "Add Task", id: "addTask" },
+    { href: "board.html", img: "../../assets/img/board.svg", alt: "", text: "Board", id: "board" },
+    { href: "contacts.html", img: "../../assets/img/perm_contact_calendar.svg", alt: "", text: "Contacts", id: "contacts" }
+  ];
+
+  const footerLinks = [
+    { href: "privacy_policy.html", text: "Privacy Policy", id: "privatePolicy" },
+    { href: "legal_notice.html", text: "Legal notice", id: "legalNotice" }
+  ];
+
+  const menuHTML = menuItems.map(item => /*html*/ `
+    <a href="${item.href}" class="linkTo" id="${item.id}">
+      <img src="${item.img}" alt="${item.alt}"><p>${item.text}</p>
+    </a>
+  `).join('');
+
+  const footerHTML = footerLinks.map(link => `
+    <a href="${link.href}" id="${link.id}">${link.text}</a>
+  `).join('');
+
   document.getElementById("sidebar").innerHTML += /*html*/ `
     <link rel="stylesheet" href="../../css/remaining/desktop_template.css">
     <section class="sidebar">
-        <img id='sidebar-logo' src="../../assets/img/Capa 1.svg" alt="">
-        <div id="menuBar" class="menuBarDesktop">
-            <a href="summary.html" class="linkTo" id="summary">
-                <img src="../../assets/img/Vector1.svg" alt=""><p>Summary</p>
-            </a>
-            <a href="add_task.html" class="linkTo" id="addTask">
-                <img src="../../assets/img/edit_square.svg" alt=""><p>Add Task</p>
-            </a>
-            <a href="board.html" class="linkTo" id="board">
-                <img src="../../assets/img/board.svg" alt=""><p>Board</p>
-            </a>
-            <a href="contacts.html" class="linkTo" id="contacts">
-                <img src="../../assets/img/perm_contact_calendar.svg" alt=""><p>Contacts</p>
-            </a>
+      <img id='sidebar-logo' src="../../assets/img/Capa 1.svg" alt="">
+      <div id="menuBar" class="menuBarDesktop">
+        ${menuHTML}
+      </div>
+      <footer>
+        <div>
+          ${footerHTML}
         </div>
-        <footer>
-            <div>
-                <a href="privacy_policy.html" id="privatePolicy">Privacy Policy</a>
-                <a href="legal_notice.html" id ="legalNotice">Legal notice</a>
-            </div>
-        </footer>
+      </footer>
     </section>
-    `;
+  `;
   taskMarker();
 }
 
@@ -52,9 +62,7 @@ async function sidebarHTML() {
  */
 async function headerHTML() {
   document.getElementById("headerForm").innerHTML += /*html*/ `
-
-${headerLogoSVG}
-
+  ${headerLogoSVG}
   <h1>Kanban Project Management Tool</h1>
   <div id="headerIcons" class="headerIcons">
     <a href="help.html">
@@ -98,7 +106,6 @@ function logout() {
   sessionStorage.removeItem("userNickname");
   sessionStorage.removeItem("guestLoginStatus");
   window.location.href = "login.html";
-
   localStorage.setItem("firstTime", "true");
 }
 

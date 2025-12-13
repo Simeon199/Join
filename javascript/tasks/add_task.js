@@ -9,17 +9,49 @@ let standardContainer = "to-do-container";
  * Initializes the SVG icons for the add task page
  */
 function initAddTaskIcons() {
-  document.getElementById('arrowa').innerHTML = addTaskDropdownArrowSVG;
-  document.getElementById('imgUrgent').innerHTML = addTaskUrgentSVG;
-  document.getElementById('imgMedium').innerHTML = addTaskMediumSVG;
-  document.getElementById('imgLow').innerHTML = addTaskLowSVG;
-  document.getElementById('arrowb').innerHTML = addTaskDropdownArrowSVG;
-  document.getElementById('plusSymbole').innerHTML = addTaskPlusSVG;
-  // For clear button and create button, they don't have ids, so need to select differently
-  const clearBtn = document.querySelector('.btn span:last-child');
-  if (clearBtn) clearBtn.innerHTML = addTaskClearSVG;
-  const createBtn = document.querySelector('.darkBTN span:last-child');
-  if (createBtn) createBtn.innerHTML = addTaskCheckmarkSVG;
+  initDropdownAndPriorityIcons();
+  initButtonIcons();
+}
+
+/**
+ * Initializes dropdown and priority icons using a mapping object
+ */
+function initDropdownAndPriorityIcons() {
+  const iconMappings = {
+    'arrowa': addTaskDropdownArrowSVG,
+    'imgUrgent': addTaskUrgentSVG,
+    'imgMedium': addTaskMediumSVG,
+    'imgLow': addTaskLowSVG,
+    'arrowb': addTaskDropdownArrowSVG,
+    'plusSymbole': addTaskPlusSVG,
+  };
+
+  Object.entries(iconMappings).forEach(([id, svg]) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.innerHTML = svg;
+    }
+  });
+}
+
+/**
+ * Initializes button icons for clear and create buttons
+ */
+function initButtonIcons() {
+  setButtonIcon('.btn span:last-child', addTaskClearSVG);
+  setButtonIcon('.darkBTN span:last-child', addTaskCheckmarkSVG);
+}
+
+/**
+ * Sets the innerHTML of a button icon using a selector
+ * @param {string} selector - The CSS selector for the element
+ * @param {string} svg - The SVG content to set
+ */
+function setButtonIcon(selector, svg) {
+  const element = document.querySelector(selector);
+  if (element) {
+    element.innerHTML = svg;
+  }
 }
 
 /**
@@ -137,39 +169,91 @@ function checkCategory() {
  * @param {string} side 
  */
 async function checkRequiredFields(side) {
-  let title = document.getElementById("inputTitle").value;
-  let date = document.getElementById("date").value;
+  let title = getInputValue("inputTitle");
+  let date = getInputValue("date");
+  showValidationErrors(title, date);
+  if (isValid(title, date)) {
+    await createTaskAsync(side);
+  }
+}
 
+/**
+ * Shows validation errors for title and date.
+ * @param {string} title - The title value
+ * @param {string} date - The date value
+ */
+function showValidationErrors(title, date) {
+  validateTitle(title);
+  validateDateInput(date);
+  validateCategoryField();
+  validateDateFutureField();
+}
+
+/**
+ * Validates the title field.
+ * @param {string} title - The title
+ */
+function validateTitle(title) {
   if (title.length <= 1) {
     document.getElementById("requiredTitle").classList.remove("d-none");
   } else {
     document.getElementById("requiredTitle").classList.add("d-none");
   }
+}
 
+/**
+ * Validates the date input field.
+ * @param {string} date - The date
+ */
+function validateDateInput(date) {
   if (date.length <= 1) {
     document.getElementById("requiredDate").classList.remove("d-none");
   } else {
     document.getElementById("requiredDate").classList.add("d-none");
   }
+}
 
+/**
+ * Validates the category field.
+ */
+function validateCategoryField() {
   if (checkCategory() == false) {
     document.getElementById("requiredCatergory").classList.remove("d-none");
   } else {
     document.getElementById("requiredDate").classList.add("d-none");
   }
+}
 
+/**
+ * Validates the date future field.
+ */
+function validateDateFutureField() {
   if (checkDate() === false) {
     document.getElementById("requiredDate").classList.remove("d-none");
     document.getElementById("requiredDate").innerHTML = "Date must be in the future";
   } else {
     document.getElementById("requiredDate").classList.add("d-none");
   }
+}
 
-  if (title.length > 1 && date.length > 1 && checkCategory() == true && checkDate() === true) {
-    showBoardLoadScreen();
-    await createTask(side);
-    hideBoardLoadScreen();
-  }
+/**
+ * Checks if all fields are valid.
+ * @param {string} title - The title
+ * @param {string} date - The date
+ * @returns {boolean} True if valid
+ */
+function isValid(title, date) {
+  return title.length > 1 && date.length > 1 && checkCategory() == true && checkDate() === true;
+}
+
+/**
+ * Creates the task asynchronously.
+ * @param {string} side - The side
+ */
+async function createTaskAsync(side) {
+  showBoardLoadScreen();
+  await createTask(side);
+  hideBoardLoadScreen();
 }
 
 /**
@@ -205,24 +289,17 @@ function getInputValue(elementId) {
 }
 
 /**
- * check if the FropDown is open or closed
+ * check if the DropDown is open or closed
  * 
  * @param {string} id 
  */
 function checkDropDown(id) {
-  rot = document.getElementById(id);
-  if (rot.classList.contains("rotate")) {
-    if (id == "arrowa") {
-      hideDropDownAssignedTo();
-    } else {
-      hideDropDownCategory();
-    }
+  const rot = document.getElementById(id);
+  const isRotated = rot.classList.contains("rotate");
+  if (id === "arrowa") {
+    isRotated ? hideDropDownAssignedTo() : showDropDownAssignedTo();
   } else {
-    if (id == "arrowa") {
-      showDropDownAssignedTo();
-    } else {
-      showDropDownCategory();
-    }
+    isRotated ? hideDropDownCategory() : showDropDownCategory();
   }
 }
 
@@ -262,17 +339,12 @@ function goToBoard() {
  * @returns 
  */
 function checkDate() {
-  animation = document.getElementById("dateAnimation");
   let dateInput = document.getElementById("date");
   const dateString = dateInput.value;
-  const dateObject = new Date(dateString);
-  const millisecondsSinceEpoch = dateObject.getTime();
-  const addDate = new Date();
   if (dateString.length >= 9) {
-    if (millisecondsSinceEpoch < addDate) {
-      animation.classList.remove("d-none");
-      setTimeout(() => animation.classList.add("d-none"), 3000);
-      dateInput.value = "";
+    const isValid = validateDateFuture(dateString);
+    if (!isValid) {
+      showDateError();
       return false;
     } else {
       return true;
@@ -280,4 +352,27 @@ function checkDate() {
   } else {
     return null;
   }
+}
+
+/**
+ * Validates if the date is in the future.
+ * @param {string} dateString - The date string
+ * @returns {boolean} True if future
+ */
+function validateDateFuture(dateString) {
+  const dateObject = new Date(dateString);
+  const millisecondsSinceEpoch = dateObject.getTime();
+  const addDate = new Date();
+  return millisecondsSinceEpoch >= addDate;
+}
+
+/**
+ * Shows the date error animation and clears input.
+ */
+function showDateError() {
+  animation = document.getElementById("dateAnimation");
+  let dateInput = document.getElementById("date");
+  animation.classList.remove("d-none");
+  setTimeout(() => animation.classList.add("d-none"), 3000);
+  dateInput.value = "";
 }

@@ -42,16 +42,11 @@ async function renderNumberOfAllContainers() {
  */
 function numberOfSection(section) {
   let sectionNumber = document.getElementById(section + "-number");
-  let number = 0;
+  let number;
   if (section === "tasks-in-board") {
-    sectionNumber.innerHTML = allTasks.length;
-    return;
-  }
-  for (const key in allTasks) {
-    let task = allTasks[key];
-    if (task["container"] === section + "-container") {
-      number++;
-    }
+    number = allTasks.length;
+  } else {
+    number = allTasks.filter(task => task["container"] === section + "-container").length;
   }
   try {
     sectionNumber.innerHTML = number;
@@ -136,35 +131,49 @@ function taskMarker() {
  */
 function greetAnimation() {
   checkIfFirstTime();
-
-  const greetAnimation = document.getElementById("greet-animation");
-  const greetAnimationText = document.getElementById("greet-animation-text");
   if (firstTime === "true") {
-    if (userName === "Guest") {
-      greetAnimationText.innerHTML = /*html*/ `
-        <p>${greetTime()}</p>
-      `;
-    } else {
-      greetAnimationText.innerHTML = /*html*/ `
-        <p>${greetTime()},</p> <span class='greet-animation-username'>${userName}</span>
-      `;
-    }
-
-    greetAnimation.classList.remove("d-none");
-
-    // Set a timeout to hide the animation after a certain delay (e.g., 1.5 seconds)
-    setTimeout(() => greetAnimation.classList.add("hide-greet-animation"), 1500);
-
-    // Event listener to set display: none after the transition ends
-    greetAnimation.addEventListener("transitionend", () => {
-      if (greetAnimation.classList.contains("hide-greet-animation")) {
-        greetAnimation.classList.add("d-none");
-        firstTime = false;
-        localStorage.setItem("firstTime", "false");
-      }
-    });
+    setGreetingText();
+    startAnimation();
   } else {
+    document.getElementById("greet-animation").classList.add("d-none");
+  }
+}
+
+/**
+ * Sets the greeting text for the animation.
+ */
+function setGreetingText() {
+  const greetAnimationText = document.getElementById("greet-animation-text");
+  if (userName === "Guest") {
+    greetAnimationText.innerHTML = /*html*/ `
+      <p>${greetTime()}</p>
+    `;
+  } else {
+    greetAnimationText.innerHTML = /*html*/ `
+      <p>${greetTime()},</p> <span class='greet-animation-username'>${userName}</span>
+    `;
+  }
+}
+
+/**
+ * Starts the greeting animation.
+ */
+function startAnimation() {
+  const greetAnimation = document.getElementById("greet-animation");
+  greetAnimation.classList.remove("d-none");
+  setTimeout(() => greetAnimation.classList.add("hide-greet-animation"), 1500);
+  greetAnimation.addEventListener("transitionend", handleAnimationEnd);
+}
+
+/**
+ * Handles the end of the greeting animation.
+ */
+function handleAnimationEnd() {
+  const greetAnimation = document.getElementById("greet-animation");
+  if (greetAnimation.classList.contains("hide-greet-animation")) {
     greetAnimation.classList.add("d-none");
+    firstTime = false;
+    localStorage.setItem("firstTime", "false");
   }
 }
 

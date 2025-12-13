@@ -16,9 +16,28 @@ async function loadData(path = "") {
  * @param {string} path - The path for the API request.
  */
 async function getAllContacts(path = "") {
+  let responseJson = await fetchContactsResponse(path);
+  let userData = responseJson["contacts"];
+  processUserData(userData);
+  await sortAllUserLetters();
+}
+
+/**
+ * Fetches the contacts response.
+ * @param {string} path - The path
+ * @returns {Object} The response JSON
+ */
+async function fetchContactsResponse(path = "") {
   let response = await fetch(BASE_URL + path + ".json");
   let responseJson = await response.json();
-  let userData = responseJson["contacts"];
+  return responseJson;
+}
+
+/**
+ * Processes the user data and adds to allUsers.
+ * @param {Object} userData - The user data object
+ */
+function processUserData(userData) {
   for (const key in userData) {
     const userD = userData[key];
     let newUser = {
@@ -31,7 +50,6 @@ async function getAllContacts(path = "") {
     allUsers.push(newUser);
     sortContacts();
   }
-  await sortAllUserLetters();
 }
 
 /**
@@ -99,20 +117,61 @@ async function deleteContact(userID) {
  */
 async function addNewContact(bgColor = randomColor(), action) {
   showLoadScreen();
-  document.getElementById("contact-successfully-created-pop-up").innerHTML = "Contact successfully " + action;
+  setSuccessMessage(action);
   await hidePopUp();
+  let data = getContactFormData(bgColor);
+  await postContactData(data);
+  await updateAfterAdd(data.name);
+  hideLoadScreen();
+  await showAndHideSuccessPopUp();
+}
+
+/**
+ * Sets the success message.
+ * @param {string} action - The action
+ */
+function setSuccessMessage(action) {
+  document.getElementById("contact-successfully-created-pop-up").innerHTML = "Contact successfully " + action;
+}
+
+/**
+ * Gets the contact form data.
+ * @param {string} bgColor - The background color
+ * @returns {Object} The contact data
+ */
+function getContactFormData(bgColor) {
   let nameInputValue = document.getElementById("pop-up-name-input").value;
   let emailInputValue = document.getElementById("pop-up-email-input").value;
   let phoneInputValue = document.getElementById("pop-up-phone-input").value;
-  await postNewContact("/contacts", {
+  return {
     name: nameInputValue,
     email: emailInputValue,
     number: phoneInputValue,
     color: bgColor,
-  });
+  };
+}
+
+/**
+ * Posts the contact data.
+ * @param {Object} data - The contact data
+ */
+async function postContactData(data) {
+  await postNewContact("/contacts", data);
+}
+
+/**
+ * Updates after adding contact.
+ * @param {string} name - The contact name
+ */
+async function updateAfterAdd(name) {
   await initContact();
-  afterAddingNewContactShowBigContact(nameInputValue);
-  hideLoadScreen();
+  afterAddingNewContactShowBigContact(name);
+}
+
+/**
+ * Shows and hides the success pop-up.
+ */
+async function showAndHideSuccessPopUp() {
   await showContactSuccessfullyCreatedPopUp();
   hideContactSuccessfullyCreatedPopUp();
 }
@@ -131,16 +190,40 @@ async function addNewContact(bgColor = randomColor(), action) {
  */
 async function selectContact(userName, userEmail, userNumber, userID, i, userColor, bigContact, contactEl) {
   await renderBigContact(userName, userEmail, userNumber, userID, i, userColor);
+  updateActiveContact(contactEl);
+  updateUIElements(bigContact);
+  setActiveIndexAndScroll(i, contactEl);
+}
+
+/**
+ * Updates the active contact highlighting.
+ * @param {Element} contactEl - The contact element
+ */
+function updateActiveContact(contactEl) {
   if (activeContactIndex !== null) {
     document.querySelectorAll(".contact")[activeContactIndex].classList.remove("contact-aktiv");
   }
   contactEl.classList.add("contact-aktiv");
+}
+
+/**
+ * Updates UI elements for contact selection.
+ * @param {Element} bigContact - The big contact element
+ */
+function updateUIElements(bigContact) {
   bigContact.classList.remove("hide-big-contact");
   document.getElementById("right-site-container").classList.remove("right-site-container-translate-100");
   document.getElementById("show-icon-container-button").classList.remove("show-icon-container-button-translate-100");
   document.getElementById("show-icon-container-button").classList.add("animation");
   document.getElementById("add-new-contacts-mobile-button").classList.add("d-none");
-  activeContactIndex = i;
+}
 
+/**
+ * Sets the active index and scrolls into view.
+ * @param {number} i - The index
+ * @param {Element} contactEl - The contact element
+ */
+function setActiveIndexAndScroll(i, contactEl) {
+  activeContactIndex = i;
   contactEl.scrollIntoView({ behavior: "smooth", block: "nearest" });
 }

@@ -83,15 +83,9 @@ function sortAllUserLetters() {
  * @param {string} name - The name from which to extract the letters.
  */
 function firstLetterFirstTwoWords(name) {
-  // Split the string into words
   const words = name.split(" ");
-
-  // Extract the first letter of each word
   const firstLetters = words.map((word) => word.charAt(0));
-
-  // Concatenate the first two letters into a string
   const result = firstLetters.slice(0, 2).join("");
-
   return result.toUpperCase();
 }
 
@@ -315,19 +309,47 @@ function renderEditContactPopUp(userID, userName, userEmail, userNumber, i, user
  * @param {string} nameInputValue - The name of the contact to display.
  */
 function afterAddingNewContactShowBigContact(nameInputValue) {
+  let details = getNewContactDetails(nameInputValue);
+  showNewContactBigView(details);
+  scrollToNewContact(details.index);
+}
+
+/**
+ * Gets the details of the newly added contact.
+ * @param {string} nameInputValue - The name of the contact.
+ * @returns {Object} Contact details.
+ */
+function getNewContactDetails(nameInputValue) {
   let index = allUsers.findIndex((user) => user.name === nameInputValue);
-  let userName = allUsers[index]["name"];
-  let userEmail = allUsers[index]["email"];
-  let userNumber = allUsers[index]["phone"];
-  let userID = allUsers[index]["id"];
-  let userColor = allUsers[index]["color"];
-  renderBigContact(userName, userEmail, userNumber, userID, index, userColor);
-  document.querySelectorAll(".contact")[index].classList.add("contact-aktiv");
+  return {
+    index,
+    userName: allUsers[index]["name"],
+    userEmail: allUsers[index]["email"],
+    userNumber: allUsers[index]["phone"],
+    userID: allUsers[index]["id"],
+    userColor: allUsers[index]["color"]
+  };
+}
+
+/**
+ * Shows the big contact view for the new contact.
+ * @param {Object} details - Contact details.
+ */
+function showNewContactBigView(details) {
+  renderBigContact(details.userName, details.userEmail, details.userNumber, details.userID, details.index, details.userColor);
+  document.querySelectorAll(".contact")[details.index].classList.add("contact-aktiv");
   document.getElementById("big-contact").classList.remove("hide-big-contact");
   document.getElementById("right-site-container").classList.remove("right-site-container-translate-100");
   document.getElementById("show-icon-container-button").classList.remove("show-icon-container-button-translate-100");
   document.getElementById("show-icon-container-button").classList.add("animation");
-  activeContactIndex = index;
+  activeContactIndex = details.index;
+}
+
+/**
+ * Scrolls to the new contact.
+ * @param {number} index - Contact index.
+ */
+function scrollToNewContact(index) {
   document.querySelectorAll(".contact")[index].scrollIntoView({ behavior: "smooth", block: "nearest" });
 }
 

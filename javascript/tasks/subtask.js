@@ -114,7 +114,7 @@ function editSubtaskInput(i) {
   * @returns 
   */
 function returnEditSubtaskInputHTML(i) {
-  return `<input id="subtaskEdited" type="text" value="${subArray[i]["task-description"]}">
+  return /*html*/ `<input id="subtaskEdited" type="text" value="${subArray[i]["task-description"]}">
   <div class="inputButtons">
     <img onclick="deleteSubtask(${i}), stopEvent(event)" src="../../assets/img/deletetrash.svg" alt="">
     <div class="subtaskBorder"></div>
@@ -130,7 +130,6 @@ function hideOrShowEditButtons() {
   cont = document.getElementById("testForFunction");
   plus = document.getElementById("plusSymbole");
   subtask = document.getElementById("subtaskInputButtons");
-
   plus.classList.add("d-none");
   subtask.classList.remove("d-none");
 }
