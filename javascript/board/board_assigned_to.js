@@ -1,33 +1,15 @@
 /**
- * Renders the correct assigned names into a big task pop-up.
- *
- * @param {Object} taskJson - The JSON object representing the task, which contains an `assigned` field.
+ * Board Assigned To Module
+ * Handles assigned contacts and subtask checkboxes for board tasks
  */
 
-function renderCorrectAssignedNamesIntoBigTask(taskJson) {
-  let contactsHTML = "";
-  let initials = "";
-  if (taskJson["assigned"] || typeof taskJson["assigned"] == Array) {
-    for (let index = 0; index < taskJson["assigned"].length; index++) {
-      let name = taskJson["assigned"][index]["name"];
-      let nameArray = name.trim().split(" ");
-      initials = nameArray.map((word) => word.charAt(0).toUpperCase()).join("");
-    }
-  }
-  returnHTMLBigTaskPopUpContactAll(contactsHTML);
-}
+// ==================== SUBTASK CHECKBOX HANDLING ====================
 
 /**
- * This asynchronous function performs the following actions:
- * - Retrieves the subtasks associated with the provided `correctTaskId`.
- * - Toggles the checkbox status and updates the UI accordingly.
- * - Commits the changes to the subtasks.
- *
- * @param {number} i - The index of the subtask whose checkbox status is being updated.
- * @param {string} correctTaskId - The unique identifier for the task associated with the subtasks. 
- * @returns {Promise<void>} A promise that resolves when all operations are complete.
+ * Toggles checkbox status and updates UI and data.
+ * @param {number} i - Subtask index
+ * @param {string} correctTaskId - Task ID
  */
-
 async function addCheckedStatus(i, correctTaskId) {
   let subtasks = tasks[correctTaskId]["subtask"];
   let checkBoxChecked = toggleCheckboxIcons(i);
@@ -36,68 +18,92 @@ async function addCheckedStatus(i, correctTaskId) {
 }
 
 /**
- * This function updates the visibility of the unchecked and checked checkbox icons based on their current state. It hides one icon and shows the other, 
- * indicating the new checked status of the checkbox.
- *
- * @param {number} i - The index used to identify the checkbox icons.
- * @returns {boolean} `true` if the checkbox is checked after toggling, `false` otherwise.
+ * Toggles checkbox icons visibility.
+ * @param {number} i - Checkbox index
+ * @returns {boolean} True if checked
  */
-
 function toggleCheckboxIcons(i) {
-  let checkBoxIconUnchecked = document.getElementById(`checkBoxIconUnchecked${i}`);
-  let checkBoxIconChecked = document.getElementById(`checkBoxIconChecked${i}`);
-  if (!checkBoxIconUnchecked.classList.contains("d-none") && checkBoxIconChecked.classList.contains("d-none")) {
-    checkBoxIconUnchecked.classList.add("d-none");
-    checkBoxIconChecked.classList.remove("d-none");
-    return true;
-  } else if (!checkBoxIconChecked.classList.contains("d-none") && checkBoxIconUnchecked.classList.contains("d-none")) {
-    checkBoxIconUnchecked.classList.remove("d-none");
-    checkBoxIconChecked.classList.add("d-none");
-    return false;
+  let unchecked = document.getElementById(`checkBoxIconUnchecked${i}`);
+  let checked = document.getElementById(`checkBoxIconChecked${i}`);
+  let isCurrentlyChecked = checked.classList.contains("d-none");
+
+  unchecked.classList.toggle("d-none");
+  checked.classList.toggle("d-none");
+
+  return isCurrentlyChecked;
+}
+
+/**
+ * Updates checkbox status in JSON array.
+ * @param {number} i - Index
+ * @param {boolean} status - Checked status
+ */
+function updateCheckboxStatus(i, status) {
+  checkBoxCheckedJson[i] = status;
+}
+
+// ==================== ASSIGNED CONTACTS RENDERING ====================
+
+/**
+ * Renders assigned names into big task pop-up.
+ * @param {Object} taskJson - Task data
+ */
+function renderCorrectAssignedNamesIntoBigTask(taskJson) {
+  let contactsHTML = "";
+  let initials = "";
+  if (taskJson["assigned"] && Array.isArray(taskJson["assigned"])) {
+    for (let contact of taskJson["assigned"]) {
+      let nameArray = contact.name.trim().split(" ");
+      initials = nameArray.map(word => word.charAt(0).toUpperCase()).join("");
+    }
   }
+  returnHTMLBigTaskPopUpContactAll(contactsHTML);
 }
 
 /**
- * Updates the checkbox status in the `checkBoxCheckedJson` array.
- *
- * @param {number} i - The index of the checkbox in the `checkBoxCheckedJson` array.
- * @param {boolean} checkBoxChecked - The new checked status of the checkbox (true if checked, false if unchecked).
+ * Renders task contacts in pop-up.
+ * @param {Object} taskJson - Task data
  */
-
-function updateCheckboxStatus(i, checkBoxChecked) {
-  checkBoxCheckedJson[i] = checkBoxChecked;
-}
-
-/**
- * This function updates the inner HTML of the contact container with a list of assigned contacts from the provided `taskJson` object. 
- * If there are assigned contacts, their details are rendered using `returnAssignedContactHTML`. If no contacts are assigned, a "No One Assigned" message is shown.
- *
- * @param {Object} taskJson - The JSON object representing the task.
- */
-
 function renderTaskContact(taskJson) {
-  assignedToContactsBigContainer = taskJson.assigned;
-  if (taskJson.assigned && taskJson.assigned.length > 0) {
-    taskJson.assigned.forEach((contact) => {
-      document.getElementById("big-task-pop-up-contact-container").innerHTML += returnAssignedContactHTML(contact);
+  assignedToContactsBigContainer = taskJson.assigned || [];
+  let container = document.getElementById("big-task-pop-up-contact-container");
+
+  if (assignedToContactsBigContainer.length > 0) {
+    container.innerHTML = "";
+    assignedToContactsBigContainer.forEach(contact => {
+      container.innerHTML += returnAssignedContactHTML(contact);
     });
-  } else if (taskJson.assigned && taskJson.assigned.length == 0) {
-    document.getElementById("big-task-pop-up-contact-container").innerHTML = /*html*/ `  
-    <p class='big-task-pop-up-value-text'>No One Assigned</p>
-    `;
   } else {
-    document.getElementById("big-task-pop-up-contact-container").innerHTML = /*html*/ `  
-    <p class='big-task-pop-up-value-text'>No One Assigned</p>
-    `;
+    container.innerHTML = `<p class='big-task-pop-up-value-text'>No One Assigned</p>`;
   }
 }
 
 /**
- * This function parses the JSON data from `jsonTextElement` to retrieve the task details. It then updates the content and styling of various elements in the pop-up to reflect 
- * the task's current state. Additionally, it prepares the task for editing by setting the `renderCurrentTaskId` and calling `renderAllBigPopUp` to display the task information.
- *
- * @param {string} jsonTextElement - The JSON-encoded string representing the task details.
- * @param {string} id - The unique identifier for the task to be edited.
+ * Renders assigned contact container for editing.
+ * @param {Object} taskJson - Task data
+ */
+function renderBigTaskAssignedContactContainer(taskJson) {
+  let container = document.getElementById("big-edit-task-assigned-to-contact-container");
+  container.innerHTML = "";
+
+  if (!taskJson.assigned) {
+    taskJson.assigned = [];
+    returnNoOneIsAssignedHTML();
+    return;
+  }
+
+  for (let i = 0; i < taskJson.assigned.length; i++) {
+    const contact = taskJson.assigned[i];
+    returnColorAndAssignedToContacts(contact, i, taskJson.assigned.length, taskJson);
+  }
+}
+
+// ==================== TASK EDITING ====================
+
+/**
+ * Prepares task for editing.
+ * @param {string} jsonTextElement - Encoded task JSON
+ * @param {string} id - Task ID
  */
 function renderEditTask(jsonTextElement, id) {
   let taskJson = JSON.parse(decodeURIComponent(jsonTextElement));
@@ -105,17 +111,18 @@ function renderEditTask(jsonTextElement, id) {
   let oldTitle = document.getElementById("big-task-pop-up-title-text").innerHTML;
   let oldDescription = document.getElementById("big-task-pop-up-description").innerHTML;
   let oldDate = document.getElementById("big-task-pop-up-date").innerHTML;
+
   document.getElementById("big-task-pop-up-category").innerHTML = "";
   document.getElementById("big-task-pop-up-category").style = "background-color: white;";
   renderCurrentTaskId = id;
   renderAllBigPopUp(oldTitle, oldDescription, oldDate, oldPriority, taskJson, id);
 }
 
-/**
- * This function updates the display of the "Assigned To" pop-up by toggling its height, box-shadow, and input arrow rotation. It also manages the focus state of the associated input field.
- *
- */
+// ==================== POP-UP MANAGEMENT ====================
 
+/**
+ * Toggles assigned to pop-up visibility.
+ */
 function toggleEditTaskAssignedToPopUp() {
   document.getElementById("big-edit-task-assigned-to-pop-up-container").classList.toggle("height-0");
   document.getElementById("big-edit-task-assigned-to-pop-up").classList.toggle("box-shadow-none");
@@ -124,11 +131,8 @@ function toggleEditTaskAssignedToPopUp() {
 }
 
 /**
- * This function hides the "Assigned To" pop-up by adding the `height-0` class to its container, 
- * removing the `box-shadow-none` class from the pop-up, and resetting the input arrow rotation. 
- * 
+ * Closes all small pop-ups.
  */
-
 function closeAllSmallPopUpPopUps() {
   if (document.getElementById("big-edit-task-title-input")) {
     document.getElementById("big-edit-task-assigned-to-pop-up-container").classList.add("height-0");
@@ -139,102 +143,74 @@ function closeAllSmallPopUpPopUps() {
 }
 
 /**
- * This function checks if the "Assigned To" pop-up container is hidden by looking for the `height-0` class. 
- * If the container is hidden, it removes focus from the input field. If the container is visible, it sets focus to the input field.
- * 
+ * Toggles focus on assigned to input.
  */
-
 function toggleFocusAssignedToInput() {
-  if (document.getElementById("big-edit-task-assigned-to-pop-up-container").classList.contains("height-0")) {
-    document.getElementById("big-edit-task-assigned-to-input").blur();
+  let container = document.getElementById("big-edit-task-assigned-to-pop-up-container");
+  let input = document.getElementById("big-edit-task-assigned-to-input");
+
+  if (container.classList.contains("height-0")) {
+    input.blur();
   } else {
-    document.getElementById("big-edit-task-assigned-to-input").focus();
+    input.focus();
   }
 }
 
-/**
- * Renders the "Assigned Contacts" section of a task.
- *
- * @param {Object} taskJson - The JSON object representing the task.
- */
-
-function renderBigTaskAssignedContactContainer(taskJson) {
-  let lengthOfAssignedTo = taskJson.assigned.length;
-  document.getElementById("big-edit-task-assigned-to-contact-container").innerHTML = "";
-  if (taskJson.assigned) {
-    for (let i = 0; i < taskJson.assigned.length; i++) {
-      const contact = taskJson.assigned[i];
-      returnColorAndAssignedToContacts(contact, i, lengthOfAssignedTo, taskJson);
-    }
-  } else {
-    taskJson.assigned = [];
-    returnNoOneIsAssignedHTML();
-  }
-}
+// ==================== ASSIGNED TO POP-UP ====================
 
 /**
- * Renders the "Assigned To" pop-up for editing a task.
- *
- * @param {Object} taskJson - The JSON object representing the task.
+ * Renders assigned to pop-up for editing.
+ * @param {Object} taskJson - Task data
  */
-
 function renderBigEditTaskAssignedToPopUp(taskJson) {
-  for (let i = 0; i < allUsers.length; i++) {
+  for (let contact of allUsers) {
     let taskIndex = taskJson.tasksIdentity;
-    const contact = allUsers[i];
-    let allNames = [];
-    for (let j = 0; j < taskJson.assigned.length; j++) {
-      const assignedContact = taskJson.assigned[j];
-      if (contact.name === taskJson.assigned[j].name) {
-        let contactObject = JSON.stringify({ name: contact.name, color: contact.color, isSelected: true });
-        renderOnlyActiveAssignedToPopUp(contact, contactObject, i, taskIndex);
-        allNames.push(contact.name);
-      }
+    let isAssigned = taskJson.assigned.some(assigned => assigned.name === contact.name);
+
+    let contactObject = JSON.stringify({
+      name: contact.name,
+      color: contact.color,
+      isSelected: isAssigned
+    });
+
+    if (isAssigned) {
+      renderOnlyActiveAssignedToPopUp(contact, contactObject, allUsers.indexOf(contact), taskIndex);
+    } else {
+      renderOnlyAssignedToPopUp(contact, contactObject, allUsers.indexOf(contact), taskIndex);
     }
-    if (!allNames.includes(contact.name)) {
-      let contactObject = JSON.stringify({ name: contact.name, color: contact.color, isSelected: false });
-      renderOnlyAssignedToPopUp(contact, contactObject, i, taskIndex);
-      allNames.push(contact.name);
-    }
-    renderOnlySubtaskContainerPopUp(taskJson);
   }
+  renderOnlySubtaskContainerPopUp(taskJson);
 }
 
 /**
- * Toggles the selection state of a contact in the "Assigned To" pop-up and updates the task's assigned contacts.
- *
- * @param {number} i - The index of the contact in the pop-up container.
- * @param {Object} contactObject - The contact object representing the contact to be toggled.
- * @param {string} taskIndex - The unique identifier for the task being edited.
+ * Toggles contact selection in pop-up.
+ * @param {number} i - Contact index
+ * @param {Object} contactObject - Contact data
+ * @param {string} taskIndex - Task ID
  */
-
 function checkBigEditTaskContact(i, contactObject, taskIndex) {
-  if (tasks[taskIndex].assigned) {
-    assignedToContactsBigContainer = tasks[taskIndex].assigned;
-  } else {
-    assignedToContactsBigContainer = [];
-  }
-  HTMLContactContainer = document.querySelectorAll(".big-edit-task-assigned-to-pop-up-contact-container")[i];
-  HTMLContactContainer.classList.toggle("big-edit-task-assigned-to-pop-up-active-contact");
-  if (HTMLContactContainer.classList.contains("big-edit-task-assigned-to-pop-up-active-contact")) {
-    contactObject["isSelected"] = true;
+  assignedToContactsBigContainer = tasks[taskIndex].assigned || [];
+  let container = document.querySelectorAll(".big-edit-task-assigned-to-pop-up-contact-container")[i];
+
+  container.classList.toggle("big-edit-task-assigned-to-pop-up-active-contact");
+  let isSelected = container.classList.contains("big-edit-task-assigned-to-pop-up-active-contact");
+
+  contactObject.isSelected = isSelected;
+
+  if (isSelected) {
     addContactToAssigned(contactObject, taskIndex);
     returnBigEditTaskAssignedToPopUpContactCheckboxIconHTML(i);
   } else {
-    contactObject["isSelected"] = false;
     deleteContactToAssigned(contactObject, taskIndex);
     returnBigEditTaskAssignedToPopUpContactCheckboxSecondIconHTML(i);
   }
 }
 
 /**
- * This function updates the task's assigned contacts by adding the provided `contactObject` to the `assignedToContactsBigContainer` array. 
- * It then updates the task's `assigned` property with this updated list and re-renders the "Assigned Contacts" container to reflect the change.
- *
- * @param {Object} contactObject - The contact object to be added to the assigned contacts.
- * @param {string} taskIndex - The unique identifier for the task to which the contact is being assigned.
+ * Adds contact to assigned list.
+ * @param {Object} contactObject - Contact data
+ * @param {string} taskIndex - Task ID
  */
-
 function addContactToAssigned(contactObject, taskIndex) {
   let taskJson = tasks[taskIndex];
   assignedToContactsBigContainer.push(contactObject);
@@ -243,46 +219,39 @@ function addContactToAssigned(contactObject, taskIndex) {
 }
 
 /**
- * This function updates the task's assigned contacts by removing the provided `contactObject` from the `assignedToContactsBigContainer` array. 
- * It then updates the task's assigned contacts and re-renders the "Assigned Contacts" container to reflect the change.
- *
- * @param {Object} contactObject - The contact object to be removed from the assigned contacts.
- * @param {string} taskIndex - The unique identifier for the task from which the contact is being removed.
+ * Removes contact from assigned list.
+ * @param {Object} contactObject - Contact data
+ * @param {string} taskIndex - Task ID
  */
-
 function deleteContactToAssigned(contactObject, taskIndex) {
   let taskJson = tasks[taskIndex];
-  let contactObjectIndex = assignedToContactsBigContainer.findIndex((jsonObject) => jsonObject.name === contactObject.name);
-  assignedToContactsBigContainer.splice(contactObjectIndex, 1);
+  let index = assignedToContactsBigContainer.findIndex(obj => obj.name === contactObject.name);
+  assignedToContactsBigContainer.splice(index, 1);
+  taskJson.assigned = assignedToContactsBigContainer;
   renderBigTaskAssignedContactContainer(taskJson);
 }
 
-/**
- * This function updates the global `isSaveIconClicked` variable to `true` if it is currently `false`. 
- * 
- */
+// ==================== MISCELLANEOUS ====================
 
+/**
+ * Sets save icon clicked status.
+ */
 function changeSaveIconClickedOnStatus() {
-  if (isSaveIconClicked == false) {
+  if (!isSaveIconClicked) {
     isSaveIconClicked = true;
   }
 }
 
 /**
- * Inserts the current subtasks into the subtask container element.
- *
+ * Inserts subtasks into container.
  */
-
 function insertSubtasksIntoContainer() {
-  document.getElementById("big-edit-task-subtask-container").innerHTML = "";
-  document.getElementById("big-edit-task-subtask-container").innerHTML = "";
-  if (subtaskArray && subtaskArray.length >= 1) {
-    for (let i = 0; i < subtaskArray.length; i++) {
-      let subtask = subtaskArray[i];
-      document.getElementById("big-edit-task-subtask-container").innerHTML += renderSubtaskInPopUpContainer(i, subtask);
-    }
-  } else if (subtaskArray && subtaskArray.length == 0 && tasks[renderCurrentTaskId]["subtask"]) {
-  } else if (!subtaskArray && !tasks[renderCurrentTaskId]["subtask"]) {
-    document.getElementById("big-edit-task-subtask-container").innerHTML += "";
+  let container = document.getElementById("big-edit-task-subtask-container");
+  container.innerHTML = "";
+
+  if (subtaskArray && subtaskArray.length > 0) {
+    subtaskArray.forEach((subtask, i) => {
+      container.innerHTML += renderSubtaskInPopUpContainer(i, subtask);
+    });
   }
 }

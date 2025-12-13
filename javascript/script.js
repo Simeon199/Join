@@ -98,21 +98,43 @@ function shouldRedirect(obj, bolean) {
  */
 
 function checkIfUserIsLoggedIn() {
-  let LoggedInObject = createLoggedInStatusObject();
-  let bolean = proveIfEverythingIsNullExceptCurrentPath(LoggedInObject);
-  if (isGuestLoggedIn(LoggedInObject) || isUserLoggedIn(LoggedInObject)) return;
-  if (shouldRedirect(LoggedInObject, bolean)) {
+  const loggedInObj = createLoggedInStatusObject();
+  const isNullExceptPath = proveIfEverythingIsNullExceptCurrentPath(loggedInObj);
+  if (isGuestLoggedIn(loggedInObj) || isUserLoggedIn(loggedInObj)) return;
+  if (shouldRedirect(loggedInObj, isNullExceptPath)) {
     redirectToLogin();
   }
-  if (LoggedInObject["sessionStatus"] === "true" && !LoggedInObject["sessionUser"] &&
-    (LoggedInObject["currentPath"] !== "legal_notice.html" || LoggedInObject["currentPath"] !== "privacy_policy.html")) {
+  handleSessionStatus(loggedInObj, isNullExceptPath);
+}
+
+/**
+ * Handles session status updates based on the logged-in object and null check.
+ * 
+ * @param {Object} loggedInObj - The logged-in status object.
+ * @param {boolean} isNullExceptPath - Whether everything is null except current path.
+ */
+
+function handleSessionStatus(loggedInObj, isNullExceptPath) {
+  if (loggedInObj.sessionStatus === "true" && !loggedInObj.sessionUser &&
+      !isLegalOrPrivacyPage(loggedInObj.currentPath)) {
     setStorageAttributes();
   }
-  if (bolean && (LoggedInObject["currentPath"] == "legal_notice.html" || LoggedInObject["currentPath"] == "privacy_policy.html")) {
+  if (isNullExceptPath && isLegalOrPrivacyPage(loggedInObj.currentPath)) {
     setSessionAttributes();
   } else {
     sessionStorage.removeItem("isLoggedIn");
   }
+}
+
+/**
+ * Checks if the current path is legal notice or privacy policy page.
+ * 
+ * @param {string} path - The current path.
+ * @returns {boolean} True if it's legal or privacy page.
+ */
+
+function isLegalOrPrivacyPage(path) {
+  return path === "legal_notice.html" || path === "privacy_policy.html";
 }
 
 /**
@@ -182,22 +204,17 @@ function testLoginStatus() {
  */
 
 async function postDataToDatabase(path, data) {
-  try {
-    let response = await fetch(BASE_URL + path + ".json", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
-    if (!response.ok) {
-      throw new Error("Network response was not ok: " + response.statusText);
-    }
-    return await response.json();
-  } catch (error) {
-    console.error("Es gab ein Problem mit der Registrierung:", error);
-    throw error;
+  const response = await fetch(BASE_URL + path + ".json", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+  if (!response.ok) {
+    throw new Error("Network response was not ok: " + response.statusText);
   }
+  return await response.json();
 }
 
 /**
@@ -261,20 +278,31 @@ function showLoginPassword(variable) {
  */
 
 function registerInputFieldFunction(inputLock, registerInputField, visibilityInputImage, visibility) {
-  registerInputField.addEventListener("input", function () {
-    inputLock.classList.add("d-none");
-    if (registerInputField.value.length > 0 && registerInputField.type == "password") {
-      visibilityInputImage.classList.remove("d-none");
-      visibility.classList.add("d-none");
-    } else if (registerInputField.value.length > 0 && registerInputField.type == "text") {
-      visibilityInputImage.classList.add("d-none");
-      visibility.classList.remove("d-none");
-    } else if (registerInputField.value.length == 0) {
-      inputLock.classList.remove("d-none");
-      visibilityInputImage.classList.add("d-none");
-      visibility.classList.add("d-none");
-    }
-  });
+  registerInputField.addEventListener("input", () => handleRegisterInput(inputLock, registerInputField, visibilityInputImage, visibility));
+}
+
+/**
+ * Handles the input event for the register input field, updating icon visibility.
+ * 
+ * @param {HTMLElement} inputLock - The lock icon.
+ * @param {HTMLInputElement} registerInputField - The input field.
+ * @param {HTMLElement} visibilityInputImage - The visibility input image.
+ * @param {HTMLElement} visibility - The visibility control.
+ */
+
+function handleRegisterInput(inputLock, registerInputField, visibilityInputImage, visibility) {
+  inputLock.classList.add("d-none");
+  if (registerInputField.value.length > 0 && registerInputField.type === "password") {
+    visibilityInputImage.classList.remove("d-none");
+    visibility.classList.add("d-none");
+  } else if (registerInputField.value.length > 0 && registerInputField.type === "text") {
+    visibilityInputImage.classList.add("d-none");
+    visibility.classList.remove("d-none");
+  } else {
+    inputLock.classList.remove("d-none");
+    visibilityInputImage.classList.add("d-none");
+    visibility.classList.add("d-none");
+  }
 }
 
 /**
@@ -291,20 +319,32 @@ function registerInputFieldFunction(inputLock, registerInputField, visibilityInp
  */
 
 function registerInputFieldRepeatFunction(registerInputFieldRepeat, inputLockRepeat, visibilityInputImageRepeat, visibility, visibilityRepeat) {
-  registerInputFieldRepeat.addEventListener("input", function () {
-    inputLockRepeat.classList.add("d-none");
-    if (registerInputFieldRepeat.value.length > 0 && registerInputFieldRepeat.type == "password") {
-      visibilityInputImageRepeat.classList.remove("d-none");
-      visibility.classList.add("d-none");
-    } else if (registerInputFieldRepeat.value.length > 0 && registerInputFieldRepeat.type == "text") {
-      visibilityInputImageRepeat.classList.add("d-none");
-      visibilityRepeat.classList.remove("d-none");
-    } else if (registerInputFieldRepeat.value.length == 0) {
-      inputLockRepeat.classList.remove("d-none");
-      visibilityInputImageRepeat.classList.add("d-none");
-      visibilityRepeat.classList.add("d-none");
-    }
-  });
+  registerInputFieldRepeat.addEventListener("input", () => handleRegisterInputRepeat(registerInputFieldRepeat, inputLockRepeat, visibilityInputImageRepeat, visibility, visibilityRepeat));
+}
+
+/**
+ * Handles the input event for the register input repeat field, updating icon visibility.
+ * 
+ * @param {HTMLInputElement} registerInputFieldRepeat - The repeat input field.
+ * @param {HTMLElement} inputLockRepeat - The repeat lock icon.
+ * @param {HTMLElement} visibilityInputImageRepeat - The repeat visibility input image.
+ * @param {HTMLElement} visibility - The visibility control.
+ * @param {HTMLElement} visibilityRepeat - The repeat visibility control.
+ */
+
+function handleRegisterInputRepeat(registerInputFieldRepeat, inputLockRepeat, visibilityInputImageRepeat, visibility, visibilityRepeat) {
+  inputLockRepeat.classList.add("d-none");
+  if (registerInputFieldRepeat.value.length > 0 && registerInputFieldRepeat.type === "password") {
+    visibilityInputImageRepeat.classList.remove("d-none");
+    visibility.classList.add("d-none");
+  } else if (registerInputFieldRepeat.value.length > 0 && registerInputFieldRepeat.type === "text") {
+    visibilityInputImageRepeat.classList.add("d-none");
+    visibilityRepeat.classList.remove("d-none");
+  } else {
+    inputLockRepeat.classList.remove("d-none");
+    visibilityInputImageRepeat.classList.add("d-none");
+    visibilityRepeat.classList.add("d-none");
+  }
 }
 
 /**
