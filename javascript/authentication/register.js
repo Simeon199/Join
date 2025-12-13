@@ -5,21 +5,33 @@
  */
 
 async function signUp(event) {
-    showBoardLoadScreen();
-    event.preventDefault();
-    let name = document.getElementById("name").value;
-    let email = document.getElementById("loginEmail").value;
-    let password = document.getElementById("loginPassword").value;
-    let passwordRepeat = document.getElementById("loginPasswordRepeat").value;
-    let privacyPolicity = document.getElementById("privacyPolicity");
-    let signUpValid = await checkSignInRequirements(name, email, password, passwordRepeat, privacyPolicity);
-    if (!signUpValid) {
-      hideBoardLoadScreen();
-      return;
-    }
-    let user = buildUserFunction(name, email, password);
-    await createUserAndShowPopup((path = "/users"), user);
+  showBoardLoadScreen();
+  event.preventDefault();
+  const inputs = getSignUpInputs();
+  const isValid = await checkSignInRequirements(inputs.name, inputs.email, inputs.password, inputs.passwordRepeat, inputs.privacyPolicy);
+  if (!isValid) {
     hideBoardLoadScreen();
+    return;
+  }
+  const user = buildUserFunction(inputs.name, inputs.email, inputs.password);
+  await createUserAndShowPopup("/users", user);
+  hideBoardLoadScreen();
+}
+
+/**
+ * Retrieves the sign-up form inputs.
+ *
+ * @returns {Object} An object containing name, email, password, passwordRepeat, and privacyPolicy.
+ */
+
+function getSignUpInputs() {
+  return {
+    name: document.getElementById("name").value,
+    email: document.getElementById("loginEmail").value,
+    password: document.getElementById("loginPassword").value,
+    passwordRepeat: document.getElementById("loginPasswordRepeat").value,
+    privacyPolicy: document.getElementById("privacyPolicity"),
+  };
 }
 
 /**
@@ -30,19 +42,28 @@ async function signUp(event) {
  */
 
 function throwSignUpErrorWhenWrongPasswordSyntax() {
-    removeErrorMessageIfPresent();
-    let allErrorMessages = document.getElementById("allErrorMessages");
-    let reportFailedSignUp = document.getElementById("reportFailedSignUpWhenWeakPassword");
-    if (reportFailedSignUp.classList.contains("d-none") && allErrorMessages.classList.contains("d-none")) {
-      allErrorMessages.classList.remove("d-none");
-      allErrorMessages.classList.add("d-flex");
-      reportFailedSignUp.classList.remove("d-none");
-    } else {
-      allErrorMessages.classList.remove("d-flex");
-      allErrorMessages.classList.add("d-none");
-      reportFailedSignUp.classList.add("d-none");
-    }
+  removeErrorMessageIfPresent();
+  toggleWeakPasswordErrorVisibility();
+}
+
+/**
+ * Toggles the visibility of weak password error messages.
+ */
+
+function toggleWeakPasswordErrorVisibility() {
+  const allErrorMessages = document.getElementById("allErrorMessages");
+  const reportFailedSignUp = document.getElementById("reportFailedSignUpWhenWeakPassword");
+  const isHidden = reportFailedSignUp.classList.contains("d-none") && allErrorMessages.classList.contains("d-none");
+  if (isHidden) {
+    allErrorMessages.classList.remove("d-none");
+    allErrorMessages.classList.add("d-flex");
+    reportFailedSignUp.classList.remove("d-none");
+  } else {
+    allErrorMessages.classList.remove("d-flex");
+    allErrorMessages.classList.add("d-none");
+    reportFailedSignUp.classList.add("d-none");
   }
+}
 
   /**
  * This function chekcks a password to ensure it meets the necessary password criteria (minimum length, at least one uppercase, one lowercase and one digit) 
@@ -92,44 +113,62 @@ function checkPasswordWhenSignUp(password) {
  */
 
 async function createUserAndShowPopup(path, user) {
-    try {
-      let responseToJson = await postDataToDatabase(path, user);
-      showRegisterPopup();
-      setTimeout(() => {
-        window.location.href = "login.html";
-      }, 1000);
-      return responseToJson;
-    } catch (error) {
-      console.error("Es gab ein Problem bei der Registrierung. Bitte versuchen Sie es später erneut");
-    }
+  try {
+    const responseToJson = await postDataToDatabase(path, user);
+    showRegisterPopup();
+    setTimeout(() => {
+      window.location.href = "login.html";
+    }, 1000);
+    return responseToJson;
+  } catch (error) {
+    console.error("Es gab ein Problem bei der Registrierung. Bitte versuchen Sie es später erneut");
+  }
 }
 
-/**
- * This function adjusts the visibility of icons for showing or hiding passwords based on the specified
- * password input fields and its associated icons. It handles cases for both the login password and
- * the repeat password fields.
- * 
- * @param {string} variable - A string indicating which password field to process ("loginPassword" or "loginPasswordRepeat").
- * @param {HTMLElement} visibilityInputImage - The element representing the visibility input image for the login password.
- * @param {HTMLElement} visibilityInputImageRepeat - The element representing the visibility input image for the repeat password.
- * @param {HTMLElement} visibility - The element representing the visibility control for the login password.
+ /* @param {HTMLElement} visibility - The element representing the visibility control for the login password.
  * @param {HTMLElement} visibilityRepeat - The element representing the visibility control for the repeat password.
  */
 
 function checkAllCasesForShowPassword(variable, visibilityInputImage, visibilityInputImageRepeat, visibility, visibilityRepeat) {
-    if (variable == "loginPassword" && visibilityInputImage.classList.contains("d-none")) {
-      visibilityInputImage.classList.remove("d-none");
-      visibility.classList.add("d-none");
-    } else if (variable == "loginPassword" && inputLock.classList.contains("d-none")) {
-      visibility.classList.remove("d-none");
-      visibilityInputImage.classList.add("d-none");
-    } else if (variable == "loginPasswordRepeat" && visibilityInputImageRepeat.classList.contains("d-none")) {
-      visibilityInputImageRepeat.classList.remove("d-none");
-      visibilityRepeat.classList.add("d-none");
-    } else if (variable == "loginPasswordRepeat" && inputLockRepeat.classList.contains("d-none")) {
-      visibilityRepeat.classList.remove("d-none");
-      visibilityInputImageRepeat.classList.add("d-none");
-    }
+  if (variable === "loginPassword") {
+    togglePasswordVisibility(visibilityInputImage, visibility);
+  } else if (variable === "loginPasswordRepeat") {
+    togglePasswordRepeatVisibility(visibilityInputImageRepeat, visibilityRepeat);
+  }
+}
+
+/**
+ * Toggles visibility for the main password field.
+ * 
+ * @param {HTMLElement} visibilityInputImage - Visibility input image.
+ * @param {HTMLElement} visibility - Visibility control.
+ */
+
+function togglePasswordVisibility(visibilityInputImage, visibility) {
+  if (visibilityInputImage.classList.contains("d-none")) {
+    visibilityInputImage.classList.remove("d-none");
+    visibility.classList.add("d-none");
+  } else if (inputLock.classList.contains("d-none")) {
+    visibility.classList.remove("d-none");
+    visibilityInputImage.classList.add("d-none");
+  }
+}
+
+/**
+ * Toggles visibility for the repeat password field.
+ * 
+ * @param {HTMLElement} visibilityInputImageRepeat - Visibility input image for repeat.
+ * @param {HTMLElement} visibilityRepeat - Visibility control for repeat.
+ */
+
+function togglePasswordRepeatVisibility(visibilityInputImageRepeat, visibilityRepeat) {
+  if (visibilityInputImageRepeat.classList.contains("d-none")) {
+    visibilityInputImageRepeat.classList.remove("d-none");
+    visibilityRepeat.classList.add("d-none");
+  } else if (inputLockRepeat.classList.contains("d-none")) {
+    visibilityRepeat.classList.remove("d-none");
+    visibilityInputImageRepeat.classList.add("d-none");
+  }
 }
 
 /**
@@ -141,22 +180,17 @@ function checkAllCasesForShowPassword(variable, visibilityInputImage, visibility
  */
 
 async function postDataToDatabase(path, data) {
-    try {
-      let response = await fetch(BASE_URL + path + ".json", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
-      if (!response.ok) {
-        throw new Error("Network response was not ok: " + response.statusText);
-      }
-      return await response.json();
-    } catch (error) {
-      console.error("Es gab ein Problem mit der Registrierung:", error);
-      throw error;
-    }
+  const response = await fetch(BASE_URL + path + ".json", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+  if (!response.ok) {
+    throw new Error("Network response was not ok: " + response.statusText);
+  }
+  return await response.json();
 }
 
   /**
@@ -181,18 +215,27 @@ function throwSignUpError() {
  */
 
 function createReportDueToFailedRegistration() {
-    removeErrorMessageIfPresent();
-    let allErrorMessages = document.getElementById("allErrorMessages");
-    let reportFailedSignUp = document.getElementById("reportFailedSignUp");
-    if (reportFailedSignUp.classList.contains("d-none") && allErrorMessages.classList.contains("d-none")) {
-      allErrorMessages.classList.remove("d-none");
-      allErrorMessages.classList.add("d-flex");
-      reportFailedSignUp.classList.remove("d-none");
-    } else {
-      allErrorMessages.classList.remove("d-flex");
-      allErrorMessages.classList.add("d-none");
-      reportFailedSignUp.classList.add("d-none");
-    }
+  removeErrorMessageIfPresent();
+  toggleFailedRegistrationErrorVisibility();
+}
+
+/**
+ * Toggles the visibility of failed registration error messages.
+ */
+
+function toggleFailedRegistrationErrorVisibility() {
+  const allErrorMessages = document.getElementById("allErrorMessages");
+  const reportFailedSignUp = document.getElementById("reportFailedSignUp");
+  const isHidden = reportFailedSignUp.classList.contains("d-none") && allErrorMessages.classList.contains("d-none");
+  if (isHidden) {
+    allErrorMessages.classList.remove("d-none");
+    allErrorMessages.classList.add("d-flex");
+    reportFailedSignUp.classList.remove("d-none");
+  } else {
+    allErrorMessages.classList.remove("d-flex");
+    allErrorMessages.classList.add("d-none");
+    reportFailedSignUp.classList.add("d-none");
+  }
 }
 
 /**
@@ -243,20 +286,14 @@ async function nicknameAlreadyExists(name, email) {
  */
 
 async function checkSignInRequirements(name, email, password, passwordRepeat, privacyPolicity) {
-    if (!checkPasswordWhenSignUp(password)) {
-      return false;
-    }
-    if ((await nicknameAlreadyExists(name, email)) == true) {
-      return false;
-    }
-    if (password !== passwordRepeat) {
-      throwSignUpError();
-      return false;
-    }
-    if (!privacyPolicity.checked) {
-      return false;
-    }
-    return true;
+  if (!checkPasswordWhenSignUp(password)) return false;
+  if (await nicknameAlreadyExists(name, email)) return false;
+  if (password !== passwordRepeat) {
+    throwSignUpError();
+    return false;
+  }
+  if (!privacyPolicity.checked) return false;
+  return true;
 }
 
 /**
@@ -289,8 +326,6 @@ function showBoardLoadScreen() {
 function hideBoardLoadScreen() {
     document.getElementById("board-add_task-load-screen").classList.add("d-none");
 }
-
-// const signUp = document.getElementById('submitSignUp');
 
 /**
  * This function takes the username, the email address and a password and creates a user object with this information.

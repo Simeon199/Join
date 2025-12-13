@@ -6,21 +6,36 @@
 
 async function loginFunction(event) {
   event.preventDefault();
-  let loginEmail = document.getElementById("loginEmail").value;
-  let loginPassword = document.getElementById("loginPassword").value;
-  let remember = document.getElementById("remember").checked;
-  let response = await loadData((path = "/users"));
-  for (let key in response) {
-    let user = response[key];
-    if (user["email"] && user["password"]) {
-      if (loginEmail == user["email"] && loginPassword == user["password"]) {
-        saveLoggedInStatus(user["name"], user["email"], remember);
-        window.location.href = "summary.html";
-        return;
-      }
+  const email = document.getElementById("loginEmail").value;
+  const password = document.getElementById("loginPassword").value;
+  const remember = document.getElementById("remember").checked;
+  const users = await loadData("/users");
+  const user = findUser(email, password, users);
+  if (user) {
+    saveLoggedInStatus(user.name, user.email, remember);
+    window.location.href = "summary.html";
+  } else {
+    throwLoginError();
+  }
+}
+
+/**
+ * Finds a user by email and password from the users object.
+ * 
+ * @param {string} email - The user's email.
+ * @param {string} password - The user's password.
+ * @param {object} users - The users data object.
+ * @returns {object|null} The user object if found, null otherwise.
+ */
+
+function findUser(email, password, users) {
+  for (let key in users) {
+    const user = users[key];
+    if (user.email === email && user.password === password) {
+      return user;
     }
   }
-  throwLoginError();
+  return null;
 }
 
 /**
@@ -29,40 +44,54 @@ async function loginFunction(event) {
  */
 
 function throwLoginError() {
-  let loginPasswordInput = document.getElementById("loginPasswordInputField");
-  let loginInput = document.getElementById("loginInput");
-  let loginPassword = document.getElementById("loginPassword");
+  clearLoginFields();
+  showLoginErrorNotification();
+}
+
+/**
+ * Clears the login password field and highlights the input in red.
+ */
+
+function clearLoginFields() {
+  const loginPassword = document.getElementById("loginPassword");
   loginPassword.value = "";
+  const loginPasswordInput = document.getElementById("loginPasswordInputField");
   loginPasswordInput.style.border = "1px solid red";
-  let existingNotification = document.querySelector(".notification.error");
-  if (existingNotification) {
-    existingNotification.remove();
-  }
-  let notification = document.createElement("div");
+}
+
+/**
+ * Shows the login error notification.
+ */
+
+function showLoginErrorNotification() {
+  const existing = document.querySelector(".notification.error");
+  if (existing) existing.remove();
+  const notification = document.createElement("div");
   notification.classList.add("notification", "error");
-  notification.innerHTML = `<p>Ups! Wrong Password or Email. Try again.</p>`;
+  notification.innerHTML = "<p>Ups! Wrong Password or Email. Try again.</p>";
+  const loginInput = document.getElementById("loginInput");
   loginInput.appendChild(notification);
 }
 
 /**
 * This function toggles the visibility of the login error.
 * 
-* @param {string} reportFailedLogin - The ID of the element that resports the failed login.
+* @param {string} reportFailedLogin - The ID of the element that reports the failed login.
 * @param {string} allErrorMessagesLogin - The ID of the element that contains all the login error messages. 
 */
 
 function removeReportLogin(reportFailedLogin, allErrorMessagesLogin) {
-  if (
-    document.getElementById(allErrorMessagesLogin).classList.contains("d-none") &&
-    document.getElementById(reportFailedLogin).classList.contains("d-none")
-  ) {
-    document.getElementById(allErrorMessagesLogin).classList.remove("d-none");
-    document.getElementById(allErrorMessagesLogin).classList.add("d-flex");
-    document.getElementById(reportFailedLogin).classList.remove("d-none");
+  const allErrors = document.getElementById(allErrorMessagesLogin);
+  const report = document.getElementById(reportFailedLogin);
+  const isHidden = allErrors.classList.contains("d-none") && report.classList.contains("d-none");
+  if (isHidden) {
+    allErrors.classList.remove("d-none");
+    allErrors.classList.add("d-flex");
+    report.classList.remove("d-none");
   } else {
-    document.getElementById(allErrorMessagesLogin).classList.remove("d-flex");
-    document.getElementById(allErrorMessagesLogin).classList.add("d-none");
-    document.getElementById(reportFailedLogin).classList.add("d-none");
+    allErrors.classList.remove("d-flex");
+    allErrors.classList.add("d-none");
+    report.classList.add("d-none");
   }
 }
 
@@ -205,20 +234,31 @@ function showLoginPassword(variable) {
  */
 
 function loginPasswordFunction(loginPassword, loginLock, visibilityInputImage, visibility) {
-  loginPassword.addEventListener("input", function () {
-    loginLock.classList.add("d-none");
-    if (loginPassword.value.length > 0 && loginPassword.type == "password") {
-      visibilityInputImage.classList.remove("d-none");
-      visibility.classList.add("d-none");
-    } else if (loginPassword.value.length > 0 && loginPassword.type == "text") {
-      visibilityInputImage.classList.add("d-none");
-      visibility.classList.remove("d-none");
-    } else if (loginPassword.value.length == 0) {
-      loginLock.classList.remove("d-none");
-      visibilityInputImage.classList.add("d-none");
-      visibility.classList.add("d-none");
-    }
-  });
+  loginPassword.addEventListener("input", () => handlePasswordInput(loginPassword, loginLock, visibilityInputImage, visibility));
+}
+
+/**
+ * Handles the input event for the password field, updating icon visibility.
+ * 
+ * @param {HTMLElement} loginPassword - The password input field.
+ * @param {HTMLElement} loginLock - The lock icon.
+ * @param {HTMLElement} visibilityInputImage - The visibility input image.
+ * @param {HTMLElement} visibility - The visibility control.
+ */
+
+function handlePasswordInput(loginPassword, loginLock, visibilityInputImage, visibility) {
+  loginLock.classList.add("d-none");
+  if (loginPassword.value.length > 0 && loginPassword.type === "password") {
+    visibilityInputImage.classList.remove("d-none");
+    visibility.classList.add("d-none");
+  } else if (loginPassword.value.length > 0 && loginPassword.type === "text") {
+    visibilityInputImage.classList.add("d-none");
+    visibility.classList.remove("d-none");
+  } else {
+    loginLock.classList.remove("d-none");
+    visibilityInputImage.classList.add("d-none");
+    visibility.classList.add("d-none");
+  }
 }
 
 /**
