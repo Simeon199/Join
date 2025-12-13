@@ -43,20 +43,26 @@ function checkIfEmpty(tasksDiv, divWithoutTasks) {
  */
 
 function updateHTML() {
-  allCategories.forEach((container) => {
-    let element = document.getElementById(container);
-    let oppositeElementName = "no-" + container;
-    let oppositeElement = getRightOppositeElement(oppositeElementName);
-    if (element) {
-      let filteredTasks = tasks.filter((task) => task.container === container);
-      element.innerHTML = "";
-      if (filteredTasks.length > 0) {
-        iterateThroughSubArray(filteredTasks, element);
-      } else {
-        element.innerHTML = oppositeElement;
-      }
+  allCategories.forEach(processCategoryContainer);
+}
+
+/**
+ * Processes a single category container.
+ * @param {string} container - The container ID
+ */
+function processCategoryContainer(container) {
+  let element = document.getElementById(container);
+  let oppositeElementName = "no-" + container;
+  let oppositeElement = getRightOppositeElement(oppositeElementName);
+  if (element) {
+    let filteredTasks = tasks.filter((task) => task.container === container);
+    element.innerHTML = "";
+    if (filteredTasks.length > 0) {
+      iterateThroughSubArray(filteredTasks, element);
+    } else {
+      element.innerHTML = oppositeElement;
     }
-  });
+  }
 }
 
 /**
@@ -163,16 +169,33 @@ function replaceSpacesWithDashes(str) {
  */
 
 function openMobileDropdown(taskIndex) {
+  toggleDropdownVisibility(taskIndex);
+  updateDropdownItemsVisibility(taskIndex);
+}
+
+/**
+ * Toggles the dropdown visibility and sets the current open dropdown.
+ * @param {number} taskIndex - The task index
+ */
+function toggleDropdownVisibility(taskIndex) {
   let dropdown = document.getElementById(`mobileDropdown${taskIndex}`);
   dropdown.classList.toggle("mobileDropdown-translate-100");
-  let task = tasks.find((task) => task.tasksIdentity == taskIndex);
-  let currentCategory = task.container;
-  let dropdownItems = dropdown.querySelectorAll("a");
   if (!dropdown.classList.contains("mobileDropdown-translate-100")) {
     currentOpenDropdown = dropdown;
   } else {
     currentOpenDropdown = null;
   }
+}
+
+/**
+ * Updates the visibility of dropdown items based on the current category.
+ * @param {number} taskIndex - The task index
+ */
+function updateDropdownItemsVisibility(taskIndex) {
+  let dropdown = document.getElementById(`mobileDropdown${taskIndex}`);
+  let task = tasks.find((task) => task.tasksIdentity == taskIndex);
+  let currentCategory = task.container;
+  let dropdownItems = dropdown.querySelectorAll("a");
   for (i = 0; i < dropdownItems.length; i++) {
     let category = replaceSpacesWithDashes(dropdownItems[i].textContent.trim().toLowerCase() + "-container");
     if (category === currentCategory.toLowerCase()) {

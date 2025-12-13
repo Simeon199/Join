@@ -356,23 +356,9 @@ function handleRegisterInputRepeat(registerInputFieldRepeat, inputLockRepeat, vi
 function checkWebsiteLocation() {
   let currentURL = window.location.href;
   if (currentURL.includes("login.html")) {
-    document.addEventListener("DOMContentLoaded", () => {
-      let loginPassword = document.getElementById("loginPassword");
-      let loginLock = document.getElementById("loginLock");
-      loginPasswordFunction(loginPassword, loginLock, visibilityInputImage, visibility);
-    });
+    setupLoginPage();
   } else if (currentURL.includes("register.html")) {
-    document.addEventListener("DOMContentLoaded", () => {
-      let obj = createObjectforEventListener();
-      registerInputFieldFunction(obj["inputLock"], obj["registerInputField"], obj["visibilityInputImage"], obj["visibility"]);
-      registerInputFieldRepeatFunction(
-        obj["registerInputFieldRepeat"],
-        obj["inputLockRepeat"],
-        obj["visibilityInputImageRepeat"],
-        obj["visibility"],
-        obj["visibilityRepeat"]
-      );
-    });
+    setupRegisterPage();
   } else {
     checkIfUserIsLoggedIn();
   }
@@ -398,4 +384,32 @@ function createObjectforEventListener() {
     inputLockRepeat: document.getElementById("inputLockRepeat"),
   };
   return object;
+}
+
+/**
+ * Sets up the login page by adding event listeners for password visibility.
+ */
+function setupLoginPage() {
+  document.addEventListener("DOMContentLoaded", () => {
+    let loginPassword = document.getElementById("loginPassword");
+    let loginLock = document.getElementById("loginLock");
+    loginPasswordFunction(loginPassword, loginLock, visibilityInputImage, visibility);
+  });
+}
+
+/**
+ * Sets up the register page by adding event listeners for input fields.
+ */
+function setupRegisterPage() {
+  document.addEventListener("DOMContentLoaded", () => {
+    let obj = createObjectforEventListener();
+    registerInputFieldFunction(obj["inputLock"], obj["registerInputField"], obj["visibilityInputImage"], obj["visibility"]);
+    registerInputFieldRepeatFunction(
+      obj["registerInputFieldRepeat"],
+      obj["inputLockRepeat"],
+      obj["visibilityInputImageRepeat"],
+      obj["visibility"],
+      obj["visibilityRepeat"]
+    );
+  });
 }

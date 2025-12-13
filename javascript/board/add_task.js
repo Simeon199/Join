@@ -104,8 +104,25 @@ function hideBigTaskPopUp() {
 
 function renderBigTask(jsonTextElement) {
     let taskJson = JSON.parse(decodeURIComponent(jsonTextElement));
+    removeEditClasses();
+    setBigTaskPopUpElements(taskJson);
+    renderBigTaskAdditional(taskJson, jsonTextElement);
+}
+
+/**
+ * Removes edit-related CSS classes from priority and due date containers.
+ */
+function removeEditClasses() {
     document.getElementById("big-task-pop-up-priority-container").classList.remove("big-edit-task-pop-up-section-container");
     document.getElementById("big-task-pop-up-due-date-container").classList.remove("big-edit-task-pop-up-section-container");
+}
+
+/**
+ * Sets the basic elements of the big task pop-up.
+ * 
+ * @param {Object} taskJson - The task data object.
+ */
+function setBigTaskPopUpElements(taskJson) {
     document.getElementById("big-task-pop-up-title").innerHTML = /*html*/ `<h1 id='big-task-pop-up-title-text'>${taskJson.title}</h1>`;
     document.getElementById("big-task-pop-up-description").innerHTML = taskJson.description;
     returnHTMLBigTaskPopUpDueDateContainerContent(taskJson.date);
@@ -113,6 +130,15 @@ function renderBigTask(jsonTextElement) {
     document.getElementById("big-task-pop-up-category").style.backgroundColor = checkCategoryColor(taskJson.category);
     returnHTMLBigTaskPopUpPriorityContainer(taskJson.priority);
     document.getElementById("big-task-pop-up-priority-icon").innerHTML = checkPriorityIcon(taskJson.priority);
+}
+
+/**
+ * Renders additional elements for the big task pop-up.
+ * 
+ * @param {Object} taskJson - The task data object.
+ * @param {string} jsonTextElement - The JSON string of the task.
+ */
+function renderBigTaskAdditional(taskJson, jsonTextElement) {
     document.getElementById("big-task-pop-up-bottom-buttons-container").innerHTML = returnDeleteEditHTML(taskJson.tasksIdentity, jsonTextElement);
     renderCorrectAssignedNamesIntoBigTask(taskJson);
     returnHTMLBigTaskPopUpSubtaskAll();

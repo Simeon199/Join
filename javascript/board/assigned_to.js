@@ -163,6 +163,15 @@ function toggleFocusAssignedToInput() {
  * @param {Object} taskJson - Task data
  */
 function renderBigEditTaskAssignedToPopUp(taskJson) {
+  processContactsForAssignedToPopUp(taskJson);
+  renderOnlySubtaskContainerPopUp(taskJson);
+}
+
+/**
+ * Processes contacts for the assigned to pop-up.
+ * @param {Object} taskJson - Task data
+ */
+function processContactsForAssignedToPopUp(taskJson) {
   for (let contact of allUsers) {
     let taskIndex = taskJson.tasksIdentity;
     let isAssigned = taskJson.assigned.some(assigned => assigned.name === contact.name);
@@ -179,7 +188,6 @@ function renderBigEditTaskAssignedToPopUp(taskJson) {
       renderOnlyAssignedToPopUp(contact, contactObject, allUsers.indexOf(contact), taskIndex);
     }
   }
-  renderOnlySubtaskContainerPopUp(taskJson);
 }
 
 /**
@@ -191,12 +199,31 @@ function renderBigEditTaskAssignedToPopUp(taskJson) {
 function checkBigEditTaskContact(i, contactObject, taskIndex) {
   assignedToContactsBigContainer = tasks[taskIndex].assigned || [];
   let container = document.querySelectorAll(".big-edit-task-assigned-to-pop-up-contact-container")[i];
+  let isSelected = toggleContactSelection(container, contactObject);
+  handleContactSelection(isSelected, contactObject, taskIndex, i);
+}
 
+/**
+ * Toggles the selection state of a contact.
+ * @param {Element} container - The contact container element
+ * @param {Object} contactObject - Contact data
+ * @returns {boolean} True if selected
+ */
+function toggleContactSelection(container, contactObject) {
   container.classList.toggle("big-edit-task-assigned-to-pop-up-active-contact");
   let isSelected = container.classList.contains("big-edit-task-assigned-to-pop-up-active-contact");
-
   contactObject.isSelected = isSelected;
+  return isSelected;
+}
 
+/**
+ * Handles the selection or deselection of a contact.
+ * @param {boolean} isSelected - Selection state
+ * @param {Object} contactObject - Contact data
+ * @param {string} taskIndex - Task ID
+ * @param {number} i - Contact index
+ */
+function handleContactSelection(isSelected, contactObject, taskIndex, i) {
   if (isSelected) {
     addContactToAssigned(contactObject, taskIndex);
     returnBigEditTaskAssignedToPopUpContactCheckboxIconHTML(i);
