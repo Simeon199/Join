@@ -1,10 +1,4 @@
 /**
- * Clears the task marker.
- *
- */
-function taskMarker() {}
-
-/**
  * Updates the header section with SVG logo and header content.
  */
 function headerHTML() {

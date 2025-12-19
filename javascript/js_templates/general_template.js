@@ -53,7 +53,7 @@ async function sidebarHTML() {
       </footer>
     </section>
   `;
-  taskMarker();
+  // taskMarker();
 }
 
 /**

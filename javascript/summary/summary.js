@@ -1,6 +1,3 @@
-// const BASE_URL = "https://join-9bbb0-default-rtdb.europe-west1.firebasedatabase.app/";
-
-
 let userName = getUserNickname();
 let firstTime = "true";
 let allTasks;
@@ -237,8 +234,10 @@ function getDateFormUrgetTask() {
  * @param {Date} earliestDate - The date to format and display.
  */
 function getEarliestDate(earliestDate) {
-  const options = { year: "numeric", month: "long", day: "numeric" };
-  document.getElementById("upcommingDate").innerHTML = earliestDate.toLocaleDateString("en-US", options);
+  if(earliestDate !== null){
+    const options = { year: "numeric", month: "long", day: "numeric" };
+    document.getElementById("upcommingDate").innerHTML = earliestDate.toLocaleDateString("en-US", options);
+  }
 }
 
 /**
