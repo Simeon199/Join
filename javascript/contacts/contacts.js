@@ -360,7 +360,10 @@ function insertContactIcons() {
   document.getElementById('contact-add-button-icon').innerHTML = contactAddButtonIconSVG;
   document.getElementById('contact-mobile-add-button-icon').innerHTML = contactMobileAddButtonIconSVG;
   document.getElementById('contact-arrow-icon').innerHTML = contactArrowIconSVG;
-  document.getElementById('contact-three-dots-icon').innerHTML = contactThreeDotsIconSVG;
+
+  // === add a conditional to insert a contact-three-dots-icon if the screen width matches a certain size ===
+  // document.getElementById('contact-three-dots-icon').innerHTML = contactThreeDotsIconSVG;
+  
   document.getElementById('contact-close-icon').innerHTML = cancelIconSVG;
   document.getElementById('contact-logo-icon').innerHTML = contactLogoIconSVG;
 }

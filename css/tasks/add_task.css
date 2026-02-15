@@ -75,10 +75,10 @@ form div div div {
   justify-content: space-between;
 }
 
-.select span {
+/* .select span {
   padding: 0px 10px 0px 10px;
   font-size: 20px;
-}
+} */
 
 .select:focus {
   border: 1px solid rgba(41, 171, 226, 1);

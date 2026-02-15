@@ -85,7 +85,7 @@ function returnAddContactPopUpHeadlineHTML() {
  */
 function returnAddContactPopUpContactLogoHTML() {
   return /*html*/ `
-    ${personIconSVG}
+    ${personIconBigSVG}
   `;
 }
 
@@ -105,7 +105,7 @@ function returnAddContactPopUpFormHTML() {
           type="text"
           placeholder="Name"
           required />
-        ${personIconSVG}
+        ${personIconSmallSVG}
       </div>
       <div class="pop-up-input-container">
         <input
@@ -186,7 +186,7 @@ function returnEditContactPopUpFormHTML(userID, i, userColor) {
             type="text"
             placeholder="Name"
             required />
-          ${personIconSVG}
+          ${personIconSmallSVG}
         </div>
         <div class="pop-up-input-container">
           <input
