@@ -339,3 +339,22 @@ body #big-task-pop-up-contact-all:has(.height-0) {
 .dropdownSVG {
   display: none;
 }
+
+#board-close-add-task-popup {
+  position: absolute;
+  right: 40px;
+  top: 40px;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 100%;
+}
+
+#board-close-add-task-popup:hover {
+  background-color: #d9d9d9;
+}
+
+#board-add-task-mobile-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

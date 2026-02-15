@@ -145,7 +145,7 @@
                             placeholder="Search Contact.." />
                         </div>
                       </div>
-                      <span id="arrowa" onclick="checkDropDown('arrowa'); stopEvent(event)"></span>
+                      <span id="arrowa" class="arrow" onclick="checkDropDown('arrowa'); stopEvent(event)"></span>
                     </div>
                     <div id="assignedToDropDown" class="drop-bg d-none" onclick="stopEvent(event)"></div>
                     <div id="userCircles"></div>
@@ -184,10 +184,10 @@
                   </div>
                   <div>
                     <p>Category<b>*</b></p>
-                    <div id="category" class="select" onclick="stopEvent(event) ,checkDropDown('arrowb')"
+                    <div id="category" class="select" onclick="stopEvent(event); checkDropDown('arrowb')"
                       aria-required="true">
                       <span id="categoryText">Select task category</span>
-                      <span id="arrowb"></span>
+                      <span id="arrowb" class="arrow"></span>
                     </div>
                     <div id="categoryDropDown" class="drop-bg d-none"></div>
                     <span id="requiredCatergory" class="required-text d-none">This field is required</span>
