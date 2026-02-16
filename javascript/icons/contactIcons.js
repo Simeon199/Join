@@ -163,11 +163,19 @@ const contactArrowIconSVG = /*html*/ `
 </svg>
 `;
 
+// const contactThreeDotsIconSVG = /*html*/ `
+// <svg id="contactThreeDotsIcon" width="20" height="5" viewBox="0 0 20 5" fill="none" xmlns="http://www.w3.org/2000/svg">
+// <circle cx="2.5" cy="2.5" r="2.5" fill="#2A3647"/>
+// <circle cx="10" cy="2.5" r="2.5" fill="#2A3647"/>
+// <circle cx="17.5" cy="2.5" r="2.5" fill="#2A3647"/>
+// </svg>
+// `;
+
 const contactThreeDotsIconSVG = /*html*/ `
 <svg id="contactThreeDotsIcon" width="20" height="5" viewBox="0 0 20 5" fill="none" xmlns="http://www.w3.org/2000/svg">
-<circle cx="2.5" cy="2.5" r="2.5" fill="#2A3647"/>
-<circle cx="10" cy="2.5" r="2.5" fill="#2A3647"/>
-<circle cx="17.5" cy="2.5" r="2.5" fill="#2A3647"/>
+<circle cx="2.5" cy="2.5" r="2.5" fill="#ffffff"/>
+<circle cx="10" cy="2.5" r="2.5" fill="#ffffff"/>
+<circle cx="17.5" cy="2.5" r="2.5" fill="#ffffff"/>
 </svg>
 `;
 

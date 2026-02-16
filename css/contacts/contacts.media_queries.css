@@ -78,6 +78,10 @@
       width: 100%;
       padding: 10px 50px 8px 50px;
     }
+
+    #contact-three-dots-icon {
+      display: flex;
+    }
   
     #add-new-contacts-button {
       display: none;

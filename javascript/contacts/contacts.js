@@ -359,11 +359,19 @@ function scrollToNewContact(index) {
 function insertContactIcons() {
   document.getElementById('contact-add-button-icon').innerHTML = contactAddButtonIconSVG;
   document.getElementById('contact-mobile-add-button-icon').innerHTML = contactMobileAddButtonIconSVG;
-  document.getElementById('contact-arrow-icon').innerHTML = contactArrowIconSVG;
-
-  // === add a conditional to insert a contact-three-dots-icon if the screen width matches a certain size ===
-  // document.getElementById('contact-three-dots-icon').innerHTML = contactThreeDotsIconSVG;
-  
+  addThreeDotIconForCertainScreenSize('contact-three-dots-icon');
   document.getElementById('contact-close-icon').innerHTML = cancelIconSVG;
   document.getElementById('contact-logo-icon').innerHTML = contactLogoIconSVG;
+}
+
+/**
+ * Displays the three dot icon if a certain screen size is undercut.
+ * @param {string} id - HTML div id
+ */
+function addThreeDotIconForCertainScreenSize(id){
+  if(window.innerWidth < 1000){
+    document.getElementById(`${id}`).innerHTML = contactThreeDotsIconSVG;
+  } else {
+    document.getElementById(`${id}`).innerHTML = ''
+  }
 }

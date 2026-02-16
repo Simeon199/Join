@@ -275,6 +275,10 @@ main {
   z-index: 999;
 }
 
+#contact-three-dots-icon {
+  display: none;
+}
+
 /* animation */
 
 @keyframes color-change {
