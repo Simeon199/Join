@@ -56,12 +56,12 @@
   .input2 {
     padding: 0px;
     width: 90%;
-    .prio div {
+    /* .prio div {
       justify-content: space-around;
     }
     .prio div div {
       justify-content: center;
-    }
+    } */
   }
   .submitSection {
     position: relative;

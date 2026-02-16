@@ -182,6 +182,7 @@
     align-items: center;
     justify-content: unset;  
     flex-direction: column;
+    width: 90%;
 }
   
 .input2 {
@@ -192,6 +193,7 @@
     display: flex;
     align-items: center;  
     flex-direction: column;
+    width: 90%;
 }
   
 .input2 .prio div {

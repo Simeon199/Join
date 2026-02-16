@@ -142,7 +142,8 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 82%;
+    /* width: 82%; */
+    width: 90%;
   }
 
   #add-task-button-mobile {
@@ -161,7 +162,8 @@
   }
 
   #search-input-container {
-    width: 80%;
+    width: 90%;
+    /* width: 80%; */
   }
 
   .plus-icon-container {
