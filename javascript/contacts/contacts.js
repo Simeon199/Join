@@ -358,7 +358,8 @@ function scrollToNewContact(index) {
  */
 function insertContactIcons() {
   document.getElementById('contact-add-button-icon').innerHTML = contactAddButtonIconSVG;
-  document.getElementById('contact-mobile-add-button-icon').innerHTML = contactMobileAddButtonIconSVG;
+  document.getElementById('contact-mobile-add-button-icon').innerHTML = addNewContactIcon;
+  // document.getElementById('contact-mobile-add-button-icon').innerHTML = contactMobileAddButtonIconSVG;
   addThreeDotIconForCertainScreenSize('contact-three-dots-icon');
   // document.getElementById('contact-close-icon').innerHTML = cancelIconSVG;
   document.getElementById('contact-logo-icon').innerHTML = contactLogoIconSVG;

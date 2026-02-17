@@ -356,7 +356,7 @@ function generateTaskHTML(element, contactsHTML, oppositeCategory, rightIcon, js
 function insertBoardIcons() {
   document.getElementById('board-add-task-icon').innerHTML = boardAddTaskIconSVG;
   document.getElementById('board-add-task-mobile-icon').innerHTML = boardAddTaskIconSVG;
-  // document.getElementById('search-input-container').innerHTML = boardSearchIconSVG;
+  document.getElementById('search-input-container').innerHTML += boardSearchIconSVG;
   // document.getElementById('board-search-icon').innerHTML = boardSearchIconSVG;
   document.getElementById('board-section-plus-to-do').innerHTML = boardSectionPlusIconSVG;
   document.getElementById('board-section-plus-in-progress').innerHTML = boardSectionPlusIconSVG;
