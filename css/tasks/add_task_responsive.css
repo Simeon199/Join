@@ -20,6 +20,7 @@
     align-items: center;
     margin-bottom: 40px;
     gap: 20px;
+    flex-direction: column;
   }
   .borderLine {
     display: none;
