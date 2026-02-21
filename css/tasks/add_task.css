@@ -13,7 +13,6 @@ body {
   height: calc(100vh - 96px);
   width: 100%;
   padding: 20px 20px 20px 282px;
-  /* padding: 50px 50px 50px 282px; */
   display: flex;
   justify-content: center;
 

@@ -43,7 +43,6 @@ a:hover {
 footer {
   display: flex;
   justify-content: center;
-  /* padding: 16px; */
   width: 100%;
   background: rgba(246, 247, 248, 1);
 }

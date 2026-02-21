@@ -150,7 +150,6 @@ function buildSubtaskArrayForUpload() {
     let subtaskInput = document.getElementById("big-edit-task-subtask-input");
     if (subtaskInput.value.trim().length > 0) {
       let subtaskJson = createSubtaskJson(subtaskInput.value);
-  
       subtaskArray.push(subtaskJson);
       insertSubtasksIntoContainer();
       subtaskInput.value = "";

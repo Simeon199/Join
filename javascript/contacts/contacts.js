@@ -218,7 +218,6 @@ function taskMarker() {
 function renderContactList() {
   let contactListContainer = document.getElementById("contact-list");
   contactListContainer.innerHTML = "";
-
   for (let i = 0; i < firstUsersNameLetter.length; i++) {
     renderContactLetterContainer(i, contactListContainer);
   }
@@ -359,9 +358,7 @@ function scrollToNewContact(index) {
 function insertContactIcons() {
   document.getElementById('contact-add-button-icon').innerHTML = contactAddButtonIconSVG;
   document.getElementById('contact-mobile-add-button-icon').innerHTML = addNewContactIcon;
-  // document.getElementById('contact-mobile-add-button-icon').innerHTML = contactMobileAddButtonIconSVG;
   addThreeDotIconForCertainScreenSize('contact-three-dots-icon');
-  // document.getElementById('contact-close-icon').innerHTML = cancelIconSVG;
   document.getElementById('contact-logo-icon').innerHTML = contactLogoIconSVG;
 }
 

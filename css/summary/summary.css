@@ -323,7 +323,7 @@ h4 {
 }
 
 .hide-greet-animation {
-  opacity: 0; /* Target opacity for hide */
+  opacity: 0; 
 }
 
 #greet-animation-text {

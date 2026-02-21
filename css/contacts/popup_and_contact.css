@@ -94,7 +94,8 @@
     width: 100px;
   }
   
-  /* pop-up-content */
+/* pop-up-content */
+
   #pop-up-content {
     display: flex;
     justify-content: center;
@@ -246,7 +247,7 @@
     fill: #29abe2;
   }
   
-  /* contact-successfully-created-pop-up */
+/* contact-successfully-created-pop-up */
   
   #contact-successfully-created-pop-up-bg {
     width: 100%;
@@ -271,7 +272,8 @@
     transform: translateX(100%);
   }
 
-  /* contact info container */
+/* contact info container */
+
 #big-contact {
     width: 100%;
     display: flex;
