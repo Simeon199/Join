@@ -40,10 +40,13 @@ or additional dependencies are required.
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/your-username/join.git
+   git clone https://github.com/Simeon199/join.git
    ```
-
-2. Open `index.html` directly in your browser – that's it!
+2. Switch to the pages directory:
+   ```bash
+   cd Join/pages/
+   ```
+3. Open `index.html` directly in your browser – that's it!
 
 ---
 
