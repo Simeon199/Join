@@ -25,7 +25,7 @@ main {
 
 /* contact list container */
 #contact-list-container {
-  min-width: 352px;
+  min-width: 380px;
   height: calc(100vh - 192px);
   background-color: white;
   display: flex;
