@@ -1,9 +1,7 @@
-# 🧪 Join – Frontend Test Project
+# 🧪 Join – Kanban Based Project
 
-A frontend project developed exclusively for testing purposes.
+A kanban based frontend project which supports CRUD operations and was developed exclusively for testing purposes.
 All data used are dummy data and have no relation to real persons.
-
-> ⚠️ This project is not intended for commercial use.
 
 ---
 
