@@ -179,8 +179,8 @@ function processContactsForAssignedToPopUp(taskJson) {
   for (let contact of allUsers) {
     let taskIndex = taskJson.tasksIdentity;
     let isAssigned = taskJson.assigned.some(item => {
-      if (item.id) return item.id === contact.id;    // new format: { id, name, color }
-      return item.name === contact.name;             // old format: { name, color, isSelected }
+      if (item.id) return item.id === contact.id;    
+      return item.name === contact.name;             
     });
 
     let contactObject = JSON.stringify({
@@ -204,7 +204,6 @@ function processContactsForAssignedToPopUp(taskJson) {
  * @param {string} taskIndex - Task ID
  */
 function checkBigEditTaskContact(i, contactObject, taskIndex) {
-  // Normalize to { id, name, color } format so add/delete always work on IDs.
   assignedToContactsBigContainer = (tasks[taskIndex].assigned || []).map(item => {
     if (item.id) return item;
     let found = allUsers.find(u => u.name === item.name);
@@ -247,13 +246,14 @@ function handleContactSelection(isSelected, contactObject, taskIndex, i) {
 
 /**
  * Adds contact to assigned list, storing { id, name, color } for reliable re-identification.
- * @param {string} contactObject - JSON string with { name, color, isSelected }
+ * NOTE: contactObject arrives as a plain JS object (embedded unquoted in the onclick template),
+ * so we access .name directly — no JSON.parse needed.
+ * @param {Object} contactObject - Contact data { name, color, isSelected }
  * @param {string} taskIndex - Task ID
  */
 function addContactToAssigned(contactObject, taskIndex) {
   let taskJson = tasks[taskIndex];
-  let parsed = JSON.parse(contactObject);
-  let contact = allUsers.find(u => u.name === parsed.name);
+  let contact = allUsers.find(u => u.name === contactObject.name);
   if (contact) {
     let alreadyAssigned = assignedToContactsBigContainer.some(item => item.id === contact.id);
     if (!alreadyAssigned) {
@@ -266,13 +266,14 @@ function addContactToAssigned(contactObject, taskIndex) {
 
 /**
  * Removes contact from assigned list, matching by ID.
- * @param {string} contactObject - JSON string with { name, color, isSelected }
+ * NOTE: contactObject arrives as a plain JS object (embedded unquoted in the onclick template),
+ * so we access .name directly — no JSON.parse needed.
+ * @param {Object} contactObject - Contact data { name, color, isSelected }
  * @param {string} taskIndex - Task ID
  */
 function deleteContactToAssigned(contactObject, taskIndex) {
   let taskJson = tasks[taskIndex];
-  let parsed = JSON.parse(contactObject);
-  let contact = allUsers.find(u => u.name === parsed.name);
+  let contact = allUsers.find(u => u.name === contactObject.name);
   if (contact) {
     let index = assignedToContactsBigContainer.findIndex(item => item.id === contact.id);
     if (index !== -1) assignedToContactsBigContainer.splice(index, 1);
