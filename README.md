@@ -42,11 +42,11 @@ or additional dependencies are required.
    ```bash
    git clone https://github.com/Simeon199/join.git
    ```
-2. Switch to the pages directory:
+2. Switch to the Join directory:
    ```bash
-   cd Join/pages/
+   cd Join
    ```
-3. Open `index.html` directly in your browser – that's it!
+3. Open `index.html` under the pages folder directly inside your browser – that's it!
 
 ---
 
