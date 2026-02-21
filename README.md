@@ -45,6 +45,10 @@ or additional dependencies are required.
 
 2. Open `index.html` directly in your browser – that's it!
 
+3. It is also possible to test the project (without the installation process) under following link:
+
+   https://join.simon-kiesner.de/pages/login.html
+
 ---
 
 ## 💡 How to Use It
