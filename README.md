@@ -12,7 +12,6 @@ All data used are dummy data and have no relation to real persons.
 - [Installation](#installation)
 - [How to Use It](#how-to-use-it)
 - [Dummy Data](#dummy-data)
-- [License](#license)
 
 ---
 
