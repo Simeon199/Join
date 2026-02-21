@@ -1,11 +1,11 @@
-# 🧪 Join – Kanban Based Project
+# Join – Kanban Based Project
 
 A kanban based frontend project which supports CRUD operations and was developed exclusively for testing purposes.
 All data used are dummy data and have no relation to real persons.
 
 ---
 
-## 📋 Table of Contents
+## Table of Contents
 
 - [About the Project](#about-the-project)
 - [Technologies](#technologies)
@@ -15,7 +15,7 @@ All data used are dummy data and have no relation to real persons.
 
 ---
 
-## 📌 About the Project
+## About the Project
 
 Join is a kanban-based project management tool designed and built by a group of dedicated students as part of their web development bootcamp at the Developer Akademie.
 It is important to note that Join is designed as an educational exercise and is not intended for extensive business usage. While we strive to ensure the best possible user experience, we cannot guarantee consistent availability, reliability, accuracy, or other aspects of quality regarding Join. It is therefore not intended for commercial use and was created solely for
@@ -23,7 +23,7 @@ private testing and learning purposes.
 
 ---
 
-## 🛠️ Technologies
+## Technologies
 
 - HTML
 - CSS
@@ -32,7 +32,7 @@ private testing and learning purposes.
 
 ---
 
-## 🚀 Installation
+## Installation
 
 Since this project is built with plain Vanilla JavaScript, no package manager
 or additional dependencies are required.
@@ -47,7 +47,7 @@ or additional dependencies are required.
 
 ---
 
-## 💡 How to Use It
+## How to Use It
 
 ### Exploring the Board
 
@@ -84,7 +84,7 @@ delete it entirely.
 
 ---
 
-## 🗂️ Dummy Data
+## Dummy Data
 
 All data used in this project (persons, tasks, etc.) are fictitious and serve
 exclusively for testing purposes. There is no relation to real persons,
