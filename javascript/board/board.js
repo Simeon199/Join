@@ -333,7 +333,7 @@ function closeAllDropDownPopUps() {
  */
 
 function generateTaskHTML(element, contactsHTML, oppositeCategory, rightIcon, jsonElement) {
-  let jsonTextElement = encodeURIComponent(jsonElement);
+  let jsonTextElement = encodeURIComponent(jsonElement).replace(/'/g, '%27');
   if (element["subtask"] && element["subtask"].length > 0) {
     let numberOfTasksChecked = 0;
     for (index = 0; index < element["subtask"].length; index++) {

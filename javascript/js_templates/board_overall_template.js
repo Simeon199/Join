@@ -26,7 +26,7 @@ function generateTaskHTMLForSearch(
   rightIcon,
   jsonElement
 ) {
-  let jsonTextElement = encodeURIComponent(jsonElement);
+  let jsonTextElement = encodeURIComponent(jsonElement).replace(/'/g, '%27');
   if (taskDescription.length > 40) {
     taskDescription = taskDescription.substring(0, 40) + "...";
   }
