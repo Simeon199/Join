@@ -46,7 +46,7 @@ or additional dependencies are required.
    ```bash
    cd Join
    ```
-3. Open `index.html` under the pages folder directly inside your browser – that's it!
+3. Open `login.html` under the pages folder directly inside your browser – that's it!
 
 ---
 
