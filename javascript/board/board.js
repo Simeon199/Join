@@ -15,6 +15,24 @@ let renderCurrentTaskId;
 let touchTime;
 
 /**
+ * Resolves a contact object from an assigned-array entry.
+ * Supports three formats for backward compatibility:
+ *   - New format:  { id, name, color }  → looks up fresh data from allUsers by id
+ *   - Old format:  { name, color, isSelected } → looks up by name, falls back to stored data
+ * Always returns a plain { name, color } object suitable for rendering.
+ *
+ * @param {Object} assignedItem - An entry from a task's assigned array.
+ * @returns {Object|null} Contact with at least { name, color }, or null if unresolvable.
+ */
+function resolveContact(assignedItem) {
+  if (!assignedItem) return null;
+  if (assignedItem.id) {
+    return allUsers.find(u => u.id === assignedItem.id) || assignedItem;
+  }
+  return allUsers.find(u => u.name === assignedItem.name) || assignedItem;
+}
+
+/**
  * This asynchronous function performs two main actions:
  * - Retrieves tasks from the database using `getTasksFromDatabase()`.
  * - Updates the HTML to reflect the fetched tasks using `updateHTML()`.
@@ -238,9 +256,10 @@ function generateContactsHTML(element) {
 
 function generateContactHTML(element, index, lengthOfAssignedTo) {
   if (index < 3) {
-    let name = element.assigned[index].name;
-    let initials = getInitials(name);
-    return /*html*/ `<div class="task-contact" style='background-color: ${element.assigned[index].color}'>${initials}</div>`;
+    let contact = resolveContact(element.assigned[index]);
+    if (!contact) return "";
+    let initials = getInitials(contact.name);
+    return /*html*/ `<div class="task-contact" style='background-color: ${contact.color}'>${initials}</div>`;
   } else if (index === 3) {
     return /*html*/ `<div class='taskAssignedToNumberContainer'><span>+ ${lengthOfAssignedTo - 3}</span></div>`;
   } else {
@@ -357,7 +376,6 @@ function insertBoardIcons() {
   document.getElementById('board-add-task-icon').innerHTML = boardAddTaskIconSVG;
   document.getElementById('board-add-task-mobile-icon').innerHTML = boardAddTaskIconSVG;
   document.getElementById('search-input-container').innerHTML += boardSearchIconSVG;
-  // document.getElementById('board-search-icon').innerHTML = boardSearchIconSVG;
   document.getElementById('board-section-plus-to-do').innerHTML = boardSectionPlusIconSVG;
   document.getElementById('board-section-plus-in-progress').innerHTML = boardSectionPlusIconSVG;
   document.getElementById('board-section-plus-await-feedback').innerHTML = boardSectionPlusIconSVG;

@@ -82,7 +82,8 @@ async function deleteData(path = "") {
 }
 
 /**
- * Edits a contact by deleting and re-adding it with updated details.
+ * Edits a contact in-place using PUT, preserving the existing Firebase ID.
+ * This ensures task assignments referencing this contact by ID stay valid.
  *
  * @param {string} userID - The ID of the user to edit.
  * @param {number} i - Index or position in the list (not used in the function).
@@ -90,10 +91,28 @@ async function deleteData(path = "") {
  */
 async function editContact(userID, i, userColor) {
   showLoadScreen();
-  await deleteData("/contacts/" + userID);
-
-  addNewContact(userColor, "edited");
+  let data = getContactFormData(userColor);
+  await putData("/contacts/" + userID, data);
+  await initContact();
+  afterAddingNewContactShowBigContact(data.name);
   hideLoadScreen();
+  setSuccessMessage("edited");
+  await showAndHideSuccessPopUp();
+}
+
+/**
+ * Updates data at the specified Firebase path using PUT (overwrites existing entry, keeps same key).
+ *
+ * @param {string} path - The path for the API request.
+ * @param {Object} data - The data to write.
+ */
+async function putData(path = "", data = {}) {
+  let response = await fetch(BASE_URL + path + ".json", {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  });
+  return await response.json();
 }
 
 /**

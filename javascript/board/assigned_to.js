@@ -52,9 +52,12 @@ function renderCorrectAssignedNamesIntoBigTask(taskJson) {
   let contactsHTML = "";
   let initials = "";
   if (taskJson["assigned"] && Array.isArray(taskJson["assigned"])) {
-    for (let contact of taskJson["assigned"]) {
-      let nameArray = contact.name.trim().split(" ");
-      initials = nameArray.map(word => word.charAt(0).toUpperCase()).join("");
+    for (let item of taskJson["assigned"]) {
+      let contact = resolveContact(item);
+      if (contact) {
+        let nameArray = contact.name.trim().split(" ");
+        initials = nameArray.map(word => word.charAt(0).toUpperCase()).join("");
+      }
     }
   }
   returnHTMLBigTaskPopUpContactAll(contactsHTML);
@@ -70,8 +73,9 @@ function renderTaskContact(taskJson) {
 
   if (assignedToContactsBigContainer.length > 0) {
     container.innerHTML = "";
-    assignedToContactsBigContainer.forEach(contact => {
-      container.innerHTML += returnAssignedContactHTML(contact);
+    assignedToContactsBigContainer.forEach(item => {
+      let contact = resolveContact(item);
+      if (contact) container.innerHTML += returnAssignedContactHTML(contact);
     });
   } else {
     container.innerHTML = `<p class='big-task-pop-up-value-text'>No One Assigned</p>`;
@@ -93,8 +97,8 @@ function renderBigTaskAssignedContactContainer(taskJson) {
   }
 
   for (let i = 0; i < taskJson.assigned.length; i++) {
-    const contact = taskJson.assigned[i];
-    returnColorAndAssignedToContacts(contact, i, taskJson.assigned.length, taskJson);
+    const contact = resolveContact(taskJson.assigned[i]);
+    if (contact) returnColorAndAssignedToContacts(contact, i, taskJson.assigned.length, taskJson);
   }
 }
 
@@ -174,7 +178,10 @@ function renderBigEditTaskAssignedToPopUp(taskJson) {
 function processContactsForAssignedToPopUp(taskJson) {
   for (let contact of allUsers) {
     let taskIndex = taskJson.tasksIdentity;
-    let isAssigned = taskJson.assigned.some(assigned => assigned.name === contact.name);
+    let isAssigned = taskJson.assigned.some(item => {
+      if (item.id) return item.id === contact.id;    // new format: { id, name, color }
+      return item.name === contact.name;             // old format: { name, color, isSelected }
+    });
 
     let contactObject = JSON.stringify({
       name: contact.name,
@@ -197,7 +204,12 @@ function processContactsForAssignedToPopUp(taskJson) {
  * @param {string} taskIndex - Task ID
  */
 function checkBigEditTaskContact(i, contactObject, taskIndex) {
-  assignedToContactsBigContainer = tasks[taskIndex].assigned || [];
+  // Normalize to { id, name, color } format so add/delete always work on IDs.
+  assignedToContactsBigContainer = (tasks[taskIndex].assigned || []).map(item => {
+    if (item.id) return item;
+    let found = allUsers.find(u => u.name === item.name);
+    return found ? { id: found.id, name: found.name, color: found.color } : null;
+  }).filter(Boolean);
   let container = document.querySelectorAll(".big-edit-task-assigned-to-pop-up-contact-container")[i];
   let isSelected = toggleContactSelection(container, contactObject);
   handleContactSelection(isSelected, contactObject, taskIndex, i);
@@ -234,26 +246,37 @@ function handleContactSelection(isSelected, contactObject, taskIndex, i) {
 }
 
 /**
- * Adds contact to assigned list.
- * @param {Object} contactObject - Contact data
+ * Adds contact to assigned list, storing { id, name, color } for reliable re-identification.
+ * @param {string} contactObject - JSON string with { name, color, isSelected }
  * @param {string} taskIndex - Task ID
  */
 function addContactToAssigned(contactObject, taskIndex) {
   let taskJson = tasks[taskIndex];
-  assignedToContactsBigContainer.push(contactObject);
+  let parsed = JSON.parse(contactObject);
+  let contact = allUsers.find(u => u.name === parsed.name);
+  if (contact) {
+    let alreadyAssigned = assignedToContactsBigContainer.some(item => item.id === contact.id);
+    if (!alreadyAssigned) {
+      assignedToContactsBigContainer.push({ id: contact.id, name: contact.name, color: contact.color });
+    }
+  }
   taskJson.assigned = assignedToContactsBigContainer;
   renderBigTaskAssignedContactContainer(taskJson);
 }
 
 /**
- * Removes contact from assigned list.
- * @param {Object} contactObject - Contact data
+ * Removes contact from assigned list, matching by ID.
+ * @param {string} contactObject - JSON string with { name, color, isSelected }
  * @param {string} taskIndex - Task ID
  */
 function deleteContactToAssigned(contactObject, taskIndex) {
   let taskJson = tasks[taskIndex];
-  let index = assignedToContactsBigContainer.findIndex(obj => obj.name === contactObject.name);
-  assignedToContactsBigContainer.splice(index, 1);
+  let parsed = JSON.parse(contactObject);
+  let contact = allUsers.find(u => u.name === parsed.name);
+  if (contact) {
+    let index = assignedToContactsBigContainer.findIndex(item => item.id === contact.id);
+    if (index !== -1) assignedToContactsBigContainer.splice(index, 1);
+  }
   taskJson.assigned = assignedToContactsBigContainer;
   renderBigTaskAssignedContactContainer(taskJson);
 }

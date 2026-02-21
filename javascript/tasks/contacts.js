@@ -158,15 +158,14 @@ function clearAssignedTo() {
 
 /**
  * added User to Task
- * @param {json} u 
+ * Stores { id, name, color } so the contact can be re-identified even after a rename.
+ * @param {json} u
  */
 function addUserToTask(u) {
-  userCredicals = {
-    name: u.name,
-    color: u.color,
-    isSelected: u.selected,
-  };
-  assignedContacts.push(userCredicals);
+  let contact = allUsers.find(c => c.name === u.name);
+  if (contact) {
+    assignedContacts.push({ id: contact.id, name: contact.name, color: contact.color });
+  }
   assignetToContects();
 }
 
@@ -219,37 +218,25 @@ function handleSelection(isSelected, i, x) {
 
 /**
  * check if contacts are selected if the popup is opening
- * 
- * @param {*} un 
- * @returns 
+ *
+ * @param {string} un - The contact name to check
+ * @returns {boolean}
  */
 function checkAssignedContactsStatus(un) {
-  if (!assignedContacts == 0) {
-    for (let i = 0; i < assignedContacts.length; i++) {
-      if (assignedContacts[i].name == un) {
-        if (assignedContacts[i].isSelected == true) {
-          return true;
-        }
-      }
-    }
-  } else {
-    return false;
-  }
+  return assignedContacts.some(item => item.name === un);
 }
 
 /**
  * remove added contact
- * 
- * @param {string} name 
- * @param {number} index 
+ *
+ * @param {string} name
+ * @param {number} index
  */
 function removeAssignedToContects(name, index) {
-  for (let i = 0; i < assignedContacts.length; i++) {
-    indexOfName = assignedContacts[i].name.includes(name);
-    if (indexOfName == true) {
-      document.getElementById(`user${index}`).classList.remove("contactIsSelect");
-      assignedContacts.splice(i, 1);
-    }
+  let i = assignedContacts.findIndex(item => item.name === name);
+  if (i !== -1) {
+    document.getElementById(`user${index}`).classList.remove("contactIsSelect");
+    assignedContacts.splice(i, 1);
   }
   assignetToContects();
 }

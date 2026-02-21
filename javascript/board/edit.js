@@ -16,7 +16,10 @@ function clearPopUp() {
  */
 
 function checkIfAssigned(contact, taskIndex) {
-  return tasks[taskIndex].assigned.some((assignedContact) => assignedContact.name === contact.name);
+  return tasks[taskIndex].assigned.some((item) => {
+    if (item.id) return item.id === contact.id;       // new format: { id, name, color }
+    return item.name === contact.name;                // old format: { name, color, isSelected }
+  });
 }
 
 /**
@@ -374,9 +377,11 @@ function generateContactsHTML(task) {
   if (task.assigned) {
     let lengthOfAssignedTo = task.assigned.length;
     task.assigned.forEach((assignee, index) => {
+      let contact = resolveContact(assignee);
+      if (!contact) return;
       if (index < 3) {
-        let initials = getInitials(assignee.name);
-        contactsHTML += `<div class="task-contact" style='background-color: ${assignee.color}'>${initials}</div>`;
+        let initials = getInitials(contact.name);
+        contactsHTML += `<div class="task-contact" style='background-color: ${contact.color}'>${initials}</div>`;
       } else if (index === 3) {
         contactsHTML += `<div class='taskAssignedToNumberContainer'><span>+ ${lengthOfAssignedTo - 3}</span></div>`;
       }
