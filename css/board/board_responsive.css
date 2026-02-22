@@ -251,6 +251,13 @@
     height: 100%;
     border-radius: unset;
     padding: 16px;
+    min-width: unset;
+  }
+
+  #board-close-add-task-popup {
+    position: fixed;
+    top: 16px;
+    right: clamp(20px, 5%, 40px);
   }
 }
 
@@ -264,10 +271,8 @@
   }
 
   #board-close-add-task-popup {
-    right: 5%;
-    top: 5%;
-    /* right: 45px;
-    top: 10px; */
+    right: clamp(20px, 5%, 40px);
+    top: 2%;
   }
 
   .max-w{
