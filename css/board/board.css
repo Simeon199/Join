@@ -346,6 +346,9 @@ body #big-task-pop-up-contact-all:has(.height-0) {
 }
 
 #board-close-add-task-popup {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   position: absolute;
   right: 40px;
   top: 40px;

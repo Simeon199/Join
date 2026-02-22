@@ -15,9 +15,9 @@ function headerHTML() {
 
     <h1>Kanban Project Management Tool</h1>
     <div class="headerIcons">
-        <div onclick="openDropDownMenu()" class="circle" id="userLetters"></div>
+        <div onclick="stopEvent(event);openDropDownMenu()" class="circlehead" id="userLetters"></div>
         <div id="dropDown-bg" class="dropDown-bg d-none" onclick="closeDropDownMenu()">
-            <div id="dropDown"></div>
+            <div id="dropDown" class="translate-100-header"></div>
         </div>
     </div>
   `;
@@ -29,6 +29,51 @@ function headerHTML() {
  */
 function previousPage() {
   window.history.back();
+}
+
+/**
+ * Opens the dropdown menu on help, legal notice and privacy policy pages
+ * by removing d-none from the #dropDown-bg wrapper.
+ */
+function openDropDownMenu() {
+  const dropDownBg = document.getElementById("dropDown-bg");
+  const dt = document.getElementById("dropDown");
+  dt.innerHTML = /*html*/ `
+    <div onclick="goToH()" id='dropDown-help-link'>Help</div>
+    <div onclick="goToLN()" id="dropDown-legal-notice">Legal Notice</div>
+    <div onclick="goToPP()" id="dropDown-privacy-policy">Privacy Policy</div>
+    <div onclick="logout()">Log out</div>
+  `;
+  hideCurrentPageFormDropdown();
+  dropDownBg.classList.remove("d-none");
+  requestAnimationFrame(() => {
+    dt.classList.remove("translate-100-header");
+  });
+}
+
+/**
+ * Closes the dropdown menu by re-adding d-none to the #dropDown-bg wrapper.
+ */
+function closeDropDownMenu() {
+  const dt = document.getElementById("dropDown");
+  const dropDownBg = document.getElementById("dropDown-bg");
+  dt.classList.add("translate-100-header");
+  setTimeout(() => {
+    dropDownBg.classList.add("d-none");
+  }, 200);
+}
+
+/**
+ * Hides the current page's link from the dropdown (including help.html).
+ */
+function hideCurrentPageFormDropdown() {
+  if (window.location.pathname.includes("privacy_policy.html")) {
+    document.getElementById("dropDown-privacy-policy").classList.add("d-none");
+  } else if (window.location.pathname.includes("legal_notice.html")) {
+    document.getElementById("dropDown-legal-notice").classList.add("d-none");
+  } else if (window.location.pathname.includes("help.html")) {
+    document.getElementById("dropDown-help-link").classList.add("d-none");
+  }
 }
 
 /**

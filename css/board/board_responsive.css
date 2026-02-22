@@ -152,7 +152,6 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    /* width: 82%; */
     width: 90%;
   }
 
@@ -190,17 +189,13 @@
 
   body .dropdownSVG {
     box-sizing: unset;
-
     display: flex;
     align-items: center;
     justify-content: center;
-
     height: 32px;
     width: 32px;
-
     background-color: rgba(205, 205, 205, 1);
     border-radius: 8px;
-
     transition: 0.2s;
   }
 

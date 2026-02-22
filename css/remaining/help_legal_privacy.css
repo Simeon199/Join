@@ -20,13 +20,11 @@ ul {
 }
 
 #arrow-icon {
+  align-self: center;
   height: 22px;
   width: 22px;
   fill: #29abe2;
-  position: fixed;
-  top: 200px;
-  right: 50px;
-  margin-bottom: 10px;
+  position: sticky;
   transition: 0.1s;
   cursor: pointer;
   border-radius: 100%;
@@ -78,6 +76,7 @@ ol {
   counter-reset: item;
   padding-top: 10px;
   padding-bottom: 10px;
+  padding-inline-start: 0;
 }
 
 ol li {
@@ -106,6 +105,7 @@ body #headerForm {
   position: fixed;
   padding: 0 30px;
   left: 232px;
+  z-index: 100;
 }
 
 body .sidebar {

@@ -157,6 +157,7 @@ body.menuBarDesktop {
   z-index: 99;
   transition: 0.2s ease-in-out;
   padding: 10px;
+  z-index: 100;
   div {
     box-sizing: border-box;
     width: 130px;

@@ -60,7 +60,7 @@ function returnBigTaskPopUpSubtasksAll() {
     document.getElementById("big-task-pop-up-subtask-all").innerHTML = /*html*/ `
       <p class='big-edit-task-section-headline'>Subtasks</p>
       <div id='big-edit-task-subtask-input-container' onkeyup='changeSubtaskInputIcons()' onclick='focusSubtaskInput()'>
-        <input onkeyup='bigEditTaskSubtaskInputCheckEnter(event)' type="text" id='big-edit-task-subtask-input' placeholder='Add new Subtask'>
+        <input onkeyup='bigEditTaskSubtaskInputCheckEnter(event)' type="text" maxlength="50" id='big-edit-task-subtask-input' placeholder='Add new Subtask'>
         <div id='big-edit-task-subtask-input-icon-container'>
           ${subtaskPlusSVG}
         </div>
