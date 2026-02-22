@@ -1,3 +1,13 @@
+@media (min-width: 1001px) {
+  #all-sections-container {
+    overflow-x: auto;
+  }
+
+  .board-section {
+    flex: 1 0 260px;
+  }
+}
+
 @media (max-width: 1000px) {
   main {
     box-sizing: unset;
