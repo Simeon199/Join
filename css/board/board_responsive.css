@@ -253,3 +253,32 @@
     padding: 16px;
   }
 }
+
+@media(max-width: 500px) {
+  .input1 {
+    width: 80%;
+  }
+
+  .input2 {
+    width: 80%;
+  }
+
+  #board-close-add-task-popup {
+    right: 5%;
+    top: 5%;
+    /* right: 45px;
+    top: 10px; */
+  }
+
+  .max-w{
+    width: 90%;
+    max-width: 400px;
+    align-self: center;
+  }
+}
+
+@media (max-width: 400px) {
+  .max-w{
+    max-width: 320px;
+  }
+}

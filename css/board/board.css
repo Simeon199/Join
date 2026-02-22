@@ -352,6 +352,7 @@ body #big-task-pop-up-contact-all:has(.height-0) {
   cursor: pointer;
   padding: 6px;
   border-radius: 100%;
+  z-index: 100;
 }
 
 #board-close-add-task-popup:hover {
