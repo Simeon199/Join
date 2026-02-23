@@ -75,6 +75,21 @@
     margin-top: 16px;
   }
 
+  .checkbox {
+    justify-content: flex-start;
+    width: fit-content;
+    margin: 0 auto;
+  }
+
+  .checkbox-check {
+    left: 5px;
+    top: 5px;
+  }
+
+  .checkbox input {
+    margin: 0;
+  }
+
   .darkBtn {
     width: auto;
     min-width: 60%;
