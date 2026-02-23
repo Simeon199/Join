@@ -1,58 +1,158 @@
+/* ── 800px ───────────────────────────────────────────────────────────────── */
 @media (max-width: 800px) {
-    .image-container {
-      align-self: unset;
-    }
-  
-    .loginFrame {
-      gap: 32px;
-    }
-  
-    .reportFailedSignUp {
-      width: 40%;
-      font-size: 14px;
-    }
-  
-    .reportFailedSignUp button {
-      padding: 10px 20px;
-      font-size: 14px;
-    }
+  .image-container {
+    align-self: unset;
   }
-  
-  @media (max-width: 700px) {
-    .header {
-      justify-content: flex-start;
-    }
+
+  .loginFrame {
+    gap: 32px;
   }
-  
-  
-  @media (max-width: 500px) {
-    .reportFailedSignUp {
-      width: 75%;
-      top: 50%;
-      transform: translate(-50%, -50%);
-      left: 50%;
-      font-size: 12px;
-      position: fixed;
-    }
-  
-    .reportFailedSignUp button {
-      font-size: 12px;
-      margin: 0;
-    }
+
+  .reportFailedSignUp {
+    width: 40%;
+    font-size: 14px;
   }
-  
-  @media (max-width: 400px) {
-    #loginFrameSignUp {
-      flex: 1;
-    }
-  
-    #signUpForm {
-      align-items: center;
-      width: 96%;
-    }
-  
-    .checkbox {
-      left: 14px;
-      gap: 8px;
-    }
+
+  .reportFailedSignUp button {
+    padding: 10px 20px;
+    font-size: 14px;
   }
+}
+
+/* ── 700px ───────────────────────────────────────────────────────────────── */
+@media (max-width: 700px) {
+  .header {
+    justify-content: flex-start;
+  }
+}
+
+/* ── 600px ───────────────────────────────────────────────────────────────── */
+@media (max-width: 600px) {
+  .login {
+    padding: 20px 12px;
+    gap: 20px;
+  }
+
+  .loginFrame {
+    padding-top: 16px;
+    padding-bottom: 16px;
+  }
+}
+
+/* ── 500px: Standard-Smartphones (Portrait) ─────────────────────────────── */
+@media (max-width: 500px) {
+  .reportFailedSignUp {
+    width: 75%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 12px;
+    position: fixed;
+  }
+
+  .reportFailedSignUp button {
+    font-size: 12px;
+    margin: 0;
+  }
+
+  h1 {
+    font-size: 46px;
+    height: auto;
+  }
+
+  .login {
+    padding: 20px 16px;
+    gap: 16px;
+  }
+
+  .input {
+    height: 44px;
+    margin-bottom: 12px;
+  }
+
+  .loginInputStyle,
+  .loginInputStyle::placeholder {
+    font-size: 16px;
+  }
+
+  .loginButtons {
+    margin-top: 16px;
+  }
+
+  .darkBtn {
+    width: auto;
+    min-width: 60%;
+    height: auto;
+    font-size: 18px;
+    padding: 12px 20px;
+  }
+}
+
+/* ── 400px: sehr kleine Smartphones ────────────────────────────────────── */
+@media (max-width: 400px) {
+  #loginFrameSignUp {
+    flex: 1;
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+
+  #signUpForm {
+    align-items: center;
+    width: 96%;
+  }
+
+  .checkbox {
+    position: relative;
+    justify-content: flex-start;
+    width: fit-content;
+    margin: 0 auto;
+    gap: 8px;
+  }
+
+  /* Haken im 18px-Input zentrieren: (18px - 14px SVG) / 2 = 2px */
+  .checkbox-check {
+    left: 2px;
+    top: 2px;
+  }
+
+  .checkbox label {
+    width: auto;
+    font-size: 14px;
+  }
+
+  .checkbox a {
+    font-size: 14px;
+  }
+
+  .checkbox input {
+    width: 18px;
+    height: 18px;
+    margin: 0;
+  }
+
+  .login {
+    gap: 12px;
+    padding: 14px 10px;
+  }
+
+  h1 {
+    font-size: 36px;
+  }
+
+  .input {
+    height: 40px;
+    margin-bottom: 8px;
+    font-size: 16px;
+  }
+
+  .loginButtons {
+    margin-top: 8px;
+  }
+
+  .darkBtn {
+    width: 100%;
+    height: auto;
+    font-size: 16px;
+    padding: 10px 12px;
+  }
+}
