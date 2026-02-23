@@ -268,10 +268,6 @@
   #subtaskEditedPopUp {
     right: 80px;
   }
-
-  #big-edit-task-subtask-input {
-    padding-right: 95px;
-  }
 }
 
 @media(max-width: 500px) {
