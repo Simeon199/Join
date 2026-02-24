@@ -116,13 +116,35 @@ async function putData(path = "", data = {}) {
 }
 
 /**
- * Deletes a contact and updates the contact list.
+ * Removes a deleted contact from the assigned array of every task in Firebase.
+ * Only tasks that actually contained the contact are written back to save requests.
+ *
+ * @param {string} userID - The Firebase ID of the deleted contact.
+ */
+async function removeContactFromTasks(userID) {
+  let tasks = await loadData("testRealTasks");
+  if (!Array.isArray(tasks)) return;
+  let changed = false;
+  for (let task of tasks) {
+    if (!task || !Array.isArray(task.assigned)) continue;
+    const before = task.assigned.length;
+    task.assigned = task.assigned.filter((a) => a.id !== userID);
+    if (task.assigned.length !== before) changed = true;
+  }
+  if (changed) {
+    await putData("testRealTasks", tasks);
+  }
+}
+
+/**
+ * Deletes a contact, removes it from all task assignments and updates the contact list.
  *
  * @param {string} userID - The ID of the contact to be deleted.
  */
 async function deleteContact(userID) {
   showLoadScreen();
   await deleteData("/contacts/" + userID);
+  await removeContactFromTasks(userID);
   deselectContact();
   await initContact();
   hideLoadScreen();
