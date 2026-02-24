@@ -117,18 +117,24 @@ async function putData(path = "", data = {}) {
 
 /**
  * Removes a deleted contact from the assigned array of every task in Firebase.
- * Only tasks that actually contained the contact are written back to save requests.
+ * Matches by ID for the current format {id, name, color} and falls back to
+ * name-matching for legacy entries {name, color, isSelected} that carry no id.
+ * Only tasks that actually changed are written back to avoid unnecessary requests.
  *
- * @param {string} userID - The Firebase ID of the deleted contact.
+ * @param {string} userID       - The Firebase ID of the deleted contact.
+ * @param {string} contactName  - The display name, used as fallback for legacy entries.
  */
-async function removeContactFromTasks(userID) {
+async function removeContactFromTasks(userID, contactName) {
   let tasks = await loadData("testRealTasks");
   if (!Array.isArray(tasks)) return;
   let changed = false;
   for (let task of tasks) {
     if (!task || !Array.isArray(task.assigned)) continue;
     const before = task.assigned.length;
-    task.assigned = task.assigned.filter((a) => a.id !== userID);
+    task.assigned = task.assigned.filter((a) => {
+      if (a.id) return a.id !== userID;       
+      return a.name !== contactName;           
+    });
     if (task.assigned.length !== before) changed = true;
   }
   if (changed) {
@@ -138,13 +144,16 @@ async function removeContactFromTasks(userID) {
 
 /**
  * Deletes a contact, removes it from all task assignments and updates the contact list.
+ * Looks up the contact name before deletion so it can be passed to removeContactFromTasks
+ * as a fallback identifier for legacy task assignments.
  *
  * @param {string} userID - The ID of the contact to be deleted.
  */
 async function deleteContact(userID) {
   showLoadScreen();
+  const contact = allUsers.find((u) => u.id === userID);
   await deleteData("/contacts/" + userID);
-  await removeContactFromTasks(userID);
+  await removeContactFromTasks(userID, contact?.name);
   deselectContact();
   await initContact();
   hideLoadScreen();
@@ -193,11 +202,29 @@ function getContactFormData(bgColor) {
 }
 
 /**
- * Posts the contact data.
- * @param {Object} data - The contact data
+ * Derives a deterministic, Firebase-safe key from an email address.
+ * Characters forbidden in Firebase keys (.  #  $  [  ]  /) are replaced
+ * with underscores so the same email always yields the same key.
+ * This keeps task assignments stable even if a contact is deleted and
+ * re-added with identical credentials.
+ *
+ * @param {string} email - The contact's email address.
+ * @returns {string} A Firebase-safe, deterministic key.
+ */
+function getStableContactId(email) {
+  return email.replace(/[.#$[\]/]/g, "_");
+}
+
+/**
+ * Saves the contact using a deterministic, email-derived Firebase key (PUT).
+ * Replaces the previous POST-based approach that generated a random key,
+ * ensuring the contact always occupies the same slot in the database.
+ *
+ * @param {Object} data - The contact data (must include .email).
  */
 async function postContactData(data) {
-  await postNewContact("/contacts", data);
+  const stableId = getStableContactId(data.email);
+  await putData("/contacts/" + stableId, data);
 }
 
 /**
